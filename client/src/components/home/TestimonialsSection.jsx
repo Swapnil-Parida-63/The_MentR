@@ -4,65 +4,77 @@ import { FadeUp } from '../../hooks/useScrollReveal';
 const testimonials = [
   {
     stars: 5,
-    quote: "The assessment visit changed everything. For the first time, someone actually sat down and explained where my daughter was struggling — before charging us a rupee.",
-    name: "Sunita Mehta",
-    role: "Parent",
-    classInfo: "Class 9 CBSE",
-    location: "Pune",
-    badge: "Verified Parent",
-    avatar: "https://images.unsplash.com/photo-1544005313-94ddf0286df2?w=100&auto=format&fit=crop&q=80",
-    initials: "SM",
+    quote: "Friendly environment, very polite and hospitality is great.",
+    name: "Subham Kumar Dash",
+    role: "Teacher",
+    location: "IRC village, N3, Nayapalli",
+    badge: "Verified Teacher",
+    initials: "SD",
     color: "#4F7CFF"
   },
   {
     stars: 5,
-    quote: "I've been teaching for 11 years. TheMentR is the first platform where I feel like a professional, not a freelancer. The infrastructure helps me focus purely on outcomes.",
-    name: "Rohan Kapoor",
-    role: "Math Teacher",
-    classInfo: "Olympiad & Senior Secondary",
-    location: "Mumbai",
+    quote: "Thank you, I felt very happy with all the respected staff & MD sir. This Environment is very friendly.",
+    name: "Akash Kumar Sahoo",
+    role: "Teacher",
+    location: "Nayapalli, Beherasahi",
     badge: "Verified Teacher",
-    avatar: "https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?w=100&auto=format&fit=crop&q=80",
-    initials: "RK",
+    initials: "AS",
     color: "#7469F8"
   },
   {
     stars: 5,
-    quote: "My son qualified for IMO Stage 2 after 4 months on the Olympiad programme. The structured approach and verified study material made all the difference.",
-    name: "Arvind Patel",
-    role: "Parent",
-    classInfo: "IMO Olympiad Class 6",
-    location: "Bengaluru",
-    badge: "Verified Parent",
-    avatar: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=100&auto=format&fit=crop&q=80",
-    initials: "AP",
+    quote: "Thank you everyone. Great opportunity. Friendly & polite behaviour. Good Initiative.",
+    name: "Sangram Rout",
+    role: "Teacher",
+    location: "Jayadev Vihar, Bhubaneswar",
+    badge: "Verified Teacher",
+    initials: "SR",
     color: "#059669"
   },
   {
     stars: 5,
-    quote: "The monthly reports are genuinely useful. I know which chapters Aisha needs help with before her school exam, giving us ample time to revise.",
-    name: "Nandita Rao",
-    role: "Parent",
-    classInfo: "Class 7 ICSE",
-    location: "Hyderabad",
-    badge: "Verified Parent",
-    avatar: "https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=100&auto=format&fit=crop&q=80",
-    initials: "NR",
+    quote: "I would like to convey my thanks for such a wonderful initialization to bring a revolution in the education field.",
+    name: "Vikas Ranjan Senapati",
+    role: "Teacher",
+    location: "Bhubaneswar, Odisha",
+    badge: "Verified Teacher",
+    initials: "VS",
     color: "#D97706"
   },
   {
     stars: 5,
-    quote: "Having a teacher matched to how I actually learn made me want to study. My Physics grade went from a C to an A in one term.",
-    name: "Vikram S.",
-    role: "Student",
-    classInfo: "Class 11 CBSE",
-    location: "Delhi",
-    badge: "Verified Student",
-    avatar: "https://images.unsplash.com/photo-1539571696357-5a69c17a67c6?w=100&auto=format&fit=crop&q=80",
-    initials: "VS",
+    quote: "Very friendly atmosphere, friendly and supportive staff. It's my first experience as a tutor and very excited for the journey. Thank you.",
+    name: "Pratismita Sahoo",
+    role: "Teacher",
+    location: "Bajapur, Puri",
+    badge: "Verified Teacher",
+    initials: "PS",
     color: "#2563EB"
+  },
+  {
+    stars: 5,
+    quote: "Staff are so polite and humble and my experience with this institution is remarkable.",
+    name: "Priyabrata Pradhan",
+    role: "Teacher",
+    location: "Banamalipur, Balipatna, Khorda",
+    badge: "Verified Teacher",
+    initials: "PP",
+    color: "#EC4899"
+  },
+  {
+    stars: 5,
+    quote: "The onboarding experience was smooth, well-organised and very informative. The team was supportive. Thank you for the warm welcome. I look forward to contributing and growing with the company. Thank you.",
+    name: "Nirmalya Das",
+    role: "Teacher",
+    location: "Pathargadhia, KIIT, BBSR",
+    badge: "Verified Teacher",
+    initials: "ND",
+    color: "#8B5CF6"
   }
 ];
+
+const additionalTestimonials = [];
 
 export default function TestimonialsSection() {
   const [activeIndex, setActiveIndex] = useState(0);
@@ -70,6 +82,7 @@ export default function TestimonialsSection() {
   const [isTransitioning, setIsTransitioning] = useState(false);
   const [isHovered, setIsHovered] = useState(false);
   const [isMobile, setIsMobile] = useState(window.innerWidth < 1024);
+  const [showAll, setShowAll] = useState(false);
   const containerRef = useRef(null);
 
   useEffect(() => {
@@ -104,8 +117,6 @@ export default function TestimonialsSection() {
   const listTranslateY = (1.8 - activeIndex) * 58;
 
   // Coordinate math for the morphing SVG connector line
-  // The line starts at the active reviewer's center Y height
-  // Item Height is 76px, Gap is 12px. Center of active item is offset dynamically.
   const yStart = 40 + activeIndex * 88 + 38 + (1.8 - activeIndex) * 58;
   const yEnd = 240; // Center of floating text right panel
 
@@ -212,12 +223,11 @@ export default function TestimonialsSection() {
                       transition: 'all 0.45s cubic-bezier(0.16, 1, 0.3, 1)'
                     }} />
 
-                    {/* Image */}
+                    {/* Initials Avatar */}
                     <div style={{
                       width: 44,
                       height: 44,
                       borderRadius: '50%',
-                      overflow: 'hidden',
                       display: 'flex',
                       alignItems: 'center',
                       justifyContent: 'center',
@@ -230,12 +240,7 @@ export default function TestimonialsSection() {
                       boxShadow: isActive ? '0 4px 12px rgba(79, 124, 255, 0.15)' : 'none',
                       transition: 'all 0.35s'
                     }}>
-                      <img 
-                        src={t.avatar} 
-                        alt={t.name} 
-                        style={{ width: '100%', height: '100%', objectFit: 'cover' }}
-                      />
-                      {/* Active green verification dot */}
+                      {t.initials}
                       {isActive && (
                         <div style={{
                           position: 'absolute',
@@ -265,7 +270,7 @@ export default function TestimonialsSection() {
                         fontWeight: 500,
                         marginTop: 2
                       }}>
-                        {t.role} &bull; {t.classInfo.split(' ')[0]}
+                        {t.role}
                       </span>
                     </div>
                   </div>
@@ -320,7 +325,7 @@ export default function TestimonialsSection() {
             >
               <p style={{
                 fontFamily: 'var(--font-display)',
-                fontSize: 'clamp(22px, 2.4vw, 28px)',
+                fontSize: 'clamp(20px, 2.2vw, 26px)',
                 lineHeight: 1.6,
                 color: '#1D2433',
                 fontWeight: 400,
@@ -350,7 +355,7 @@ export default function TestimonialsSection() {
                     </span>
                   </div>
                   <div style={{ fontSize: 13, color: '#5C667A', fontWeight: 500 }}>
-                    {active.role} &bull; {active.classInfo} &bull; {active.location}
+                    {active.role} &bull; {active.location}
                   </div>
                 </div>
 
@@ -370,10 +375,76 @@ export default function TestimonialsSection() {
           <div 
             className="mobile-progress-line"
             style={{
-              left: `${activeIndex * 20}%`
+              left: `${activeIndex * (100 / testimonials.length)}%`,
+              width: `${100 / testimonials.length}%`
             }}
           />
         </div>
+
+        {/* View More Feedbacks Button */}
+        <div style={{ display: 'flex', justifyContent: 'center', marginTop: 56 }}>
+          <button
+            onClick={() => setShowAll(!showAll)}
+            style={{
+              background: 'transparent',
+              border: '1px solid rgba(79, 124, 255, 0.3)',
+              borderRadius: 99,
+              color: '#4F7CFF',
+              fontSize: 14,
+              fontWeight: 600,
+              padding: '12px 32px',
+              cursor: 'pointer',
+              transition: 'all 0.2s',
+              fontFamily: 'var(--font-sans)'
+            }}
+            onMouseEnter={e => { e.currentTarget.style.background = 'rgba(79, 124, 255, 0.05)'; e.currentTarget.style.borderColor = '#4F7CFF'; }}
+            onMouseLeave={e => { e.currentTarget.style.background = 'transparent'; e.currentTarget.style.borderColor = 'rgba(79, 124, 255, 0.3)'; }}
+          >
+            {showAll ? 'Show Less Feedbacks' : 'View More Feedbacks →'}
+          </button>
+        </div>
+
+        {/* Expanded Feedbacks Grid */}
+        {showAll && (
+          <div style={{ marginTop: 44, display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(300px, 1fr))', gap: 24 }} className="additional-testimonials-grid">
+            {additionalTestimonials.map((t, idx) => (
+              <div key={idx} style={{
+                background: '#FFFFFF',
+                borderRadius: 20,
+                padding: 24,
+                boxShadow: '0 4px 20px rgba(0, 0, 0, 0.015)',
+                border: '1px solid rgba(0, 0, 0, 0.03)',
+                display: 'flex',
+                flexDirection: 'column',
+                justifyContent: 'space-between',
+                transition: 'all 0.3s ease'
+              }}>
+                <div>
+                  <div style={{ display: 'flex', color: '#F59E0B', fontSize: 13, letterSpacing: 2, marginBottom: 16 }}>
+                    {'★'.repeat(t.stars)}
+                  </div>
+                  <p style={{ fontSize: 14.5, color: '#1D2433', lineHeight: 1.6, marginBottom: 24, fontStyle: 'italic' }}>
+                    “{t.quote}”
+                  </p>
+                </div>
+                <div style={{ display: 'flex', alignItems: 'center', gap: 12, borderTop: '1px solid rgba(0,0,0,0.03)', paddingTop: 16 }}>
+                  <div style={{
+                    width: 36, height: 36, borderRadius: '50%', display: 'flex', alignItems: 'center', justifyContent: 'center',
+                    background: t.color, color: '#FFFFFF', fontWeight: 700, fontSize: 12, flexShrink: 0
+                  }}>
+                    {t.initials}
+                  </div>
+                  <div>
+                    <h5 style={{ margin: 0, fontSize: 13.5, fontWeight: 700, color: '#1D2433' }}>{t.name}</h5>
+                    <span style={{ fontSize: 11, color: '#5C667A', fontWeight: 500 }}>
+                      {t.role} &bull; {t.location}
+                    </span>
+                  </div>
+                </div>
+              </div>
+            ))}
+          </div>
+        )}
       </div>
 
       <style>{`
