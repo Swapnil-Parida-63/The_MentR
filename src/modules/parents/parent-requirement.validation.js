@@ -7,9 +7,11 @@ const parentRequirementBody = z.object({
   phone: z.string().min(7).max(20),
   email: z.string().email().or(z.string().max(0)).optional(), // allow empty string or optional
   location: z.string().min(2).max(120).optional(),
+  studentName: z.string().min(2).max(120),
+  specificSubject: z.string().max(120).optional(),
   board: z.string().min(1).max(80),
   class: z.string().min(1).max(40),
-  subjects: z.array(z.string().min(1)).min(1),
+  subjects: z.array(z.string().min(1)).optional().default([]),
   learningMode: z.enum(['Online', 'Offline', 'Hybrid']).default('Offline'),
   preferredTiming: z.string().min(1).max(120).optional(),
   additionalNotes: z.string().max(2000).optional(),

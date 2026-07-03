@@ -9,7 +9,7 @@ const timeline = [
 
 export default function VisionSection() {
   return (
-    <section id="vision" className="section" style={{ background: 'radial-gradient(circle at 10% 20%, rgba(116, 105, 248, 0.05) 0%, transparent 60%), radial-gradient(circle at 90% 70%, rgba(79, 124, 255, 0.04) 0%, transparent 60%), #F7F5FF' }}>
+    <section id="vision" className="section" style={{ background: 'radial-gradient(circle at 10% 20%, rgba(116, 105, 248, 0.05) 0%, transparent 60%), radial-gradient(circle at 90% 70%, rgba(79, 124, 255, 0.04) 0%, transparent 60%), #fef9ef' }}>
       <div className="container">
         <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 80, alignItems: 'center' }} className="vision-grid-responsive">
           <FadeUp>

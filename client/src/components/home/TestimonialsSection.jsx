@@ -69,7 +69,14 @@ export default function TestimonialsSection() {
   const [displayIndex, setDisplayIndex] = useState(0);
   const [isTransitioning, setIsTransitioning] = useState(false);
   const [isHovered, setIsHovered] = useState(false);
+  const [isMobile, setIsMobile] = useState(window.innerWidth < 1024);
   const containerRef = useRef(null);
+
+  useEffect(() => {
+    const handleResize = () => setIsMobile(window.innerWidth < 1024);
+    window.addEventListener('resize', handleResize);
+    return () => window.removeEventListener('resize', handleResize);
+  }, []);
 
   // Auto switch every 7.5 seconds
   useEffect(() => {
@@ -106,7 +113,7 @@ export default function TestimonialsSection() {
     <section 
       id="testimonials" 
       className="section" 
-      style={{ background: '#FAFBFF', overflow: 'hidden', position: 'relative', padding: '120px 0' }}
+      style={{ background: '#fef9ef', overflow: 'hidden', position: 'relative', padding: '120px 0' }}
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}
       ref={containerRef}
@@ -187,7 +194,7 @@ export default function TestimonialsSection() {
                       margin: '6px 0',
                       cursor: 'pointer',
                       opacity: isActive ? 1 : 0.45,
-                      transform: isActive ? 'scale(1.04) translate3d(8px, 0, 0)' : 'scale(0.96) translate3d(0, 0, 0)',
+                      transform: isMobile ? 'none' : (isActive ? 'scale(1.04) translate3d(8px, 0, 0)' : 'scale(0.96) translate3d(0, 0, 0)'),
                       transition: 'all 0.45s cubic-bezier(0.16, 1, 0.3, 1)',
                       position: 'relative'
                     }}
@@ -402,13 +409,15 @@ export default function TestimonialsSection() {
           gap: 12px;
           transition: transform 0.45s cubic-bezier(0.16, 1, 0.3, 1);
         }
-        .reviewer-editorial-item:hover {
-          opacity: 0.8 !important;
-          transform: scale(0.98) translate3d(4px, 0, 0) !important;
-        }
-        .reviewer-editorial-item.active:hover {
-          opacity: 1 !important;
-          transform: scale(1.04) translate3d(8px, 0, 0) !important;
+        @media (hover: hover) {
+          .reviewer-editorial-item:hover {
+            opacity: 0.8 !important;
+            transform: scale(0.98) translate3d(4px, 0, 0) !important;
+          }
+          .reviewer-editorial-item.active:hover {
+            opacity: 1 !important;
+            transform: scale(1.04) translate3d(8px, 0, 0) !important;
+          }
         }
         .svg-connector-wrapper {
           width: 120px;

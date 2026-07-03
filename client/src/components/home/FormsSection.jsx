@@ -9,6 +9,9 @@ const classesOptions = ['Class 1–5', 'Class 6–8', 'Class 9–10', 'Class 11�
 const mediumsList = ['English', 'Hindi', 'Odia', 'Bengali', 'Bilingual'];
 const locationOptions = ['Patia', 'Jayadev Vihar', 'Nayapalli', 'Saheed Nagar', 'Khandagiri', 'Chandrasekharpur', 'Ghatikia', 'Vani Vihar'];
 
+const parentBoards = ['CBSE', 'ICSE', 'IGCSE', 'State board'];
+const parentClasses = Array.from({ length: 12 }, (_, i) => `Class ${i + 1}`);
+
 // Underline Input Component matching Apple/Stripe focus transitions
 function UnderlineField({ label, type = "text", placeholder, value, onChange, required = false }) {
   const [isFocused, setIsFocused] = useState(false);
@@ -332,7 +335,7 @@ function UnderlineMultiSelect({ label, options, selectedValues, onChange }) {
 }
 
 export default function FormsSection() {
-  const [activeTab, setActiveTab] = useState('parent'); // 'parent' or 'teacher'
+  const [activeTab, setActiveTab] = useState('assessment'); // 'assessment', 'parent_registration', 'teacher'
   const [isMobile, setIsMobile] = useState(window.innerWidth < 1024);
   const [toast, setToast] = useState(null);
 
@@ -340,15 +343,26 @@ export default function FormsSection() {
 
   // Step states
   const [parentStep, setParentStep] = useState(1);
+  const [regStep, setRegStep] = useState(1);
   const [teacherStep, setTeacherStep] = useState(1);
 
-  // Parent form states
+  // Parent Assessment Visit Form states
   const [parentName, setParentName] = useState('');
   const [parentPhone, setParentPhone] = useState('');
+  const [studentName, setStudentName] = useState('');
   const [parentBoard, setParentBoard] = useState('');
   const [parentGrade, setParentGrade] = useState('');
-  const [parentSubjects, setParentSubjects] = useState([]);
-  const [parentGaps, setParentGaps] = useState('');
+  const [parentLocation, setParentLocation] = useState('');
+  const [guidanceSubject, setGuidanceSubject] = useState('');
+
+  // Parent Registration Form states
+  const [regParentName, setRegParentName] = useState('');
+  const [regParentPhone, setRegParentPhone] = useState('');
+  const [regLocation, setRegLocation] = useState('');
+  const [regStudentName, setRegStudentName] = useState('');
+  const [regSchoolName, setRegSchoolName] = useState('');
+  const [regBoard, setRegBoard] = useState('');
+  const [regClass, setRegClass] = useState('');
 
   // Teacher Form Comprehensive fields
   // Step 1: Basic Info
@@ -384,27 +398,52 @@ export default function FormsSection() {
 
   const handleParentSubmit = async (e) => {
     e.preventDefault();
-    if (parentSubjects.length === 0) {
-      showToast("⚠️ Please select at least one subject.");
-      return;
-    }
     try {
       await parentAPI.submit({
         parentName,
         phone: parentPhone,
+        studentName,
         board: parentBoard,
         class: parentGrade,
-        subjects: parentSubjects,
-        additionalNotes: parentGaps
+        location: parentLocation,
+        specificSubject: guidanceSubject
       });
       showToast("✅ Assessment visit request submitted! We'll call you within 24 hours.");
       setParentStep(1);
       setParentName('');
       setParentPhone('');
+      setStudentName('');
       setParentBoard('');
       setParentGrade('');
-      setParentSubjects([]);
-      setParentGaps('');
+      setParentLocation('');
+      setGuidanceSubject('');
+    } catch (err) {
+      console.error(err);
+      showToast("❌ Connection error. Please check if backend is running.");
+    }
+  };
+
+  const handleRegistrationSubmit = async (e) => {
+    e.preventDefault();
+    try {
+      await parentAPI.register({
+        parentName: regParentName,
+        phone: regParentPhone,
+        location: regLocation,
+        studentName: regStudentName,
+        schoolName: regSchoolName,
+        board: regBoard,
+        class: regClass
+      });
+      showToast("✅ Parent registration successful!");
+      setRegStep(1);
+      setRegParentName('');
+      setRegParentPhone('');
+      setRegLocation('');
+      setRegStudentName('');
+      setRegSchoolName('');
+      setRegBoard('');
+      setRegClass('');
     } catch (err) {
       console.error(err);
       showToast("❌ Connection error. Please check if backend is running.");
@@ -466,7 +505,7 @@ export default function FormsSection() {
   };
 
   return (
-    <section id="contact-forms" className="section" style={{ background: '#FAFBFF', padding: '120px 0' }}>
+    <section id="contact-forms" className="section" style={{ background: '#fef9ef', padding: '120px 0' }}>
       <div className="container">
         <FadeUp><div className="eyebrow">Get Started</div></FadeUp>
         <FadeUp delay={0.1} duration={0.8} y={24}>
@@ -487,21 +526,36 @@ export default function FormsSection() {
               {/* Left Column: Form surface (70%) */}
               <div className="editorial-form-left">
                 {/* Form Tabs Selector */}
-                <div style={{ display: 'flex', gap: 24, borderBottom: '1px solid rgba(79, 124, 255, 0.08)', marginBottom: 44, paddingBottom: 16 }}>
+                <div style={{ display: 'flex', gap: 24, borderBottom: '1px solid rgba(79, 124, 255, 0.08)', marginBottom: 44, paddingBottom: 16, flexWrap: 'wrap' }}>
                   <button
-                    onClick={() => setActiveTab('parent')}
+                    onClick={() => setActiveTab('assessment')}
+                    type="button"
                     style={{
                       background: 'none', border: 'none', fontSize: 15, fontWeight: 700,
-                      color: activeTab === 'parent' ? '#4F7CFF' : '#5D677A', cursor: 'pointer',
+                      color: activeTab === 'assessment' ? '#4F7CFF' : '#5D677A', cursor: 'pointer',
                       position: 'relative', transition: 'color 0.25s', fontFamily: 'var(--font-sans)',
                       padding: '4px 0'
                     }}
                   >
-                    Book Assessment Visit
-                    {activeTab === 'parent' && <div style={{ position: 'absolute', bottom: -17, left: 0, right: 0, height: 2, background: '#4F7CFF' }} />}
+                    Book Assessment
+                    {activeTab === 'assessment' && <div style={{ position: 'absolute', bottom: -17, left: 0, right: 0, height: 2, background: '#4F7CFF' }} />}
+                  </button>
+                  <button
+                    onClick={() => setActiveTab('parent_registration')}
+                    type="button"
+                    style={{
+                      background: 'none', border: 'none', fontSize: 15, fontWeight: 700,
+                      color: activeTab === 'parent_registration' ? '#4F7CFF' : '#5D677A', cursor: 'pointer',
+                      position: 'relative', transition: 'color 0.25s', fontFamily: 'var(--font-sans)',
+                      padding: '4px 0'
+                    }}
+                  >
+                    Parent Registration
+                    {activeTab === 'parent_registration' && <div style={{ position: 'absolute', bottom: -17, left: 0, right: 0, height: 2, background: '#4F7CFF' }} />}
                   </button>
                   <button
                     onClick={() => setActiveTab('teacher')}
+                    type="button"
                     style={{
                       background: 'none', border: 'none', fontSize: 15, fontWeight: 700,
                       color: activeTab === 'teacher' ? '#4F7CFF' : '#5D677A', cursor: 'pointer',
@@ -514,8 +568,8 @@ export default function FormsSection() {
                   </button>
                 </div>
 
-                {activeTab === 'parent' ? (
-                  /* Parent intake form */
+                {activeTab === 'assessment' && (
+                  /* Parent Assessment Visit form */
                   <form onSubmit={handleParentSubmit} style={{ display: 'flex', flexDirection: 'column', flex: 1 }}>
                     {/* 3 Steps Progress Line */}
                     <div style={{ display: 'flex', gap: 6, marginBottom: 44 }}>
@@ -528,11 +582,12 @@ export default function FormsSection() {
                       <div style={{ animation: 'fadeFormStep 0.4s ease' }}>
                         <UnderlineField label="Parent Name" placeholder="Your full name" value={parentName} onChange={e => setParentName(e.target.value)} required />
                         <UnderlineField label="Phone Number" type="tel" placeholder="+91 00000 00000" value={parentPhone} onChange={e => setParentPhone(e.target.value)} required />
+                        <UnderlineField label="Student Name" placeholder="Student's full name" value={studentName} onChange={e => setStudentName(e.target.value)} required />
                         
                         <button 
                           type="button" 
                           onClick={() => {
-                            if (parentName && parentPhone) setParentStep(2);
+                            if (parentName && parentPhone && studentName) setParentStep(2);
                             else showToast("⚠️ Please fill in all fields.");
                           }}
                           className="btn-editorial-pill"
@@ -547,27 +602,23 @@ export default function FormsSection() {
                       <div style={{ animation: 'fadeFormStep 0.4s ease' }}>
                         <UnderlineSelect label="Syllabus / Board" value={parentBoard} onChange={e => setParentBoard(e.target.value)} required>
                           <option value="">Select board</option>
-                          <option>CBSE</option>
-                          <option>ICSE</option>
-                          <option>IB</option>
-                          <option>State Board</option>
+                          {parentBoards.map(b => <option key={b} value={b}>{b}</option>)}
                         </UnderlineSelect>
 
-                        <UnderlineSelect label="Child's Grade" value={parentGrade} onChange={e => setParentGrade(e.target.value)} required>
-                          <option value="">Select grade</option>
-                          <option>Class 1–5</option>
-                          <option>Class 6–8</option>
-                          <option>Class 9–10</option>
-                          <option>Class 11–12</option>
+                        <UnderlineSelect label="Class" value={parentGrade} onChange={e => setParentGrade(e.target.value)} required>
+                          <option value="">Select class</option>
+                          {parentClasses.map(c => <option key={c} value={c}>{c}</option>)}
                         </UnderlineSelect>
+
+                        <UnderlineField label="Location" placeholder="Current Location" value={parentLocation} onChange={e => setParentLocation(e.target.value)} required />
 
                         <div style={{ display: 'flex', gap: 16, marginTop: 24 }}>
                           <button type="button" onClick={() => setParentStep(1)} className="btn-editorial-secondary-pill">Back</button>
                           <button 
                             type="button" 
                             onClick={() => {
-                              if (parentBoard && parentGrade) setParentStep(3);
-                              else showToast("⚠️ Please select syllabus and grade.");
+                              if (parentBoard && parentGrade && parentLocation) setParentStep(3);
+                              else showToast("⚠️ Please fill in all fields.");
                             }} 
                             className="btn-editorial-pill"
                           >
@@ -579,43 +630,7 @@ export default function FormsSection() {
 
                     {parentStep === 3 && (
                       <div style={{ animation: 'fadeFormStep 0.4s ease' }}>
-                        <div style={{ marginBottom: 40 }}>
-                          <label style={{ display: 'block', fontSize: 12, fontWeight: 600, color: '#1D2433', marginBottom: 16, letterSpacing: '0.02em', textTransform: 'uppercase' }}>Select Subjects (Select Multiple)</label>
-                          <div style={{ display: 'flex', flexWrap: 'wrap', gap: 8 }}>
-                            {subjectsList.map(s => {
-                              const isSelected = parentSubjects.includes(s);
-                              return (
-                                <button
-                                  key={s}
-                                  type="button"
-                                  onClick={() => {
-                                    if (isSelected) {
-                                      setParentSubjects(parentSubjects.filter(sub => sub !== s));
-                                    } else {
-                                      setParentSubjects([...parentSubjects, s]);
-                                    }
-                                  }}
-                                  style={{
-                                    padding: '6px 14px',
-                                    borderRadius: 20,
-                                    fontSize: 12.5,
-                                    fontWeight: 600,
-                                    background: isSelected ? 'linear-gradient(135deg, #4F7CFF 0%, #7469F8 100%)' : 'transparent',
-                                    color: isSelected ? 'white' : '#1D2433',
-                                    border: isSelected ? '1px solid transparent' : '1px solid rgba(79, 124, 255, 0.15)',
-                                    cursor: 'pointer',
-                                    transition: 'all 0.2s',
-                                    fontFamily: 'var(--font-sans)'
-                                  }}
-                                >
-                                  {s}
-                                </button>
-                              );
-                            })}
-                          </div>
-                        </div>
-
-                        <UnderlineTextarea label="Learning Gaps or Concerns" placeholder="Tell us what academic help your child needs..." value={parentGaps} onChange={e => setParentGaps(e.target.value)} />
+                        <UnderlineTextarea label="Any specific subject required for guidance" placeholder="E.g. Mathematics, Physics, Chemistry, etc." value={guidanceSubject} onChange={e => setGuidanceSubject(e.target.value)} required />
 
                         <div style={{ display: 'flex', gap: 16, marginTop: 24 }}>
                           <button type="button" onClick={() => setParentStep(2)} className="btn-editorial-secondary-pill">Back</button>
@@ -624,7 +639,82 @@ export default function FormsSection() {
                       </div>
                     )}
                   </form>
-                ) : (
+                )}
+
+                {activeTab === 'parent_registration' && (
+                  /* Parent Registration form */
+                  <form onSubmit={handleRegistrationSubmit} style={{ display: 'flex', flexDirection: 'column', flex: 1 }}>
+                    {/* 3 Steps Progress Line */}
+                    <div style={{ display: 'flex', gap: 6, marginBottom: 44 }}>
+                      <div style={{ flex: 1, height: 2, borderRadius: 9, background: regStep >= 1 ? '#4F7CFF' : 'rgba(79, 124, 255, 0.1)' }} />
+                      <div style={{ flex: 1, height: 2, borderRadius: 9, background: regStep >= 2 ? '#4F7CFF' : 'rgba(79, 124, 255, 0.1)' }} />
+                      <div style={{ flex: 1, height: 2, borderRadius: 9, background: regStep >= 3 ? '#4F7CFF' : 'rgba(79, 124, 255, 0.1)' }} />
+                    </div>
+
+                    {regStep === 1 && (
+                      <div style={{ animation: 'fadeFormStep 0.4s ease' }}>
+                        <UnderlineField label="Parent Name" placeholder="Your full name" value={regParentName} onChange={e => setRegParentName(e.target.value)} required />
+                        <UnderlineField label="Contact Number" type="tel" placeholder="+91 00000 00000" value={regParentPhone} onChange={e => setRegParentPhone(e.target.value)} required />
+                        <UnderlineField label="Student Name" placeholder="Student's full name" value={regStudentName} onChange={e => setRegStudentName(e.target.value)} required />
+                        
+                        <button 
+                          type="button" 
+                          onClick={() => {
+                            if (regParentName && regParentPhone && regStudentName) setRegStep(2);
+                            else showToast("⚠️ Please fill in all fields.");
+                          }}
+                          className="btn-editorial-pill"
+                          style={{ marginTop: 24 }}
+                        >
+                          Next Step →
+                        </button>
+                      </div>
+                    )}
+
+                    {regStep === 2 && (
+                      <div style={{ animation: 'fadeFormStep 0.4s ease' }}>
+                        <UnderlineField label="School Name" placeholder="School's name" value={regSchoolName} onChange={e => setRegSchoolName(e.target.value)} required />
+
+                        <UnderlineSelect label="Syllabus / Board" value={regBoard} onChange={e => setRegBoard(e.target.value)} required>
+                          <option value="">Select board</option>
+                          {parentBoards.map(b => <option key={b} value={b}>{b}</option>)}
+                        </UnderlineSelect>
+
+                        <UnderlineSelect label="Class" value={regClass} onChange={e => setRegClass(e.target.value)} required>
+                          <option value="">Select class</option>
+                          {parentClasses.map(c => <option key={c} value={c}>{c}</option>)}
+                        </UnderlineSelect>
+
+                        <div style={{ display: 'flex', gap: 16, marginTop: 24 }}>
+                          <button type="button" onClick={() => setRegStep(1)} className="btn-editorial-secondary-pill">Back</button>
+                          <button 
+                            type="button" 
+                            onClick={() => {
+                              if (regSchoolName && regBoard && regClass) setRegStep(3);
+                              else showToast("⚠️ Please fill in all fields.");
+                            }} 
+                            className="btn-editorial-pill"
+                          >
+                            Next Step →
+                          </button>
+                        </div>
+                      </div>
+                    )}
+
+                    {regStep === 3 && (
+                      <div style={{ animation: 'fadeFormStep 0.4s ease' }}>
+                        <UnderlineField label="Current Location" placeholder="Area, landmark, city" value={regLocation} onChange={e => setRegLocation(e.target.value)} required />
+
+                        <div style={{ display: 'flex', gap: 16, marginTop: 24 }}>
+                          <button type="button" onClick={() => setRegStep(2)} className="btn-editorial-secondary-pill">Back</button>
+                          <button type="submit" className="btn-editorial-pill">Submit Registration →</button>
+                        </div>
+                      </div>
+                    )}
+                  </form>
+                )}
+
+                {activeTab === 'teacher' && (
                   /* Teacher application form (Comprehensive 4 Steps) */
                   <form onSubmit={handleTeacherSubmit} style={{ display: 'flex', flexDirection: 'column', flex: 1 }}>
                     {/* 4 Steps Progress Line */}
@@ -751,8 +841,10 @@ export default function FormsSection() {
               <div 
                 className="editorial-form-right"
                 style={{
-                  background: activeTab === 'parent'
+                  background: activeTab === 'assessment'
                     ? 'linear-gradient(180deg, #4A74F5 0%, #5E71FA 45%, #6E62EB 100%)'
+                    : activeTab === 'parent_registration'
+                    ? 'linear-gradient(180deg, #0D9488 0%, #0F766E 45%, #115E59 100%)'
                     : 'linear-gradient(180deg, #6E62EB 0%, #5E71FA 45%, #4B74F5 100%)',
                   transition: 'background 0.5s ease'
                 }}
@@ -760,8 +852,10 @@ export default function FormsSection() {
                 <div style={{
                   position: 'absolute',
                   inset: 0,
-                  background: activeTab === 'parent'
+                  background: activeTab === 'assessment'
                     ? 'radial-gradient(circle at 80% 20%, rgba(255, 255, 255, 0.12) 0%, transparent 60%)'
+                    : activeTab === 'parent_registration'
+                    ? 'radial-gradient(circle at 50% 50%, rgba(255, 255, 255, 0.12) 0%, transparent 60%)'
                     : 'radial-gradient(circle at 10% 80%, rgba(255, 255, 255, 0.12) 0%, transparent 60%)',
                   pointerEvents: 'none',
                   transition: 'background 0.5s ease'
@@ -779,8 +873,8 @@ export default function FormsSection() {
                   <circle cx="200" cy="450" r="3" fill="#FFFFFF" />
                 </svg>
 
-                {activeTab === 'parent' ? (
-                  <div key="parent-info" style={{ position: 'relative', zIndex: 2, display: 'flex', flexDirection: 'column', height: '100%', justifyContent: 'space-between', animation: 'fadeFormStep 0.4s ease' }}>
+                {activeTab === 'assessment' && (
+                  <div key="assessment-info" style={{ position: 'relative', zIndex: 2, display: 'flex', flexDirection: 'column', height: '100%', justifyContent: 'space-between', animation: 'fadeFormStep 0.4s ease' }}>
                     <div>
                       <h3 style={{
                         fontFamily: 'var(--font-display)',
@@ -820,7 +914,52 @@ export default function FormsSection() {
                       ))}
                     </div>
                   </div>
-                ) : (
+                )}
+
+                {activeTab === 'parent_registration' && (
+                  <div key="registration-info" style={{ position: 'relative', zIndex: 2, display: 'flex', flexDirection: 'column', height: '100%', justifyContent: 'space-between', animation: 'fadeFormStep 0.4s ease' }}>
+                    <div>
+                      <h3 style={{
+                        fontFamily: 'var(--font-display)',
+                        fontSize: 'clamp(24px, 2.2vw, 30px)',
+                        color: '#FFFFFF',
+                        lineHeight: 1.25,
+                        marginBottom: 16,
+                        fontWeight: 500,
+                        letterSpacing: '-0.01em'
+                      }}>
+                        Register for curated mentoring.
+                      </h3>
+                      <p style={{
+                        fontFamily: 'var(--font-sans)',
+                        fontSize: 14,
+                        color: 'rgba(255, 255, 255, 0.85)',
+                        lineHeight: 1.6,
+                        margin: 0
+                      }}>
+                        Create your parent profile to align with top tutors, manage homework tasks, and trace progress goals.
+                      </p>
+                    </div>
+
+                    <div style={{ display: 'flex', flexDirection: 'column', gap: 20, marginTop: 48 }}>
+                      {[
+                        { icon: '🏫', title: 'School Integration', desc: 'Mapped curriculum for CBSE, ICSE, IGCSE & State' },
+                        { icon: '🎓', title: 'Classes 1 to 12', desc: 'Specialized educators for all year groups' },
+                        { icon: '📍', title: 'Local Mapping', desc: 'Directly linked with nearby verified teachers' }
+                      ].map((item, idx) => (
+                        <div key={idx} style={{ display: 'flex', gap: 12, alignItems: 'flex-start' }}>
+                          <div style={{ fontSize: 16, marginTop: 2 }}>{item.icon}</div>
+                          <div>
+                            <div style={{ fontSize: 13, fontWeight: 700, color: '#FFFFFF' }}>{item.title}</div>
+                            <div style={{ fontSize: 11, color: 'rgba(255, 255, 255, 0.7)', marginTop: 2 }}>{item.desc}</div>
+                          </div>
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+                )}
+
+                {activeTab === 'teacher' && (
                   <div key="teacher-info" style={{ position: 'relative', zIndex: 2, display: 'flex', flexDirection: 'column', height: '100%', justifyContent: 'space-between', animation: 'fadeFormStep 0.4s ease' }}>
                     <div>
                       <h3 style={{
@@ -862,10 +1001,10 @@ export default function FormsSection() {
                     </div>
                   </div>
                 )}
-              </div>
 
             </div>
-          </BorderGlow>
+          </div>
+        </BorderGlow>
         </FadeUp>
       </div>
 

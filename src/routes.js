@@ -5,6 +5,7 @@ const router = express.Router();
 router.use('/auth', require('./modules/auth/auth.routes'));
 router.use('/teachers', require('./modules/teachers/teacher.routes'));
 router.use('/parent-requirements', require('./modules/parents/parent-requirement.routes'));
+router.use('/parent-registrations', require('./modules/parents/parent-registration.routes'));
 router.use('/assessment-visits', require('./modules/assessment-visits/assessment-visit.routes'));
 router.use('/avsar', require('./modules/avsar/avsar.routes'));
 router.use('/thementr-online', require('./modules/thementr-online/thementr-online.routes'));

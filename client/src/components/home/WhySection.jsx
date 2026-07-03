@@ -3,7 +3,7 @@ import BorderGlow from './BorderGlow';
 
 export default function WhySection() {
   return (
-    <section id="why" className="section" style={{ background: 'radial-gradient(circle at 20% 30%, rgba(79, 124, 255, 0.05) 0%, transparent 50%), radial-gradient(circle at 80% 40%, rgba(116, 105, 248, 0.05) 0%, transparent 50%), #F6F8FD' }}>
+    <section id="why" className="section" style={{ background: 'radial-gradient(circle at 20% 30%, rgba(79, 124, 255, 0.05) 0%, transparent 50%), radial-gradient(circle at 80% 40%, rgba(116, 105, 248, 0.05) 0%, transparent 50%), #fef9ef' }}>
       <div className="container">
         <div style={{ display: 'grid', gridTemplateColumns: '1fr 1.6fr', gap: 80, alignItems: 'start' }} className="why-grid-responsive">
           <div>

@@ -51,7 +51,7 @@ export default function AvsarSection() {
   }, []);
 
   return (
-    <section id="avsar" className="section" style={{ background: 'radial-gradient(circle at 10% 25%, rgba(79, 124, 255, 0.05) 0%, transparent 60%), radial-gradient(circle at 90% 75%, rgba(116, 105, 248, 0.05) 0%, transparent 60%), #F6F8FD', color: 'var(--color-text-primary)' }}>
+    <section id="avsar" className="section" style={{ background: 'radial-gradient(circle at 10% 25%, rgba(79, 124, 255, 0.05) 0%, transparent 60%), radial-gradient(circle at 90% 75%, rgba(116, 105, 248, 0.05) 0%, transparent 60%), #fef9ef', color: 'var(--color-text-primary)' }}>
       <div className="container">
         <FadeUp><div className="eyebrow">AVSAR</div></FadeUp>
         <FadeUp delay={0.1} duration={0.8}><h2 style={{ fontSize: 'clamp(28px,3vw,44px)', marginBottom: 16 }}>Data-driven educational intelligence.</h2></FadeUp>

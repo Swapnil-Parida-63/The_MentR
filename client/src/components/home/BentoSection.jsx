@@ -13,7 +13,7 @@ const items = [
 
 export default function BentoSection() {
   return (
-    <section id="benefits" className="section" style={{ background: 'radial-gradient(circle at 10% 20%, rgba(116, 105, 248, 0.05) 0%, transparent 60%), radial-gradient(circle at 90% 70%, rgba(79, 124, 255, 0.04) 0%, transparent 60%), #F7F5FF' }}>
+    <section id="benefits" className="section" style={{ background: 'radial-gradient(circle at 10% 20%, rgba(116, 105, 248, 0.05) 0%, transparent 60%), radial-gradient(circle at 90% 70%, rgba(79, 124, 255, 0.04) 0%, transparent 60%), #fef9ef' }}>
       <div className="container">
         <FadeUp><div className="eyebrow">What We Offer</div></FadeUp>
         <FadeUp delay={0.1}><h2 style={{ fontSize: 'clamp(28px, 3vw, 44px)', marginBottom: 48 }}>Every advantage, built in.</h2></FadeUp>

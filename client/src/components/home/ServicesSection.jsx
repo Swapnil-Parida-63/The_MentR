@@ -12,7 +12,7 @@ const services = [
 export default function ServicesSection() {
   const { openModal } = useModal();
   return (
-    <section id="services" className="section" style={{ background: 'radial-gradient(circle at 15% 25%, rgba(79, 124, 255, 0.04) 0%, transparent 60%), radial-gradient(circle at 85% 65%, rgba(116, 105, 248, 0.04) 0%, transparent 60%), #FFFFFF' }}>
+    <section id="services" className="section" style={{ background: 'radial-gradient(circle at 15% 25%, rgba(79, 124, 255, 0.04) 0%, transparent 60%), radial-gradient(circle at 85% 65%, rgba(116, 105, 248, 0.04) 0%, transparent 60%), #fef9ef' }}>
       <div className="container">
         <FadeUp><div className="eyebrow">Our Services</div></FadeUp>
         <FadeUp delay={0.1}><h2 style={{ fontSize: 'clamp(28px, 3vw, 44px)', maxWidth: 540 }}>Three pillars of the TheMentR ecosystem.</h2></FadeUp>

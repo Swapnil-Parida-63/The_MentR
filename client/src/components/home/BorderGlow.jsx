@@ -57,21 +57,41 @@ const BorderGlow = ({
   className = '',
   style = {},
   edgeSensitivity = 30,
-  glowColor = '215 90 50',
+  glowColor = '199 100 50',
   backgroundColor = '#120F17',
   borderRadius = 28,
   glowRadius = 40,
   glowIntensity = 1.0,
   coneSpread = 25,
   animated = false,
-  colors = ['#3b82f6', '#ffffff', '#60a5fa'],
+  colors = ['#00b0ff', '#ffffff', '#00b0ff'],
   fillOpacity = 0.5,
 }) => {
   const cardRef = useRef(null);
   const [isHovered, setIsHovered] = useState(false);
+  const [isMobile, setIsMobile] = useState(false);
+  const [hasHoverSupport, setHasHoverSupport] = useState(true);
   const [cursorAngle, setCursorAngle] = useState(45);
   const [edgeProximity, setEdgeProximity] = useState(0);
   const [sweepActive, setSweepActive] = useState(false);
+
+  useEffect(() => {
+    // Detect if device supports pointer hovers (disables touch tap sticky hovers)
+    const mediaQuery = window.matchMedia('(hover: hover)');
+    setHasHoverSupport(mediaQuery.matches);
+    
+    const handler = (e) => setHasHoverSupport(e.matches);
+    mediaQuery.addEventListener('change', handler);
+
+    const handleResize = () => setIsMobile(window.innerWidth < 1024);
+    handleResize();
+    window.addEventListener('resize', handleResize);
+
+    return () => {
+      mediaQuery.removeEventListener('change', handler);
+      window.removeEventListener('resize', handleResize);
+    };
+  }, []);
 
   const getCenterOfElement = useCallback((el) => {
     const { width, height } = el.getBoundingClientRect();
@@ -158,6 +178,8 @@ const BorderGlow = ({
   const fillBg = meshGradients.map(g => `${g} padding-box`);
   const angleDeg = `${cursorAngle.toFixed(3)}deg`;
 
+  const showHoverEffects = isHovered && hasHoverSupport && !isMobile;
+
   return (
     <div
       ref={cardRef}
@@ -168,15 +190,15 @@ const BorderGlow = ({
       style={{
         background: isLightBg ? 'linear-gradient(180deg, #FFFFFF 0%, #FBFCFF 100%)' : backgroundColor,
         borderRadius: `${borderRadius || 24}px`,
-        transform: isHovered ? 'translateY(-14px) scale(1.03) translate3d(0, 0, 0.01px)' : 'translateY(0) scale(1) translate3d(0, 0, 0.01px)',
+        transform: showHoverEffects ? 'translateY(-14px) scale(1.03) translate3d(0, 0, 0.01px)' : 'translateY(0) scale(1) translate3d(0, 0, 0.01px)',
         boxShadow: isLightBg 
-          ? (isHovered 
+          ? (showHoverEffects 
               ? '0 8px 16px rgba(15,23,42,0.06), 0 20px 50px rgba(15,23,42,0.12), inset 0 1px 1px rgba(255,255,255,0.8)' 
               : '0 2px 6px rgba(15,23,42,0.03), 0 12px 40px rgba(15,23,42,0.06), inset 0 1px 1px rgba(255,255,255,0.8)')
-          : (isHovered
+          : (showHoverEffects
               ? '0 20px 40px rgba(0, 0, 0, 0.4)'
               : 'rgba(0,0,0,0.1) 0 1px 2px, rgba(0,0,0,0.2) 0 8px 16px'),
-        borderColor: isLightBg && isHovered ? 'rgba(79,124,255,0.2)' : undefined,
+        borderColor: isLightBg && showHoverEffects ? 'rgba(79,124,255,0.2)' : undefined,
         transition: 'all 350ms cubic-bezier(0.16, 1, 0.3, 1)',
         ...style,
       }}

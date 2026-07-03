@@ -7,9 +7,11 @@ const parentRequirementSchema = new mongoose.Schema(
     phone: { type: String, required: true, trim: true },
     email: { type: String, lowercase: true, trim: true },
     location: { type: String, trim: true },
+    studentName: { type: String, trim: true, default: '' },
+    specificSubject: { type: String, trim: true, default: '' },
     board: { type: String, required: true, trim: true },
     class: { type: String, required: true, trim: true },
-    subjects: [{ type: String, required: true, trim: true }],
+    subjects: [{ type: String, trim: true }],
     learningMode: { type: String, enum: ['Online', 'Offline', 'Hybrid'], default: 'Offline' },
     preferredTiming: { type: String, trim: true },
     additionalNotes: { type: String, trim: true },
@@ -18,7 +20,7 @@ const parentRequirementSchema = new mongoose.Schema(
   { timestamps: true }
 );
 
-parentRequirementSchema.index({ parentName: 'text', phone: 'text', email: 'text', location: 'text', board: 'text', class: 'text', subjects: 'text' });
+parentRequirementSchema.index({ parentName: 'text', phone: 'text', email: 'text', location: 'text', board: 'text', class: 'text', subjects: 'text', studentName: 'text', specificSubject: 'text' });
 
 const ParentRequirement = mongoose.model('ParentRequirement', parentRequirementSchema);
 

@@ -56,7 +56,7 @@ export default function Navbar() {
           justifyContent: 'space-between', padding: '0 16px', zIndex: 99999,
           boxShadow: '0 8px 32px rgba(15, 23, 42, 0.05)'
         }}>
-          <img src="/mentR_Logo.png" alt="TheMentR Logo" style={{ height: 20, objectFit: 'contain', cursor: 'pointer', marginRight: 8, borderRadius: 2 }} onClick={() => navigateAndScroll('/', null)} />
+          <img src="/mentR_Logo.png" alt="TheMentR Logo" style={{ height: 20, objectFit: 'contain', cursor: 'pointer', marginRight: 8, borderRadius: 2, mixBlendMode: 'multiply' }} onClick={() => navigateAndScroll('/', null)} />
           
           <div style={{ display: 'flex', alignItems: 'center', gap: 6 }}>
             <button
@@ -228,7 +228,7 @@ export default function Navbar() {
         <img 
           src="/mentR_Logo.png" 
           alt="TheMentR Logo" 
-          style={{ height: 26, objectFit: 'contain', cursor: 'pointer', borderRadius: 2 }} 
+          style={{ height: 26, objectFit: 'contain', cursor: 'pointer', borderRadius: 2, mixBlendMode: 'multiply' }} 
           onClick={() => navigateAndScroll('/', null)} 
         />
       </div>

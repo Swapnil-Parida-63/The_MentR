@@ -1,7 +1,7 @@
 import { useState } from 'react';
 
 const chatReplies = {
-  'book an assessment visit': "Great! To book an Assessment Visit, please fill in the parent form on our Contact page, or call us at +91 98765 43210. We'll schedule a visit at your convenience — usually within 3 business days.",
+  'book an assessment visit': "Great! To book an Assessment Visit, please fill in the parent form on our Contact page, or call us at +91 96685 62631. We'll schedule a visit at your convenience — usually within 3 business days.",
   'how does teacher matching work?': "After your Assessment Visit, we analyse your child's learning profile and shortlist verified teachers who match on subject expertise, board experience, and teaching style.",
   'tell me about the olympiad programme': "TheMentR Olympiad prepares students for IMO, NSO, SOF, and other major competitions. We have dedicated Olympiad faculty, structured mock tests, and stage-wise preparation tracks.",
   'help me apply as a teacher': "To apply, fill in the Teacher Application form on our Contact page. Our onboarding team reviews all applications within 5–7 business days.",
@@ -19,7 +19,7 @@ export default function Chatbot() {
     setMessages(prev => [...prev, { from: 'user', text: msg }]);
     setShowSuggestions(false);
     setTimeout(() => {
-      const reply = chatReplies[msg.toLowerCase()] || "Thanks for your message! Our team will follow up shortly. For urgent queries, call us at +91 98765 43210.";
+      const reply = chatReplies[msg.toLowerCase()] || "Thanks for your message! Our team will follow up shortly. For urgent queries, call us at +91 96685 62631.";
       setMessages(prev => [...prev, { from: 'bot', text: reply }]);
     }, 600);
   };

@@ -10,6 +10,9 @@ const classesOptions = ['Class 1–5', 'Class 6–8', 'Class 9–10', 'Class 11�
 const mediumsList = ['English', 'Hindi', 'Odia', 'Bengali', 'Bilingual'];
 const locationOptions = ['Patia', 'Jayadev Vihar', 'Nayapalli', 'Saheed Nagar', 'Khandagiri', 'Chandrasekharpur', 'Ghatikia', 'Vani Vihar'];
 
+const parentBoards = ['CBSE', 'ICSE', 'IGCSE', 'State board'];
+const parentClasses = Array.from({ length: 12 }, (_, i) => `Class ${i + 1}`);
+
 // Underline Input Components matching FormsSection editorial design
 function UnderlineField({ label, type = "text", placeholder, value, onChange, required = false }) {
   const [isFocused, setIsFocused] = useState(false);
@@ -339,15 +342,26 @@ export default function FormModal() {
 
   // Step states
   const [parentStep, setParentStep] = useState(1);
+  const [regStep, setRegStep] = useState(1);
   const [teacherStep, setTeacherStep] = useState(1);
 
-  // Parent form states
+  // Parent Assessment Visit Form states
   const [parentName, setParentName] = useState('');
   const [parentPhone, setParentPhone] = useState('');
+  const [studentName, setStudentName] = useState('');
   const [parentBoard, setParentBoard] = useState('');
   const [parentGrade, setParentGrade] = useState('');
-  const [parentSubjects, setParentSubjects] = useState([]);
-  const [parentGaps, setParentGaps] = useState('');
+  const [parentLocation, setParentLocation] = useState('');
+  const [guidanceSubject, setGuidanceSubject] = useState('');
+
+  // Parent Registration Form states
+  const [regParentName, setRegParentName] = useState('');
+  const [regParentPhone, setRegParentPhone] = useState('');
+  const [regLocation, setRegLocation] = useState('');
+  const [regStudentName, setRegStudentName] = useState('');
+  const [regSchoolName, setRegSchoolName] = useState('');
+  const [regBoard, setRegBoard] = useState('');
+  const [regClass, setRegClass] = useState('');
 
   // Teacher Form Comprehensive fields
   // Step 1: Basic Info
@@ -379,13 +393,23 @@ export default function FormModal() {
   useEffect(() => {
     if (activeModal) {
       setParentStep(1);
+      setRegStep(1);
       setTeacherStep(1);
       setParentName('');
       setParentPhone('');
+      setStudentName('');
       setParentBoard('');
       setParentGrade('');
-      setParentSubjects([]);
-      setParentGaps('');
+      setParentLocation('');
+      setGuidanceSubject('');
+
+      setRegParentName('');
+      setRegParentPhone('');
+      setRegLocation('');
+      setRegStudentName('');
+      setRegSchoolName('');
+      setRegBoard('');
+      setRegClass('');
 
       setTeacherFirstName('');
       setTeacherLastName('');
@@ -446,20 +470,37 @@ export default function FormModal() {
 
   const handleParentSubmit = async (e) => {
     e.preventDefault();
-    if (parentSubjects.length === 0) {
-      alert("⚠️ Please select at least one subject.");
-      return;
-    }
     try {
       await parentAPI.submit({
         parentName,
         phone: parentPhone,
+        studentName,
         board: parentBoard,
         class: parentGrade,
-        subjects: parentSubjects,
-        additionalNotes: parentGaps
+        location: parentLocation,
+        specificSubject: guidanceSubject
       });
       alert("✅ Assessment visit request submitted! We'll call you within 24 hours.");
+      handleClose();
+    } catch (err) {
+      console.error(err);
+      alert("❌ Connection error. Please make sure the backend is running.");
+    }
+  };
+
+  const handleRegistrationSubmit = async (e) => {
+    e.preventDefault();
+    try {
+      await parentAPI.register({
+        parentName: regParentName,
+        phone: regParentPhone,
+        location: regLocation,
+        studentName: regStudentName,
+        schoolName: regSchoolName,
+        board: regBoard,
+        class: regClass
+      });
+      alert("✅ Parent registration successful!");
       handleClose();
     } catch (err) {
       console.error(err);
@@ -578,11 +619,12 @@ export default function FormModal() {
                     <div style={{ flex: 1, display: 'flex', flexDirection: 'column' }}>
                       <UnderlineField label="Parent Name" placeholder="Your full name" value={parentName} onChange={e => setParentName(e.target.value)} required />
                       <UnderlineField label="Phone Number" type="tel" placeholder="+91 00000 00000" value={parentPhone} onChange={e => setParentPhone(e.target.value)} required />
+                      <UnderlineField label="Student Name" placeholder="Student's full name" value={studentName} onChange={e => setStudentName(e.target.value)} required />
                       
                       <button 
                         type="button" 
                         onClick={() => {
-                          if (parentName && parentPhone) setParentStep(2);
+                          if (parentName && parentPhone && studentName) setParentStep(2);
                           else alert("⚠️ Please fill in all fields.");
                         }}
                         className="btn-editorial-pill" 
@@ -598,27 +640,23 @@ export default function FormModal() {
                     <div style={{ flex: 1, display: 'flex', flexDirection: 'column' }}>
                       <UnderlineSelect label="Syllabus / Board" value={parentBoard} onChange={e => setParentBoard(e.target.value)} required>
                         <option value="">Select board</option>
-                        <option>CBSE</option>
-                        <option>ICSE</option>
-                        <option>IB</option>
-                        <option>State Board</option>
+                        {parentBoards.map(b => <option key={b} value={b}>{b}</option>)}
                       </UnderlineSelect>
 
-                      <UnderlineSelect label="Child's Grade" value={parentGrade} onChange={e => setParentGrade(e.target.value)} required>
-                        <option value="">Select grade</option>
-                        <option>Class 1–5</option>
-                        <option>Class 6–8</option>
-                        <option>Class 9–10</option>
-                        <option>Class 11–12</option>
+                      <UnderlineSelect label="Class" value={parentGrade} onChange={e => setParentGrade(e.target.value)} required>
+                        <option value="">Select class</option>
+                        {parentClasses.map(c => <option key={c} value={c}>{c}</option>)}
                       </UnderlineSelect>
+
+                      <UnderlineField label="Location" placeholder="Current Location" value={parentLocation} onChange={e => setParentLocation(e.target.value)} required />
 
                       <div style={{ display: 'flex', gap: 16, marginTop: 'auto' }}>
                         <button type="button" onClick={() => setParentStep(1)} className="btn-editorial-secondary-pill" style={{ flex: 1 }}>Back</button>
                         <button 
                           type="button" 
                           onClick={() => {
-                            if (parentBoard && parentGrade) setParentStep(3);
-                            else alert("⚠️ Please select syllabus and grade.");
+                            if (parentBoard && parentGrade && parentLocation) setParentStep(3);
+                            else alert("⚠️ Please fill in all fields.");
                           }}
                           className="btn-editorial-pill" 
                           style={{ flex: 2 }}
@@ -632,47 +670,90 @@ export default function FormModal() {
                   {/* Step 3 Fields */}
                   {parentStep === 3 && (
                     <div style={{ flex: 1, display: 'flex', flexDirection: 'column' }}>
-                      <div style={{ marginBottom: 32 }}>
-                        <label style={{ display: 'block', fontSize: 12, fontWeight: 600, color: '#1D2433', marginBottom: 12, letterSpacing: '0.02em', textTransform: 'uppercase' }}>Select Subjects (Select Multiple)</label>
-                        <div style={{ display: 'flex', flexWrap: 'wrap', gap: 8 }}>
-                          {subjectsList.map(s => {
-                            const isSelected = parentSubjects.includes(s);
-                            return (
-                              <button
-                                key={s}
-                                type="button"
-                                onClick={() => {
-                                  if (isSelected) {
-                                    setParentSubjects(parentSubjects.filter(sub => sub !== s));
-                                  } else {
-                                    setParentSubjects([...parentSubjects, s]);
-                                  }
-                                }}
-                                style={{
-                                  padding: '6px 12px',
-                                  borderRadius: 20,
-                                  fontSize: 12,
-                                  fontWeight: 600,
-                                  background: isSelected ? 'linear-gradient(135deg, #4F7CFF 0%, #7469F8 100%)' : 'transparent',
-                                  color: isSelected ? 'white' : '#1D2433',
-                                  border: isSelected ? '1px solid transparent' : '1px solid rgba(79, 124, 255, 0.15)',
-                                  cursor: 'pointer',
-                                  transition: 'all 0.2s',
-                                  fontFamily: 'var(--font-sans)'
-                                }}
-                              >
-                                  {s}
-                              </button>
-                            );
-                          })}
-                        </div>
-                      </div>
-
-                      <UnderlineTextarea label="Learning Gaps or Concerns" placeholder="Tell us what help your child needs..." value={parentGaps} onChange={e => setParentGaps(e.target.value)} />
+                      <UnderlineTextarea label="Any specific subject required for guidance" placeholder="E.g. Mathematics, Physics, Chemistry, etc." value={guidanceSubject} onChange={e => setGuidanceSubject(e.target.value)} required />
 
                       <div style={{ display: 'flex', gap: 16, marginTop: 'auto' }}>
                         <button type="button" onClick={() => setParentStep(2)} className="btn-editorial-secondary-pill" style={{ flex: 1 }}>Back</button>
                         <button type="submit" className="btn-editorial-pill" style={{ flex: 2 }}>Book Assessment Visit →</button>
+                      </div>
+                    </div>
+                  )}
+                </form>
+              </div>
+            ) : activeModal === 'parent_registration' ? (
+              <div style={{ display: 'flex', flexDirection: 'column', flex: 1 }}>
+                <h3 style={{ fontSize: 24, marginBottom: 8, paddingRight: 40, fontFamily: 'var(--font-display)', fontWeight: 500 }}>Parent Registration</h3>
+                <p style={{ fontSize: 14, color: 'var(--color-text-secondary)', marginBottom: 28, lineHeight: 1.6 }}>Register your parent profile to connect with verified home tutors.</p>
+                
+                {/* 3 Progress Lines */}
+                <div style={{ display: 'flex', gap: 6, marginBottom: 32 }}>
+                  <div style={{ flex: 1, height: 2, borderRadius: 9, background: regStep >= 1 ? '#4F7CFF' : 'rgba(79, 124, 255, 0.1)' }} />
+                  <div style={{ flex: 1, height: 2, borderRadius: 9, background: regStep >= 2 ? '#4F7CFF' : 'rgba(79, 124, 255, 0.1)' }} />
+                  <div style={{ flex: 1, height: 2, borderRadius: 9, background: regStep >= 3 ? '#4F7CFF' : 'rgba(79, 124, 255, 0.1)' }} />
+                </div>
+
+                <form onSubmit={handleRegistrationSubmit} style={{ display: 'flex', flexDirection: 'column', flex: 1 }}>
+                  {/* Step 1 Fields */}
+                  {regStep === 1 && (
+                    <div style={{ flex: 1, display: 'flex', flexDirection: 'column' }}>
+                      <UnderlineField label="Parent Name" placeholder="Your full name" value={regParentName} onChange={e => setRegParentName(e.target.value)} required />
+                      <UnderlineField label="Contact Number" type="tel" placeholder="+91 00000 00000" value={regParentPhone} onChange={e => setRegParentPhone(e.target.value)} required />
+                      <UnderlineField label="Student Name" placeholder="Student's full name" value={regStudentName} onChange={e => setRegStudentName(e.target.value)} required />
+                      
+                      <button 
+                        type="button" 
+                        onClick={() => {
+                          if (regParentName && regParentPhone && regStudentName) setRegStep(2);
+                          else alert("⚠️ Please fill in all fields.");
+                        }}
+                        className="btn-editorial-pill" 
+                        style={{ width: '100%', marginTop: 'auto' }}
+                      >
+                        Next Step →
+                      </button>
+                    </div>
+                  )}
+
+                  {/* Step 2 Fields */}
+                  {regStep === 2 && (
+                    <div style={{ flex: 1, display: 'flex', flexDirection: 'column' }}>
+                      <UnderlineField label="School Name" placeholder="School's name" value={regSchoolName} onChange={e => setRegSchoolName(e.target.value)} required />
+
+                      <UnderlineSelect label="Syllabus / Board" value={regBoard} onChange={e => setRegBoard(e.target.value)} required>
+                        <option value="">Select board</option>
+                        {parentBoards.map(b => <option key={b} value={b}>{b}</option>)}
+                      </UnderlineSelect>
+
+                      <UnderlineSelect label="Class" value={regClass} onChange={e => setRegClass(e.target.value)} required>
+                        <option value="">Select class</option>
+                        {parentClasses.map(c => <option key={c} value={c}>{c}</option>)}
+                      </UnderlineSelect>
+
+                      <div style={{ display: 'flex', gap: 16, marginTop: 'auto' }}>
+                        <button type="button" onClick={() => setRegStep(1)} className="btn-editorial-secondary-pill" style={{ flex: 1 }}>Back</button>
+                        <button 
+                          type="button" 
+                          onClick={() => {
+                            if (regSchoolName && regBoard && regClass) setRegStep(3);
+                            else alert("⚠️ Please fill in all fields.");
+                          }}
+                          className="btn-editorial-pill" 
+                          style={{ flex: 2 }}
+                        >
+                          Next Step →
+                        </button>
+                      </div>
+                    </div>
+                  )}
+
+                  {/* Step 3 Fields */}
+                  {regStep === 3 && (
+                    <div style={{ flex: 1, display: 'flex', flexDirection: 'column' }}>
+                      <UnderlineField label="Current Location" placeholder="Area, landmark, city" value={regLocation} onChange={e => setRegLocation(e.target.value)} required />
+
+                      <div style={{ display: 'flex', gap: 16, marginTop: 'auto' }}>
+                        <button type="button" onClick={() => setRegStep(2)} className="btn-editorial-secondary-pill" style={{ flex: 1 }}>Back</button>
+                        <button type="submit" className="btn-editorial-pill" style={{ flex: 2 }}>Submit Registration →</button>
                       </div>
                     </div>
                   )}

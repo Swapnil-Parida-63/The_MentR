@@ -4,7 +4,7 @@ import BorderGlow from './BorderGlow';
 
 export default function BlogsPreview() {
   return (
-    <section id="blogs" className="section" style={{ background: 'radial-gradient(circle at 10% 25%, rgba(79, 124, 255, 0.04) 0%, transparent 60%), radial-gradient(circle at 90% 75%, rgba(116, 105, 248, 0.04) 0%, transparent 60%), #FFFFFF' }}>
+    <section id="blogs" className="section" style={{ background: 'radial-gradient(circle at 10% 25%, rgba(79, 124, 255, 0.04) 0%, transparent 60%), radial-gradient(circle at 90% 75%, rgba(116, 105, 248, 0.04) 0%, transparent 60%), #fef9ef' }}>
       <div className="container">
         <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-end', marginBottom: 56 }}>
           <div>

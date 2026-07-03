@@ -68,6 +68,7 @@ export const contactAPI = {
 
 export const parentAPI = {
   submit: (data) => api.post('/parent-requirements', data),
+  register: (data) => api.post('/parent-registrations', data),
 };
 
 export const seoAPI = {

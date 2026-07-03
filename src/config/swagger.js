@@ -66,6 +66,7 @@ swaggerSpec.tags = [
   'Auth',
   'Teachers',
   'Parent Requirements',
+  'Parent Registrations',
   'Assessment Visits',
   'AVSAR',
   'TheMentR Online',
@@ -86,6 +87,7 @@ swaggerSpec.paths = {
   ...swaggerSpec.paths,
   ...crudPaths('/teachers', 'Teachers'),
   ...crudPaths('/parent-requirements', 'Parent Requirements'),
+  ...crudPaths('/parent-registrations', 'Parent Registrations'),
   ...crudPaths('/assessment-visits', 'Assessment Visits'),
   '/avsar/dashboard': {
     get: { tags: ['AVSAR'], summary: 'Dashboard analytics from assessment visit data', security: secured, responses: { 200: ok } }
