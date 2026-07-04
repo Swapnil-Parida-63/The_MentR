@@ -381,69 +381,73 @@ export default function TestimonialsSection() {
           />
         </div>
 
-        {/* View More Feedbacks Button */}
-        <div style={{ display: 'flex', justifyContent: 'center', marginTop: 56 }}>
-          <button
-            onClick={() => setShowAll(!showAll)}
-            style={{
-              background: 'transparent',
-              border: '1px solid rgba(79, 124, 255, 0.3)',
-              borderRadius: 99,
-              color: '#4F7CFF',
-              fontSize: 14,
-              fontWeight: 600,
-              padding: '12px 32px',
-              cursor: 'pointer',
-              transition: 'all 0.2s',
-              fontFamily: 'var(--font-sans)'
-            }}
-            onMouseEnter={e => { e.currentTarget.style.background = 'rgba(79, 124, 255, 0.05)'; e.currentTarget.style.borderColor = '#4F7CFF'; }}
-            onMouseLeave={e => { e.currentTarget.style.background = 'transparent'; e.currentTarget.style.borderColor = 'rgba(79, 124, 255, 0.3)'; }}
-          >
-            {showAll ? 'Show Less Feedbacks' : 'View More Feedbacks →'}
-          </button>
-        </div>
+        {/* View More Feedbacks Button & Grid */}
+        {additionalTestimonials.length > 0 && (
+          <>
+            <div style={{ display: 'flex', justifyContent: 'center', marginTop: 56 }}>
+              <button
+                onClick={() => setShowAll(!showAll)}
+                style={{
+                  background: 'transparent',
+                  border: '1px solid rgba(79, 124, 255, 0.3)',
+                  borderRadius: 99,
+                  color: '#4F7CFF',
+                  fontSize: 14,
+                  fontWeight: 600,
+                  padding: '12px 32px',
+                  cursor: 'pointer',
+                  transition: 'all 0.2s',
+                  fontFamily: 'var(--font-sans)'
+                }}
+                onMouseEnter={e => { e.currentTarget.style.background = 'rgba(79, 124, 255, 0.05)'; e.currentTarget.style.borderColor = '#4F7CFF'; }}
+                onMouseLeave={e => { e.currentTarget.style.background = 'transparent'; e.currentTarget.style.borderColor = 'rgba(79, 124, 255, 0.3)'; }}
+              >
+                {showAll ? 'Show Less Feedbacks' : 'View More Feedbacks →'}
+              </button>
+            </div>
 
-        {/* Expanded Feedbacks Grid */}
-        {showAll && (
-          <div style={{ marginTop: 44, display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(300px, 1fr))', gap: 24 }} className="additional-testimonials-grid">
-            {additionalTestimonials.map((t, idx) => (
-              <div key={idx} style={{
-                background: '#FFFFFF',
-                borderRadius: 20,
-                padding: 24,
-                boxShadow: '0 4px 20px rgba(0, 0, 0, 0.015)',
-                border: '1px solid rgba(0, 0, 0, 0.03)',
-                display: 'flex',
-                flexDirection: 'column',
-                justifyContent: 'space-between',
-                transition: 'all 0.3s ease'
-              }}>
-                <div>
-                  <div style={{ display: 'flex', color: '#F59E0B', fontSize: 13, letterSpacing: 2, marginBottom: 16 }}>
-                    {'★'.repeat(t.stars)}
-                  </div>
-                  <p style={{ fontSize: 14.5, color: '#1D2433', lineHeight: 1.6, marginBottom: 24, fontStyle: 'italic' }}>
-                    “{t.quote}”
-                  </p>
-                </div>
-                <div style={{ display: 'flex', alignItems: 'center', gap: 12, borderTop: '1px solid rgba(0,0,0,0.03)', paddingTop: 16 }}>
-                  <div style={{
-                    width: 36, height: 36, borderRadius: '50%', display: 'flex', alignItems: 'center', justifyContent: 'center',
-                    background: t.color, color: '#FFFFFF', fontWeight: 700, fontSize: 12, flexShrink: 0
+            {/* Expanded Feedbacks Grid */}
+            {showAll && (
+              <div style={{ marginTop: 44, display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(300px, 1fr))', gap: 24 }} className="additional-testimonials-grid">
+                {additionalTestimonials.map((t, idx) => (
+                  <div key={idx} style={{
+                    background: '#FFFFFF',
+                    borderRadius: 20,
+                    padding: 24,
+                    boxShadow: '0 4px 20px rgba(0, 0, 0, 0.015)',
+                    border: '1px solid rgba(0, 0, 0, 0.03)',
+                    display: 'flex',
+                    flexDirection: 'column',
+                    justifyContent: 'space-between',
+                    transition: 'all 0.3s ease'
                   }}>
-                    {t.initials}
+                    <div>
+                      <div style={{ display: 'flex', color: '#F59E0B', fontSize: 13, letterSpacing: 2, marginBottom: 16 }}>
+                        {'★'.repeat(t.stars)}
+                      </div>
+                      <p style={{ fontSize: 14.5, color: '#1D2433', lineHeight: 1.6, marginBottom: 24, fontStyle: 'italic' }}>
+                        “{t.quote}”
+                      </p>
+                    </div>
+                    <div style={{ display: 'flex', alignItems: 'center', gap: 12, borderTop: '1px solid rgba(0,0,0,0.03)', paddingTop: 16 }}>
+                      <div style={{
+                        width: 36, height: 36, borderRadius: '50%', display: 'flex', alignItems: 'center', justifyContent: 'center',
+                        background: t.color, color: '#FFFFFF', fontWeight: 700, fontSize: 12, flexShrink: 0
+                      }}>
+                        {t.initials}
+                      </div>
+                      <div>
+                        <h5 style={{ margin: 0, fontSize: 13.5, fontWeight: 700, color: '#1D2433' }}>{t.name}</h5>
+                        <span style={{ fontSize: 11, color: '#5C667A', fontWeight: 500 }}>
+                          {t.role} &bull; {t.location}
+                        </span>
+                      </div>
+                    </div>
                   </div>
-                  <div>
-                    <h5 style={{ margin: 0, fontSize: 13.5, fontWeight: 700, color: '#1D2433' }}>{t.name}</h5>
-                    <span style={{ fontSize: 11, color: '#5C667A', fontWeight: 500 }}>
-                      {t.role} &bull; {t.location}
-                    </span>
-                  </div>
-                </div>
+                ))}
               </div>
-            ))}
-          </div>
+            )}
+          </>
         )}
       </div>
 
