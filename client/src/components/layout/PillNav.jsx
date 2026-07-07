@@ -387,14 +387,14 @@ const PillNav = ({
             className="btn btn-secondary" 
             style={{ padding: '8px 16px', fontSize: 13, borderRadius: 9999, cursor: 'pointer', height: 'var(--nav-h)', display: 'flex', alignItems: 'center' }}
           >
-            Become a Teacher
+            Join as a Teacher
           </button>
           <button 
             onClick={() => openModal('parent')} 
             className="btn btn-primary" 
             style={{ padding: '8px 16px', fontSize: 13, borderRadius: 9999, cursor: 'pointer', height: 'var(--nav-h)', display: 'flex', alignItems: 'center', border: 'none' }}
           >
-            Book Assessment Visit
+            Book a Demo
           </button>
         </div>
 
@@ -473,14 +473,14 @@ const PillNav = ({
               className="btn btn-secondary" 
               style={{ width: '100%', py: 2.5, borderRadius: 9999, fontSize: 14, cursor: 'pointer' }}
             >
-              Become a Teacher
+              Join as a Teacher
             </button>
             <button 
               onClick={() => { setIsMobileMenuOpen(false); openModal('parent'); }} 
               className="btn btn-primary" 
               style={{ width: '100%', py: 2.5, borderRadius: 9999, fontSize: 14, cursor: 'pointer', border: 'none' }}
             >
-              Book Assessment Visit
+              Book a Demo
             </button>
           </li>
         </ul>

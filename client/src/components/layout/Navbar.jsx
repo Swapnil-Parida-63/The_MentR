@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { X } from 'lucide-react';
 
@@ -7,6 +7,8 @@ export default function Navbar() {
   const [isMobile, setIsMobile] = useState(window.innerWidth < 1024);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
+  const [servicesHovered, setServicesHovered] = useState(false);
+  const leaveTimeoutRef = useRef(null);
 
   useEffect(() => {
     const handleResize = () => {
@@ -223,37 +225,152 @@ export default function Navbar() {
         : '0 4px 20px rgba(15, 23, 42, 0.02), inset 0 1px 1px rgba(255, 255, 255, 0.9)',
       transition: 'all 0.4s cubic-bezier(0.16, 1, 0.3, 1)'
     }}>
-      {/* Left: Logo */}
-      <div style={{ display: 'flex', alignItems: 'center' }}>
+      {/* Left: Logo Container with Overflow and Entrance Animation */}
+      <div style={{ width: 140, height: '100%', display: 'flex', alignItems: 'center', position: 'relative' }}>
         <img 
           src="/mentR_Logo.png" 
           alt="TheMentR Logo" 
-          style={{ height: 26, objectFit: 'contain', cursor: 'pointer', borderRadius: 2, mixBlendMode: 'multiply' }} 
+          className="logo-nav-emblem"
+          style={{ 
+            position: 'absolute',
+            left: 0,
+            height: scrolled ? 60 : 76, 
+            objectFit: 'contain', 
+            cursor: 'pointer', 
+            borderRadius: 4, 
+            mixBlendMode: 'multiply',
+            filter: 'drop-shadow(0 6px 16px rgba(79, 124, 255, 0.12))',
+            transition: 'all 0.4s cubic-bezier(0.16, 1, 0.3, 1)',
+            zIndex: 100
+          }} 
           onClick={() => navigateAndScroll('/', null)} 
         />
       </div>
 
       {/* Center: Navigation Links */}
       <nav style={{ display: 'flex', gap: 28, alignItems: 'center' }}>
-        {navLinks.map(link => (
-          <button
-            key={link.label}
-            onClick={() => link.path ? navigateAndScroll(link.path, null) : navigateAndScroll('/', link.id)}
-            className="nav-link-btn"
-            style={{
-              background: 'none',
-              border: 'none',
-              fontSize: 13.5,
-              fontWeight: 500,
-              color: 'var(--color-text-secondary)',
-              cursor: 'pointer',
-              transition: 'all 0.3s cubic-bezier(0.16, 1, 0.3, 1)',
-              fontFamily: 'var(--font-sans)'
-            }}
-          >
-            {link.label}
-          </button>
-        ))}
+        {navLinks.map(link => {
+          if (link.label === 'Services') {
+            return (
+              <div 
+                key={link.label}
+                onMouseEnter={() => {
+                  if (leaveTimeoutRef.current) clearTimeout(leaveTimeoutRef.current);
+                  setServicesHovered(true);
+                }}
+                onMouseLeave={() => {
+                  leaveTimeoutRef.current = setTimeout(() => {
+                    setServicesHovered(false);
+                  }, 300);
+                }}
+                style={{ position: 'relative' }}
+              >
+                <button
+                  onClick={() => navigateAndScroll('/', link.id)}
+                  className="nav-link-btn"
+                  style={{
+                    background: 'none',
+                    border: 'none',
+                    fontSize: 13.5,
+                    fontWeight: 500,
+                    color: 'var(--color-text-secondary)',
+                    cursor: 'pointer',
+                    transition: 'all 0.3s cubic-bezier(0.16, 1, 0.3, 1)',
+                    fontFamily: 'var(--font-sans)',
+                    padding: '8px 0'
+                  }}
+                >
+                  {link.label} ▾
+                </button>
+
+                {/* Dropdown panel */}
+                {servicesHovered && (
+                  <div 
+                    style={{
+                      position: 'absolute',
+                      top: '100%',
+                      left: '50%',
+                      transform: 'translateX(-50%)',
+                      width: 580,
+                      background: 'linear-gradient(135deg, rgba(255, 255, 255, 0.98) 0%, rgba(242, 247, 255, 0.98) 100%)',
+                      backdropFilter: 'blur(20px)',
+                      WebkitBackdropFilter: 'blur(20px)',
+                      borderRadius: 20,
+                      border: '1px solid rgba(79, 124, 255, 0.16)',
+                      boxShadow: '0 20px 50px rgba(15, 23, 42, 0.08), 0 4px 12px rgba(79, 124, 255, 0.03)',
+                      padding: 24,
+                      zIndex: 99999,
+                      display: 'grid',
+                      gridTemplateColumns: '1.2fr 1.3fr',
+                      gap: 20,
+                      textAlign: 'left',
+                      marginTop: 10,
+                      animation: 'slideDown 0.25s cubic-bezier(0.16, 1, 0.3, 1)'
+                    }}
+                  >
+                    {/* Left Column: Product / AVSAR */}
+                    <div style={{ borderRight: '1px solid rgba(79, 124, 255, 0.08)', paddingRight: 16 }}>
+                      <span style={{ fontSize: 10, fontWeight: 700, textTransform: 'uppercase', color: '#7469F8', letterSpacing: '0.08em', display: 'block', marginBottom: 12 }}>Intelligence</span>
+                      <div 
+                        onClick={() => { setServicesHovered(false); navigateAndScroll('/', 'avsar'); }}
+                        style={{ cursor: 'pointer', transition: 'all 0.2s' }}
+                        className="mega-menu-item"
+                      >
+                        <h4 style={{ margin: 0, fontSize: 14.5, fontWeight: 600, color: '#1D2433', display: 'flex', alignItems: 'center', gap: 6 }}>
+                          AVSAR Intelligence
+                        </h4>
+                        <p style={{ margin: '6px 0 0', fontSize: 12, color: '#5C667A', lineHeight: 1.45 }}>
+                          AI-driven real-time syllabus tracking, progress reports, and automated diagnostic evaluation tracks.
+                        </p>
+                      </div>
+                    </div>
+
+                    {/* Right Column: Platform Services */}
+                    <div style={{ display: 'flex', flexDirection: 'column', gap: 14 }}>
+                      <span style={{ fontSize: 10, fontWeight: 700, textTransform: 'uppercase', color: '#4F7CFF', letterSpacing: '0.08em', display: 'block', marginBottom: 2 }}>Platform & Sourcing</span>
+                      {[
+                        { title: 'The MentR Teacher', desc: 'Verified educators with contractual agreements and social benefits.', id: 'why' },
+                        { title: 'The MentR Parent', desc: 'Personalized KG to PG tuitions starting at ₹1,499/mo.', id: 'contact-forms' },
+                        { title: 'The MentR Online', desc: 'Interactive live one-to-one virtual classrooms.', id: 'services' },
+                        { title: 'The MentR Olympiad', desc: 'Expert competitive exam prep for IMO, NSO, SOF.', id: 'services' }
+                      ].map(srv => (
+                        <div 
+                          key={srv.title} 
+                          onClick={() => { setServicesHovered(false); navigateAndScroll('/', srv.id); }}
+                          style={{ cursor: 'pointer', transition: 'all 0.2s' }}
+                          className="mega-menu-item"
+                        >
+                          <h5 style={{ margin: 0, fontSize: 13, fontWeight: 600, color: '#1D2433' }}>{srv.title}</h5>
+                          <p style={{ margin: '2px 0 0', fontSize: 11, color: '#5C667A', lineHeight: 1.35 }}>{srv.desc}</p>
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+                )}
+              </div>
+            );
+          }
+
+          return (
+            <button
+              key={link.label}
+              onClick={() => link.path ? navigateAndScroll(link.path, null) : navigateAndScroll('/', link.id)}
+              className="nav-link-btn"
+              style={{
+                background: 'none',
+                border: 'none',
+                fontSize: 13.5,
+                fontWeight: 500,
+                color: 'var(--color-text-secondary)',
+                cursor: 'pointer',
+                transition: 'all 0.3s cubic-bezier(0.16, 1, 0.3, 1)',
+                fontFamily: 'var(--font-sans)'
+              }}
+            >
+              {link.label}
+            </button>
+          );
+        })}
       </nav>
 
       {/* Right: Actions */}
@@ -290,7 +407,7 @@ export default function Navbar() {
           }}
           className="nav-secondary-btn"
         >
-          Become a Teacher
+          Join as a Teacher
         </button>
         <button
           onClick={() => navigateAndScroll('/', 'contact-forms')}
@@ -308,7 +425,7 @@ export default function Navbar() {
           }}
           className="nav-primary-btn"
         >
-          Book Assessment
+          Book a Demo
         </button>
       </div>
       
@@ -328,6 +445,44 @@ export default function Navbar() {
         .nav-primary-btn:hover {
           transform: translateY(-2px) !important;
           box-shadow: 0 6px 20px rgba(79, 124, 255, 0.35) !important;
+        }
+        .logo-nav-emblem {
+          animation: logoEntrance 1.4s cubic-bezier(0.16, 1, 0.3, 1) both;
+        }
+        @keyframes logoEntrance {
+          0% {
+            opacity: 0;
+            transform: scale(0.8) rotate(-4deg);
+          }
+          50% {
+            opacity: 0.5;
+            transform: scale(1.08) rotate(1deg);
+          }
+          100% {
+            opacity: 1;
+            transform: scale(1) rotate(0deg);
+          }
+        }
+        @keyframes slideDown {
+          from {
+            opacity: 0;
+            transform: translate3d(-50%, -10px, 0);
+          }
+          to {
+            opacity: 1;
+            transform: translate3d(-50%, 0, 0);
+          }
+        }
+        .mega-menu-item {
+          padding: 8px 12px;
+          border-radius: 12px;
+          transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+        .mega-menu-item:hover {
+          background: rgba(79, 124, 255, 0.05);
+        }
+        .mega-menu-item:hover h4, .mega-menu-item:hover h5 {
+          color: #4F7CFF !important;
         }
       `}</style>
     </header>
