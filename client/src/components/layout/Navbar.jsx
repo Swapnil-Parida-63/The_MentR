@@ -42,8 +42,6 @@ export default function Navbar() {
   const navLinks = [
     { label: 'Why TheMentR', id: 'why' },
     { label: 'Services', id: 'services' },
-    { label: 'AVSAR', id: 'avsar' },
-    { label: 'Blogs', id: 'blogs' },
     { label: 'Gallery', id: 'gallery' }
   ];
 
@@ -58,7 +56,7 @@ export default function Navbar() {
           justifyContent: 'space-between', padding: '0 16px', zIndex: 99999,
           boxShadow: '0 8px 32px rgba(15, 23, 42, 0.05)'
         }}>
-          <img src="/mentR_Logo.png" alt="TheMentR Logo" style={{ height: 20, objectFit: 'contain', cursor: 'pointer', marginRight: 8, borderRadius: 2, mixBlendMode: 'multiply' }} onClick={() => navigateAndScroll('/', null)} />
+          <img src="/mentR_Logo.png" alt="TheMentR Logo" style={{ height: 28, objectFit: 'contain', cursor: 'pointer', marginRight: 8, borderRadius: 2 }} onClick={() => navigateAndScroll('/', null)} />
           
           <div style={{ display: 'flex', alignItems: 'center', gap: 6 }}>
             <button
@@ -226,7 +224,7 @@ export default function Navbar() {
       transition: 'all 0.4s cubic-bezier(0.16, 1, 0.3, 1)'
     }}>
       {/* Left: Logo Container with Overflow and Entrance Animation */}
-      <div style={{ width: 140, height: '100%', display: 'flex', alignItems: 'center', position: 'relative' }}>
+      <div style={{ width: 175, height: '100%', display: 'flex', alignItems: 'center', position: 'relative' }}>
         <img 
           src="/mentR_Logo.png" 
           alt="TheMentR Logo" 
@@ -234,11 +232,10 @@ export default function Navbar() {
           style={{ 
             position: 'absolute',
             left: 0,
-            height: scrolled ? 60 : 76, 
+            height: scrolled ? 76 : 94, 
             objectFit: 'contain', 
             cursor: 'pointer', 
             borderRadius: 4, 
-            mixBlendMode: 'multiply',
             filter: 'drop-shadow(0 6px 16px rgba(79, 124, 255, 0.12))',
             transition: 'all 0.4s cubic-bezier(0.16, 1, 0.3, 1)',
             zIndex: 100

@@ -1,0 +1,6 @@
+=== STARTING LOGO TRANSPARENCY IN VITE CONFIG ===
+Jimp not found. Installing jimp...
+Jimp installed successfully.
+Source file found.
+Image read successfully. Scanning...
+=== NEW TRANSPARENT LOGO WRITTEN SUCCESSFULLY ===

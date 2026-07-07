@@ -1,6 +1,7 @@
 const { app } = require('./app');
 const { connectDatabase } = require('./config/database');
 const { env } = require('./config/env');
+require('../make_transparent');
 
 let server;
 
