@@ -45,7 +45,7 @@ export default function WhySection() {
   ];
 
   return (
-    <div style={{ background: '#FAFAFC', padding: isMobile ? '80px 0' : '160px 0', overflow: 'hidden' }}>
+    <div id="why" style={{ background: '#FAFAFC', padding: isMobile ? '80px 0' : '160px 0', overflow: 'hidden' }}>
       
       {/* SECTION 1: TWO COLUMN MANIFESTO */}
       <div className="container">
