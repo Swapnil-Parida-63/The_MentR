@@ -1,7 +1,6 @@
 import HeroSection from '../components/home/HeroSection';
 import PainPointsSection from '../components/home/PainPointsSection';
 import WhySection from '../components/home/WhySection';
-import BentoSection from '../components/home/BentoSection';
 import ServicesSection from '../components/home/ServicesSection';
 import AvsarSection from '../components/home/AvsarSection';
 import VisionSection from '../components/home/VisionSection';
@@ -20,7 +19,6 @@ export default function HomePage() {
       <VisionSection />
       <PainPointsSection />
       <WhySection />
-      <BentoSection />
       <ServicesSection />
       <AvsarSection />
       <OrganogramSection />
