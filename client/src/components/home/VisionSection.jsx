@@ -85,10 +85,10 @@ export default function VisionSection() {
         background: '#FAFAFC', 
         position: 'relative', 
         overflow: 'hidden', 
-        padding: isMobile ? '100px 0' : '180px 0',
+        padding: isMobile ? '60px 0' : '85px 0',
         display: 'flex',
         alignItems: 'center',
-        minHeight: isMobile ? 'auto' : '90vh',
+        minHeight: 'auto',
         cursor: 'default'
       }}
     >

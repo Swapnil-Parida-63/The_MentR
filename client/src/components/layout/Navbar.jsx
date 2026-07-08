@@ -42,6 +42,7 @@ export default function Navbar() {
   const navLinks = [
     { label: 'Why TheMentR', id: 'why' },
     { label: 'Services', id: 'services' },
+    { label: 'Pricing', id: 'pricing' },
     { label: 'Gallery', id: 'gallery' }
   ];
 
