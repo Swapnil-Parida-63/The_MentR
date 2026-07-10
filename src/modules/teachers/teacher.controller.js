@@ -19,12 +19,17 @@ baseController.create = asyncHandler(async (req, res) => {
       fatherName: item.fatherName || "",
       phone: item.phone || "",
       dob: item.dob ? new Date(item.dob).toISOString().split('T')[0] : "",
-      qualification: "", 
-      technicalQualification: "", 
-      specialization: item.subjectsToTeach ? item.subjectsToTeach.join(', ') : "",
-      experience: String(item.experience || 0),
       address: item.currentAddress || "",
-      motherName: item.motherName || ""
+      motherName: item.motherName || "",
+      boardsToTeach: item.boardsToTeach ? item.boardsToTeach.join(', ') : "",
+      boardsAlreadyTaught: item.boardsAlreadyTaught ? item.boardsAlreadyTaught.join(', ') : "",
+      classesToTeach: item.classesToTeach ? item.classesToTeach.join(', ') : "",
+      classesAlreadyTaught: item.classesAlreadyTaught ? item.classesAlreadyTaught.join(', ') : "",
+      subjectsToTeach: item.subjectsToTeach ? item.subjectsToTeach.join(', ') : "",
+      subjectsPreviouslyTaught: item.subjectsPreviouslyTaught ? item.subjectsPreviouslyTaught.join(', ') : "",
+      mediumOfInstruction: item.mediumOfInstruction ? item.mediumOfInstruction.join(', ') : "",
+      mostComfortableMedium: item.mostComfortableMedium || "",
+      preferredLocations: item.preferredLocations ? item.preferredLocations.join(', ') : ""
     };
 
     const response = await fetch(webhookUrl, {
