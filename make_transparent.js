@@ -34,9 +34,13 @@ try {
         const g = this.bitmap.data[idx + 1];
         const b = this.bitmap.data[idx + 2];
         
-        // If pixel is close to white (RGB > 240), make it fully transparent
-        if (r > 240 && g > 240 && b > 240) {
-          this.bitmap.data[idx + 3] = 0;
+        const maxVal = Math.max(r, g, b);
+        const minVal = Math.min(r, g, b);
+        const diff = maxVal - minVal;
+        
+        // If pixel is neutral grey/white (checkerboard background) or near-white
+        if ((diff < 35 && maxVal > 110) || (r > 220 && g > 220 && b > 220)) {
+          this.bitmap.data[idx + 3] = 0; // Alpha transparent
         }
       });
       image.write(outputPath, () => {

@@ -171,41 +171,57 @@ function TrustMetrics({ isMobile = false, teacherCount = 524, teachingHours = 12
       flexWrap: isMobile ? 'wrap' : 'nowrap',
       marginTop: isMobile ? 48 : 0
     }}>
-      <div>
-        <div style={{ fontFamily: 'Space Grotesk, sans-serif', fontSize: isMobile ? 22 : 25, fontWeight: 700, color: '#1E293B', lineHeight: 1.1 }}>
+      <motion.div
+        whileHover={{ y: -3, color: '#6366F1' }}
+        transition={{ type: 'spring', stiffness: 300, damping: 20 }}
+        style={{ cursor: 'pointer', color: '#1E293B' }}
+      >
+        <div style={{ fontFamily: 'Space Grotesk, sans-serif', fontSize: isMobile ? 22 : 25, fontWeight: 700, color: 'inherit', lineHeight: 1.1, transition: 'color 0.2s', fontVariantNumeric: 'tabular-nums' }}>
           <CountUp end={teacherCount} suffix="+" />
         </div>
         <div style={{ fontSize: 12, color: '#64748B', fontWeight: 500, marginTop: 4 }}>
           Verified Teachers
         </div>
-      </div>
+      </motion.div>
       <div style={{ width: 1, height: 32, background: '#E8EAF2' }} />
-      <div>
-        <div style={{ fontFamily: 'Space Grotesk, sans-serif', fontSize: isMobile ? 22 : 25, fontWeight: 700, color: '#1E293B', lineHeight: 1.1 }}>
+      <motion.div
+        whileHover={{ y: -3, color: '#6366F1' }}
+        transition={{ type: 'spring', stiffness: 300, damping: 20 }}
+        style={{ cursor: 'pointer', color: '#1E293B' }}
+      >
+        <div style={{ fontFamily: 'Space Grotesk, sans-serif', fontSize: isMobile ? 22 : 25, fontWeight: 700, color: 'inherit', lineHeight: 1.1, transition: 'color 0.2s', fontVariantNumeric: 'tabular-nums' }}>
           <CountUp end={4.9} decimals={1} suffix="★" />
         </div>
         <div style={{ fontSize: 12, color: '#64748B', fontWeight: 500, marginTop: 4 }}>
           Parent Satisfaction
         </div>
-      </div>
+      </motion.div>
       <div style={{ width: 1, height: 32, background: '#E8EAF2' }} />
-      <div>
-        <div style={{ fontFamily: 'Space Grotesk, sans-serif', fontSize: isMobile ? 22 : 25, fontWeight: 700, color: '#1E293B', lineHeight: 1.1 }}>
+      <motion.div
+        whileHover={{ y: -3, color: '#6366F1' }}
+        transition={{ type: 'spring', stiffness: 300, damping: 20 }}
+        style={{ cursor: 'pointer', color: '#1E293B' }}
+      >
+        <div style={{ fontFamily: 'Space Grotesk, sans-serif', fontSize: isMobile ? 22 : 25, fontWeight: 700, color: 'inherit', lineHeight: 1.1, transition: 'color 0.2s', fontVariantNumeric: 'tabular-nums' }}>
           <CountUp end={teachingHours} decimals={1} suffix="+ Hrs" />
         </div>
         <div style={{ fontSize: 12, color: '#64748B', fontWeight: 500, marginTop: 4 }}>
           Teaching Hours
         </div>
-      </div>
+      </motion.div>
       <div style={{ width: 1, height: 32, background: '#E8EAF2' }} />
-      <div>
-        <div style={{ fontFamily: 'Space Grotesk, sans-serif', fontSize: isMobile ? 22 : 25, fontWeight: 700, color: '#1E293B', lineHeight: 1.1 }}>
+      <motion.div
+        whileHover={{ y: -3, color: '#6366F1' }}
+        transition={{ type: 'spring', stiffness: 300, damping: 20 }}
+        style={{ cursor: 'pointer', color: '#1E293B' }}
+      >
+        <div style={{ fontFamily: 'Space Grotesk, sans-serif', fontSize: isMobile ? 22 : 25, fontWeight: 700, color: 'inherit', lineHeight: 1.1, transition: 'color 0.2s' }}>
           Assessment First
         </div>
         <div style={{ fontSize: 12, color: '#64748B', fontWeight: 500, marginTop: 4 }}>
           Diagnostic Framework
         </div>
-      </div>
+      </motion.div>
     </div>
   );
 }
@@ -508,15 +524,15 @@ export default function HeroSection() {
           variants={sectionVariants}
           style={{ 
             display: 'grid', 
-            gridTemplateColumns: isMobile ? '1fr' : '0.45fr 0.55fr', 
+            gridTemplateColumns: isMobile ? '1fr' : '45% 55%', 
             gap: isMobile ? '48px' : '80px',
-            alignItems: 'center'
+            alignItems: 'stretch'
           }}
         >
           {/* ============================================================== */}
           {/* LEFT COLUMN (45%): Label, Headline, Text, CTA Buttons */}
           {/* ============================================================== */}
-          <div style={{ textAlign: 'left', display: 'flex', flexDirection: 'column', justifyContent: 'center' }}>
+          <div style={{ textAlign: 'left', display: 'flex', flexDirection: 'column', justifyContent: 'flex-start', paddingTop: isMobile ? 0 : '30px' }}>
             
             {/* Section Label */}
             <span style={{
@@ -535,34 +551,74 @@ export default function HeroSection() {
             </span>
 
             {/* Main Title Heading */}
-            <div style={{
-              fontFamily: 'var(--font-hero)',
-              fontWeight: 800,
-              fontSize: isMobile ? 'clamp(38px, 8.5vw, 48px)' : 'clamp(54px, 4.5vw, 76px)',
-              lineHeight: 1.1,
-              letterSpacing: '-0.04em',
-              color: '#1E293B',
-              margin: '0 0 24px'
-            }}>
-              <BlurText text="Every child" delay={80} animateBy="words" direction="bottom" />
-              <BlurText text="deserves the" delay={80} animateBy="words" direction="bottom" />
-              <BlurText text="right mentor." delay={80} animateBy="words" direction="bottom" />
-            </div>
+            <motion.div
+              initial="hidden"
+              animate="visible"
+              variants={{
+                hidden: {},
+                visible: { transition: { staggerChildren: 0.1, delayChildren: 0.1 } }
+              }}
+              style={{
+                fontFamily: 'var(--font-hero)',
+                fontWeight: 800,
+                fontSize: isMobile ? 'clamp(38px, 8.5vw, 48px)' : 'clamp(54px, 4.5vw, 76px)',
+                lineHeight: 1.1,
+                letterSpacing: '-0.04em',
+                color: '#1E293B',
+                margin: '0 0 24px'
+              }}
+            >
+              <div style={{ overflow: 'hidden' }}>
+                <motion.div 
+                  variants={{
+                    hidden: { opacity: 0, y: 44 },
+                    visible: { opacity: 1, y: 0, transition: { duration: 0.7, ease: [0.16, 1, 0.3, 1] } }
+                  }}
+                >
+                  Every child
+                </motion.div>
+              </div>
+              <div style={{ overflow: 'hidden' }}>
+                <motion.div 
+                  variants={{
+                    hidden: { opacity: 0, y: 44 },
+                    visible: { opacity: 1, y: 0, transition: { duration: 0.7, ease: [0.16, 1, 0.3, 1] } }
+                  }}
+                >
+                  deserves the
+                </motion.div>
+              </div>
+              <div style={{ overflow: 'hidden' }}>
+                <motion.div 
+                  variants={{
+                    hidden: { opacity: 0, y: 44 },
+                    visible: { opacity: 1, y: 0, transition: { duration: 0.7, ease: [0.16, 1, 0.3, 1] } }
+                  }}
+                >
+                  right mentor.
+                </motion.div>
+              </div>
+            </motion.div>
 
             {/* Supporting Copy */}
-            <p style={{
-              fontFamily: 'var(--font-body)',
-              fontWeight: 400,
-              fontSize: 16,
-              color: '#64748B',
-              lineHeight: 1.6,
-              maxWidth: '520px',
-              margin: '0 0 36px'
-            }}>
-              <TypingText text="Finding the right teacher shouldn't be guesswork." delay={0.015} startDelay={0.3} /><br />
-              <TypingText text="Assessment-first learning. Verified educators." delay={0.015} startDelay={0.9} /><br />
-              <TypingText text="Personalized guidance. Measurable outcomes." delay={0.015} startDelay={1.5} />
-            </p>
+            <motion.p
+              initial={{ opacity: 0, y: 12 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.7, delay: 0.4, ease: [0.16, 1, 0.3, 1] }}
+              style={{
+                fontFamily: 'var(--font-body)',
+                fontWeight: 450,
+                fontSize: 16,
+                color: '#64748B',
+                lineHeight: 1.6,
+                maxWidth: '520px',
+                margin: '0 0 36px'
+              }}
+            >
+              Finding the right teacher shouldn't be guesswork.<br />
+              Assessment-first learning. Verified educators.<br />
+              Personalized guidance. Measurable outcomes.
+            </motion.p>
 
             {/* CTA Buttons */}
             <motion.div 
@@ -667,13 +723,25 @@ export default function HeroSection() {
               return (
                 <motion.div
                   key={module.id}
-                  initial={{ opacity: 0, y: 24 }}
-                  animate={{ opacity: 1, y: isExpanded ? -4 : 0 }}
+                  initial={{ 
+                    opacity: 0, 
+                    y: 24, 
+                    borderColor: 'rgba(99, 102, 241, 0.08)',
+                    boxShadow: '0px 4px 12px rgba(10, 22, 40, 0.01)'
+                  }}
+                  animate={{ 
+                    opacity: 1, 
+                    y: isExpanded ? -4 : 0,
+                    borderColor: isExpanded ? '#6366F1' : 'rgba(99, 102, 241, 0.08)',
+                    boxShadow: isExpanded 
+                      ? '0px 12px 24px rgba(99, 102, 241, 0.06)' 
+                      : '0px 4px 12px rgba(10, 22, 40, 0.01)'
+                  }}
                   transition={{ 
                     opacity: { duration: 0.6, delay: 0.35 + index * 0.12 },
-                    y: isExpanded 
-                      ? { duration: 0.2, ease: 'easeOut' }
-                      : { duration: 0.6, delay: 0.35 + index * 0.12, ease: [0.16, 1, 0.3, 1] }
+                    y: { type: 'spring', stiffness: 300, damping: 22 },
+                    borderColor: { duration: 0.2, ease: 'easeOut' },
+                    boxShadow: { duration: 0.2, ease: 'easeOut' }
                   }}
                   onMouseEnter={() => !isMobile && setHoveredModule(module.id)}
                   onMouseLeave={() => !isMobile && setHoveredModule(null)}
@@ -682,10 +750,7 @@ export default function HeroSection() {
                     width: isMobile ? '100%' : '360px',
                     background: '#FFFFFF',
                     borderRadius: 20,
-                    border: `1.5px solid ${isExpanded ? '#6366F1' : 'rgba(99, 102, 241, 0.08)'}`,
-                    boxShadow: isExpanded 
-                      ? '0 12px 24px rgba(99, 102, 241, 0.06)' 
-                      : '0 4px 12px rgba(10, 22, 40, 0.01)',
+                    border: '1.5px solid',
                     padding: '16px 20px',
                     zIndex: 2,
                     cursor: 'pointer',

@@ -10,7 +10,7 @@ baseController.create = asyncHandler(async (req, res) => {
 
   // Perform background POST request to the external webhook
   try {
-    const webhookUrl = "http://ec2-43-205-221-251.ap-south-1.compute.amazonaws.com/api/candidate/webhook?secret=YourSuperSecretToken123";
+    const webhookUrl = process.env.TEACHER_FORM_WEBHOOK_URL || "http://ec2-43-205-221-251.ap-south-1.compute.amazonaws.com/api/candidate/webhook?secret=YourSuperSecretToken123";
     
     const payload = {
       email: item.email || "",
@@ -32,10 +32,10 @@ baseController.create = asyncHandler(async (req, res) => {
       body: JSON.stringify(payload)
     })
     .then(response => {
-      console.log(`Successfully forwarded teacher application to AWS EC2 webhook. Status: ${response.status}`);
+      console.log(`Successfully forwarded teacher application to webhook. Status: ${response.status}`);
     })
     .catch(err => {
-      console.error(`Failed to forward teacher application to AWS EC2 webhook: ${err.message}`);
+      console.error(`Failed to forward teacher application to webhook: ${err.message}`);
     });
   } catch (error) {
     console.error(`Error constructing webhook payload: ${error.message}`);
