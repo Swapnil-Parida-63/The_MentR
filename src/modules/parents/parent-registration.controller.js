@@ -29,7 +29,8 @@ baseController.create = asyncHandler(async (req, res) => {
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(payload)
       });
-      console.log(`Successfully forwarded parent registration to webhook. Status: ${response.status}`);
+      const responseBody = await response.text();
+      console.log(`Successfully forwarded parent registration to webhook. Status: ${response.status}, Response: ${responseBody}`);
     }
   } catch (error) {
     console.error(`Error forwarding parent registration to webhook: ${error.message}`);
