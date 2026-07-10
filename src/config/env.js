@@ -10,8 +10,11 @@ const envSchema = z.object({
   JWT_SECRET: z.string().min(24, 'JWT_SECRET must be at least 24 characters'),
   JWT_EXPIRES_IN: z.string().default('7d'),
   CORS_ORIGIN: z.string().default('*'),
-  API_BASE_URL: z.string().url().default('http://localhost:5000')
+  API_BASE_URL: z.string().url().default('http://localhost:5000'),
+  TEACHER_FORM_WEBHOOK_URL: z.string().url().optional().or(z.literal('')),
+  PARENT_FORM_WEBHOOK_URL: z.string().url().optional().or(z.literal(''))
 });
+
 
 const parsed = envSchema.safeParse(process.env);
 

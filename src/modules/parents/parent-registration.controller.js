@@ -1,6 +1,7 @@
 const { createCrudController } = require('../../controllers/crud.controller');
 const { parentRegistrationService } = require('./parent-registration.service');
 const { asyncHandler } = require('../../utils/async-handler');
+const { env } = require('../../config/env');
 
 const baseController = createCrudController(parentRegistrationService);
 
@@ -10,7 +11,7 @@ baseController.create = asyncHandler(async (req, res) => {
 
   // Perform background POST request to the external webhook
   try {
-    const webhookUrl = process.env.PARENT_FORM_WEBHOOK_URL;
+    const webhookUrl = env.PARENT_FORM_WEBHOOK_URL;
     if (webhookUrl) {
       const payload = {
         type: "registration",
@@ -23,20 +24,15 @@ baseController.create = asyncHandler(async (req, res) => {
         class: item.class || ""
       };
 
-      fetch(webhookUrl, {
+      const response = await fetch(webhookUrl, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(payload)
-      })
-      .then(response => {
-        console.log(`Successfully forwarded parent registration to webhook. Status: ${response.status}`);
-      })
-      .catch(err => {
-        console.error(`Failed to forward parent registration to webhook: ${err.message}`);
       });
+      console.log(`Successfully forwarded parent registration to webhook. Status: ${response.status}`);
     }
   } catch (error) {
-    console.error(`Error constructing parent registration webhook payload: ${error.message}`);
+    console.error(`Error forwarding parent registration to webhook: ${error.message}`);
   }
 
   res.status(201).json({ success: true, data: item });

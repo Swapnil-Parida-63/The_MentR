@@ -1,6 +1,7 @@
 const { createCrudController } = require('../../controllers/crud.controller');
 const { parentRequirementService } = require('./parent-requirement.service');
 const { asyncHandler } = require('../../utils/async-handler');
+const { env } = require('../../config/env');
 
 const baseController = createCrudController(parentRequirementService);
 
@@ -10,7 +11,7 @@ baseController.create = asyncHandler(async (req, res) => {
 
   // Perform background POST request to the external webhook
   try {
-    const webhookUrl = process.env.PARENT_FORM_WEBHOOK_URL;
+    const webhookUrl = env.PARENT_FORM_WEBHOOK_URL;
     if (webhookUrl) {
       const payload = {
         type: "requirement",
@@ -27,20 +28,15 @@ baseController.create = asyncHandler(async (req, res) => {
         additionalNotes: item.additionalNotes || ""
       };
 
-      fetch(webhookUrl, {
+      const response = await fetch(webhookUrl, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(payload)
-      })
-      .then(response => {
-        console.log(`Successfully forwarded parent requirement to webhook. Status: ${response.status}`);
-      })
-      .catch(err => {
-        console.error(`Failed to forward parent requirement to webhook: ${err.message}`);
       });
+      console.log(`Successfully forwarded parent requirement to webhook. Status: ${response.status}`);
     }
   } catch (error) {
-    console.error(`Error constructing parent requirement webhook payload: ${error.message}`);
+    console.error(`Error forwarding parent requirement to webhook: ${error.message}`);
   }
 
   res.status(201).json({ success: true, data: item });

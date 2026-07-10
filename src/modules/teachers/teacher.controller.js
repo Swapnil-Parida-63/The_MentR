@@ -1,6 +1,7 @@
 const { createCrudController } = require('../../controllers/crud.controller');
 const { teacherService } = require('./teacher.service');
 const { asyncHandler } = require('../../utils/async-handler');
+const { env } = require('../../config/env');
 
 const baseController = createCrudController(teacherService);
 
@@ -10,7 +11,7 @@ baseController.create = asyncHandler(async (req, res) => {
 
   // Perform background POST request to the external webhook
   try {
-    const webhookUrl = process.env.TEACHER_FORM_WEBHOOK_URL || "http://ec2-43-205-221-251.ap-south-1.compute.amazonaws.com/api/candidate/webhook?secret=YourSuperSecretToken123";
+    const webhookUrl = env.TEACHER_FORM_WEBHOOK_URL || "http://ec2-43-205-221-251.ap-south-1.compute.amazonaws.com/api/candidate/webhook?secret=YourSuperSecretToken123";
     
     const payload = {
       email: item.email || "",
@@ -26,19 +27,14 @@ baseController.create = asyncHandler(async (req, res) => {
       motherName: item.motherName || ""
     };
 
-    fetch(webhookUrl, {
+    const response = await fetch(webhookUrl, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(payload)
-    })
-    .then(response => {
-      console.log(`Successfully forwarded teacher application to webhook. Status: ${response.status}`);
-    })
-    .catch(err => {
-      console.error(`Failed to forward teacher application to webhook: ${err.message}`);
     });
+    console.log(`Successfully forwarded teacher application to webhook. Status: ${response.status}`);
   } catch (error) {
-    console.error(`Error constructing webhook payload: ${error.message}`);
+    console.error(`Error forwarding teacher application to webhook: ${error.message}`);
   }
 
   res.status(201).json({ success: true, data: item });
