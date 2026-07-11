@@ -207,88 +207,72 @@ export default function PainPointsSection() {
               FOR FAMILIES
             </h3>
 
-            <div style={{ display: 'flex', flexDirection: 'column', gap: 16 }}>
+            <div style={{ display: 'flex', flexDirection: 'column' }}>
               {familyPoints.map((item, idx) => {
-                const Icon = item.icon;
-                const isExpanded = isMobile ? (activeFamily === item.id) : (hoveredFamily === item.id);
+                const isHovered = hoveredFamily === item.id;
+                const isExpanded = isMobile ? (activeFamily === item.id) : isHovered;
                 return (
-                  <motion.div
+                  <div
                     key={item.id}
-                    custom={idx}
-                    initial="hidden"
-                    whileInView="visible"
-                    viewport={{ once: true, margin: "-50px" }}
-                    variants={cardVariants}
                     onMouseEnter={() => !isMobile && setHoveredFamily(item.id)}
                     onMouseLeave={() => !isMobile && setHoveredFamily(null)}
                     onClick={() => isMobile && setActiveFamily(activeFamily === item.id ? null : item.id)}
+                    className="flex flex-col py-[25px] border-b border-slate-200/40 last:border-b-0 first:pt-0 cursor-pointer"
                     style={{
-                      background: '#FFFFFF',
-                      borderRadius: 20,
-                      border: `1.5px solid ${isExpanded ? '#6366F1' : 'rgba(99, 102, 241, 0.08)'}`,
-                      boxShadow: isExpanded 
-                        ? '0 12px 24px rgba(99, 102, 241, 0.06)' 
-                        : '0 4px 12px rgba(10, 22, 40, 0.01)',
-                      padding: '20px 24px',
-                      display: 'flex',
-                      flexDirection: 'column',
-                      gap: 8,
-                      textAlign: 'left',
-                      transform: isExpanded ? 'translateY(-4px)' : 'translateY(0)',
-                      transition: 'transform 300ms cubic-bezier(0.16, 1, 0.3, 1), border-color 300ms ease, box-shadow 300ms ease',
-                      cursor: 'pointer'
+                      transform: isExpanded ? 'translateX(6px)' : 'translateX(0)',
+                      transition: 'transform 0.22s cubic-bezier(0.16, 1, 0.3, 1)'
                     }}
                   >
-                    <div style={{ display: 'flex', alignItems: 'center', gap: 16 }}>
-                      <div style={{
-                        width: 40,
-                        height: 40,
-                        borderRadius: 10,
-                        background: isExpanded ? 'rgba(99, 102, 241, 0.08)' : 'rgba(99, 102, 241, 0.04)',
-                        display: 'flex',
-                        alignItems: 'center',
-                        justifyContent: 'center',
-                        color: isExpanded ? '#6366F1' : '#64748B',
-                        flexShrink: 0,
-                        transition: 'all 300ms ease'
-                      }}>
-                        <Icon size={20} strokeWidth={2} />
-                      </div>
-
-                      <h4 style={{
-                        fontFamily: 'var(--font-section)',
-                        fontWeight: 700,
-                        fontSize: 15,
-                        color: '#1E293B',
-                        margin: 0
-                      }}>
-                        {item.title}
-                      </h4>
-                    </div>
-
-                    <AnimatePresence>
-                      {isExpanded && (
-                        <motion.div
-                          initial={{ height: 0, opacity: 0 }}
-                          animate={{ height: 'auto', opacity: 1 }}
-                          exit={{ height: 0, opacity: 0 }}
-                          transition={{ duration: 0.25, ease: 'easeInOut' }}
-                          style={{ overflow: 'hidden' }}
+                    <div className="flex gap-[30px] items-start">
+                      {/* Circle Indicator */}
+                      <div 
+                        className="mt-3 flex-shrink-0"
+                        style={{
+                          width: 10,
+                          height: 10,
+                          borderRadius: '50%',
+                          border: `1.5px solid ${isExpanded ? '#6366F1' : '#64748B'}`,
+                          background: isExpanded ? '#6366F1' : 'transparent',
+                          transition: 'all 0.3s ease'
+                        }}
+                      />
+                      
+                      <div className="flex flex-col gap-2 w-full">
+                        <div className="relative inline-block w-fit">
+                          <h4 
+                            className="font-sora text-xl sm:text-2xl font-extrabold tracking-tight transition-colors duration-300"
+                            style={{ color: isExpanded ? '#6366F1' : '#1E293B' }}
+                          >
+                            {item.title}
+                          </h4>
+                          <div 
+                            style={{
+                              position: 'absolute',
+                              bottom: -2,
+                              left: 0,
+                              height: 1.5,
+                              background: '#6366F1',
+                              width: isExpanded ? '100%' : '0%',
+                              transition: 'width 0.35s cubic-bezier(0.16, 1, 0.3, 1)'
+                            }}
+                          />
+                        </div>
+                        
+                        <div 
+                          className="overflow-hidden transition-all duration-250 ease-in-out"
+                          style={{
+                            opacity: isExpanded ? 1 : 0,
+                            maxHeight: isExpanded ? '80px' : '0px',
+                            marginTop: isExpanded ? '8px' : '0px'
+                          }}
                         >
-                          <p style={{
-                            fontFamily: 'var(--font-body)',
-                            fontSize: 14,
-                            color: '#64748B',
-                            margin: '4px 0 0 56px',
-                            lineHeight: 1.5,
-                            fontStyle: 'italic'
-                          }}>
+                          <p className="text-base text-[#64748B] italic leading-relaxed max-w-md">
                             {item.quote}
                           </p>
-                        </motion.div>
-                      )}
-                    </AnimatePresence>
-                  </motion.div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
                 );
               })}
             </div>
@@ -309,88 +293,72 @@ export default function PainPointsSection() {
               FOR EDUCATORS
             </h3>
 
-            <div style={{ display: 'flex', flexDirection: 'column', gap: 16 }}>
+            <div style={{ display: 'flex', flexDirection: 'column' }}>
               {educatorPoints.map((item, idx) => {
-                const Icon = item.icon;
-                const isExpanded = isMobile ? (activeEducator === item.id) : (hoveredEducator === item.id);
+                const isHovered = hoveredEducator === item.id;
+                const isExpanded = isMobile ? (activeEducator === item.id) : isHovered;
                 return (
-                  <motion.div
+                  <div
                     key={item.id}
-                    custom={idx}
-                    initial="hidden"
-                    whileInView="visible"
-                    viewport={{ once: true, margin: "-50px" }}
-                    variants={cardVariants}
                     onMouseEnter={() => !isMobile && setHoveredEducator(item.id)}
                     onMouseLeave={() => !isMobile && setHoveredEducator(null)}
                     onClick={() => isMobile && setActiveEducator(activeEducator === item.id ? null : item.id)}
+                    className="flex flex-col py-[25px] border-b border-slate-200/40 last:border-b-0 first:pt-0 cursor-pointer"
                     style={{
-                      background: '#FFFFFF',
-                      borderRadius: 20,
-                      border: `1.5px solid ${isExpanded ? '#10B981' : 'rgba(99, 102, 241, 0.08)'}`,
-                      boxShadow: isExpanded 
-                        ? '0 12px 24px rgba(16, 185, 129, 0.04)' 
-                        : '0 4px 12px rgba(10, 22, 40, 0.01)',
-                      padding: '20px 24px',
-                      display: 'flex',
-                      flexDirection: 'column',
-                      gap: 8,
-                      textAlign: 'left',
-                      transform: isExpanded ? 'translateY(-4px)' : 'translateY(0)',
-                      transition: 'transform 300ms cubic-bezier(0.16, 1, 0.3, 1), border-color 300ms ease, box-shadow 300ms ease',
-                      cursor: 'pointer'
+                      transform: isExpanded ? 'translateX(6px)' : 'translateX(0)',
+                      transition: 'transform 0.22s cubic-bezier(0.16, 1, 0.3, 1)'
                     }}
                   >
-                    <div style={{ display: 'flex', alignItems: 'center', gap: 16 }}>
-                      <div style={{
-                        width: 40,
-                        height: 40,
-                        borderRadius: 10,
-                        background: isExpanded ? 'rgba(16, 185, 129, 0.08)' : 'rgba(99, 102, 241, 0.04)',
-                        display: 'flex',
-                        alignItems: 'center',
-                        justifyContent: 'center',
-                        color: isExpanded ? '#10B981' : '#64748B',
-                        flexShrink: 0,
-                        transition: 'all 300ms ease'
-                      }}>
-                        <Icon size={20} strokeWidth={2} />
-                      </div>
-
-                      <h4 style={{
-                        fontFamily: 'var(--font-section)',
-                        fontWeight: 700,
-                        fontSize: 15,
-                        color: '#1E293B',
-                        margin: 0
-                      }}>
-                        {item.title}
-                      </h4>
-                    </div>
-
-                    <AnimatePresence>
-                      {isExpanded && (
-                        <motion.div
-                          initial={{ height: 0, opacity: 0 }}
-                          animate={{ height: 'auto', opacity: 1 }}
-                          exit={{ height: 0, opacity: 0 }}
-                          transition={{ duration: 0.25, ease: 'easeInOut' }}
-                          style={{ overflow: 'hidden' }}
+                    <div className="flex gap-[30px] items-start">
+                      {/* Circle Indicator */}
+                      <div 
+                        className="mt-3 flex-shrink-0"
+                        style={{
+                          width: 10,
+                          height: 10,
+                          borderRadius: '50%',
+                          border: `1.5px solid ${isExpanded ? '#10B981' : '#64748B'}`,
+                          background: isExpanded ? '#10B981' : 'transparent',
+                          transition: 'all 0.3s ease'
+                        }}
+                      />
+                      
+                      <div className="flex flex-col gap-2 w-full">
+                        <div className="relative inline-block w-fit">
+                          <h4 
+                            className="font-sora text-xl sm:text-2xl font-extrabold tracking-tight transition-colors duration-300"
+                            style={{ color: isExpanded ? '#10B981' : '#1E293B' }}
+                          >
+                            {item.title}
+                          </h4>
+                          <div 
+                            style={{
+                              position: 'absolute',
+                              bottom: -2,
+                              left: 0,
+                              height: 1.5,
+                              background: '#10B981',
+                              width: isExpanded ? '100%' : '0%',
+                              transition: 'width 0.35s cubic-bezier(0.16, 1, 0.3, 1)'
+                            }}
+                          />
+                        </div>
+                        
+                        <div 
+                          className="overflow-hidden transition-all duration-250 ease-in-out"
+                          style={{
+                            opacity: isExpanded ? 1 : 0,
+                            maxHeight: isExpanded ? '80px' : '0px',
+                            marginTop: isExpanded ? '8px' : '0px'
+                          }}
                         >
-                          <p style={{
-                            fontFamily: 'var(--font-body)',
-                            fontSize: 14,
-                            color: '#64748B',
-                            margin: '4px 0 0 56px',
-                            lineHeight: 1.5,
-                            fontStyle: 'italic'
-                          }}>
+                          <p className="text-base text-[#64748B] italic leading-relaxed max-w-md">
                             {item.quote}
                           </p>
-                        </motion.div>
-                      )}
-                    </AnimatePresence>
-                  </motion.div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
                 );
               })}
             </div>

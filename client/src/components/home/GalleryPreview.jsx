@@ -83,9 +83,7 @@ const galleryItems = [
 ];
 
 export default function GalleryPreview({ background = 'var(--color-neutral)' }) {
-  const finalBg = background === 'var(--color-neutral)'
-    ? 'radial-gradient(circle at 10% 20%, rgba(116, 105, 248, 0.05) 0%, transparent 60%), radial-gradient(circle at 90% 70%, rgba(79, 124, 255, 0.04) 0%, transparent 60%), #fef9ef'
-    : background;
+  const finalBg = background === 'var(--color-neutral)' ? '#fafafc' : background;
   return (
     <section id="gallery" className="section" style={{ background: finalBg, overflow: 'hidden' }}>
       <div className="container">

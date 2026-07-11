@@ -258,7 +258,12 @@ export default function HeroSection() {
     const currentDate = new Date();
     const diffTime = Math.max(0, currentDate - baseDate);
     const diffDays = Math.floor(diffTime / (1000 * 60 * 60 * 24));
-    return 500 + diffDays * 3;
+    
+    const inc3 = Math.floor(diffDays / 3) * 3;
+    const inc6 = Math.floor(diffDays / 6) * 7;
+    
+    const count = 500 + inc3 + inc6;
+    return Math.min(count, 5000);
   };
 
   const getTeachingHours = () => {
@@ -266,7 +271,7 @@ export default function HeroSection() {
     const currentDate = new Date();
     const diffTime = Math.max(0, currentDate - baseDate);
     const diffDays = Math.floor(diffTime / (1000 * 60 * 60 * 24));
-    return 1200 + diffDays * 3.5;
+    return 500 + diffDays * 21.5;
   };
 
   const journeyModules = [

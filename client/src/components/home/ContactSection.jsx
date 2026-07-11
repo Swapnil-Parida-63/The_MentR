@@ -75,9 +75,7 @@ export default function ContactSection({ background = 'white' }) {
   const [viewMore, setViewMore] = useState(false);
   const [selectedSection, setSelectedSection] = useState('teachers');
   
-  const finalBg = background === 'white'
-    ? 'radial-gradient(circle at 10% 25%, rgba(79, 124, 255, 0.04) 0%, transparent 60%), radial-gradient(circle at 90% 75%, rgba(116, 105, 248, 0.04) 0%, transparent 60%), #fef9ef'
-    : background;
+  const finalBg = background === 'white' ? '#fafafc' : background;
 
   const toggleFaq = (key) => {
     setOpenFaq(openFaq === key ? null : key);

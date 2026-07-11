@@ -1,5 +1,6 @@
 import { useState, useEffect, useRef } from 'react';
 import { FadeUp } from '../../hooks/useScrollReveal';
+import { ChevronUp, ChevronDown } from 'lucide-react';
 
 const testimonials = [
   {
@@ -124,7 +125,7 @@ export default function TestimonialsSection() {
     <section 
       id="testimonials" 
       className="section" 
-      style={{ background: '#fef9ef', overflow: 'hidden', position: 'relative', padding: '120px 0' }}
+      style={{ background: '#fafafc', overflow: 'hidden', position: 'relative', padding: '120px 0' }}
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}
       ref={containerRef}
@@ -169,27 +170,52 @@ export default function TestimonialsSection() {
         <div className="editorial-testimonials-layout" style={{ position: 'relative' }}>
           
           {/* Left Panel: Reviewer list & progress track */}
-          <div className="reviewer-panel-wrapper" style={{ position: 'relative' }}>
+          <div className="reviewer-panel-outer">
             
-            {/* Vertical timeline progress track */}
-            <div className="vertical-progress-track">
-              <div 
-                className="vertical-progress-bar"
-                style={{
-                  top: activeIndex * 88 + 16,
-                  height: 44,
-                  transform: 'translate3d(0, 0, 0)'
-                }}
-              />
-            </div>
-
-            {/* Shiftable reviewer container */}
-            <div 
-              className="reviewer-scroll-container"
+            <button 
+              onClick={() => handleIndexChange(Math.max(0, activeIndex - 1))}
+              disabled={activeIndex === 0}
+              className="testimonial-nav-btn prev-btn"
               style={{
-                transform: `translate3d(0, ${listTranslateY}px, 0)`
+                display: isMobile ? 'none' : 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                width: '100%',
+                height: 24,
+                background: 'transparent',
+                border: 'none',
+                cursor: activeIndex === 0 ? 'not-allowed' : 'pointer',
+                color: activeIndex === 0 ? '#DFE5F2' : '#7469F8',
+                transition: 'all 0.3s ease',
+                marginBottom: 12,
+                position: 'relative',
+                zIndex: 10
               }}
             >
+              <ChevronUp size={24} strokeWidth={2.5} />
+            </button>
+
+            <div className="reviewer-panel-wrapper">
+              {/* Shiftable reviewer container */}
+              <div 
+                className="reviewer-scroll-container"
+                style={{
+                  position: 'relative',
+                  transform: `translate3d(0, ${listTranslateY}px, 0)`
+                }}
+              >
+                {/* Vertical timeline progress track */}
+                <div className="vertical-progress-track">
+                  <div 
+                    className="vertical-progress-bar"
+                    style={{
+                      top: activeIndex * 88 + 16,
+                      height: 44,
+                      transform: 'translate3d(0, 0, 0)'
+                    }}
+                  />
+                </div>
+
               {testimonials.map((t, idx) => {
                 const isActive = idx === activeIndex;
                 return (
@@ -278,6 +304,30 @@ export default function TestimonialsSection() {
               })}
             </div>
           </div>
+
+          <button 
+            onClick={() => handleIndexChange(Math.min(testimonials.length - 1, activeIndex + 1))}
+            disabled={activeIndex === testimonials.length - 1}
+            className="testimonial-nav-btn next-btn"
+            style={{
+              display: isMobile ? 'none' : 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              width: '100%',
+              height: 24,
+              background: 'transparent',
+              border: 'none',
+              cursor: activeIndex === testimonials.length - 1 ? 'not-allowed' : 'pointer',
+              color: activeIndex === testimonials.length - 1 ? '#DFE5F2' : '#7469F8',
+              transition: 'all 0.3s ease',
+              marginTop: 12,
+              position: 'relative',
+              zIndex: 10
+            }}
+          >
+            <ChevronDown size={24} strokeWidth={2.5} />
+          </button>
+        </div>
 
           {/* Morphing SVG relationship line (desktop only) */}
           <div className="svg-connector-wrapper">
@@ -458,9 +508,36 @@ export default function TestimonialsSection() {
           align-items: center;
           min-height: 420px;
         }
-        .reviewer-panel-wrapper {
+        .reviewer-panel-outer {
           padding-left: 20px;
           border-left: 1px solid rgba(79, 124, 255, 0.06);
+          position: relative;
+          display: flex;
+          flex-direction: column;
+          align-items: center;
+          width: 100%;
+        }
+        .reviewer-panel-wrapper {
+          position: relative;
+          width: 100%;
+          height: 352px;
+          overflow: hidden;
+          mask-image: linear-gradient(to bottom, transparent 0%, black 5%, black 95%, transparent 100%);
+          -webkit-mask-image: linear-gradient(to bottom, transparent 0%, black 5%, black 95%, transparent 100%);
+        }
+        .testimonial-nav-btn {
+          cursor: pointer;
+          transition: all 0.3s ease;
+        }
+        .testimonial-nav-btn:hover:not(:disabled) {
+          color: #4F7CFF !important;
+          transform: translateY(-2px) scale(1.15);
+        }
+        .testimonial-nav-btn.next-btn:hover:not(:disabled) {
+          transform: translateY(2px) scale(1.15);
+        }
+        .reviewer-panel-wrapper::-webkit-scrollbar {
+          display: none;
         }
         .vertical-progress-track {
           position: absolute;
@@ -523,11 +600,14 @@ export default function TestimonialsSection() {
             grid-template-columns: 1fr;
             min-height: auto;
           }
-          .reviewer-panel-wrapper {
+          .reviewer-panel-outer {
             padding-left: 0;
             border-left: none;
-            overflow: hidden;
             margin-bottom: 16px;
+          }
+          .reviewer-panel-wrapper {
+            overflow: hidden;
+            width: 100%;
           }
           .vertical-progress-track, .svg-connector-wrapper {
             display: none;
