@@ -336,6 +336,8 @@ function UnderlineMultiSelect({ label, options, selectedValues, onChange }) {
 
 export default function FormsSection() {
   const [activeTab, setActiveTab] = useState('assessment'); // 'assessment', 'parent_registration', 'teacher'
+  const [highlightForm, setHighlightForm] = useState(false);
+  const [submitting, setSubmitting] = useState(false);
   const [isMobile, setIsMobile] = useState(window.innerWidth < 1024);
   const [toast, setToast] = useState(null);
 
@@ -393,11 +395,35 @@ export default function FormsSection() {
   useEffect(() => {
     const handleResize = () => setIsMobile(window.innerWidth < 1024);
     window.addEventListener('resize', handleResize);
+
+    const storedTab = localStorage.getItem('activeFormTab');
+    const shouldHighlight = localStorage.getItem('highlightForm');
+
+    if (storedTab) {
+      setActiveTab(storedTab);
+      localStorage.removeItem('activeFormTab');
+    }
+    if (shouldHighlight === 'true') {
+      setHighlightForm(true);
+      localStorage.removeItem('highlightForm');
+      const timer = setTimeout(() => {
+        setHighlightForm(false);
+      }, 3500);
+      return () => {
+        window.removeEventListener('resize', handleResize);
+        clearTimeout(timer);
+      };
+    }
+
     return () => window.removeEventListener('resize', handleResize);
   }, []);
 
   const handleParentSubmit = async (e) => {
     e.preventDefault();
+    if (submitting) return;
+    setSubmitting(true);
+    showToast("⏳ Sending request... Please wait.");
+    
     try {
       await parentAPI.submit({
         parentName,
@@ -420,11 +446,17 @@ export default function FormsSection() {
     } catch (err) {
       console.error(err);
       showToast("❌ Connection error. Please check if backend is running.");
+    } finally {
+      setTimeout(() => setSubmitting(false), 2000);
     }
   };
 
   const handleRegistrationSubmit = async (e) => {
     e.preventDefault();
+    if (submitting) return;
+    setSubmitting(true);
+    showToast("⏳ Sending request... Please wait.");
+    
     try {
       await parentAPI.register({
         parentName: regParentName,
@@ -447,15 +479,21 @@ export default function FormsSection() {
     } catch (err) {
       console.error(err);
       showToast("❌ Connection error. Please check if backend is running.");
+    } finally {
+      setTimeout(() => setSubmitting(false), 2000);
     }
   };
 
   const handleTeacherSubmit = async (e) => {
     e.preventDefault();
+    if (submitting) return;
     if (boardsToTeach.length === 0 || classesToTeach.length === 0 || subjectsToTeach.length === 0 || preferredLocations.length === 0) {
       showToast("⚠️ Please fill in all teaching and location preferences.");
       return;
     }
+
+    setSubmitting(true);
+    showToast("⏳ Sending application... Please wait.");
 
     try {
       await teachersAPI.apply({
@@ -501,6 +539,8 @@ export default function FormsSection() {
     } catch (err) {
       console.error(err);
       showToast("❌ Connection error. Please check if backend is running.");
+    } finally {
+      setTimeout(() => setSubmitting(false), 2000);
     }
   };
 
@@ -520,8 +560,17 @@ export default function FormsSection() {
         </FadeUp>
 
         <FadeUp delay={0.3} y={16}>
-          <BorderGlow borderRadius={28} backgroundColor="#FFFFFF">
-            <div className="editorial-form-grid">
+          <div 
+            className={highlightForm ? 'form-pulse-highlight' : ''} 
+            style={{ 
+              borderRadius: 28, 
+              transition: 'all 0.3s ease',
+              padding: highlightForm ? '2px' : '0px',
+              background: highlightForm ? '#4F7CFF' : 'transparent' 
+            }}
+          >
+            <BorderGlow borderRadius={28} backgroundColor="#FFFFFF">
+              <div className="editorial-form-grid">
               
               {/* Left Column: Form surface (70%) */}
               <div className="editorial-form-left">
@@ -634,7 +683,7 @@ export default function FormsSection() {
 
                         <div style={{ display: 'flex', gap: 16, marginTop: 24 }}>
                           <button type="button" onClick={() => setParentStep(2)} className="btn-editorial-secondary-pill">Back</button>
-                          <button type="submit" className="btn-editorial-pill">Book Assessment Visit →</button>
+                          <button type="submit" className="btn-editorial-pill" disabled={submitting}>{submitting ? "Sending..." : "Book Assessment Visit →"}</button>
                         </div>
                       </div>
                     )}
@@ -707,7 +756,7 @@ export default function FormsSection() {
 
                         <div style={{ display: 'flex', gap: 16, marginTop: 24 }}>
                           <button type="button" onClick={() => setRegStep(2)} className="btn-editorial-secondary-pill">Back</button>
-                          <button type="submit" className="btn-editorial-pill">Submit Registration →</button>
+                          <button type="submit" className="btn-editorial-pill" disabled={submitting}>{submitting ? "Sending..." : "Submit Registration →"}</button>
                         </div>
                       </div>
                     )}
@@ -829,7 +878,7 @@ export default function FormsSection() {
 
                         <div style={{ display: 'flex', gap: 16, marginTop: 24 }}>
                           <button type="button" onClick={() => setTeacherStep(3)} className="btn-editorial-secondary-pill">Back</button>
-                          <button type="submit" className="btn-editorial-pill">Apply to Join TheMentR →</button>
+                          <button type="submit" className="btn-editorial-pill" disabled={submitting}>{submitting ? "Sending..." : "Apply to Join TheMentR →"}</button>
                         </div>
                       </div>
                     )}
@@ -1005,6 +1054,7 @@ export default function FormsSection() {
             </div>
           </div>
         </BorderGlow>
+        </div>
         </FadeUp>
       </div>
 
@@ -1070,6 +1120,26 @@ export default function FormsSection() {
         .btn-editorial-secondary-pill:hover {
           background: #F6F8FD !important;
           transform: translateY(-2px) !important;
+        }
+        @keyframes formPulse {
+          0% {
+            box-shadow: 0 0 0 0px rgba(79, 124, 255, 0.5);
+            border-color: rgba(79, 124, 255, 0.6);
+          }
+          50% {
+            box-shadow: 0 0 0 12px rgba(79, 124, 255, 0.15);
+            border-color: rgba(79, 124, 255, 0.8);
+          }
+          100% {
+            box-shadow: 0 0 0 0px rgba(79, 124, 255, 0);
+            border-color: rgba(79, 124, 255, 0.08);
+          }
+        }
+        .form-pulse-highlight {
+          animation: formPulse 1.8s infinite ease-in-out;
+          border: 2px solid #4F7CFF !important;
+          border-radius: 28px;
+          transition: border-color 0.3s ease;
         }
         @keyframes fadeFormStep {
           from { opacity: 0; transform: translateY(8px); }

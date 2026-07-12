@@ -325,12 +325,30 @@ export default function Navbar() {
 
                     {/* Right Column: Platform Services */}
                     <div style={{ display: 'flex', flexDirection: 'column', gap: 14 }}>
-                      <span style={{ fontSize: 10, fontWeight: 700, textTransform: 'uppercase', color: '#4F7CFF', letterSpacing: '0.08em', display: 'block', marginBottom: 2 }}>Platform & Sourcing</span>
+                      <button
+                        onClick={() => { setServicesHovered(false); navigateAndScroll('/', 'showcase'); }}
+                        style={{
+                          background: 'none',
+                          border: 'none',
+                          padding: 0,
+                          textAlign: 'left',
+                          fontSize: 10,
+                          fontWeight: 700,
+                          textTransform: 'uppercase',
+                          color: '#4F7CFF',
+                          letterSpacing: '0.08em',
+                          display: 'block',
+                          marginBottom: 2,
+                          cursor: 'pointer'
+                        }}
+                      >
+                        Platform & Sourcing
+                      </button>
                       {[
-                        { title: 'The MentR Teacher', desc: 'Verified educators with contractual agreements and social benefits.', id: 'why' },
-                        { title: 'The MentR Parent', desc: 'Personalized KG to PG tuitions starting at ₹1,499/mo.', id: 'contact-forms' },
-                        { title: 'The MentR Online', desc: 'Interactive live one-to-one virtual classrooms.', id: 'services' },
-                        { title: 'The MentR Olympiad', desc: 'Expert competitive exam prep for IMO, NSO, SOF.', id: 'services' }
+                        { title: 'The MentR Teacher', desc: 'Verified educators with contractual agreements and social benefits.', id: 'showcase' },
+                        { title: 'The MentR Parent', desc: 'Personalized KG to PG tuitions starting at ₹1,499/mo.', id: 'showcase' },
+                        { title: 'The MentR Online', desc: 'Interactive live one-to-one virtual classrooms.', id: 'showcase' },
+                        { title: 'The MentR Olympiad', desc: 'Expert competitive exam prep for IMO, NSO, SOF.', id: 'showcase' }
                       ].map(srv => (
                         <div 
                           key={srv.title} 
