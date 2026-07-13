@@ -369,13 +369,13 @@ export default function ShowcaseSection() {
               </div>
 
               <div className="download-ctas">
-                <a href="#playstore" className="download-btn btn-playstore">
+                <a href="https://play.google.com/store/apps/details?id=com.mentr.parent" target="_blank" rel="noopener noreferrer" className="download-btn btn-playstore">
                   <svg className="cta-icon" viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
                     <path d="M5 3.01 C5 3.003 5.003 3 5.01 3 C5.344 3 5.767 3.197 6.223 3.567 L17.587 12.822 L6.223 22.078 C5.767 22.448 5.344 22.645 5.01 22.645 C5.003 22.645 5 22.642 5 22.635 V3.01 Z M18.423 13.504 L7.464 22.434 C7.128 22.708 6.782 22.845 6.442 22.845 C6.084 22.845 5.727 22.697 5.385 22.418 L16.906 13.032 C17.387 12.64 17.925 12.164 18.423 13.504 Z M19.467 11.082 L7.464 1.211 C7.128 0.937 6.782 0.8 6.442 0.8 C6.084 0.8 5.727 0.948 5.385 1.227 L16.906 10.613 C17.387 11.005 17.925 11.481 19.467 11.082 Z" />
                   </svg>
                   <span>Google Play</span>
                 </a>
-                <a href="#appstore" className="download-btn btn-appstore">
+                <a href="https://apps.apple.com/in/app/the-mentr/id6758754135" target="_blank" rel="noopener noreferrer" className="download-btn btn-appstore">
                   <svg className="cta-icon" viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
                     <path d="M18.71,19.5 C17.88,20.74 17,21.95 15.66,21.97 C14.32,22 13.89,21.18 12.37,21.18 C10.84,21.18 10.37,21.95 9.1,22 C7.79,22.05 6.8,20.68 5.96,19.47 C4.25,17 2.94,12.45 4.7,9.39 C5.57,7.87 7.13,6.91 8.82,6.88 C10.1,6.86 11.32,7.75 12.11,7.75 C12.89,7.75 14.37,6.68 15.92,6.84 C16.57,6.87 18.39,7.1 19.56,8.82 C19.47,8.88 17.39,10.1 17.41,12.63 C17.44,15.65 20.06,16.66 20.1,16.67 C20.08,16.74 19.67,18.11 18.71,19.5 M15.97,4.17 C16.63,3.37 17.07,2.28 16.95,1 C16,1.04 14.9,1.6 14.24,2.38 C13.68,3.04 13.19,4.14 13.34,5.39 C14.39,5.47 15.4,4.88 15.97,4.17 Z" />
                   </svg>
@@ -425,13 +425,13 @@ export default function ShowcaseSection() {
               </div>
 
               <div className="download-ctas">
-                <a href="#playstore" className="download-btn btn-playstore">
+                <a href="https://play.google.com/store/apps/details?id=com.mentr.teacher" target="_blank" rel="noopener noreferrer" className="download-btn btn-playstore">
                   <svg className="cta-icon" viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
                     <path d="M5 3.01 C5 3.003 5.003 3 5.01 3 C5.344 3 5.767 3.197 6.223 3.567 L17.587 12.822 L6.223 22.078 C5.767 22.448 5.344 22.645 5.01 22.645 C5.003 22.645 5 22.642 5 22.635 V3.01 Z M18.423 13.504 L7.464 22.434 C7.128 22.708 6.782 22.845 6.442 22.845 C6.084 22.845 5.727 22.697 5.385 22.418 L16.906 13.032 C17.387 12.64 17.925 12.164 18.423 13.504 Z M19.467 11.082 L7.464 1.211 C7.128 0.937 6.782 0.8 6.442 0.8 C6.084 0.8 5.727 0.948 5.385 1.227 L16.906 10.613 C17.387 11.005 17.925 11.481 19.467 11.082 Z" />
                   </svg>
                   <span>Google Play</span>
                 </a>
-                <a href="#appstore" className="download-btn btn-appstore">
+                <a href="https://apps.apple.com/in/app/mentr-teacher/id6755221229" target="_blank" rel="noopener noreferrer" className="download-btn btn-appstore">
                   <svg className="cta-icon" viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
                     <path d="M18.71,19.5 C17.88,20.74 17,21.95 15.66,21.97 C14.32,22 13.89,21.18 12.37,21.18 C10.84,21.18 10.37,21.95 9.1,22 C7.79,22.05 6.8,20.68 5.96,19.47 C4.25,17 2.94,12.45 4.7,9.39 C5.57,7.87 7.13,6.91 8.82,6.88 C10.1,6.86 11.32,7.75 12.11,7.75 C12.89,7.75 14.37,6.68 15.92,6.84 C16.57,6.87 18.39,7.1 19.56,8.82 C19.47,8.88 17.39,10.1 17.41,12.63 C17.44,15.65 20.06,16.66 20.1,16.67 C20.08,16.74 19.67,18.11 18.71,19.5 M15.97,4.17 C16.63,3.37 17.07,2.28 16.95,1 C16,1.04 14.9,1.6 14.24,2.38 C13.68,3.04 13.19,4.14 13.34,5.39 C14.39,5.47 15.4,4.88 15.97,4.17 Z" />
                   </svg>

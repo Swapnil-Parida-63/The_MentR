@@ -97,7 +97,7 @@ export default function AvsarSection({ teacherCount = 500 }) {
                     className="text-4xl sm:text-5xl font-sora font-extrabold tracking-tight leading-[1.12] mb-0 max-w-[480px] cursor-pointer transition-colors duration-300"
                     style={{ color: isHeaderHovered ? '#6366F1' : '#1E293B' }}
                   >
-                    Data-driven educational intelligence.
+                    We perform, you evaluate.
                   </h2>
                   <div 
                     style={{
@@ -129,7 +129,7 @@ export default function AvsarSection({ teacherCount = 500 }) {
 
             {/* Teacher Selection Rate Grid directly below texts */}
             <FadeUp delay={0.3}>
-              <div ref={chartRef} className="w-full max-w-[480px] border-t border-slate-200 pt-12 mt-16">
+              <div ref={chartRef} className="w-full max-w-[480px] border-t border-slate-200" style={{ marginTop: '90px', paddingTop: '50px' }}>
                 <h4 className="font-sora font-extrabold text-2xl sm:text-3xl text-[#1E293B] tracking-tight mb-6">
                   Teacher Selection Rate by Board
                 </h4>

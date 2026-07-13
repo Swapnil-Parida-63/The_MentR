@@ -1,9 +1,16 @@
-import GalleryPreview from '../components/home/GalleryPreview';
+import { useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 
 export default function GalleryPage() {
-  return (
-    <div className="subpage-wrapper" style={{ background: 'var(--color-white)', minHeight: '100vh' }}>
-      <GalleryPreview background="var(--color-white)" />
-    </div>
-  );
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    navigate('/', { replace: true });
+    setTimeout(() => {
+      const el = document.getElementById('gallery');
+      if (el) el.scrollIntoView({ behavior: 'smooth' });
+    }, 150);
+  }, [navigate]);
+
+  return null;
 }
