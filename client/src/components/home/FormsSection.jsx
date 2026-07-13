@@ -555,7 +555,7 @@ export default function FormsSection() {
         </FadeUp>
         <FadeUp delay={0.2} duration={0.7} y={12}>
           <p style={{ color: 'var(--color-text-secondary)', maxWidth: 500, marginBottom: 60, fontSize: 16, lineHeight: 1.8 }}>
-            Whether you are a parent looking for structured matching, or an educator ready to join — start here.
+            Whether you are a parent looking for structured matching, or an educator ready to join, start here.
           </p>
         </FadeUp>
 

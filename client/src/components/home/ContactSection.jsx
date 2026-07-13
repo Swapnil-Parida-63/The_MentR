@@ -89,7 +89,7 @@ export default function ContactSection({ background = 'white' }) {
             <div>
               <div className="eyebrow">Contact</div>
               <h2 style={{ fontSize: 36, marginBottom: 16 }}>We're here to help.</h2>
-              <p style={{ fontSize: 16, color: 'var(--color-text-secondary)', lineHeight: 1.8, marginBottom: 40 }}>Whether you have a question about our services — our team responds within one business day.</p>
+              <p style={{ fontSize: 16, color: 'var(--color-text-secondary)', lineHeight: 1.8, marginBottom: 40 }}>Whether you have a question about our services, our team responds within one business day.</p>
               <div style={{ display: 'flex', flexDirection: 'column', gap: 20 }}>
                 {[
                   { icon: '📧', label: 'Email', value: 'contact@thementr.com' },
@@ -115,12 +115,17 @@ export default function ContactSection({ background = 'white' }) {
               <BorderGlow
                 borderRadius={20}
                 backgroundColor="#FFFFFF"
-                style={{ marginTop: 32 }}
+                style={{ marginTop: 32, overflow: 'hidden' }}
               >
-                <div style={{ height: 200, display: 'flex', alignItems: 'center', justifyContent: 'center', flexDirection: 'column', gap: 8, cursor: 'default' }}>
-                  <span style={{ fontSize: 32 }}>🗺️</span>
-                  <span style={{ fontSize: 14, color: 'var(--color-text-muted)' }}>Interactive map — coming soon</span>
-                </div>
+                <iframe 
+                  src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d5292.447848159905!2d85.86468450667138!3d20.306181982195294!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3a190b5211172741%3A0xd48005ed35a54455!2sTheMentR!5e0!3m2!1sen!2sin!4v1783924246452!5m2!1sen!2sin" 
+                  width="100%" 
+                  height="250" 
+                  style={{ border: 0, display: 'block' }} 
+                  allowFullScreen="" 
+                  loading="lazy" 
+                  referrerPolicy="strict-origin-when-cross-origin"
+                />
               </BorderGlow>
             </div>
           </FadeUp>
