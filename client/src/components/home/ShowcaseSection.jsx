@@ -938,11 +938,26 @@ export default function ShowcaseSection() {
         }
         
         @media (max-width: 768px) {
+          #showcase {
+            padding: 70px 0 !important;
+          }
+          .showcase-eyebrow {
+            font-size: 11px;
+            margin-bottom: 8px;
+          }
+          .showcase-title {
+            font-size: 28px !important;
+            line-height: 1.2 !important;
+          }
+          .showcase-subtitle {
+            font-size: 13.5px !important;
+            margin-bottom: 24px !important;
+          }
           .showcase-tabs {
             flex-wrap: nowrap;
             overflow-x: auto;
             padding: 4px;
-            margin-bottom: 32px;
+            margin-bottom: 24px;
             width: 100%;
             max-width: 100%;
             scrollbar-width: none;
@@ -952,29 +967,81 @@ export default function ShowcaseSection() {
           }
           .showcase-tab {
             flex-shrink: 0;
-            padding: 8px 16px;
-            font-size: 13px;
+            padding: 6px 12px;
+            font-size: 12px;
           }
           
           .showcase-content-grid {
             grid-template-columns: 1fr !important;
-            gap: 40px;
+            gap: 28px;
             text-align: center;
           }
           .showcase-details-col {
             text-align: center;
             align-items: center;
           }
+          .details-title {
+            font-size: 20px !important;
+            margin-bottom: 12px !important;
+          }
+          .details-desc {
+            font-size: 13.5px !important;
+            margin-bottom: 16px !important;
+          }
           .chips-container {
             justify-content: center;
+            gap: 6px !important;
+            margin-bottom: 20px !important;
+          }
+          .feature-chip {
+            font-size: 10px !important;
+            padding: 3px 8px !important;
           }
           .download-ctas {
             justify-content: center;
+            gap: 12px !important;
+          }
+          .download-btn {
+            padding: 8px 16px !important;
+            font-size: 12px !important;
           }
           
+          /* Scaled down mockups for mobile screen conservation */
+          .phone-mockup-frame {
+            width: 190px !important;
+            height: 380px !important;
+            border-radius: 28px !important;
+            border: 6px solid #1E293B !important;
+          }
+          .phone-notch {
+            width: 80px !important;
+            height: 12px !important;
+            border-bottom-left-radius: 8px !important;
+            border-bottom-right-radius: 8px !important;
+          }
+          .phone-screen {
+            padding-top: 16px !important;
+          }
+          .laptop-mockup-frame {
+            max-width: 280px !important;
+            margin: 0 auto;
+          }
+          .laptop-screen-bezel {
+            border: 6px solid #1E293B !important;
+            border-radius: 8px 8px 0 0 !important;
+          }
+          
+          .ecosystem-connector-wrapper {
+            margin-top: 60px !important;
+            padding-top: 50px !important;
+          }
+          .connector-title {
+            font-size: 18px !important;
+            margin-bottom: 24px !important;
+          }
           .connector-flow-responsive {
             flex-direction: column;
-            gap: 20px;
+            gap: 16px;
           }
           .connector-node-wrapper {
             flex-direction: column;
@@ -983,12 +1050,19 @@ export default function ShowcaseSection() {
           }
           .connector-arrow-line {
             transform: rotate(90deg);
-            margin: 8px 0;
+            margin: 4px 0;
           }
           .connector-node {
             width: 100%;
-            max-width: 280px;
+            max-width: 250px;
+            padding: 12px 18px !important;
             text-align: center;
+          }
+          .node-title {
+            font-size: 13px !important;
+          }
+          .node-desc {
+            font-size: 10.5px !important;
           }
         }
       `}</style>

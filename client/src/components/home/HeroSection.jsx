@@ -556,54 +556,68 @@ export default function HeroSection() {
             </span>
 
             {/* Main Title Heading */}
-            <motion.div
-              initial="hidden"
-              animate="visible"
-              variants={{
-                hidden: {},
-                visible: { transition: { staggerChildren: 0.1, delayChildren: 0.1 } }
-              }}
-              style={{
+            {isMobile ? (
+              <h1 style={{
                 fontFamily: 'var(--font-hero)',
                 fontWeight: 800,
-                fontSize: isMobile ? 'clamp(38px, 8.5vw, 48px)' : 'clamp(54px, 4.5vw, 76px)',
-                lineHeight: 1.1,
-                letterSpacing: '-0.04em',
+                fontSize: 32,
+                lineHeight: 1.2,
+                letterSpacing: '-0.03em',
                 color: '#1E293B',
-                margin: '0 0 24px'
-              }}
-            >
-              <div style={{ overflow: 'hidden' }}>
-                <motion.div 
-                  variants={{
-                    hidden: { opacity: 0, y: 44 },
-                    visible: { opacity: 1, y: 0, transition: { duration: 0.7, ease: [0.16, 1, 0.3, 1] } }
-                  }}
-                >
-                  Every child
-                </motion.div>
-              </div>
-              <div style={{ overflow: 'hidden' }}>
-                <motion.div 
-                  variants={{
-                    hidden: { opacity: 0, y: 44 },
-                    visible: { opacity: 1, y: 0, transition: { duration: 0.7, ease: [0.16, 1, 0.3, 1] } }
-                  }}
-                >
-                  deserves the
-                </motion.div>
-              </div>
-              <div style={{ overflow: 'hidden' }}>
-                <motion.div 
-                  variants={{
-                    hidden: { opacity: 0, y: 44 },
-                    visible: { opacity: 1, y: 0, transition: { duration: 0.7, ease: [0.16, 1, 0.3, 1] } }
-                  }}
-                >
-                  right mentor.
-                </motion.div>
-              </div>
-            </motion.div>
+                margin: '0 0 16px'
+              }}>
+                Every child deserves the right mentor.
+              </h1>
+            ) : (
+              <motion.div
+                initial="hidden"
+                animate="visible"
+                variants={{
+                  hidden: {},
+                  visible: { transition: { staggerChildren: 0.1, delayChildren: 0.1 } }
+                }}
+                style={{
+                  fontFamily: 'var(--font-hero)',
+                  fontWeight: 800,
+                  fontSize: 'clamp(54px, 4.5vw, 76px)',
+                  lineHeight: 1.1,
+                  letterSpacing: '-0.04em',
+                  color: '#1E293B',
+                  margin: '0 0 24px'
+                }}
+              >
+                <div style={{ overflow: 'hidden' }}>
+                  <motion.div 
+                    variants={{
+                      hidden: { opacity: 0, y: 44 },
+                      visible: { opacity: 1, y: 0, transition: { duration: 0.7, ease: [0.16, 1, 0.3, 1] } }
+                    }}
+                  >
+                    Every child
+                  </motion.div>
+                </div>
+                <div style={{ overflow: 'hidden' }}>
+                  <motion.div 
+                    variants={{
+                      hidden: { opacity: 0, y: 44 },
+                      visible: { opacity: 1, y: 0, transition: { duration: 0.7, ease: [0.16, 1, 0.3, 1] } }
+                    }}
+                  >
+                    deserves the
+                  </motion.div>
+                </div>
+                <div style={{ overflow: 'hidden' }}>
+                  <motion.div 
+                    variants={{
+                      hidden: { opacity: 0, y: 44 },
+                      visible: { opacity: 1, y: 0, transition: { duration: 0.7, ease: [0.16, 1, 0.3, 1] } }
+                    }}
+                  >
+                    right mentor.
+                  </motion.div>
+                </div>
+              </motion.div>
+            )}
 
             {/* Supporting Copy */}
             <motion.p
@@ -613,16 +627,22 @@ export default function HeroSection() {
               style={{
                 fontFamily: 'var(--font-body)',
                 fontWeight: 450,
-                fontSize: 16,
+                fontSize: isMobile ? 14 : 16,
                 color: '#64748B',
                 lineHeight: 1.6,
                 maxWidth: '520px',
-                margin: '0 0 36px'
+                margin: isMobile ? '0 0 24px' : '0 0 36px'
               }}
             >
-              Finding the right teacher shouldn't be guesswork.<br />
-              Assessment-first learning. Verified educators.<br />
-              Personalized guidance. Measurable outcomes.
+              {isMobile ? (
+                "Assessment-first learning. Verified educators. Personalized guidance. Measurable outcomes."
+              ) : (
+                <>
+                  Finding the right teacher shouldn't be guesswork.<br />
+                  Assessment-first learning. Verified educators.<br />
+                  Personalized guidance. Measurable outcomes.
+                </>
+              )}
             </motion.p>
 
             {/* CTA Buttons */}
@@ -680,8 +700,35 @@ export default function HeroSection() {
               </button>
             </motion.div>
 
-            {/* Desktop-only Trust Metrics */}
-            {!isMobile && (
+            {/* Trust Metrics & Mobile Stepper */}
+            {isMobile ? (
+              <>
+                <div style={{ marginTop: 28, width: '100%' }}>
+                  <TrustMetrics 
+                    isMobile={isMobile} 
+                    teacherCount={getTeacherCount()} 
+                    teachingHours={getTeachingHours()} 
+                  />
+                </div>
+                <div style={{
+                  marginTop: 20,
+                  display: 'flex',
+                  justifyContent: 'space-between',
+                  width: '100%',
+                  background: '#FFFFFF',
+                  border: '1px solid rgba(99, 102, 241, 0.06)',
+                  borderRadius: 14,
+                  padding: '10px 12px',
+                  boxShadow: '0 2px 8px rgba(10, 22, 40, 0.01)'
+                }}>
+                  {['Understand', 'Match', 'Learn', 'Measure', 'Achieve'].map((step, idx) => (
+                    <span key={step} style={{ fontSize: 9, fontWeight: 750, color: '#64748B', fontFamily: 'var(--font-sans)' }}>
+                      {idx + 1}. {step}
+                    </span>
+                  ))}
+                </div>
+              </>
+            ) : (
               <TrustMetrics 
                 isMobile={isMobile} 
                 teacherCount={getTeacherCount()} 
@@ -691,172 +738,139 @@ export default function HeroSection() {
 
           </div>
 
-          {/* ============================================================== */}
-          {/* RIGHT COLUMN (55%): signature learning journey timeline */}
-          {/* ============================================================== */}
-          <div style={{ 
-            position: 'relative', 
-            width: '100%', 
-            minHeight: isMobile ? 'auto' : '580px',
-            display: 'flex',
-            flexDirection: 'column',
-            gap: isMobile ? 12 : 20,
-            justifyContent: 'center',
-            alignItems: 'center'
-          }}>
-            
-            {/* Connection Line behind cards */}
-            <div style={{
-              position: 'absolute',
-              top: 40,
-              bottom: 40,
-              left: '50%',
-              width: 1.5,
-              background: 'linear-gradient(to bottom, #6366F1 0%, #8B5CF6 50%, #A78BFA 100%)',
-              zIndex: 1,
-              opacity: 0.15
-            }} />
+          {!isMobile && (
+            <div style={{ 
+              position: 'relative', 
+              width: '100%', 
+              minHeight: '580px',
+              display: 'flex',
+              flexDirection: 'column',
+              gap: 20,
+              justifyContent: 'center',
+              alignItems: 'center'
+            }}>
+              <div style={{
+                position: 'absolute',
+                top: 40,
+                bottom: 40,
+                left: '50%',
+                width: 1.5,
+                background: 'linear-gradient(to bottom, #6366F1 0%, #8B5CF6 50%, #A78BFA 100%)',
+                zIndex: 1,
+                opacity: 0.15
+              }} />
 
-            {/* Journey Modules */}
-            {journeyModules.map((module, index) => {
-              const IconComp = module.icon;
-              const isHovered = hoveredModule === module.id;
-              const isMobileExpanded = activeModule === module.id;
-              
-              const isExpanded = isMobile ? isMobileExpanded : isHovered;
+              {/* Journey Modules */}
+              {journeyModules.map((module, index) => {
+                const IconComp = module.icon;
+                const isHovered = hoveredModule === module.id;
 
-              return (
-                <motion.div
-                  key={module.id}
-                  initial={{ 
-                    opacity: 0, 
-                    y: 24, 
-                    borderColor: 'rgba(99, 102, 241, 0.08)',
-                    boxShadow: '0px 4px 12px rgba(10, 22, 40, 0.01)'
-                  }}
-                  animate={{ 
-                    opacity: 1, 
-                    y: isExpanded ? -4 : 0,
-                    borderColor: isExpanded ? '#6366F1' : 'rgba(99, 102, 241, 0.08)',
-                    boxShadow: isExpanded 
-                      ? '0px 12px 24px rgba(99, 102, 241, 0.06)' 
-                      : '0px 4px 12px rgba(10, 22, 40, 0.01)'
-                  }}
-                  transition={{ 
-                    opacity: { duration: 0.6, delay: 0.35 + index * 0.12 },
-                    y: { type: 'spring', stiffness: 300, damping: 22 },
-                    borderColor: { duration: 0.2, ease: 'easeOut' },
-                    boxShadow: { duration: 0.2, ease: 'easeOut' }
-                  }}
-                  onMouseEnter={() => !isMobile && setHoveredModule(module.id)}
-                  onMouseLeave={() => !isMobile && setHoveredModule(null)}
-                  onClick={() => isMobile && setActiveModule(activeModule === module.id ? null : module.id)}
-                  style={{
-                    width: isMobile ? '100%' : '360px',
-                    background: '#FFFFFF',
-                    borderRadius: 20,
-                    border: '1.5px solid',
-                    padding: '16px 20px',
-                    zIndex: 2,
-                    cursor: 'pointer',
-                    marginLeft: isMobile ? '0px' : `${module.offsetX * 2.5}px`,
-                    display: 'flex',
-                    flexDirection: 'column',
-                    gap: 8,
-                    textAlign: 'left'
-                  }}
-                >
-                  {/* Top Row: Icon + Title & Short text */}
-                  <div style={{ display: 'flex', alignItems: 'center', gap: 14 }}>
-                    <div style={{
-                      width: 36,
-                      height: 36,
-                      borderRadius: 10,
-                      background: isExpanded ? 'rgba(99, 102, 241, 0.08)' : 'rgba(99, 102, 241, 0.04)',
-                      display: 'flex',
-                      alignItems: 'center',
-                      justifyContent: 'center',
-                      color: isExpanded ? '#6366F1' : '#64748B',
-                      flexShrink: 0,
-                      transition: 'all 300ms ease'
-                    }}>
-                      <IconComp size={18} strokeWidth={2} />
-                    </div>
-                    <div style={{ flex: 1 }}>
-                      <h4 style={{
-                        fontFamily: 'var(--font-section)',
-                        fontWeight: 700,
-                        fontSize: 15,
-                        color: '#1E293B',
-                        margin: 0
+                return (
+                  <motion.div
+                    key={module.id}
+                    initial={{ 
+                      opacity: 0, 
+                      y: 24, 
+                      borderColor: 'rgba(99, 102, 241, 0.08)',
+                      boxShadow: '0px 4px 12px rgba(10, 22, 40, 0.01)'
+                    }}
+                    animate={{ 
+                      opacity: 1, 
+                      y: isHovered ? -4 : 0,
+                      borderColor: isHovered ? '#6366F1' : 'rgba(99, 102, 241, 0.08)',
+                      boxShadow: isHovered 
+                        ? '0px 12px 24px rgba(99, 102, 241, 0.06)' 
+                        : '0px 4px 12px rgba(10, 22, 40, 0.01)'
+                    }}
+                    transition={{ 
+                      opacity: { duration: 0.6, delay: 0.35 + index * 0.12 },
+                      y: { type: 'spring', stiffness: 300, damping: 22 },
+                      borderColor: { duration: 0.2, ease: 'easeOut' },
+                      boxShadow: { duration: 0.2, ease: 'easeOut' }
+                    }}
+                    onMouseEnter={() => setHoveredModule(module.id)}
+                    onMouseLeave={() => setHoveredModule(null)}
+                    style={{
+                      width: '360px',
+                      background: '#FFFFFF',
+                      borderRadius: 20,
+                      border: '1.5px solid',
+                      padding: '16px 20px',
+                      zIndex: 2,
+                      cursor: 'pointer'
+                    }}
+                  >
+                    <div style={{ display: 'flex', alignItems: 'center', gap: 16 }}>
+                      <div style={{
+                        width: 38,
+                        height: 38,
+                        borderRadius: 12,
+                        background: isHovered ? 'linear-gradient(135deg, #6366F1 0%, #8B5CF6 100%)' : '#F8FAFC',
+                        color: isHovered ? '#FFFFFF' : '#6366F1',
+                        display: 'flex',
+                        alignItems: 'center',
+                        justifyContent: 'center',
+                        transition: 'all 0.3s ease'
                       }}>
-                        {module.title}
-                      </h4>
-                      <p style={{
-                        fontFamily: 'var(--font-body)',
-                        fontSize: 12,
-                        color: '#64748B',
-                        margin: 0,
-                        lineHeight: 1.3
-                      }}>
-                        {module.desc}
-                      </p>
-                    </div>
-                    {isMobile && (
-                      <ChevronRight 
-                        size={16} 
-                        style={{ 
-                          color: '#94A3B8',
-                          transform: isExpanded ? 'rotate(90deg)' : 'none',
-                          transition: 'transform 200ms ease'
-                        }} 
-                      />
-                    )}
-                  </div>
-
-                  {/* Expanded description bullet points list */}
-                  <AnimatePresence>
-                    {isExpanded && (
-                      <motion.div 
-                        initial={{ height: 0, opacity: 0 }}
-                        animate={{ height: 'auto', opacity: 1 }}
-                        exit={{ height: 0, opacity: 0 }}
-                        transition={{ duration: 0.25, ease: 'easeInOut' }}
-                        style={{
-                          overflow: 'hidden'
-                        }}
-                      >
-                        <div style={{
-                          marginTop: 10,
-                          display: 'flex',
-                          flexDirection: 'column',
-                          gap: 6,
-                          paddingLeft: 50
+                        <IconComp size={18} />
+                      </div>
+                      
+                      <div style={{ textAlign: 'left' }}>
+                        <h4 style={{
+                          fontFamily: 'var(--font-hero)',
+                          fontSize: 14,
+                          fontWeight: 800,
+                          color: '#1E293B',
+                          margin: 0
                         }}>
-                          {module.bullets.map((bullet, i) => (
-                            <div key={i} style={{ display: 'flex', alignItems: 'center', gap: 8, fontSize: 12, color: '#64748B' }}>
-                              <span style={{ color: '#6366F1', fontSize: 10 }}>✦</span>
-                              <span>{bullet}</span>
-                            </div>
-                          ))}
-                        </div>
-                      </motion.div>
-                    )}
-                  </AnimatePresence>
+                          {module.title}
+                        </h4>
+                        <p style={{
+                          fontFamily: 'var(--font-body)',
+                          fontSize: 11,
+                          color: '#64748B',
+                          margin: '2px 0 0'
+                        }}>
+                          {module.desc}
+                        </p>
+                      </div>
+                    </div>
 
-                </motion.div>
-              );
-            })}
+                    {/* Expanded description bullet points list */}
+                    <AnimatePresence>
+                      {isHovered && (
+                        <motion.div 
+                          initial={{ height: 0, opacity: 0 }}
+                          animate={{ height: 'auto', opacity: 1 }}
+                          exit={{ height: 0, opacity: 0 }}
+                          transition={{ duration: 0.25, ease: 'easeInOut' }}
+                          style={{
+                            overflow: 'hidden'
+                          }}
+                        >
+                          <div style={{
+                            marginTop: 10,
+                            display: 'flex',
+                            flexDirection: 'column',
+                            gap: 6,
+                            paddingLeft: 50
+                          }}>
+                            {module.bullets.map((bullet, i) => (
+                              <div key={i} style={{ display: 'flex', alignItems: 'center', gap: 8, fontSize: 12, color: '#64748B' }}>
+                                <span style={{ color: '#6366F1', fontSize: 10 }}>✦</span>
+                                <span>{bullet}</span>
+                              </div>
+                            ))}
+                          </div>
+                        </motion.div>
+                      )}
+                    </AnimatePresence>
 
-          </div>
+                  </motion.div>
+                );
+              })}
 
-          {/* Mobile-only Trust Metrics */}
-          {isMobile && (
-            <TrustMetrics 
-              isMobile={isMobile} 
-              teacherCount={getTeacherCount()} 
-              teachingHours={getTeachingHours()} 
-            />
+            </div>
           )}
 
         </motion.div>

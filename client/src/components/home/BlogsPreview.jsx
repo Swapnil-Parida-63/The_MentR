@@ -2,7 +2,17 @@ import { FadeUp } from '../../hooks/useScrollReveal';
 import { Link } from 'react-router-dom';
 import { Clock, Calendar, User, ArrowUpRight } from 'lucide-react';
 
+import { useState, useEffect } from 'react';
+
 export default function BlogsPreview() {
+  const [isMobile, setIsMobile] = useState(window.innerWidth < 1024);
+
+  useEffect(() => {
+    const handleResize = () => setIsMobile(window.innerWidth < 1024);
+    window.addEventListener('resize', handleResize);
+    return () => window.removeEventListener('resize', handleResize);
+  }, []);
+
   return (
     <section id="blogs" className="section" style={{ background: '#fafafc', position: 'relative', overflow: 'hidden' }}>
       <div className="container" style={{ position: 'relative', zIndex: 1 }}>
@@ -110,7 +120,7 @@ export default function BlogsPreview() {
 
           {/* RIGHT COLUMN: Supporting Articles */}
           <FadeUp delay={0.1}>
-            <div className="supporting-articles-stack">
+            <div className={isMobile ? "mobile-swipe-carousel" : "supporting-articles-stack"}>
               {[
                 { 
                   tagClass: 'tag-olympiad', 
@@ -134,7 +144,7 @@ export default function BlogsPreview() {
                   time: '6 min read' 
                 },
               ].map((b) => (
-                <div key={b.title} className="journal-supporting-card">
+                <div key={b.title} className={`journal-supporting-card ${isMobile ? 'mobile-swipe-card' : ''}`} style={isMobile ? { background: '#FFFFFF', border: '1px solid rgba(15, 23, 42, 0.05)', borderRadius: '20px', padding: '24px', boxShadow: '0 4px 12px rgba(10, 22, 40, 0.01)', minHeight: '160px', display: 'flex', flexDirection: 'column', justifyContent: 'space-between' } : {}}>
                   <div className="supporting-card-inner">
                     <div className="supporting-card-header">
                       <span className={`supporting-tag ${b.tagClass}`}>{b.tagText}</span>

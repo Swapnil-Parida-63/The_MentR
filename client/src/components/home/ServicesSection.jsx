@@ -156,55 +156,67 @@ export default function ServicesSection() {
 
         {/* Desktop Bento Grid / Mobile Editorial List */}
         {isMobile ? (
-          /* Mobile Editorial List */
-          <div style={{ display: 'flex', flexDirection: 'column' }}>
+          /* Mobile Swipe Carousel */
+          <div className="mobile-swipe-carousel">
             {features.map((feature, idx) => {
               const IconComp = feature.icon;
               return (
-                <div key={feature.id} style={{ display: 'flex', flexDirection: 'column' }}>
-                  <div style={{
+                <div 
+                  key={feature.id} 
+                  className="mobile-swipe-card"
+                  style={{
+                    background: '#FFFFFF',
+                    border: '1px solid rgba(15, 23, 42, 0.05)',
+                    borderRadius: '20px',
+                    padding: '24px',
+                    boxShadow: '0 4px 12px rgba(10, 22, 40, 0.01)',
                     display: 'flex',
-                    alignItems: 'flex-start',
+                    flexDirection: 'column',
                     justifyContent: 'space-between',
-                    padding: '24px 0',
-                    gap: 16
-                  }}>
-                    <div style={{ display: 'flex', gap: 16, alignItems: 'flex-start' }}>
-                      <IconComp 
-                        size={20} 
-                        strokeWidth={1.8} 
-                        style={{ color: '#6366F1', marginTop: 3, flexShrink: 0 }} 
-                      />
-                      <div style={{ display: 'flex', flexDirection: 'column', gap: 4 }}>
-                        <h4 style={{
-                          fontFamily: 'var(--font-section)',
-                          fontWeight: 700,
-                          fontSize: 16,
-                          color: '#1E293B',
-                          margin: 0
-                        }}>
-                          {feature.title}
-                        </h4>
-                        <p style={{
-                          fontFamily: 'var(--font-body)',
-                          fontWeight: 400,
-                          fontSize: 14,
-                          color: '#64748B',
-                          lineHeight: 1.5,
-                          margin: 0
-                        }}>
-                          {feature.desc}
-                        </p>
-                      </div>
+                    minHeight: '180px'
+                  }}
+                >
+                  <div style={{ display: 'flex', flexDirection: 'column', gap: 16 }}>
+                    <div style={{
+                      width: 40,
+                      height: 40,
+                      borderRadius: 12,
+                      background: 'rgba(99, 102, 241, 0.06)',
+                      color: '#6366F1',
+                      display: 'flex',
+                      alignItems: 'center',
+                      justifyContent: 'center'
+                    }}>
+                      <IconComp size={20} strokeWidth={2} />
                     </div>
-                    <ChevronRight 
-                      size={18} 
-                      style={{ color: '#94A3B8', marginTop: 4, flexShrink: 0 }} 
-                    />
+                    
+                    <div style={{ display: 'flex', flexDirection: 'column', gap: 6 }}>
+                      <h4 style={{
+                        fontFamily: 'var(--font-section)',
+                        fontWeight: 800,
+                        fontSize: 16,
+                        color: '#1E293B',
+                        margin: 0
+                      }}>
+                        {feature.title}
+                      </h4>
+                      <p style={{
+                        fontFamily: 'var(--font-body)',
+                        fontWeight: 450,
+                        fontSize: 13,
+                        color: '#64748B',
+                        lineHeight: 1.5,
+                        margin: 0
+                      }}>
+                        {feature.desc}
+                      </p>
+                    </div>
                   </div>
-                  {idx < features.length - 1 && (
-                    <div style={{ height: 1, background: '#E8EAF2', width: '100%' }} />
-                  )}
+                  
+                  <div style={{ display: 'flex', alignItems: 'center', gap: 4, color: '#6366F1', fontSize: 12, fontWeight: 700, marginTop: 12 }}>
+                    <span>Learn more</span>
+                    <ChevronRight size={14} />
+                  </div>
                 </div>
               );
             })}

@@ -120,7 +120,7 @@ export default function WhySection() {
                 >
                   {/* Row Content */}
                   <div style={{
-                    padding: '24px 0',
+                    padding: isMobile ? '12px 0' : '24px 0',
                     display: 'flex',
                     alignItems: 'flex-start',
                     gap: 16
@@ -216,10 +216,11 @@ export default function WhySection() {
           whileInView="visible"
           viewport={{ once: true, margin: "-100px" }}
           variants={fadeInUp}
+          className={isMobile ? "mobile-swipe-carousel" : ""}
           style={{
-            display: 'grid',
-            gridTemplateColumns: isMobile ? '1fr' : 'repeat(3, 1fr)',
-            gap: isMobile ? '48px' : '64px',
+            display: isMobile ? 'flex' : 'grid',
+            gridTemplateColumns: isMobile ? 'none' : 'repeat(3, 1fr)',
+            gap: isMobile ? '0' : '64px',
             position: 'relative'
           }}
         >
@@ -246,12 +247,18 @@ export default function WhySection() {
                 key={col.id}
                 onMouseEnter={() => setHoveredCol(col.id)}
                 onMouseLeave={() => setHoveredCol(null)}
+                className={isMobile ? "mobile-swipe-card" : ""}
                 style={{ 
                   display: 'flex', 
                   flexDirection: 'column', 
                   textAlign: 'left',
                   position: 'relative',
-                  paddingLeft: isMobile ? 0 : '16px',
+                  paddingLeft: isMobile ? '0px' : '16px',
+                  background: isMobile ? '#FFFFFF' : 'transparent',
+                  border: isMobile ? '1px solid rgba(15, 23, 42, 0.05)' : 'none',
+                  borderRadius: isMobile ? '20px' : '0px',
+                  padding: isMobile ? '24px' : '0px',
+                  boxShadow: isMobile ? '0 4px 12px rgba(10, 22, 40, 0.01)' : 'none',
                   cursor: 'pointer'
                 }}
               >

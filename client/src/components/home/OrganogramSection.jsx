@@ -1,6 +1,7 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { FadeUp } from '../../hooks/useScrollReveal';
 import BorderGlow from './BorderGlow';
+import { ChevronDown } from 'lucide-react';
 
 const depts = [
   { 
@@ -42,6 +43,14 @@ const depts = [
 
 export default function OrganogramSection() {
   const [hoveredIndex, setHoveredIndex] = useState(null);
+  const [isMobile, setIsMobile] = useState(window.innerWidth < 1024);
+  const [expandedMobileIndex, setExpandedMobileIndex] = useState(null);
+
+  useEffect(() => {
+    const handleResize = () => setIsMobile(window.innerWidth < 1024);
+    window.addEventListener('resize', handleResize);
+    return () => window.removeEventListener('resize', handleResize);
+  }, []);
 
   const activeDept = hoveredIndex !== null ? depts[hoveredIndex] : null;
 
@@ -73,143 +82,190 @@ export default function OrganogramSection() {
         </FadeUp>
 
         <FadeUp delay={0.3} y={16}>
-          <BorderGlow borderRadius={24} backgroundColor="#FFFFFF">
-            <div style={{ padding: '48px 40px', overflowX: 'auto', cursor: 'default' }}>
-              <svg viewBox="0 0 900 380" fill="none" style={{ width: '100%', minWidth: 720 }}>
-                {/* Default Connection Lines */}
-                <line x1="450" y1="76" x2="450" y2="110" stroke="#E2E8F0" strokeWidth="1.5" />
-                <line x1="120" y1="110" x2="785" y2="110" stroke="#E2E8F0" strokeWidth="1.5" />
-                {[120, 300, 450, 600, 785].map(x => (
-                  <line key={x} x1={x} y1="110" x2={x} y2="136" stroke="#E2E8F0" strokeWidth="1.5" />
-                ))}
-
-                {/* Bottom default connections */}
-                <path d="M 450,186 Q 450,240 350,295" fill="none" stroke="#E2E8F0" strokeWidth="1.2" strokeDasharray="3 3" />
-                <path d="M 450,186 Q 450,240 550,295" fill="none" stroke="#E2E8F0" strokeWidth="1.2" strokeDasharray="3 3" />
-
-                {/* Interactive Flowing Glowing Lines (Overlay when department is hovered) */}
-                {activeDept && (
-                  <>
-                    <path
-                      d={`M 450,76 L 450,110 L ${activeDept.center},110 L ${activeDept.center},136`}
-                      fill="none"
-                      stroke="url(#flow-grad-main)"
-                      strokeWidth="2.5"
-                      strokeLinecap="round"
-                      className="svg-flowing-stroke"
-                    />
-                    <path
-                      d={`M ${activeDept.center},186 Q ${activeDept.center},240 350,295`}
-                      fill="none"
-                      stroke="url(#flow-grad-main)"
-                      strokeWidth="2"
-                      strokeLinecap="round"
-                      className="svg-flowing-stroke"
-                    />
-                    <path
-                      d={`M ${activeDept.center},186 Q ${activeDept.center},240 550,295`}
-                      fill="none"
-                      stroke="url(#flow-grad-main)"
-                      strokeWidth="2"
-                      strokeLinecap="round"
-                      className="svg-flowing-stroke"
-                    />
-                  </>
-                )}
-
-                {/* SVG Gradients definitions */}
-                <defs>
-                  <linearGradient id="flow-grad-main" x1="0%" y1="0%" x2="100%" y2="100%">
-                    <stop offset="0%" stopColor="#4F7CFF" />
-                    <stop offset="100%" stopColor="#7469F8" />
-                  </linearGradient>
-                </defs>
-
-                {/* Founders & Leadership Node */}
-                <g style={{ cursor: 'pointer' }}>
-                  <rect x="360" y="20" width="180" height="56" rx="12" fill="#0F172A" />
-                  <text x="450" y="44" textAnchor="middle" fontFamily="var(--font-sans)" fontSize="13" fontWeight="700" fill="white">TheMentR</text>
-                  <text x="450" y="62" textAnchor="middle" fontFamily="var(--font-sans)" fontSize="10.5" fill="rgba(255,255,255,0.65)">Founders & Leadership</text>
-                </g>
-
-                {/* Departments Nodes */}
-                {depts.map((d, idx) => {
-                  const isHovered = idx === hoveredIndex;
-                  return (
-                    <g 
-                      key={d.title} 
-                      onMouseEnter={() => setHoveredIndex(idx)}
-                      onMouseLeave={() => setHoveredIndex(null)}
-                      style={{ 
-                        cursor: 'pointer',
-                        transform: isHovered ? 'translateY(-3px)' : 'none',
-                        transition: 'transform 0.3s cubic-bezier(0.16, 1, 0.3, 1)',
-                        transformOrigin: `${d.x + d.w / 2}px 161px`
-                      }}
-                    >
-                      <rect 
-                        x={d.x} 
-                        y="136" 
-                        width={d.w} 
-                        height="50" 
-                        rx="10" 
-                        fill={d.bg} 
-                        stroke={isHovered ? '#4F7CFF' : d.stroke} 
-                        strokeWidth={isHovered ? 1.5 : 1}
-                        style={{ transition: 'stroke 0.3s' }}
+          {isMobile ? (
+            /* Mobile Directory Accordion */
+            <div style={{ display: 'flex', flexDirection: 'column', gap: 16 }}>
+              {depts.map((d, idx) => {
+                const isExpanded = expandedMobileIndex === idx;
+                return (
+                  <div 
+                    key={d.title}
+                    onClick={() => setExpandedMobileIndex(isExpanded ? null : idx)}
+                    style={{
+                      background: '#FFFFFF',
+                      borderRadius: '16px',
+                      border: `1.5px solid ${isExpanded ? d.stroke : 'rgba(15, 23, 42, 0.05)'}`,
+                      padding: '18px 20px',
+                      boxShadow: '0 4px 12px rgba(10, 22, 40, 0.01)',
+                      cursor: 'pointer',
+                      transition: 'all 0.25s ease'
+                    }}
+                  >
+                    <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                      <div style={{ display: 'flex', flexDirection: 'column', gap: 2 }}>
+                        <span style={{ fontSize: 14, fontWeight: 800, color: d.tc }}>{d.title}</span>
+                        <span style={{ fontSize: 11, fontWeight: 600, color: d.sc }}>{d.sub}</span>
+                      </div>
+                      <ChevronDown 
+                        size={18} 
+                        style={{ 
+                          color: '#94A3B8', 
+                          transform: isExpanded ? 'rotate(180deg)' : 'rotate(0deg)',
+                          transition: 'transform 0.2s ease'
+                        }} 
                       />
-                      <text x={d.x + d.w / 2} y="157" textAnchor="middle" fontFamily="var(--font-sans)" fontSize="12" fontWeight="700" fill={d.tc}>{d.title}</text>
-                      <text x={d.x + d.w / 2} y="173" textAnchor="middle" fontFamily="var(--font-sans)" fontSize="10" fill={d.sc}>{d.sub}</text>
-                    </g>
-                  );
-                })}
-
-                {/* Bottom layer Nodes (Students & Parents) */}
-                <g>
-                  <rect x="270" y="295" width="160" height="48" rx="10" fill="#F0FDF4" stroke="#86EFAC" strokeWidth="1.5" />
-                  <text x="350" y="316" textAnchor="middle" fontFamily="var(--font-sans)" fontSize="12" fontWeight="700" fill="#15803D">Students</text>
-                  <text x="350" y="332" textAnchor="middle" fontFamily="var(--font-sans)" fontSize="10" fill="#16A34A">12,000+ active</text>
-                </g>
-                <g>
-                  <rect x="470" y="295" width="160" height="48" rx="10" fill="#EFF6FF" stroke="#93C5FD" strokeWidth="1.5" />
-                  <text x="550" y="316" textAnchor="middle" fontFamily="var(--font-sans)" fontSize="12" fontWeight="700" fill="#1D4ED8">Parents</text>
-                  <text x="550" y="332" textAnchor="middle" fontFamily="var(--font-sans)" fontSize="10" fill="#3B82F6">Trusted guardians</text>
-                </g>
-              </svg>
-
-              {/* Dynamic Info Panel below the SVG */}
-              <div 
-                style={{
-                  marginTop: 36,
-                  padding: '20px 24px',
-                  borderRadius: 16,
-                  background: 'rgba(248, 250, 252, 0.65)',
-                  border: '1px solid rgba(79, 124, 255, 0.05)',
-                  minHeight: 80,
-                  display: 'flex',
-                  alignItems: 'center',
-                  justifyContent: 'center',
-                  textAlign: 'center',
-                  transition: 'all 0.3s'
-                }}
-              >
-                {activeDept ? (
-                  <div style={{ animation: 'fadeInDept 0.35s ease forwards' }}>
-                    <span style={{ fontSize: 13, fontWeight: 700, color: activeDept.tc, textTransform: 'uppercase', letterSpacing: '0.05em', display: 'block', marginBottom: 6 }}>
-                      {activeDept.title} Role
-                    </span>
-                    <p style={{ fontSize: 13.5, color: 'var(--color-text-secondary)', lineHeight: 1.6, margin: 0, maxWidth: 680 }}>
-                      {activeDept.details}
-                    </p>
+                    </div>
+                    {isExpanded && (
+                      <div style={{ marginTop: 12, borderTop: '1px solid rgba(15,23,42,0.04)', paddingTop: 12 }}>
+                        <p style={{ fontSize: 13, color: 'var(--color-text-secondary)', lineHeight: 1.6, margin: 0 }}>
+                          {d.details}
+                        </p>
+                      </div>
+                    )}
                   </div>
-                ) : (
-                  <span style={{ fontSize: 13, color: 'var(--color-text-muted)', fontStyle: 'italic' }}>
-                    Hover over any department node to trace flows and reveal operations info.
-                  </span>
-                )}
-              </div>
+                );
+              })}
             </div>
-          </BorderGlow>
+          ) : (
+            /* Desktop SVG BLUEPRINT */
+            <BorderGlow borderRadius={24} backgroundColor="#FFFFFF">
+              <div style={{ padding: '48px 40px', overflowX: 'auto', cursor: 'default' }}>
+                <svg viewBox="0 0 900 380" fill="none" style={{ width: '100%', minWidth: 720 }}>
+                  {/* Default Connection Lines */}
+                  <line x1="450" y1="76" x2="450" y2="110" stroke="#E2E8F0" strokeWidth="1.5" />
+                  <line x1="120" y1="110" x2="785" y2="110" stroke="#E2E8F0" strokeWidth="1.5" />
+                  {[120, 300, 450, 600, 785].map(x => (
+                    <line key={x} x1={x} y1="110" x2={x} y2="136" stroke="#E2E8F0" strokeWidth="1.5" />
+                  ))}
+
+                  {/* Bottom default connections */}
+                  <path d="M 450,186 Q 450,240 350,295" fill="none" stroke="#E2E8F0" strokeWidth="1.2" strokeDasharray="3 3" />
+                  <path d="M 450,186 Q 450,240 550,295" fill="none" stroke="#E2E8F0" strokeWidth="1.2" strokeDasharray="3 3" />
+
+                  {/* Interactive Flowing Glowing Lines (Overlay when department is hovered) */}
+                  {activeDept && (
+                    <>
+                      <path
+                        d={`M 450,76 L 450,110 L ${activeDept.center},110 L ${activeDept.center},136`}
+                        fill="none"
+                        stroke="url(#flow-grad-main)"
+                        strokeWidth="2.5"
+                        strokeLinecap="round"
+                        className="svg-flowing-stroke"
+                      />
+                      <path
+                        d={`M ${activeDept.center},186 Q ${activeDept.center},240 350,295`}
+                        fill="none"
+                        stroke="url(#flow-grad-main)"
+                        strokeWidth="2"
+                        strokeLinecap="round"
+                        className="svg-flowing-stroke"
+                      />
+                      <path
+                        d={`M ${activeDept.center},186 Q ${activeDept.center},240 550,295`}
+                        fill="none"
+                        stroke="url(#flow-grad-main)"
+                        strokeWidth="2"
+                        strokeLinecap="round"
+                        className="svg-flowing-stroke"
+                      />
+                    </>
+                  )}
+
+                  {/* SVG Gradients definitions */}
+                  <defs>
+                    <linearGradient id="flow-grad-main" x1="0%" y1="0%" x2="100%" y2="100%">
+                      <stop offset="0%" stopColor="#4F7CFF" />
+                      <stop offset="100%" stopColor="#7469F8" />
+                    </linearGradient>
+                  </defs>
+
+                  {/* Founders & Leadership Node */}
+                  <g style={{ cursor: 'pointer' }}>
+                    <rect x="360" y="20" width="180" height="56" rx="12" fill="#0F172A" />
+                    <text x="450" y="44" textAnchor="middle" fontFamily="var(--font-sans)" fontSize="13" fontWeight="700" fill="white">TheMentR</text>
+                    <text x="450" y="62" textAnchor="middle" fontFamily="var(--font-sans)" fontSize="10.5" fill="rgba(255,255,255,0.65)">Founders & Leadership</text>
+                  </g>
+
+                  {/* Departments Nodes */}
+                  {depts.map((d, idx) => {
+                    const isHovered = idx === hoveredIndex;
+                    return (
+                      <g 
+                        key={d.title} 
+                        onMouseEnter={() => setHoveredIndex(idx)}
+                        onMouseLeave={() => setHoveredIndex(null)}
+                        style={{ 
+                          cursor: 'pointer',
+                          transform: isHovered ? 'translateY(-3px)' : 'none',
+                          transition: 'transform 0.3s cubic-bezier(0.16, 1, 0.3, 1)',
+                          transformOrigin: `${d.x + d.w / 2}px 161px`
+                        }}
+                      >
+                        <rect 
+                          x={d.x} 
+                          y="136" 
+                          width={d.w} 
+                          height="50" 
+                          rx="10" 
+                          fill={d.bg} 
+                          stroke={isHovered ? '#4F7CFF' : d.stroke} 
+                          strokeWidth={isHovered ? 1.5 : 1}
+                          style={{ transition: 'stroke 0.3s' }}
+                        />
+                        <text x={d.x + d.w / 2} y="157" textAnchor="middle" fontFamily="var(--font-sans)" fontSize="12" fontWeight="700" fill={d.tc}>{d.title}</text>
+                        <text x={d.x + d.w / 2} y="173" textAnchor="middle" fontFamily="var(--font-sans)" fontSize="10" fill={d.sc}>{d.sub}</text>
+                      </g>
+                    );
+                  })}
+
+                  {/* Bottom layer Nodes (Students & Parents) */}
+                  <g>
+                    <rect x="270" y="295" width="160" height="48" rx="10" fill="#F0FDF4" stroke="#86EFAC" strokeWidth="1.5" />
+                    <text x="350" y="316" textAnchor="middle" fontFamily="var(--font-sans)" fontSize="12" fontWeight="700" fill="#15803D">Students</text>
+                    <text x="350" y="332" textAnchor="middle" fontFamily="var(--font-sans)" fontSize="10" fill="#16A34A">12,000+ active</text>
+                  </g>
+                  <g>
+                    <rect x="470" y="295" width="160" height="48" rx="10" fill="#EFF6FF" stroke="#93C5FD" strokeWidth="1.5" />
+                    <text x="550" y="316" textAnchor="middle" fontFamily="var(--font-sans)" fontSize="12" fontWeight="700" fill="#1D4ED8">Parents</text>
+                    <text x="550" y="332" textAnchor="middle" fontFamily="var(--font-sans)" fontSize="10" fill="#3B82F6">Trusted guardians</text>
+                  </g>
+                </svg>
+
+                {/* Dynamic Info Panel below the SVG */}
+                <div 
+                  style={{
+                    marginTop: 36,
+                    padding: '20px 24px',
+                    borderRadius: 16,
+                    background: 'rgba(248, 250, 252, 0.65)',
+                    border: '1px solid rgba(79, 124, 255, 0.05)',
+                    minHeight: 80,
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    textAlign: 'center',
+                    transition: 'all 0.3s'
+                  }}
+                >
+                  {activeDept ? (
+                    <div style={{ animation: 'fadeInDept 0.35s ease forwards' }}>
+                      <span style={{ fontSize: 13, fontWeight: 700, color: activeDept.tc, textTransform: 'uppercase', letterSpacing: '0.05em', display: 'block', marginBottom: 6 }}>
+                        {activeDept.title} Role
+                      </span>
+                      <p style={{ fontSize: 13.5, color: 'var(--color-text-secondary)', lineHeight: 1.6, margin: 0, maxWidth: 680 }}>
+                        {activeDept.details}
+                      </p>
+                    </div>
+                  ) : (
+                    <span style={{ fontSize: 13, color: 'var(--color-text-muted)', fontStyle: 'italic' }}>
+                      Hover over any department node to trace flows and reveal operations info.
+                    </span>
+                  )}
+                </div>
+              </div>
+            </BorderGlow>
+          )}
         </FadeUp>
       </div>
 

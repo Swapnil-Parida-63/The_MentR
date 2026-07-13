@@ -34,11 +34,33 @@ function Counter({ target, suffix, decimals = 0 }) {
   );
 }
 
-export default function AvsarSection({ teacherCount = 500 }) {
+export default function AvsarSection() {
   const [barsAnimated, setBarsAnimated] = useState(false);
   const [hoveredMetric, setHoveredMetric] = useState(null);
   const [isHeaderHovered, setIsHeaderHovered] = useState(false);
+  const [isMobile, setIsMobile] = useState(window.innerWidth < 1024);
   const chartRef = useRef(null);
+
+  useEffect(() => {
+    const handleResize = () => setIsMobile(window.innerWidth < 1024);
+    window.addEventListener('resize', handleResize);
+    return () => window.removeEventListener('resize', handleResize);
+  }, []);
+
+  const getTeacherCount = () => {
+    const baseDate = new Date('2026-07-01T00:00:00');
+    const currentDate = new Date();
+    const diffTime = Math.max(0, currentDate - baseDate);
+    const diffDays = Math.floor(diffTime / (1000 * 60 * 60 * 24));
+    
+    const inc3 = Math.floor(diffDays / 3) * 3;
+    const inc6 = Math.floor(diffDays / 6) * 7;
+    
+    const count = 500 + inc3 + inc6;
+    return Math.min(count, 5000);
+  };
+
+  const finalTeacherCount = getTeacherCount();
 
   useEffect(() => {
     const el = chartRef.current;
@@ -53,10 +75,10 @@ export default function AvsarSection({ teacherCount = 500 }) {
   }, []);
 
   const proofRows = [
-    { icon: Shield, metric: null, target: teacherCount, suffix: '+', decimals: 0, label: 'Verified Teachers', desc: 'Every educator completes background verification and onboarding before joining.' },
+    { icon: Shield, metric: null, target: finalTeacherCount, suffix: '+', decimals: 0, label: 'Verified Teachers', desc: 'Every educator completes background verification and onboarding before joining.' },
     { icon: Heart, metric: null, target: 96, suffix: '%', decimals: 0, label: 'Parent Satisfaction Rate', desc: 'Measured continuously through real feedback and progress.' },
     { icon: MapPin, metric: null, target: 18, suffix: '+', decimals: 0, label: 'Cities Covered', desc: 'Bringing quality education to student homes across multiple locations.' },
-    { icon: Star, metric: null, target: 4.8, suffix: '★', decimals: 1, label: 'Average Teacher Rating', desc: 'Maintained through ongoing reviews and quality monitoring.' },
+    { icon: Star, metric: null, target: 4.9, suffix: '★', decimals: 1, label: 'Average Teacher Rating', desc: 'Maintained through ongoing reviews and quality monitoring.' },
   ];
 
   return (
@@ -129,7 +151,7 @@ export default function AvsarSection({ teacherCount = 500 }) {
 
             {/* Teacher Selection Rate Grid directly below texts */}
             <FadeUp delay={0.3}>
-              <div ref={chartRef} className="w-full max-w-[480px] border-t border-slate-200" style={{ marginTop: '90px', paddingTop: '50px' }}>
+              <div ref={chartRef} className="w-full max-w-[480px] border-t border-slate-200" style={{ marginTop: isMobile ? '36px' : '90px', paddingTop: isMobile ? '24px' : '50px' }}>
                 <h4 className="font-sora font-extrabold text-2xl sm:text-3xl text-[#1E293B] tracking-tight mb-6">
                   Teacher Selection Rate by Board
                 </h4>
@@ -157,79 +179,106 @@ export default function AvsarSection({ teacherCount = 500 }) {
 
           {/* Right Column (50%) */}
           <div className="lg:col-span-6 flex flex-col justify-between h-full py-2">
-            {proofRows.map((row, idx) => {
-              const isHovered = hoveredMetric === idx;
-              return (
-                <FadeUp key={idx} delay={0.1 + idx * 0.06}>
+            {isMobile ? (
+              <div className="grid grid-cols-2 gap-4 mt-8">
+                {proofRows.map((row, idx) => (
                   <div 
-                    className="flex flex-col py-6 border-b border-slate-200/40 last:border-b-0 first:pt-0 cursor-pointer"
-                    onMouseEnter={() => setHoveredMetric(idx)}
-                    onMouseLeave={() => setHoveredMetric(null)}
-                    style={{
-                      transform: isHovered ? 'translateX(6px)' : 'translateX(0)',
-                      transition: 'transform 0.3s cubic-bezier(0.16, 1, 0.3, 1)'
+                    key={idx} 
+                    style={{ 
+                      background: '#FFFFFF', 
+                      padding: '16px', 
+                      borderRadius: '16px', 
+                      border: '1px solid rgba(15, 23, 42, 0.05)',
+                      boxShadow: '0 4px 12px rgba(10, 22, 40, 0.01)',
+                      display: 'flex',
+                      flexDirection: 'column',
+                      gap: 6
                     }}
                   >
-                    <div className="flex gap-4 items-start">
-                      {/* Circle Indicator */}
-                      <div 
-                        className="mt-4 flex-shrink-0"
-                        style={{
-                          width: 8,
-                          height: 8,
-                          borderRadius: '50%',
-                          border: `1.5px solid ${isHovered ? '#6366F1' : '#64748B'}`,
-                          background: isHovered ? '#6366F1' : 'transparent',
-                          transition: 'all 0.3s ease'
-                        }}
-                      />
-                      
-                      <div className="flex flex-col gap-1.5 w-full">
-                        <span 
-                          className="font-space text-4xl sm:text-5xl font-bold tracking-tight leading-none transition-colors duration-300"
-                          style={{ color: isHovered ? '#6366F1' : '#1E293B' }}
-                        >
-                          <Counter target={row.target} suffix={row.suffix} decimals={row.decimals} />
-                        </span>
-                        
-                        <div className="relative inline-block w-fit">
-                          <span 
-                            className="text-xs sm:text-sm font-semibold uppercase tracking-wider font-inter transition-colors duration-300"
-                            style={{ color: isHovered ? '#6366F1' : '#64748B' }}
-                          >
-                            {row.label}
-                          </span>
-                          <div 
-                            style={{
-                              position: 'absolute',
-                              bottom: -2,
-                              left: 0,
-                              height: 1.5,
-                              background: '#6366F1',
-                              width: isHovered ? '100%' : '0%',
-                              transition: 'width 0.35s cubic-bezier(0.16, 1, 0.3, 1)'
-                            }}
-                          />
-                        </div>
-                        
+                    <span className="font-space text-2xl font-bold text-[#6366F1]">
+                      <Counter target={row.target} suffix={row.suffix} decimals={row.decimals} />
+                    </span>
+                    <span className="text-[10px] font-bold text-[#64748B] uppercase tracking-wider font-inter">
+                      {row.label}
+                    </span>
+                  </div>
+                ))}
+              </div>
+            ) : (
+              proofRows.map((row, idx) => {
+                const isHovered = hoveredMetric === idx;
+                return (
+                  <FadeUp key={idx} delay={0.1 + idx * 0.06}>
+                    <div 
+                      className="flex flex-col py-6 border-b border-slate-200/40 last:border-b-0 first:pt-0 cursor-pointer"
+                      onMouseEnter={() => setHoveredMetric(idx)}
+                      onMouseLeave={() => setHoveredMetric(null)}
+                      style={{
+                        transform: isHovered ? 'translateX(6px)' : 'translateX(0)',
+                        transition: 'transform 0.3s cubic-bezier(0.16, 1, 0.3, 1)'
+                      }}
+                    >
+                      <div className="flex gap-4 items-start">
+                        {/* Circle Indicator */}
                         <div 
-                          className="overflow-hidden transition-all duration-500 ease-in-out"
+                          className="mt-4 flex-shrink-0"
                           style={{
-                            opacity: isHovered ? 1 : 0,
-                            maxHeight: isHovered ? '80px' : '0px',
-                            marginTop: isHovered ? '12px' : '0px'
+                            width: 8,
+                            height: 8,
+                            borderRadius: '50%',
+                            border: `1.5px solid ${isHovered ? '#6366F1' : '#64748B'}`,
+                            background: isHovered ? '#6366F1' : 'transparent',
+                            transition: 'all 0.3s ease'
                           }}
-                        >
-                          <p className="text-xs sm:text-sm text-[#64748B] leading-relaxed max-w-md">
-                            {row.desc}
-                          </p>
+                        />
+                        
+                        <div className="flex flex-col gap-1.5 w-full">
+                          <span 
+                            className="font-space text-4xl sm:text-5xl font-bold tracking-tight leading-none transition-colors duration-300"
+                            style={{ color: isHovered ? '#6366F1' : '#1E293B' }}
+                          >
+                            <Counter target={row.target} suffix={row.suffix} decimals={row.decimals} />
+                          </span>
+                          
+                          <div className="relative inline-block w-fit">
+                            <span 
+                              className="text-xs sm:text-sm font-semibold uppercase tracking-wider font-inter transition-colors duration-300"
+                              style={{ color: isHovered ? '#6366F1' : '#64748B' }}
+                            >
+                              {row.label}
+                            </span>
+                            <div 
+                              style={{
+                                position: 'absolute',
+                                bottom: -2,
+                                left: 0,
+                                height: 1.5,
+                                background: '#6366F1',
+                                width: isHovered ? '100%' : '0%',
+                                transition: 'width 0.35s cubic-bezier(0.16, 1, 0.3, 1)'
+                              }}
+                            />
+                          </div>
+                          
+                          <div 
+                            className="overflow-hidden transition-all duration-500 ease-in-out"
+                            style={{
+                              opacity: isHovered ? 1 : 0,
+                              maxHeight: isHovered ? '80px' : '0px',
+                              marginTop: isHovered ? '12px' : '0px'
+                            }}
+                          >
+                            <p className="text-xs sm:text-sm text-[#64748B] leading-relaxed max-w-md">
+                              {row.desc}
+                            </p>
+                          </div>
                         </div>
                       </div>
                     </div>
-                  </div>
-                </FadeUp>
-              );
-            })}
+                  </FadeUp>
+                );
+              })
+            )}
           </div>
         </div>
       </div>

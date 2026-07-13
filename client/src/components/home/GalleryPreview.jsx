@@ -82,27 +82,101 @@ const galleryItems = [
   }
 ];
 
+import { useState, useEffect } from 'react';
+
 export default function GalleryPreview({ background = 'var(--color-neutral)' }) {
   const finalBg = background === 'var(--color-neutral)' ? '#fafafc' : background;
+  const [isMobile, setIsMobile] = useState(window.innerWidth < 1024);
+
+  useEffect(() => {
+    const handleResize = () => setIsMobile(window.innerWidth < 1024);
+    window.addEventListener('resize', handleResize);
+    return () => window.removeEventListener('resize', handleResize);
+  }, []);
+
   return (
     <section id="gallery" className="section" style={{ background: finalBg, overflow: 'hidden' }}>
       <div className="container">
         <FadeUp><div className="eyebrow">Gallery</div></FadeUp>
-        <FadeUp delay={0.1}><h2 style={{ fontSize: 'clamp(28px,3vw,44px)', marginBottom: 8 }}>The community behind TheMentR.</h2></FadeUp>
-        <FadeUp delay={0.2}><p style={{ color: 'var(--color-text-secondary)', marginBottom: 48 }}>Events, team moments, student achievements.</p></FadeUp>
+        <FadeUp delay={0.1}><h2 style={{ fontSize: isMobile ? '28px' : 'clamp(28px,3vw,44px)', marginBottom: 8 }}>The community behind TheMentR.</h2></FadeUp>
+        <FadeUp delay={0.2}><p style={{ color: 'var(--color-text-secondary)', marginBottom: isMobile ? '24px' : '48px' }}>Events, team moments, student achievements.</p></FadeUp>
         <FadeUp delay={0.2}>
           <div className="w-full">
-            <Masonry
-              items={galleryItems}
-              ease="power3.out"
-              duration={0.6}
-              stagger={0.05}
-              animateFrom="bottom"
-              scaleOnHover={true}
-              hoverScale={0.95}
-              blurToFocus={true}
-              colorShiftOnHover={false}
-            />
+            {isMobile ? (
+              <div className="mobile-swipe-carousel">
+                {galleryItems.map((item) => (
+                  <div 
+                    key={item.id} 
+                    className="mobile-swipe-card"
+                    style={{
+                      position: 'relative',
+                      borderRadius: '20px',
+                      overflow: 'hidden',
+                      aspectRatio: '4 / 3',
+                      background: `linear-gradient(to bottom, rgba(15,23,42,0) 40%, rgba(15,23,42,0.85) 100%), url(${item.images[0]})`,
+                      backgroundSize: 'cover',
+                      backgroundPosition: 'center',
+                      display: 'flex',
+                      flexDirection: 'column',
+                      justifyContent: 'flex-end',
+                      padding: '20px',
+                      boxShadow: '0 4px 12px rgba(10, 22, 40, 0.015)'
+                    }}
+                  >
+                    <span style={{
+                      position: 'absolute',
+                      top: '16px',
+                      left: '16px',
+                      background: 'rgba(255, 255, 255, 0.9)',
+                      color: '#6366F1',
+                      padding: '3px 8px',
+                      borderRadius: '6px',
+                      fontSize: '10px',
+                      fontWeight: 800,
+                      textTransform: 'uppercase',
+                      letterSpacing: '0.05em'
+                    }}>
+                      {item.tag}
+                    </span>
+                    <h4 style={{
+                      fontFamily: 'var(--font-hero)',
+                      fontSize: '15px',
+                      fontWeight: 800,
+                      color: '#FFFFFF',
+                      margin: 0
+                    }}>
+                      {item.title}
+                    </h4>
+                    <p style={{
+                      fontFamily: 'var(--font-body)',
+                      fontSize: '11px',
+                      color: 'rgba(255, 255, 255, 0.8)',
+                      lineHeight: '1.4',
+                      margin: '4px 0 0',
+                      textOverflow: 'ellipsis',
+                      display: '-webkit-box',
+                      WebkitLineClamp: 2,
+                      WebkitBoxOrient: 'vertical',
+                      overflow: 'hidden'
+                    }}>
+                      {item.description}
+                    </p>
+                  </div>
+                ))}
+              </div>
+            ) : (
+              <Masonry
+                items={galleryItems}
+                ease="power3.out"
+                duration={0.6}
+                stagger={0.05}
+                animateFrom="bottom"
+                scaleOnHover={true}
+                hoverScale={0.95}
+                blurToFocus={true}
+                colorShiftOnHover={false}
+              />
+            )}
           </div>
         </FadeUp>
       </div>

@@ -4,6 +4,7 @@ import { Search, EyeOff, DollarSign, ShieldCheck, UserMinus, ClipboardList, User
 
 export default function PainPointsSection() {
   const [isMobile, setIsMobile] = useState(window.innerWidth < 1024);
+  const [activeTab, setActiveTab] = useState('families'); // 'families' | 'educators'
   const [activeFamily, setActiveFamily] = useState('fam-1');
   const [activeEducator, setActiveEducator] = useState('edu-1');
   const [hoveredFamily, setHoveredFamily] = useState(null);
@@ -181,188 +182,218 @@ export default function PainPointsSection() {
           </p>
         </motion.div>
 
+        {/* Mobile Tab Swapper */}
+        {isMobile && (
+          <div style={{ display: 'flex', justifyContent: 'center', marginBottom: '32px' }}>
+            <div className="segmented-control">
+              <button 
+                onClick={() => setActiveTab('families')} 
+                className={`filter-btn ${activeTab === 'families' ? 'active' : ''}`}
+                style={{ fontSize: 13, fontWeight: 700 }}
+              >
+                For Families
+              </button>
+              <button 
+                onClick={() => setActiveTab('educators')} 
+                className={`filter-btn ${activeTab === 'educators' ? 'active' : ''}`}
+                style={{ fontSize: 13, fontWeight: 700 }}
+              >
+                For Educators
+              </button>
+            </div>
+          </div>
+        )}
+
         {/* ============================================================== */}
         {/* PART 2: Two Perspectives */}
         {/* ============================================================== */}
         <div style={{
           display: 'grid',
           gridTemplateColumns: isMobile ? '1fr' : '1fr 1fr',
-          gap: isMobile ? '48px' : '64px',
+          gap: isMobile ? '32px' : '64px',
           alignItems: 'start',
           marginBottom: isMobile ? '80px' : '120px'
         }}>
           
           {/* LEFT SIDE: For Families */}
-          <div>
-            <h3 style={{
-              fontFamily: 'var(--font-hero)',
-              fontWeight: 700,
-              fontSize: 14,
-              color: '#6366F1',
-              letterSpacing: '0.08em',
-              textTransform: 'uppercase',
-              marginBottom: 32,
-              textAlign: 'left'
-            }}>
-              FOR FAMILIES
-            </h3>
+          {(!isMobile || activeTab === 'families') && (
+            <div>
+              {!isMobile && (
+                <h3 style={{
+                  fontFamily: 'var(--font-hero)',
+                  fontWeight: 700,
+                  fontSize: 14,
+                  color: '#6366F1',
+                  letterSpacing: '0.08em',
+                  textTransform: 'uppercase',
+                  marginBottom: 32,
+                  textAlign: 'left'
+                }}>
+                  FOR FAMILIES
+                </h3>
+              )}
 
-            <div style={{ display: 'flex', flexDirection: 'column' }}>
-              {familyPoints.map((item, idx) => {
-                const isHovered = hoveredFamily === item.id;
-                const isExpanded = isMobile ? (activeFamily === item.id) : isHovered;
-                return (
-                  <div
-                    key={item.id}
-                    onMouseEnter={() => !isMobile && setHoveredFamily(item.id)}
-                    onMouseLeave={() => !isMobile && setHoveredFamily(null)}
-                    onClick={() => isMobile && setActiveFamily(activeFamily === item.id ? null : item.id)}
-                    className="flex flex-col py-[25px] border-b border-slate-200/40 last:border-b-0 first:pt-0 cursor-pointer"
-                    style={{
-                      transform: isExpanded ? 'translateX(6px)' : 'translateX(0)',
-                      transition: 'transform 0.22s cubic-bezier(0.16, 1, 0.3, 1)'
-                    }}
-                  >
-                    <div className="flex gap-[30px] items-start">
-                      {/* Circle Indicator */}
-                      <div 
-                        className="mt-3 flex-shrink-0"
-                        style={{
-                          width: 10,
-                          height: 10,
-                          borderRadius: '50%',
-                          border: `1.5px solid ${isExpanded ? '#6366F1' : '#64748B'}`,
-                          background: isExpanded ? '#6366F1' : 'transparent',
-                          transition: 'all 0.3s ease'
-                        }}
-                      />
-                      
-                      <div className="flex flex-col gap-2 w-full">
-                        <div className="relative inline-block w-fit">
-                          <h4 
-                            className="font-sora text-xl sm:text-2xl font-extrabold tracking-tight transition-colors duration-300"
-                            style={{ color: isExpanded ? '#6366F1' : '#1E293B' }}
-                          >
-                            {item.title}
-                          </h4>
-                          <div 
-                            style={{
-                              position: 'absolute',
-                              bottom: -2,
-                              left: 0,
-                              height: 1.5,
-                              background: '#6366F1',
-                              width: isExpanded ? '100%' : '0%',
-                              transition: 'width 0.35s cubic-bezier(0.16, 1, 0.3, 1)'
-                            }}
-                          />
-                        </div>
-                        
+              <div style={{ display: 'flex', flexDirection: 'column' }}>
+                {familyPoints.map((item, idx) => {
+                  const isHovered = hoveredFamily === item.id;
+                  const isExpanded = isMobile ? (activeFamily === item.id) : isHovered;
+                  return (
+                    <div
+                      key={item.id}
+                      onMouseEnter={() => !isMobile && setHoveredFamily(item.id)}
+                      onMouseLeave={() => !isMobile && setHoveredFamily(null)}
+                      onClick={() => isMobile && setActiveFamily(activeFamily === item.id ? null : item.id)}
+                      className="flex flex-col py-[25px] border-b border-slate-200/40 last:border-b-0 first:pt-0 cursor-pointer"
+                      style={{
+                        transform: isExpanded ? 'translateX(6px)' : 'translateX(0)',
+                        transition: 'transform 0.22s cubic-bezier(0.16, 1, 0.3, 1)'
+                      }}
+                    >
+                      <div className="flex gap-[30px] items-start">
+                        {/* Circle Indicator */}
                         <div 
-                          className="overflow-hidden transition-all duration-250 ease-in-out"
+                          className="mt-3 flex-shrink-0"
                           style={{
-                            opacity: isExpanded ? 1 : 0,
-                            maxHeight: isExpanded ? '80px' : '0px',
-                            marginTop: isExpanded ? '8px' : '0px'
+                            width: 10,
+                            height: 10,
+                            borderRadius: '50%',
+                            border: `1.5px solid ${isExpanded ? '#6366F1' : '#64748B'}`,
+                            background: isExpanded ? '#6366F1' : 'transparent',
+                            transition: 'all 0.3s ease'
                           }}
-                        >
-                          <p className="text-base text-[#64748B] italic leading-relaxed max-w-md">
-                            {item.quote}
-                          </p>
+                        />
+                        
+                        <div className="flex flex-col gap-2 w-full">
+                          <div className="relative inline-block w-fit">
+                            <h4 
+                              className="font-sora text-xl sm:text-2xl font-extrabold tracking-tight transition-colors duration-300"
+                              style={{ color: isExpanded ? '#6366F1' : '#1E293B' }}
+                            >
+                              {item.title}
+                            </h4>
+                            <div 
+                              style={{
+                                position: 'absolute',
+                                bottom: -2,
+                                left: 0,
+                                height: 1.5,
+                                background: '#6366F1',
+                                width: isExpanded ? '100%' : '0%',
+                                transition: 'width 0.35s cubic-bezier(0.16, 1, 0.3, 1)'
+                              }}
+                            />
+                          </div>
+                          
+                          <div 
+                            className="overflow-hidden transition-all duration-250 ease-in-out"
+                            style={{
+                              opacity: isExpanded ? 1 : 0,
+                              maxHeight: isExpanded ? '80px' : '0px',
+                              marginTop: isExpanded ? '8px' : '0px'
+                            }}
+                          >
+                            <p className="text-base text-[#64748B] italic leading-relaxed max-w-md">
+                              {item.quote}
+                            </p>
+                          </div>
                         </div>
                       </div>
                     </div>
-                  </div>
-                );
-              })}
+                  );
+                })}
+              </div>
             </div>
-          </div>
+          )}
 
           {/* RIGHT SIDE: For Educators */}
-          <div>
-            <h3 style={{
-              fontFamily: 'var(--font-hero)',
-              fontWeight: 700,
-              fontSize: 14,
-              color: '#10B981',
-              letterSpacing: '0.08em',
-              textTransform: 'uppercase',
-              marginBottom: 32,
-              textAlign: 'left'
-            }}>
-              FOR EDUCATORS
-            </h3>
+          {(!isMobile || activeTab === 'educators') && (
+            <div>
+              {!isMobile && (
+                <h3 style={{
+                  fontFamily: 'var(--font-hero)',
+                  fontWeight: 700,
+                  fontSize: 14,
+                  color: '#10B981',
+                  letterSpacing: '0.08em',
+                  textTransform: 'uppercase',
+                  marginBottom: 32,
+                  textAlign: 'left'
+                }}>
+                  FOR EDUCATORS
+                </h3>
+              )}
 
-            <div style={{ display: 'flex', flexDirection: 'column' }}>
-              {educatorPoints.map((item, idx) => {
-                const isHovered = hoveredEducator === item.id;
-                const isExpanded = isMobile ? (activeEducator === item.id) : isHovered;
-                return (
-                  <div
-                    key={item.id}
-                    onMouseEnter={() => !isMobile && setHoveredEducator(item.id)}
-                    onMouseLeave={() => !isMobile && setHoveredEducator(null)}
-                    onClick={() => isMobile && setActiveEducator(activeEducator === item.id ? null : item.id)}
-                    className="flex flex-col py-[25px] border-b border-slate-200/40 last:border-b-0 first:pt-0 cursor-pointer"
-                    style={{
-                      transform: isExpanded ? 'translateX(6px)' : 'translateX(0)',
-                      transition: 'transform 0.22s cubic-bezier(0.16, 1, 0.3, 1)'
-                    }}
-                  >
-                    <div className="flex gap-[30px] items-start">
-                      {/* Circle Indicator */}
-                      <div 
-                        className="mt-3 flex-shrink-0"
-                        style={{
-                          width: 10,
-                          height: 10,
-                          borderRadius: '50%',
-                          border: `1.5px solid ${isExpanded ? '#10B981' : '#64748B'}`,
-                          background: isExpanded ? '#10B981' : 'transparent',
-                          transition: 'all 0.3s ease'
-                        }}
-                      />
-                      
-                      <div className="flex flex-col gap-2 w-full">
-                        <div className="relative inline-block w-fit">
-                          <h4 
-                            className="font-sora text-xl sm:text-2xl font-extrabold tracking-tight transition-colors duration-300"
-                            style={{ color: isExpanded ? '#10B981' : '#1E293B' }}
-                          >
-                            {item.title}
-                          </h4>
-                          <div 
-                            style={{
-                              position: 'absolute',
-                              bottom: -2,
-                              left: 0,
-                              height: 1.5,
-                              background: '#10B981',
-                              width: isExpanded ? '100%' : '0%',
-                              transition: 'width 0.35s cubic-bezier(0.16, 1, 0.3, 1)'
-                            }}
-                          />
-                        </div>
-                        
+              <div style={{ display: 'flex', flexDirection: 'column' }}>
+                {educatorPoints.map((item, idx) => {
+                  const isHovered = hoveredEducator === item.id;
+                  const isExpanded = isMobile ? (activeEducator === item.id) : isHovered;
+                  return (
+                    <div
+                      key={item.id}
+                      onMouseEnter={() => !isMobile && setHoveredEducator(item.id)}
+                      onMouseLeave={() => !isMobile && setHoveredEducator(null)}
+                      onClick={() => isMobile && setActiveEducator(activeEducator === item.id ? null : item.id)}
+                      className="flex flex-col py-[25px] border-b border-slate-200/40 last:border-b-0 first:pt-0 cursor-pointer"
+                      style={{
+                        transform: isExpanded ? 'translateX(6px)' : 'translateX(0)',
+                        transition: 'transform 0.22s cubic-bezier(0.16, 1, 0.3, 1)'
+                      }}
+                    >
+                      <div className="flex gap-[30px] items-start">
+                        {/* Circle Indicator */}
                         <div 
-                          className="overflow-hidden transition-all duration-250 ease-in-out"
+                          className="mt-3 flex-shrink-0"
                           style={{
-                            opacity: isExpanded ? 1 : 0,
-                            maxHeight: isExpanded ? '80px' : '0px',
-                            marginTop: isExpanded ? '8px' : '0px'
+                            width: 10,
+                            height: 10,
+                            borderRadius: '50%',
+                            border: `1.5px solid ${isExpanded ? '#10B981' : '#64748B'}`,
+                            background: isExpanded ? '#10B981' : 'transparent',
+                            transition: 'all 0.3s ease'
                           }}
-                        >
-                          <p className="text-base text-[#64748B] italic leading-relaxed max-w-md">
-                            {item.quote}
-                          </p>
+                        />
+                        
+                        <div className="flex flex-col gap-2 w-full">
+                          <div className="relative inline-block w-fit">
+                            <h4 
+                              className="font-sora text-xl sm:text-2xl font-extrabold tracking-tight transition-colors duration-300"
+                              style={{ color: isExpanded ? '#10B981' : '#1E293B' }}
+                            >
+                              {item.title}
+                            </h4>
+                            <div 
+                              style={{
+                                position: 'absolute',
+                                bottom: -2,
+                                left: 0,
+                                height: 1.5,
+                                background: '#10B981',
+                                width: isExpanded ? '100%' : '0%',
+                                transition: 'width 0.35s cubic-bezier(0.16, 1, 0.3, 1)'
+                              }}
+                            />
+                          </div>
+                          
+                          <div 
+                            className="overflow-hidden transition-all duration-250 ease-in-out"
+                            style={{
+                              opacity: isExpanded ? 1 : 0,
+                              maxHeight: isExpanded ? '80px' : '0px',
+                              marginTop: isExpanded ? '8px' : '0px'
+                            }}
+                          >
+                            <p className="text-base text-[#64748B] italic leading-relaxed max-w-md">
+                              {item.quote}
+                            </p>
+                          </div>
                         </div>
                       </div>
                     </div>
-                  </div>
-                );
-              })}
+                  );
+                })}
+              </div>
             </div>
-          </div>
+          )}
 
         </div>
 

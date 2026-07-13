@@ -340,14 +340,17 @@ export default function VisionSection() {
             }} />
           )}
 
-          {/* Grid of Nodes */}
-          <div style={{
-            display: 'grid',
-            gridTemplateColumns: isMobile ? '1fr' : 'repeat(4, 1fr)',
-            gap: isMobile ? '36px' : '40px',
-            position: 'relative',
-            zIndex: 2
-          }}>
+          {/* Grid of Nodes / Mobile Swipe Carousel */}
+          <div 
+            className={isMobile ? "mobile-swipe-carousel" : ""}
+            style={{
+              display: isMobile ? 'flex' : 'grid',
+              gridTemplateColumns: isMobile ? 'none' : 'repeat(4, 1fr)',
+              gap: isMobile ? '0' : '40px',
+              position: 'relative',
+              zIndex: 2
+            }}
+          >
             {[
               { year: '2022 — FOUNDED', title: 'Assessment Visits', desc: 'First in India to offer structured home-based student evaluations before teacher placement.', active: true },
               { year: '2023 — EXPANDED', title: 'Online Platform', desc: 'TheMentR Online launches alongside a dedicated Olympiad preparation track.', active: true },
@@ -356,13 +359,18 @@ export default function VisionSection() {
             ].map((node, index) => (
               <div 
                 key={index} 
-                className="timeline-node-item"
+                className={`timeline-node-item ${isMobile ? 'mobile-swipe-card' : ''}`}
                 style={{ 
                   display: 'flex', 
-                  flexDirection: isMobile ? 'row' : 'column',
+                  flexDirection: 'column',
                   alignItems: isMobile ? 'flex-start' : 'center',
                   textAlign: isMobile ? 'left' : 'center',
-                  gap: isMobile ? '16px' : '20px'
+                  gap: '20px',
+                  background: isMobile ? '#FFFFFF' : 'transparent',
+                  border: isMobile ? '1px solid rgba(15, 23, 42, 0.05)' : 'none',
+                  borderRadius: isMobile ? '20px' : '0px',
+                  padding: isMobile ? '24px' : '0px',
+                  boxShadow: isMobile ? '0 4px 12px rgba(10, 22, 40, 0.01)' : 'none'
                 }}
               >
                 {/* Node Circle */}

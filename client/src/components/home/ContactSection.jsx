@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { FadeUp } from '../../hooks/useScrollReveal';
 import BorderGlow from './BorderGlow';
 
@@ -74,6 +74,13 @@ export default function ContactSection({ background = 'white' }) {
   const [openFaq, setOpenFaq] = useState(null);
   const [viewMore, setViewMore] = useState(false);
   const [selectedSection, setSelectedSection] = useState('teachers');
+  const [isMobile, setIsMobile] = useState(window.innerWidth < 1024);
+
+  useEffect(() => {
+    const handleResize = () => setIsMobile(window.innerWidth < 1024);
+    window.addEventListener('resize', handleResize);
+    return () => window.removeEventListener('resize', handleResize);
+  }, []);
   
   const finalBg = background === 'white' ? '#fafafc' : background;
 
@@ -82,14 +89,14 @@ export default function ContactSection({ background = 'white' }) {
   };
 
   return (
-    <section id="contact-section" className="section" style={{ background: finalBg }}>
+    <section id="contact-section" className="section" style={{ background: finalBg, padding: isMobile ? '60px 0' : '120px 0' }}>
       <div className="container">
-        <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 80 }} className="contact-grid-responsive">
+        <div style={{ display: 'grid', gridTemplateColumns: isMobile ? '1fr' : '1fr 1fr', gap: isMobile ? 32 : 80 }} className="contact-grid-responsive">
           <FadeUp>
             <div>
               <div className="eyebrow">Contact</div>
-              <h2 style={{ fontSize: 36, marginBottom: 16 }}>We're here to help.</h2>
-              <p style={{ fontSize: 16, color: 'var(--color-text-secondary)', lineHeight: 1.8, marginBottom: 40 }}>Whether you have a question about our services, our team responds within one business day.</p>
+              <h2 style={{ fontSize: isMobile ? 28 : 36, marginBottom: 12 }}>We're here to help.</h2>
+              <p style={{ fontSize: isMobile ? 14 : 16, color: 'var(--color-text-secondary)', lineHeight: 1.8, marginBottom: isMobile ? 24 : 40 }}>Whether you have a question about our services, our team responds within one business day.</p>
               <div style={{ display: 'flex', flexDirection: 'column', gap: 20 }}>
                 {[
                   { icon: '📧', label: 'Email', value: 'contact@thementr.com' },

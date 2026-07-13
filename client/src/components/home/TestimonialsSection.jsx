@@ -1,664 +1,604 @@
 import { useState, useEffect, useRef } from 'react';
 import { FadeUp } from '../../hooks/useScrollReveal';
-import { ChevronUp, ChevronDown } from 'lucide-react';
+import { ArrowLeft, ArrowRight, Play, CheckCircle } from 'lucide-react';
 
-const testimonials = [
+// ==============================================================
+// 1. ORIGINAL TESTIMONIAL DATA WITH DUMMY AVATARS
+// ==============================================================
+const testimonialsData = [
   {
-    stars: 5,
+    id: 't1',
+    category: 'teacher',
+    type: 'text',
+    name: 'Subham Kumar Dash',
+    role: 'Verified Teacher',
+    location: 'IRC village, N3, Nayapalli',
+    verified: true,
+    profileImage: 'https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?auto=format&fit=crop&q=80&w=400',
+    thumbnail: '',
+    videoUrl: '',
+    rating: 5,
     quote: "Friendly environment, very polite and hospitality is great.",
-    name: "Subham Kumar Dash",
-    role: "Teacher",
-    location: "IRC village, N3, Nayapalli",
-    badge: "Verified Teacher",
-    initials: "SD",
-    color: "#4F7CFF"
+    fullStory: "Friendly environment, very polite and hospitality is great. Onboarding and matching with student requests are fully transparent.",
+    createdAt: '2025-06-10'
   },
   {
-    stars: 5,
+    id: 't2',
+    category: 'teacher',
+    type: 'text',
+    name: 'Akash Kumar Sahoo',
+    role: 'Verified Teacher',
+    location: 'Nayapalli, Beherasahi',
+    verified: true,
+    profileImage: 'https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?auto=format&fit=crop&q=80&w=400',
+    thumbnail: '',
+    videoUrl: '',
+    rating: 5,
     quote: "Thank you, I felt very happy with all the respected staff & MD sir. This Environment is very friendly.",
-    name: "Akash Kumar Sahoo",
-    role: "Teacher",
-    location: "Nayapalli, Beherasahi",
-    badge: "Verified Teacher",
-    initials: "AS",
-    color: "#7469F8"
+    fullStory: "Thank you, I felt very happy with all the respected staff & MD sir. This Environment is very friendly and supportive for tutors.",
+    createdAt: '2025-06-08'
   },
   {
-    stars: 5,
+    id: 't3',
+    category: 'teacher',
+    type: 'text',
+    name: 'Sangram Rout',
+    role: 'Verified Teacher',
+    location: 'Jayadev Vihar, Bhubaneswar',
+    verified: true,
+    profileImage: 'https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?auto=format&fit=crop&q=80&w=400',
+    thumbnail: '',
+    videoUrl: '',
+    rating: 5,
     quote: "Thank you everyone. Great opportunity. Friendly & polite behaviour. Good Initiative.",
-    name: "Sangram Rout",
-    role: "Teacher",
-    location: "Jayadev Vihar, Bhubaneswar",
-    badge: "Verified Teacher",
-    initials: "SR",
-    color: "#059669"
+    fullStory: "Thank you everyone. Great opportunity. Friendly & polite behaviour. Good Initiative to match verified tutors with motivated families.",
+    createdAt: '2025-06-05'
   },
   {
-    stars: 5,
+    id: 't4',
+    category: 'teacher',
+    type: 'text',
+    name: 'Vikas Ranjan Senapati',
+    role: 'Verified Teacher',
+    location: 'Bhubaneswar, Odisha',
+    verified: true,
+    profileImage: 'https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?auto=format&fit=crop&q=80&w=400',
+    thumbnail: '',
+    videoUrl: '',
+    rating: 5,
     quote: "I would like to convey my thanks for such a wonderful initialization to bring a revolution in the education field.",
-    name: "Vikas Ranjan Senapati",
-    role: "Teacher",
-    location: "Bhubaneswar, Odisha",
-    badge: "Verified Teacher",
-    initials: "VS",
-    color: "#D97706"
+    fullStory: "I would like to convey my thanks for such a wonderful initialization to bring a revolution in the education field, providing job security and transparency.",
+    createdAt: '2025-06-01'
   },
   {
-    stars: 5,
+    id: 't5',
+    category: 'teacher',
+    type: 'text',
+    name: 'Pratismita Sahoo',
+    role: 'Verified Teacher',
+    location: 'Bajapur, Puri',
+    verified: true,
+    profileImage: 'https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?auto=format&fit=crop&q=80&w=400',
+    thumbnail: '',
+    videoUrl: '',
+    rating: 5,
     quote: "Very friendly atmosphere, friendly and supportive staff. It's my first experience as a tutor and very excited for the journey. Thank you.",
-    name: "Pratismita Sahoo",
-    role: "Teacher",
-    location: "Bajapur, Puri",
-    badge: "Verified Teacher",
-    initials: "PS",
-    color: "#2563EB"
+    fullStory: "Very friendly atmosphere, friendly and supportive staff. It's my first experience as a tutor and very excited for the journey. The onboarding guides were extremely helpful. Thank you.",
+    createdAt: '2025-05-28'
   },
   {
-    stars: 5,
+    id: 't6',
+    category: 'teacher',
+    type: 'text',
+    name: 'Priyabrata Pradhan',
+    role: 'Verified Teacher',
+    location: 'Banamalipur, Balipatna, Khorda',
+    verified: true,
+    profileImage: 'https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?auto=format&fit=crop&q=80&w=400',
+    thumbnail: '',
+    videoUrl: '',
+    rating: 5,
     quote: "Staff are so polite and humble and my experience with this institution is remarkable.",
-    name: "Priyabrata Pradhan",
-    role: "Teacher",
-    location: "Banamalipur, Balipatna, Khorda",
-    badge: "Verified Teacher",
-    initials: "PP",
-    color: "#EC4899"
+    fullStory: "Staff are so polite and humble and my experience with this institution is remarkable. Highly recommend for any educator.",
+    createdAt: '2025-05-25'
   },
   {
-    stars: 5,
+    id: 't7',
+    category: 'teacher',
+    type: 'text',
+    name: 'Nirmalya Das',
+    role: 'Verified Teacher',
+    location: 'Pathargadhia, KIIT, BBSR',
+    verified: true,
+    profileImage: 'https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?auto=format&fit=crop&q=80&w=400',
+    thumbnail: '',
+    videoUrl: '',
+    rating: 5,
     quote: "The onboarding experience was smooth, well-organised and very informative. The team was supportive. Thank you for the warm welcome. I look forward to contributing and growing with the company. Thank you.",
-    name: "Nirmalya Das",
-    role: "Teacher",
-    location: "Pathargadhia, KIIT, BBSR",
-    badge: "Verified Teacher",
-    initials: "ND",
-    color: "#8B5CF6"
+    fullStory: "The onboarding experience was smooth, well-organised and very informative. The team was supportive. Thank you for the warm welcome. I look forward to contributing and growing with the company. Thank you.",
+    createdAt: '2025-05-20'
   }
 ];
 
-const additionalTestimonials = [];
-
 export default function TestimonialsSection() {
+  const [catFilter, setCatFilter] = useState('all'); // 'all', 'parent', 'teacher'
+  const [typeFilter, setTypeFilter] = useState('all'); // 'all', 'text', 'video'
   const [activeIndex, setActiveIndex] = useState(0);
-  const [displayIndex, setDisplayIndex] = useState(0);
-  const [isTransitioning, setIsTransitioning] = useState(false);
-  const [isHovered, setIsHovered] = useState(false);
-  const [isMobile, setIsMobile] = useState(window.innerWidth < 1024);
-  const [showAll, setShowAll] = useState(false);
-  const containerRef = useRef(null);
+  const [readMore, setReadMore] = useState(false);
+  const [touchStart, setTouchStart] = useState(null);
+  const [touchEnd, setTouchEnd] = useState(null);
 
-  useEffect(() => {
-    const handleResize = () => setIsMobile(window.innerWidth < 1024);
-    window.addEventListener('resize', handleResize);
-    return () => window.removeEventListener('resize', handleResize);
-  }, []);
+  // Filter testimonials based on selected controls
+  const filteredTestimonials = testimonialsData.filter(item => {
+    const matchesCat = catFilter === 'all' ? true : item.category === catFilter;
+    const matchesType = typeFilter === 'all' ? true : item.type === typeFilter;
+    return matchesCat && matchesType;
+  });
 
-  // Auto switch every 7.5 seconds
+  // Reset indices when filters change
   useEffect(() => {
-    if (isHovered) return;
+    setActiveIndex(0);
+    setReadMore(false);
+  }, [catFilter, typeFilter]);
+
+  const activeItem = filteredTestimonials[activeIndex];
+
+  // Auto-slide test intervals
+  useEffect(() => {
     const interval = setInterval(() => {
-      const nextIndex = (activeIndex + 1) % testimonials.length;
-      handleIndexChange(nextIndex);
-    }, 7500);
+      if (filteredTestimonials.length > 1) {
+        setActiveIndex(prev => (prev + 1) % filteredTestimonials.length);
+        setReadMore(false);
+      }
+    }, 8000);
     return () => clearInterval(interval);
-  }, [activeIndex, isHovered]);
+  }, [filteredTestimonials]);
 
-  const handleIndexChange = (newIndex) => {
-    if (newIndex === activeIndex || isTransitioning) return;
-    setIsTransitioning(true);
-    setActiveIndex(newIndex);
-    setTimeout(() => {
-      setDisplayIndex(newIndex);
-      setIsTransitioning(false);
-    }, 220); // Sync midpoint of the fade transition
+  const handlePrev = () => {
+    if (filteredTestimonials.length === 0) return;
+    setReadMore(false);
+    setActiveIndex(prev => (prev - 1 + filteredTestimonials.length) % filteredTestimonials.length);
   };
 
-  const active = testimonials[displayIndex];
+  const handleNext = () => {
+    if (filteredTestimonials.length === 0) return;
+    setReadMore(false);
+    setActiveIndex(prev => (prev + 1) % filteredTestimonials.length);
+  };
 
-  // Dynamic vertical offset for macOS Dock playlist shift effect
-  const listTranslateY = (1.8 - activeIndex) * 58;
+  // Swiping support for mobile
+  const minSwipeDistance = 50;
 
-  // Coordinate math for the morphing SVG connector line
-  const yStart = 40 + activeIndex * 88 + 38 + (1.8 - activeIndex) * 58;
-  const yEnd = 240; // Center of floating text right panel
+  const onTouchStart = (e) => {
+    setTouchEnd(null);
+    setTouchStart(e.targetTouches[0].clientX);
+  };
+
+  const onTouchMove = (e) => {
+    setTouchEnd(e.targetTouches[0].clientX);
+  };
+
+  const onTouchEnd = () => {
+    if (!touchStart || !touchEnd) return;
+    const distance = touchStart - touchEnd;
+    const isLeftSwipe = distance > minSwipeDistance;
+    const isRightSwipe = distance < -minSwipeDistance;
+    
+    if (isLeftSwipe) {
+      handleNext();
+    } else if (isRightSwipe) {
+      handlePrev();
+    }
+  };
 
   return (
-    <section 
-      id="testimonials" 
-      className="section" 
-      style={{ background: '#fafafc', overflow: 'hidden', position: 'relative', padding: '120px 0' }}
-      onMouseEnter={() => setIsHovered(true)}
-      onMouseLeave={() => setIsHovered(false)}
-      ref={containerRef}
-    >
-      {/* Premium ambient glows (opacity < 5%) */}
+    <section id="testimonials" className="section" style={{ background: '#fafafc', padding: '140px 0', position: 'relative', overflow: 'hidden' }}>
+      
+      {/* Background layer */}
       <div style={{
         position: 'absolute',
-        top: '20%',
-        left: '20%',
-        width: 400,
-        height: 400,
-        background: 'radial-gradient(circle, rgba(79, 124, 255, 0.035) 0%, transparent 70%)',
-        filter: 'blur(40px)',
-        pointerEvents: 'none'
-      }} />
-      <div style={{
-        position: 'absolute',
-        bottom: '20%',
-        right: '15%',
-        width: 450,
-        height: 450,
-        background: 'radial-gradient(circle, rgba(116, 105, 248, 0.03) 0%, transparent 70%)',
-        filter: 'blur(50px)',
+        width: '600px',
+        height: '600px',
+        borderRadius: '50%',
+        background: 'radial-gradient(circle, rgba(116, 105, 248, 0.015) 0%, transparent 70%)',
+        bottom: '5%',
+        left: '-10%',
         pointerEvents: 'none'
       }} />
 
-      <div className="container">
-        <FadeUp><div className="eyebrow">Testimonials</div></FadeUp>
-        <FadeUp delay={0.1} duration={0.8} y={24}>
-          <h2 style={{ 
-            fontSize: 'clamp(32px, 3.5vw, 44px)', 
-            marginBottom: 72, 
-            fontFamily: 'var(--font-display)', 
-            fontWeight: 500, 
-            color: '#1D2433',
-            textAlign: 'left'
-          }}>
-            Families growing with MentR
-          </h2>
+      <div className="container" style={{ position: 'relative', zIndex: 1 }}>
+        
+        {/* Section Header */}
+        <div style={{ textAlign: 'center', maxWidth: 600, margin: '0 auto 48px' }}>
+          <FadeUp><div className="testimonial-eyebrow">TESTIMONIALS</div></FadeUp>
+          <FadeUp delay={0.1}>
+            <h2 style={{ fontSize: 'clamp(32px, 3.5vw, 44px)', fontWeight: 800, color: '#0F172A', letterSpacing: '-0.02em', marginBottom: 16, fontFamily: 'var(--font-hero)' }}>
+              Families Growing with MentR
+            </h2>
+          </FadeUp>
+          <FadeUp delay={0.15}>
+            <p style={{ fontSize: 16, color: '#64748B', lineHeight: 1.6, margin: 0 }}>
+              Hear directly from parents and teachers who have experienced the MentR journey and trusted us with learning.
+            </p>
+          </FadeUp>
+        </div>
+
+        {/* Testimonial Segmented Controls Filter Bar */}
+        <FadeUp delay={0.2}>
+          <div className="testimonial-filters-container">
+            {/* Category Filter */}
+            <div className="segmented-control">
+              <button onClick={() => setCatFilter('all')} className={`filter-btn ${catFilter === 'all' ? 'active' : ''}`}>All</button>
+              <button onClick={() => setCatFilter('parent')} className={`filter-btn ${catFilter === 'parent' ? 'active' : ''}`}>Parents</button>
+              <button onClick={() => setCatFilter('teacher')} className={`filter-btn ${catFilter === 'teacher' ? 'active' : ''}`}>Teachers</button>
+            </div>
+
+            {/* Type Filter */}
+            <div className="segmented-control">
+              <button onClick={() => setTypeFilter('all')} className={`filter-btn ${typeFilter === 'all' ? 'active' : ''}`}>All</button>
+              <button onClick={() => setTypeFilter('text')} className={`filter-btn ${typeFilter === 'text' ? 'active' : ''}`}>Text</button>
+              <button onClick={() => setTypeFilter('video')} className={`filter-btn ${typeFilter === 'video' ? 'active' : ''}`}>Video</button>
+            </div>
+          </div>
         </FadeUp>
 
-        <div className="editorial-testimonials-layout" style={{ position: 'relative' }}>
-          
-          {/* Left Panel: Reviewer list & progress track */}
-          <div className="reviewer-panel-outer">
-            
-            <button 
-              onClick={() => handleIndexChange(Math.max(0, activeIndex - 1))}
-              disabled={activeIndex === 0}
-              className="testimonial-nav-btn prev-btn"
-              style={{
-                display: isMobile ? 'none' : 'flex',
-                alignItems: 'center',
-                justifyContent: 'center',
-                width: '100%',
-                height: 24,
-                background: 'transparent',
-                border: 'none',
-                cursor: activeIndex === 0 ? 'not-allowed' : 'pointer',
-                color: activeIndex === 0 ? '#DFE5F2' : '#7469F8',
-                transition: 'all 0.3s ease',
-                marginBottom: 12,
-                position: 'relative',
-                zIndex: 10
-              }}
-            >
-              <ChevronUp size={24} strokeWidth={2.5} />
-            </button>
-
-            <div className="reviewer-panel-wrapper">
-              {/* Shiftable reviewer container */}
+        {/* Main Testimonial Surface */}
+        <div style={{ maxWidth: 940, margin: '0 auto' }}>
+          {filteredTestimonials.length > 0 ? (
+            <FadeUp delay={0.25}>
               <div 
-                className="reviewer-scroll-container"
-                style={{
-                  position: 'relative',
-                  transform: `translate3d(0, ${listTranslateY}px, 0)`
-                }}
+                className="testimonial-card-surface"
+                onTouchStart={onTouchStart}
+                onTouchMove={onTouchMove}
+                onTouchEnd={onTouchEnd}
               >
-                {/* Vertical timeline progress track */}
-                <div className="vertical-progress-track">
-                  <div 
-                    className="vertical-progress-bar"
-                    style={{
-                      top: activeIndex * 88 + 16,
-                      height: 44,
-                      transform: 'translate3d(0, 0, 0)'
-                    }}
-                  />
-                </div>
-
-              {testimonials.map((t, idx) => {
-                const isActive = idx === activeIndex;
-                return (
-                  <div
-                    key={t.name}
-                    onClick={() => handleIndexChange(idx)}
-                    className={`reviewer-editorial-item ${isActive ? 'active' : ''}`}
-                    style={{
-                      display: 'flex',
-                      alignItems: 'center',
-                      gap: 16,
-                      height: 76,
-                      margin: '6px 0',
-                      cursor: 'pointer',
-                      opacity: isActive ? 1 : 0.45,
-                      transform: isMobile ? 'none' : (isActive ? 'scale(1.04) translate3d(8px, 0, 0)' : 'scale(0.96) translate3d(0, 0, 0)'),
-                      transition: 'all 0.45s cubic-bezier(0.16, 1, 0.3, 1)',
-                      position: 'relative'
-                    }}
-                  >
-                    {/* Active vertical accent bar */}
-                    <div style={{
-                      position: 'absolute',
-                      left: -20,
-                      width: 3,
-                      height: 24,
-                      borderRadius: 99,
-                      background: 'linear-gradient(180deg, #4F7CFF, #7469F8)',
-                      opacity: isActive ? 1 : 0,
-                      transform: isActive ? 'scaleY(1)' : 'scaleY(0)',
-                      transition: 'all 0.45s cubic-bezier(0.16, 1, 0.3, 1)'
-                    }} />
-
-                    {/* Initials Avatar */}
-                    <div style={{
-                      width: 44,
-                      height: 44,
-                      borderRadius: '50%',
-                      display: 'flex',
-                      alignItems: 'center',
-                      justifyContent: 'center',
-                      background: t.color,
-                      color: '#FFFFFF',
-                      fontWeight: 700,
-                      fontSize: 14,
-                      flexShrink: 0,
-                      position: 'relative',
-                      boxShadow: isActive ? '0 4px 12px rgba(79, 124, 255, 0.15)' : 'none',
-                      transition: 'all 0.35s'
-                    }}>
-                      {t.initials}
-                      {isActive && (
-                        <div style={{
-                          position: 'absolute',
-                          bottom: 0,
-                          right: 0,
-                          width: 8,
-                          height: 8,
-                          borderRadius: '50%',
-                          background: '#10B981',
-                          border: '1.5px solid #FAFBFF'
-                        }} />
-                      )}
-                    </div>
-
-                    <div style={{ display: 'flex', flexDirection: 'column' }}>
-                      <span style={{ 
-                        fontSize: 15, 
-                        fontWeight: 700, 
-                        color: '#1D2433',
-                        letterSpacing: '-0.01em'
-                      }}>
-                        {t.name}
-                      </span>
-                      <span style={{ 
-                        fontSize: 11, 
-                        color: '#5C667A', 
-                        fontWeight: 500,
-                        marginTop: 2
-                      }}>
-                        {t.role}
-                      </span>
+                <div className="testimonial-split-layout">
+                  
+                  {/* Left Column: Image placeholder */}
+                  <div className="testimonial-media-col">
+                    <div className="profile-image-viewport">
+                      <img 
+                        src={activeItem.profileImage} 
+                        alt={activeItem.name} 
+                        className="profile-static-img"
+                        loading="lazy"
+                      />
                     </div>
                   </div>
-                );
-              })}
-            </div>
-          </div>
 
-          <button 
-            onClick={() => handleIndexChange(Math.min(testimonials.length - 1, activeIndex + 1))}
-            disabled={activeIndex === testimonials.length - 1}
-            className="testimonial-nav-btn next-btn"
-            style={{
-              display: isMobile ? 'none' : 'flex',
-              alignItems: 'center',
-              justifyContent: 'center',
-              width: '100%',
-              height: 24,
-              background: 'transparent',
-              border: 'none',
-              cursor: activeIndex === testimonials.length - 1 ? 'not-allowed' : 'pointer',
-              color: activeIndex === testimonials.length - 1 ? '#DFE5F2' : '#7469F8',
-              transition: 'all 0.3s ease',
-              marginTop: 12,
-              position: 'relative',
-              zIndex: 10
-            }}
-          >
-            <ChevronDown size={24} strokeWidth={2.5} />
-          </button>
-        </div>
+                  {/* Right Column: Info & Storytelling */}
+                  <div className="testimonial-info-col">
+                    
+                    {/* Rating Stars */}
+                    <div style={{ display: 'flex', gap: 3, marginBottom: 16 }}>
+                      {Array.from({ length: activeItem.rating }).map((_, i) => (
+                        <span key={i} style={{ color: '#F59E0B', fontSize: 16 }}>★</span>
+                      ))}
+                    </div>
 
-          {/* Morphing SVG relationship line (desktop only) */}
-          <div className="svg-connector-wrapper">
-            <svg style={{ width: '100%', height: '100%' }}>
-              <defs>
-                <linearGradient id="glow-grad" x1="0%" y1="0%" x2="100%" y2="0%">
-                  <stop offset="0%" stopColor="#4F7CFF" />
-                  <stop offset="100%" stopColor="#7469F8" />
-                </linearGradient>
-                <filter id="svg-blur" x="-10%" y="-10%" width="120%" height="120%">
-                  <feGaussianBlur stdDeviation="3" result="blur" />
-                  <feMerge>
-                    <feMergeNode in="blur" />
-                    <feMergeNode in="SourceGraphic" />
-                  </feMerge>
-                </filter>
-              </defs>
-              <path
-                d={`M 15,${yStart} C 70,${yStart} 50,${yEnd} 105,${yEnd}`}
-                fill="none"
-                stroke="url(#glow-grad)"
-                strokeWidth="2"
-                strokeLinecap="round"
-                filter="url(#svg-blur)"
-                style={{
-                  transition: 'd 0.45s cubic-bezier(0.16, 1, 0.3, 1)'
-                }}
-              />
-            </svg>
-          </div>
+                    {/* Verified Badge */}
+                    <div style={{ display: 'flex', alignItems: 'center', marginBottom: 20 }}>
+                      <span className="verified-badge-pill">
+                        <CheckCircle size={10} color="#059669" fill="#D1FAE5" style={{ marginRight: 5 }} />
+                        Verified {activeItem.category.charAt(0).toUpperCase() + activeItem.category.slice(1)}
+                      </span>
+                    </div>
 
-          {/* Right Panel: Large floating editorial quote */}
-          <div className="testimonial-editorial-detail">
-            {/* Background large quotation mark */}
-            <div className="backdrop-quote-mark">“</div>
+                    {/* Quote */}
+                    <blockquote className="testimonial-quote">
+                      "{activeItem.quote}"
+                    </blockquote>
 
-            <div 
-              style={{
-                opacity: isTransitioning ? 0 : 1,
-                transform: isTransitioning ? 'translate3d(0, 12px, 0)' : 'translate3d(0, 0, 0)',
-                transition: 'opacity 0.45s cubic-bezier(0.16, 1, 0.3, 1), transform 0.45s cubic-bezier(0.16, 1, 0.3, 1)',
-                position: 'relative',
-                zIndex: 2
-              }}
-            >
-              <p style={{
-                fontFamily: 'var(--font-display)',
-                fontSize: 'clamp(20px, 2.2vw, 26px)',
-                lineHeight: 1.6,
-                color: '#1D2433',
-                fontWeight: 400,
-                marginBottom: 36,
-                maxWidth: '60ch',
-                fontStyle: 'normal'
-              }}>
-                {active.quote}
-              </p>
+                    {/* Expandable story (inline) */}
+                    {readMore && (
+                      <p className="testimonial-fullstory animate-expand">
+                        {activeItem.fullStory}
+                      </p>
+                    )}
 
-              {/* Reviewer Meta Information */}
-              <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', flexWrap: 'wrap', gap: 20 }}>
-                <div>
-                  <div style={{ display: 'flex', alignItems: 'center', gap: 8, marginBottom: 4 }}>
-                    <span style={{ fontSize: 16, fontWeight: 700, color: '#1D2433' }}>{active.name}</span>
-                    <span style={{ 
-                      background: 'rgba(5, 150, 105, 0.08)', 
-                      color: '#059669', 
-                      fontSize: 10, 
-                      fontWeight: 700, 
-                      padding: '2px 8px', 
-                      borderRadius: 6,
-                      textTransform: 'uppercase',
-                      letterSpacing: '0.05em'
-                    }}>
-                      {active.badge}
-                    </span>
-                  </div>
-                  <div style={{ fontSize: 13, color: '#5C667A', fontWeight: 500 }}>
-                    {active.role} &bull; {active.location}
-                  </div>
-                </div>
+                    <div style={{ marginBottom: 28 }}>
+                      <button onClick={() => setReadMore(!readMore)} className="read-story-btn">
+                        {readMore ? 'Read Less' : 'Read Full Story'}
+                      </button>
+                    </div>
 
-                <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-end' }}>
-                  <div style={{ color: '#F59E0B', fontSize: 15, letterSpacing: 2, marginBottom: 2 }}>
-                    {'★'.repeat(active.stars)}
-                  </div>
-                  <span style={{ fontSize: 11, color: '#5C667A', fontWeight: 500 }}>100% matched</span>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        {/* Mobile Horizontal Line indicator (only on mobile) */}
-        <div className="mobile-progress-line-container">
-          <div 
-            className="mobile-progress-line"
-            style={{
-              left: `${activeIndex * (100 / testimonials.length)}%`,
-              width: `${100 / testimonials.length}%`
-            }}
-          />
-        </div>
-
-        {/* View More Feedbacks Button & Grid */}
-        {additionalTestimonials.length > 0 && (
-          <>
-            <div style={{ display: 'flex', justifyContent: 'center', marginTop: 56 }}>
-              <button
-                onClick={() => setShowAll(!showAll)}
-                style={{
-                  background: 'transparent',
-                  border: '1px solid rgba(79, 124, 255, 0.3)',
-                  borderRadius: 99,
-                  color: '#4F7CFF',
-                  fontSize: 14,
-                  fontWeight: 600,
-                  padding: '12px 32px',
-                  cursor: 'pointer',
-                  transition: 'all 0.2s',
-                  fontFamily: 'var(--font-sans)'
-                }}
-                onMouseEnter={e => { e.currentTarget.style.background = 'rgba(79, 124, 255, 0.05)'; e.currentTarget.style.borderColor = '#4F7CFF'; }}
-                onMouseLeave={e => { e.currentTarget.style.background = 'transparent'; e.currentTarget.style.borderColor = 'rgba(79, 124, 255, 0.3)'; }}
-              >
-                {showAll ? 'Show Less Feedbacks' : 'View More Feedbacks →'}
-              </button>
-            </div>
-
-            {/* Expanded Feedbacks Grid */}
-            {showAll && (
-              <div style={{ marginTop: 44, display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(300px, 1fr))', gap: 24 }} className="additional-testimonials-grid">
-                {additionalTestimonials.map((t, idx) => (
-                  <div key={idx} style={{
-                    background: '#FFFFFF',
-                    borderRadius: 20,
-                    padding: 24,
-                    boxShadow: '0 4px 20px rgba(0, 0, 0, 0.015)',
-                    border: '1px solid rgba(0, 0, 0, 0.03)',
-                    display: 'flex',
-                    flexDirection: 'column',
-                    justifyContent: 'space-between',
-                    transition: 'all 0.3s ease'
-                  }}>
-                    <div>
-                      <div style={{ display: 'flex', color: '#F59E0B', fontSize: 13, letterSpacing: 2, marginBottom: 16 }}>
-                        {'★'.repeat(t.stars)}
-                      </div>
-                      <p style={{ fontSize: 14.5, color: '#1D2433', lineHeight: 1.6, marginBottom: 24, fontStyle: 'italic' }}>
-                        “{t.quote}”
+                    {/* Reviewer Meta details */}
+                    <div className="reviewer-meta-box">
+                      <h4 className="reviewer-name">{activeItem.name}</h4>
+                      <p className="reviewer-role-location">
+                        {activeItem.role} &middot; {activeItem.location}
                       </p>
                     </div>
-                    <div style={{ display: 'flex', alignItems: 'center', gap: 12, borderTop: '1px solid rgba(0,0,0,0.03)', paddingTop: 16 }}>
-                      <div style={{
-                        width: 36, height: 36, borderRadius: '50%', display: 'flex', alignItems: 'center', justifyContent: 'center',
-                        background: t.color, color: '#FFFFFF', fontWeight: 700, fontSize: 12, flexShrink: 0
-                      }}>
-                        {t.initials}
-                      </div>
-                      <div>
-                        <h5 style={{ margin: 0, fontSize: 13.5, fontWeight: 700, color: '#1D2433' }}>{t.name}</h5>
-                        <span style={{ fontSize: 11, color: '#5C667A', fontWeight: 500 }}>
-                          {t.role} &bull; {t.location}
-                        </span>
-                      </div>
-                    </div>
+
                   </div>
-                ))}
+
+                </div>
               </div>
-            )}
-          </>
-        )}
+            </FadeUp>
+          ) : (
+            <FadeUp delay={0.25}>
+              <div className="testimonial-card-surface" style={{ textAlign: 'center', padding: '80px 48px', color: '#64748B' }}>
+                <span style={{ fontSize: 32, display: 'block', marginBottom: 16 }}>✨</span>
+                <h4 style={{ fontSize: 18, fontWeight: 700, color: '#0F172A', marginBottom: 8 }}>{catFilter === 'parent' ? 'Parent Testimonials Coming Soon' : 'Video Reviews Coming Soon'}</h4>
+                <p style={{ fontSize: 14, color: '#64748B', maxWidth: 440, margin: '0 auto', lineHeight: 1.6 }}>
+                  {catFilter === 'parent' 
+                    ? "Our parent assessment and onboarding interviews are currently being compiled. Check back soon to read their feedback!"
+                    : "Video reviews are being edited and processed. They will be published shortly."}
+                </p>
+              </div>
+            </FadeUp>
+          )}
+
+          {/* Navigation Controls */}
+          {filteredTestimonials.length > 1 && (
+            <FadeUp delay={0.3}>
+              <div className="carousel-navigation-wrapper">
+                <button onClick={handlePrev} className="nav-arrow-btn" aria-label="Previous Testimonial">
+                  <ArrowLeft size={16} />
+                </button>
+                <div className="nav-dots-container">
+                  {filteredTestimonials.map((_, idx) => (
+                    <button 
+                      key={idx} 
+                      onClick={() => { setActiveIndex(idx); setReadMore(false); }} 
+                      className={`carousel-dot ${activeIndex === idx ? 'active' : ''}`}
+                      aria-label={`Go to testimonial ${idx + 1}`}
+                    />
+                  ))}
+                </div>
+                <button onClick={handleNext} className="nav-arrow-btn" aria-label="Next Testimonial">
+                  <ArrowRight size={16} />
+                </button>
+              </div>
+            </FadeUp>
+          )}
+
+        </div>
+
       </div>
 
+      {/* Testimonials Premium Stylesheet */}
       <style>{`
-        .editorial-testimonials-layout {
-          display: grid;
-          grid-template-columns: 35% 120px 1fr;
-          align-items: center;
-          min-height: 420px;
+        .testimonial-eyebrow {
+          font-family: var(--font-sans);
+          font-size: 13px;
+          font-weight: 700;
+          letter-spacing: 0.12em;
+          color: #6366F1;
+          text-transform: uppercase;
+          margin-bottom: 12px;
         }
-        .reviewer-panel-outer {
-          padding-left: 20px;
-          border-left: 1px solid rgba(79, 124, 255, 0.06);
-          position: relative;
+
+        /* Segmented filter bars */
+        .testimonial-filters-container {
           display: flex;
-          flex-direction: column;
-          align-items: center;
-          width: 100%;
+          justify-content: center;
+          gap: 16px;
+          margin-bottom: 56px;
+          flex-wrap: wrap;
         }
-        .reviewer-panel-wrapper {
-          position: relative;
-          width: 100%;
-          height: 352px;
-          overflow: hidden;
-          mask-image: linear-gradient(to bottom, transparent 0%, black 5%, black 95%, transparent 100%);
-          -webkit-mask-image: linear-gradient(to bottom, transparent 0%, black 5%, black 95%, transparent 100%);
+        .segmented-control {
+          background: rgba(15, 23, 42, 0.04);
+          border: 1px solid rgba(15, 23, 42, 0.05);
+          padding: 4px;
+          border-radius: 99px;
+          display: flex;
+          gap: 2px;
+          box-shadow: inset 0 2px 4px rgba(0,0,0,0.02);
         }
-        .testimonial-nav-btn {
+        .filter-btn {
+          font-family: var(--font-sans);
+          font-size: 13px;
+          font-weight: 600;
+          color: #64748B;
+          padding: 8px 18px;
+          border-radius: 99px;
+          border: none;
           cursor: pointer;
+          background: transparent;
+          transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+        .filter-btn.active {
+          background: #FFFFFF;
+          color: #0F172A;
+          box-shadow: 0 4px 12px rgba(15, 23, 42, 0.06);
+        }
+
+        /* Card surface */
+        .testimonial-card-surface {
+          background: #FFFFFF;
+          border: 1px solid rgba(15, 23, 42, 0.06);
+          border-radius: 24px;
+          box-shadow: 0 25px 50px -12px rgba(15, 23, 42, 0.02), 
+                      0 4px 20px rgba(15, 23, 42, 0.01);
+          overflow: hidden;
+          padding: 48px;
+          transition: border-color 0.3s ease;
+        }
+
+        .testimonial-split-layout {
+          display: grid;
+          grid-template-columns: 1fr 1.3fr;
+          gap: 56px;
+          align-items: center;
+        }
+
+        /* Media Column */
+        .testimonial-media-col {
+          width: 100%;
+          display: flex;
+          justify-content: center;
+        }
+        .profile-image-viewport {
+          width: 100%;
+          aspect-ratio: 4 / 3;
+          border-radius: 16px;
+          overflow: hidden;
+          position: relative;
+          background: #F1F5F9;
+          box-shadow: 0 8px 24px rgba(15, 23, 42, 0.03);
+          border: 1px solid rgba(15, 23, 42, 0.03);
+        }
+        .profile-static-img {
+          width: 100%;
+          height: 100%;
+          object-fit: cover;
+          display: block;
+        }
+
+        /* Info Column */
+        .testimonial-info-col {
+          text-align: left;
+        }
+        .verified-badge-pill {
+          display: inline-flex;
+          align-items: center;
+          background: #ECFDF5;
+          color: #047857;
+          font-family: var(--font-sans);
+          font-size: 11px;
+          font-weight: 700;
+          padding: 4px 12px;
+          border-radius: 99px;
+          border: 1px solid rgba(16, 185, 129, 0.12);
+        }
+        .testimonial-quote {
+          font-family: var(--font-hero);
+          font-size: clamp(18px, 1.8vw, 24px);
+          font-weight: 700;
+          color: #0F172A;
+          line-height: 1.45;
+          margin: 0 0 16px;
+          letter-spacing: -0.01em;
+        }
+        .testimonial-fullstory {
+          font-family: var(--font-sans);
+          font-size: 14.5px;
+          color: #475569;
+          line-height: 1.7;
+          margin: 0 0 16px;
+        }
+        .read-story-btn {
+          background: none;
+          border: none;
+          color: #6366F1;
+          font-family: var(--font-sans);
+          font-size: 13.5px;
+          font-weight: 700;
+          cursor: pointer;
+          padding: 0;
+          transition: color 0.2s;
+        }
+        .read-story-btn:hover {
+          color: #4F7CFF;
+          text-decoration: underline;
+        }
+
+        /* Reviewer Meta */
+        .reviewer-meta-box {
+          border-top: 1px solid rgba(15, 23, 42, 0.06);
+          padding-top: 20px;
+        }
+        .reviewer-name {
+          font-family: var(--font-sans);
+          font-size: 15px;
+          font-weight: 700;
+          color: #0F172A;
+          margin: 0;
+        }
+        .reviewer-role-location {
+          font-family: var(--font-sans);
+          font-size: 12.5px;
+          color: #64748B;
+          margin: 4px 0 0;
+        }
+
+        /* Carousel Nav dots */
+        .carousel-navigation-wrapper {
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          gap: 20px;
+          margin-top: 36px;
+        }
+        .nav-arrow-btn {
+          width: 40px;
+          height: 40px;
+          border-radius: 50%;
+          background: #FFFFFF;
+          border: 1px solid rgba(15, 23, 42, 0.08);
+          color: #64748B;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          cursor: pointer;
+          transition: all 0.2s ease;
+          box-shadow: 0 2px 6px rgba(0,0,0,0.02);
+        }
+        .nav-arrow-btn:hover {
+          color: #0F172A;
+          border-color: rgba(15, 23, 42, 0.15);
+          box-shadow: 0 4px 12px rgba(15, 23, 42, 0.05);
+        }
+        .nav-dots-container {
+          display: flex;
+          gap: 8px;
+        }
+        .carousel-dot {
+          width: 6px;
+          height: 6px;
+          border-radius: 50%;
+          background: #E2E8F0;
+          border: none;
+          cursor: pointer;
+          padding: 0;
           transition: all 0.3s ease;
         }
-        .testimonial-nav-btn:hover:not(:disabled) {
-          color: #4F7CFF !important;
-          transform: translateY(-2px) scale(1.15);
+        .carousel-dot.active {
+          background: #6366F1;
+          width: 18px;
+          border-radius: 3px;
         }
-        .testimonial-nav-btn.next-btn:hover:not(:disabled) {
-          transform: translateY(2px) scale(1.15);
+
+        /* Animations */
+        .animate-expand {
+          animation: slideDownFade 0.3s ease forwards;
         }
-        .reviewer-panel-wrapper::-webkit-scrollbar {
-          display: none;
+        @keyframes slideDownFade {
+          from { opacity: 0; transform: translateY(-4px); max-height: 0; }
+          to { opacity: 1; transform: translateY(0); max-height: 500px; }
         }
-        .vertical-progress-track {
-          position: absolute;
-          left: 0;
-          top: 0;
-          bottom: 0;
-          width: 1px;
-          background: rgba(79, 124, 255, 0.06);
-        }
-        .vertical-progress-bar {
-          position: absolute;
-          left: -1px;
-          width: 3px;
-          background: linear-gradient(180deg, #4F7CFF, #7469F8);
-          border-radius: 99px;
-          transition: all 0.45s cubic-bezier(0.16, 1, 0.3, 1);
-        }
-        .reviewer-scroll-container {
-          display: flex;
-          flex-direction: column;
-          gap: 12px;
-          transition: transform 0.45s cubic-bezier(0.16, 1, 0.3, 1);
-        }
-        @media (hover: hover) {
-          .reviewer-editorial-item:hover {
-            opacity: 0.8 !important;
-            transform: scale(0.98) translate3d(4px, 0, 0) !important;
-          }
-          .reviewer-editorial-item.active:hover {
-            opacity: 1 !important;
-            transform: scale(1.04) translate3d(8px, 0, 0) !important;
-          }
-        }
-        .svg-connector-wrapper {
-          width: 120px;
-          height: 100%;
-          position: relative;
-        }
-        .testimonial-editorial-detail {
-          position: relative;
-          padding-left: 20px;
-        }
-        .backdrop-quote-mark {
-          font-family: var(--font-display);
-          font-size: 150px;
-          line-height: 0.1;
-          color: rgba(79, 124, 255, 0.04);
-          position: absolute;
-          top: 60px;
-          left: -10px;
-          pointer-events: none;
-          user-select: none;
-          z-index: 1;
-        }
-        .mobile-progress-line-container {
-          display: none;
-        }
+
+        /* RESPONSIVE LAYOUTS */
         @media (max-width: 1024px) {
-          .editorial-testimonials-layout {
-            grid-template-columns: 1fr;
-            min-height: auto;
+          .testimonial-card-surface {
+            padding: 32px;
           }
-          .reviewer-panel-outer {
-            padding-left: 0;
-            border-left: none;
-            margin-bottom: 16px;
+          .testimonial-split-layout {
+            gap: 36px;
           }
-          .reviewer-panel-wrapper {
-            overflow: hidden;
+        }
+
+        @media (max-width: 768px) {
+          .testimonial-split-layout {
+            grid-template-columns: 1fr !important;
+            gap: 28px;
+          }
+          .testimonial-media-col {
+            max-width: 440px;
+            margin: 0 auto;
+          }
+          .testimonial-info-col {
+            text-align: center;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+          }
+          .testimonial-quote {
+            text-align: center;
+          }
+          .reviewer-meta-box {
             width: 100%;
-          }
-          .vertical-progress-track, .svg-connector-wrapper {
-            display: none;
-          }
-          .reviewer-scroll-container {
-            flex-direction: row;
-            overflow-x: auto;
-            transform: none !important;
-            padding: 10px 4px 16px;
-            scroll-snap-type: x mandatory;
-            -webkit-overflow-scrolling: touch;
-            scrollbar-width: none;
-          }
-          .reviewer-scroll-container::-webkit-scrollbar {
-            display: none;
-          }
-          .reviewer-editorial-item {
-            min-width: 250px;
-            scroll-snap-align: start;
-            margin: 0 !important;
-            transform: none !important;
-            opacity: 0.6 !important;
-            transition: opacity 0.3s;
-          }
-          .reviewer-editorial-item.active {
-            opacity: 1 !important;
-          }
-          .mobile-progress-line-container {
-            display: block;
-            position: relative;
-            width: 100%;
-            height: 2px;
-            background: rgba(79, 124, 255, 0.08);
-            margin-bottom: 40px;
-            border-radius: 99px;
-          }
-          .mobile-progress-line {
-            position: absolute;
-            width: 20%;
-            height: 100%;
-            background: linear-gradient(90deg, #4F7CFF, #7469F8);
-            border-radius: 99px;
-            transition: left 0.45s cubic-bezier(0.16, 1, 0.3, 1);
-          }
-          .testimonial-editorial-detail {
-            padding-left: 0;
-          }
-          .backdrop-quote-mark {
-            font-size: 110px;
-            top: 40px;
-            left: -15px;
           }
         }
       `}</style>

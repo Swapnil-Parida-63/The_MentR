@@ -15,15 +15,23 @@ const parentClasses = Array.from({ length: 12 }, (_, i) => `Class ${i + 1}`);
 // Underline Input Component matching Apple/Stripe focus transitions
 function UnderlineField({ label, type = "text", placeholder, value, onChange, required = false }) {
   const [isFocused, setIsFocused] = useState(false);
+  const [isMobile, setIsMobile] = useState(window.innerWidth < 768);
+
+  useEffect(() => {
+    const handleResize = () => setIsMobile(window.innerWidth < 768);
+    window.addEventListener('resize', handleResize);
+    return () => window.removeEventListener('resize', handleResize);
+  }, []);
+
   return (
-    <div style={{ marginBottom: 40, position: 'relative' }}>
+    <div style={{ marginBottom: isMobile ? 22 : 40, position: 'relative' }}>
       <label 
         style={{ 
           display: 'block', 
           fontSize: 12, 
           fontWeight: 600, 
           color: isFocused ? '#4F7CFF' : '#1D2433', 
-          marginBottom: 10,
+          marginBottom: isMobile ? 6 : 10,
           letterSpacing: '0.02em',
           textTransform: 'uppercase',
           transition: 'color 0.25s'
@@ -73,15 +81,23 @@ function UnderlineField({ label, type = "text", placeholder, value, onChange, re
 
 function UnderlineSelect({ label, value, onChange, required = false, children }) {
   const [isFocused, setIsFocused] = useState(false);
+  const [isMobile, setIsMobile] = useState(window.innerWidth < 768);
+
+  useEffect(() => {
+    const handleResize = () => setIsMobile(window.innerWidth < 768);
+    window.addEventListener('resize', handleResize);
+    return () => window.removeEventListener('resize', handleResize);
+  }, []);
+
   return (
-    <div style={{ marginBottom: 40, position: 'relative' }}>
+    <div style={{ marginBottom: isMobile ? 22 : 40, position: 'relative' }}>
       <label 
         style={{ 
           display: 'block', 
           fontSize: 12, 
           fontWeight: 600, 
           color: isFocused ? '#4F7CFF' : '#1D2433', 
-          marginBottom: 10,
+          marginBottom: isMobile ? 6 : 10,
           letterSpacing: '0.02em',
           textTransform: 'uppercase',
           transition: 'color 0.25s'
@@ -545,7 +561,7 @@ export default function FormsSection() {
   };
 
   return (
-    <section id="contact-forms" className="section" style={{ background: '#fafafc', padding: '120px 0' }}>
+    <section id="contact-forms" className="section" style={{ background: '#fafafc', padding: isMobile ? '60px 0' : '120px 0' }}>
       <div className="container">
         <FadeUp><div className="eyebrow">Get Started</div></FadeUp>
         <FadeUp delay={0.1} duration={0.8} y={24}>
