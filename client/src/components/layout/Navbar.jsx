@@ -40,7 +40,15 @@ export default function Navbar() {
     }
   };
 
-  const navLinks = [
+  const desktopNavLinks = [
+    { label: 'Why TheMentR', id: 'why' },
+    { label: 'Services', isAccordion: true, id: 'services' },
+    { label: 'Pricing', id: 'pricing' },
+    { label: 'Gallery', id: 'gallery' },
+    { label: 'Journal', id: 'blogs' }
+  ];
+
+  const mobileNavLinks = [
     { label: 'Why TheMentR', id: 'why' },
     { label: 'Services', isAccordion: true, id: 'services' },
     { label: 'Pricing', id: 'pricing' },
@@ -132,7 +140,7 @@ export default function Navbar() {
 
               {/* Links list */}
               <div style={{ display: 'flex', flexDirection: 'column', gap: 4, flex: 1 }}>
-                {navLinks.map(item => {
+                {mobileNavLinks.map(item => {
                   if (item.isAccordion) {
                     return (
                       <div key={item.label} style={{ borderBottom: '1px solid rgba(0,0,0,0.04)' }}>
@@ -312,7 +320,7 @@ export default function Navbar() {
 
       {/* Center: Navigation Links */}
       <nav style={{ display: 'flex', gap: 28, alignItems: 'center' }}>
-        {navLinks.map(link => {
+        {desktopNavLinks.map(link => {
           if (link.label === 'Services') {
             return (
               <div 
