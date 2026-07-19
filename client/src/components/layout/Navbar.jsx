@@ -1,11 +1,12 @@
 import { useState, useEffect, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { X } from 'lucide-react';
+import { X, ChevronDown } from 'lucide-react';
 
 export default function Navbar() {
   const navigate = useNavigate();
   const [isMobile, setIsMobile] = useState(window.innerWidth < 1024);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const [mobileServicesOpen, setMobileServicesOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
   const [servicesHovered, setServicesHovered] = useState(false);
   const leaveTimeoutRef = useRef(null);
@@ -41,9 +42,12 @@ export default function Navbar() {
 
   const navLinks = [
     { label: 'Why TheMentR', id: 'why' },
-    { label: 'Services', id: 'services' },
+    { label: 'Services', isAccordion: true, id: 'services' },
     { label: 'Pricing', id: 'pricing' },
-    { label: 'Gallery', id: 'gallery' }
+    { label: 'Gallery', id: 'gallery' },
+    { label: 'Journal', id: 'blogs' },
+    { label: 'Contact', id: 'contact-section' },
+    { label: 'Join as a Teacher', id: 'contact-forms' }
   ];
 
   if (isMobile) {
@@ -108,16 +112,16 @@ export default function Navbar() {
             />
             {/* Slide-out Drawer Panel */}
             <div style={{
-              position: 'fixed', top: 0, right: 0, bottom: 0, width: 280,
+              position: 'fixed', top: 0, right: 0, bottom: 0, width: 300, maxWidth: '85vw',
               background: 'rgba(255, 255, 255, 0.96)', backdropFilter: 'blur(16px)', WebkitBackdropFilter: 'blur(16px)',
               boxShadow: '-8px 0 32px rgba(15, 23, 42, 0.08)',
               zIndex: 99999, display: 'flex', flexDirection: 'column',
-              padding: '24px 28px', boxSizing: 'border-box',
+              padding: '24px 20px', boxSizing: 'border-box', overflowY: 'auto',
               animation: 'slideInRight 0.3s cubic-bezier(0.16, 1, 0.3, 1)'
             }}>
               {/* Header of Drawer */}
-              <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 36 }}>
-                <span style={{ fontSize: 13, fontWeight: 700, color: 'var(--color-text-secondary)', letterSpacing: '0.05em' }}>NAVIGATION</span>
+              <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 20 }}>
+                <span style={{ fontSize: 12, fontWeight: 700, color: 'var(--color-text-secondary)', letterSpacing: '0.08em' }}>NAVIGATION</span>
                 <button
                   onClick={() => setMobileMenuOpen(false)}
                   style={{ background: 'none', border: 'none', color: '#1D2433', cursor: 'pointer', padding: 4 }}
@@ -127,60 +131,121 @@ export default function Navbar() {
               </div>
 
               {/* Links list */}
-              <div style={{ display: 'flex', flexDirection: 'column', gap: 16 }}>
-                {navLinks.map(item => (
-                  <button
-                    key={item.label}
-                    onClick={() => {
-                      setMobileMenuOpen(false);
-                      navigateAndScroll('/', item.id);
-                    }}
-                    style={{
-                      background: 'none', border: 'none', color: '#1D2433', fontSize: 15,
-                      fontWeight: 600, cursor: 'pointer', textAlign: 'left', fontFamily: 'var(--font-sans)',
-                      padding: '8px 0', borderBottom: '1px solid rgba(0,0,0,0.03)'
-                    }}
-                  >
-                    {item.label}
-                  </button>
-                ))}
-                <button
-                  onClick={() => {
-                    setMobileMenuOpen(false);
-                    navigateAndScroll('/', 'contact-section');
-                  }}
-                  style={{
-                    background: 'none', border: 'none', color: '#1D2433', fontSize: 15,
-                    fontWeight: 600, cursor: 'pointer', textAlign: 'left', fontFamily: 'var(--font-sans)',
-                    padding: '8px 0', borderBottom: '1px solid rgba(0,0,0,0.03)'
-                  }}
-                >
-                  Contact
-                </button>
-                
-                <button
-                  onClick={() => {
-                    setMobileMenuOpen(false);
-                    navigateAndScroll('/', 'contact-forms');
-                  }}
-                  className="btn"
-                  style={{
-                    fontSize: 14,
-                    padding: '12px 20px',
-                    borderRadius: 16,
-                    background: 'linear-gradient(135deg, #4F7CFF 0%, #7469F8 100%)',
-                    color: 'white',
-                    border: 'none',
-                    fontWeight: 600,
-                    cursor: 'pointer',
-                    marginTop: 24,
-                    textAlign: 'center',
-                    boxShadow: '0 4px 12px rgba(79, 124, 255, 0.2)'
-                  }}
-                >
-                  Book Assessment
-                </button>
+              <div style={{ display: 'flex', flexDirection: 'column', gap: 4, flex: 1 }}>
+                {navLinks.map(item => {
+                  if (item.isAccordion) {
+                    return (
+                      <div key={item.label} style={{ borderBottom: '1px solid rgba(0,0,0,0.04)' }}>
+                        <button
+                          onClick={() => setMobileServicesOpen(!mobileServicesOpen)}
+                          style={{
+                            background: 'none', border: 'none', color: '#1D2433', fontSize: 15,
+                            fontWeight: 600, cursor: 'pointer', textAlign: 'left', fontFamily: 'var(--font-sans)',
+                            padding: '10px 0', width: '100%', display: 'flex', justifyContent: 'space-between', alignItems: 'center'
+                          }}
+                        >
+                          <span>{item.label}</span>
+                          <ChevronDown size={16} style={{ color: '#64748B', transform: mobileServicesOpen ? 'rotate(180deg)' : 'rotate(0deg)', transition: 'transform 0.25s ease' }} />
+                        </button>
+
+                        {/* Expanded Services Accordion */}
+                        {mobileServicesOpen && (
+                          <div style={{
+                            background: 'rgba(79, 124, 255, 0.03)',
+                            border: '1px solid rgba(79, 124, 255, 0.08)',
+                            borderRadius: 14,
+                            padding: '12px 14px',
+                            marginBottom: 10,
+                            display: 'flex',
+                            flexDirection: 'column',
+                            gap: 12
+                          }}>
+                            {/* Section: Platform & Intelligence */}
+                            <div>
+                              <span style={{ fontSize: 10, fontWeight: 700, textTransform: 'uppercase', color: '#7469F8', letterSpacing: '0.08em', display: 'block', marginBottom: 6 }}>
+                                Platform & Intelligence
+                              </span>
+                              <button
+                                onClick={() => navigateAndScroll('/', 'avsar')}
+                                style={{
+                                  background: 'none', border: 'none', color: '#1D2433', fontSize: 13.5,
+                                  fontWeight: 600, cursor: 'pointer', textAlign: 'left', width: '100%',
+                                  padding: '4px 0 4px 8px', display: 'flex', flexDirection: 'column'
+                                }}
+                              >
+                                <span>AVSAR Intelligence</span>
+                                <span style={{ fontSize: 11, fontWeight: 400, color: '#64748B', marginTop: 1 }}>AI syllabus tracking & evaluations</span>
+                              </button>
+                            </div>
+
+                            {/* Section: Platform */}
+                            <div>
+                              <span style={{ fontSize: 10, fontWeight: 700, textTransform: 'uppercase', color: '#4F7CFF', letterSpacing: '0.08em', display: 'block', marginBottom: 6 }}>
+                                Platform
+                              </span>
+                              <div style={{ display: 'flex', flexDirection: 'column', gap: 6, paddingLeft: 8 }}>
+                                {[
+                                  { title: 'The MentR Parent', desc: 'KG to PG tuitions', id: 'showcase' },
+                                  { title: 'The MentR Teacher', desc: 'Verified educators', id: 'showcase' },
+                                  { title: 'The MentR Online', desc: 'Live virtual classrooms', id: 'showcase' },
+                                  { title: 'The MentR Olympiad', desc: 'Competitive exam prep', id: 'showcase' }
+                                ].map(subItem => (
+                                  <button
+                                    key={subItem.title}
+                                    onClick={() => navigateAndScroll('/', subItem.id)}
+                                    style={{
+                                      background: 'none', border: 'none', color: '#1D2433', fontSize: 13.5,
+                                      fontWeight: 500, cursor: 'pointer', textAlign: 'left', padding: '3px 0'
+                                    }}
+                                  >
+                                    {subItem.title}
+                                  </button>
+                                ))}
+                              </div>
+                            </div>
+                          </div>
+                        )}
+                      </div>
+                    );
+                  }
+
+                  return (
+                    <button
+                      key={item.label}
+                      onClick={() => navigateAndScroll('/', item.id)}
+                      style={{
+                        background: 'none', border: 'none', color: '#1D2433', fontSize: 15,
+                        fontWeight: 600, cursor: 'pointer', textAlign: 'left', fontFamily: 'var(--font-sans)',
+                        padding: '10px 0', borderBottom: '1px solid rgba(0,0,0,0.04)'
+                      }}
+                    >
+                      {item.label}
+                    </button>
+                  );
+                })}
               </div>
+
+              {/* Primary CTA at bottom of drawer */}
+              <button
+                onClick={() => navigateAndScroll('/', 'contact-forms')}
+                className="btn"
+                style={{
+                  fontSize: 14,
+                  padding: '13px 20px',
+                  borderRadius: 16,
+                  background: 'linear-gradient(135deg, #4F7CFF 0%, #7469F8 100%)',
+                  color: 'white',
+                  border: 'none',
+                  fontWeight: 600,
+                  cursor: 'pointer',
+                  marginTop: 20,
+                  textAlign: 'center',
+                  boxShadow: '0 4px 12px rgba(79, 124, 255, 0.25)',
+                  width: '100%'
+                }}
+              >
+                Book Assessment
+              </button>
             </div>
             
             <style>{`

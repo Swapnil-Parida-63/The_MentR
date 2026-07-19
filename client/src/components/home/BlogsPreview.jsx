@@ -1,7 +1,6 @@
 import { FadeUp } from '../../hooks/useScrollReveal';
 import { Link } from 'react-router-dom';
 import { Clock, Calendar, User, ArrowUpRight } from 'lucide-react';
-
 import { useState, useEffect } from 'react';
 
 export default function BlogsPreview() {
@@ -14,13 +13,22 @@ export default function BlogsPreview() {
   }, []);
 
   return (
-    <section id="blogs" className="section" style={{ background: '#fafafc', position: 'relative', overflow: 'hidden' }}>
+    <section id="blogs" className="section journal-section-wrapper" style={{ background: '#fafafc', position: 'relative', overflow: 'hidden' }}>
       <div className="container" style={{ position: 'relative', zIndex: 1 }}>
         
         {/* Header Block */}
         <div className="journal-header">
           <div className="journal-header-left">
-            <FadeUp><div className="journal-eyebrow">THEMENTR JOURNAL</div></FadeUp>
+            <div className="journal-header-top-row">
+              <FadeUp><div className="journal-eyebrow">THEMENTR JOURNAL</div></FadeUp>
+              {isMobile && (
+                <FadeUp delay={0.15}>
+                  <Link to="/blogs" className="journal-view-all-btn mobile-inline-btn">
+                    View All <span className="arrow">→</span>
+                  </Link>
+                </FadeUp>
+              )}
+            </div>
             <FadeUp delay={0.1}>
               <h2 className="journal-title">
                 Learning, backed by <span className="serif-italic">insight.</span>
@@ -32,13 +40,15 @@ export default function BlogsPreview() {
               </p>
             </FadeUp>
           </div>
-          <div className="journal-header-right">
-            <FadeUp delay={0.15}>
-              <Link to="/blogs" className="journal-view-all-btn">
-                View All <span className="arrow">→</span>
-              </Link>
-            </FadeUp>
-          </div>
+          {!isMobile && (
+            <div className="journal-header-right">
+              <FadeUp delay={0.15}>
+                <Link to="/blogs" className="journal-view-all-btn">
+                  View All <span className="arrow">→</span>
+                </Link>
+              </FadeUp>
+            </div>
+          )}
         </div>
 
         {/* Layout Grid */}
@@ -120,7 +130,7 @@ export default function BlogsPreview() {
 
           {/* RIGHT COLUMN: Supporting Articles */}
           <FadeUp delay={0.1}>
-            <div className={isMobile ? "mobile-swipe-carousel" : "supporting-articles-stack"}>
+            <div className="supporting-articles-stack">
               {[
                 { 
                   tagClass: 'tag-olympiad', 
@@ -144,7 +154,7 @@ export default function BlogsPreview() {
                   time: '6 min read' 
                 },
               ].map((b) => (
-                <div key={b.title} className={`journal-supporting-card ${isMobile ? 'mobile-swipe-card' : ''}`} style={isMobile ? { background: '#FFFFFF', border: '1px solid rgba(15, 23, 42, 0.05)', borderRadius: '20px', padding: '24px', boxShadow: '0 4px 12px rgba(10, 22, 40, 0.01)', minHeight: '160px', display: 'flex', flexDirection: 'column', justifyContent: 'space-between' } : {}}>
+                <div key={b.title} className="journal-supporting-card">
                   <div className="supporting-card-inner">
                     <div className="supporting-card-header">
                       <span className={`supporting-tag ${b.tagClass}`}>{b.tagText}</span>
@@ -180,6 +190,12 @@ export default function BlogsPreview() {
         .journal-header-left {
           max-width: 600px;
           text-align: left;
+        }
+        .journal-header-top-row {
+          display: flex;
+          justify-content: space-between;
+          align-items: center;
+          width: 100%;
         }
         .journal-eyebrow {
           font-family: var(--font-sans);
@@ -443,26 +459,103 @@ export default function BlogsPreview() {
           color: #94A3B8;
         }
 
-        /* Responsive Media Queries */
+        /* Targeted Mobile Optimization */
         @media (max-width: 1024px) {
-          .journal-header {
-            flex-direction: column;
-            align-items: flex-start;
-            gap: 24px;
-            margin-bottom: 40px;
+          .journal-section-wrapper {
+            padding-top: 48px !important;
+            padding-bottom: 56px !important;
           }
-          .journal-view-all-btn {
+          .journal-header {
+            margin-bottom: 24px;
+          }
+          .journal-eyebrow {
             margin-bottom: 0;
+            font-size: 11px;
+          }
+          .mobile-inline-btn {
+            margin-bottom: 0;
+            padding: 6px 14px;
+            font-size: 12px;
+            gap: 6px;
+          }
+          .journal-title {
+            font-size: 24px;
+            margin-bottom: 8px;
+          }
+          .journal-subtitle {
+            font-size: 13.5px;
+            line-height: 1.45;
           }
           .journal-grid {
             grid-template-columns: 1fr;
-            gap: 32px;
+            gap: 16px;
+          }
+          .journal-featured-card {
+            border-radius: 18px;
           }
           .featured-image-container {
-            height: 220px;
+            height: 110px;
+          }
+          .abstract-svg {
+            max-height: 110px;
           }
           .featured-card-content {
-            padding: 28px 24px;
+            padding: 16px 18px;
+          }
+          .featured-pill {
+            font-size: 10px;
+            margin-bottom: 8px;
+            letter-spacing: 0.12em;
+          }
+          .featured-card-title {
+            font-size: 17px;
+            line-height: 1.35;
+            margin-bottom: 8px;
+          }
+          .featured-card-desc {
+            font-size: 13px;
+            line-height: 1.45;
+            margin-bottom: 12px;
+          }
+          .featured-card-divider {
+            margin-bottom: 10px;
+          }
+          .featured-card-metadata {
+            font-size: 11.5px;
+            gap: 8px;
+            flex-wrap: wrap;
+          }
+          .supporting-articles-stack {
+            gap: 12px;
+          }
+          .journal-supporting-card {
+            border-radius: 16px;
+          }
+          .supporting-card-inner {
+            padding: 14px 16px;
+          }
+          .supporting-card-header {
+            margin-bottom: 8px;
+          }
+          .supporting-tag {
+            font-size: 10px;
+            padding: 3px 8px;
+          }
+          .supporting-card-title {
+            font-size: 14.5px;
+            line-height: 1.35;
+            margin-bottom: 4px;
+          }
+          .supporting-card-desc {
+            font-size: 12.5px;
+            line-height: 1.4;
+            margin-bottom: 10px;
+          }
+          .supporting-card-divider {
+            margin-bottom: 8px;
+          }
+          .supporting-card-metadata {
+            font-size: 11px;
           }
         }
       `}</style>

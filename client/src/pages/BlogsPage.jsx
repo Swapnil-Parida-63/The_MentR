@@ -132,6 +132,7 @@ const CoverIllustration = ({ type }) => {
 // ==============================================================
 export default function BlogsPage() {
   const [activeCategory, setActiveCategory] = useState('All');
+  const [selectedArticle, setSelectedArticle] = useState(null);
 
   // Hardcoded premium journal articles dataset
   const articles = [
@@ -144,7 +145,84 @@ export default function BlogsPage() {
       time: "8 min read",
       date: "June 2026",
       coverType: 'assessment',
-      featured: true // Hero element at the top
+      featured: true, // Hero element at the top
+      content: `### Why the Teacher–Student Match Matters More Than the Teacher's Qualification
+
+Category: Research  
+Reading Time: 8 min  
+Author: TheMentR Research Team  
+Published: June 2026  
+
+"A great teacher can fail with the wrong student. An average teacher can transform the right one."
+
+When parents begin searching for a tutor, the first question is almost always: "How qualified is the teacher?"
+
+It's understandable. Degrees, years of experience, certifications, board expertise—these feel measurable. They're easy to compare. But after studying thousands of tutoring relationships, we've found something surprising. The strongest predictor of a student's success isn't always the teacher's résumé. It's whether the teacher and student are the right match.
+
+#### The problem with how tutoring usually works
+Most tutoring platforms work like marketplaces. Parents scroll through dozens of teacher profiles comparing:
+- Years of experience
+- Ratings
+- Subjects
+- Fees
+- Degrees
+
+Eventually they pick one. Sometimes the decision is based on price, sometimes on availability, or simply because the teacher had five stars. Then they hope for the best.
+
+The problem is that none of these factors tell you whether the teacher is actually the right person for your child. Teaching isn't only about delivering information. It's about communication, personality, motivation, learning style, pace, confidence, and trust. Those variables rarely appear on a profile page.
+
+#### Imagine choosing a doctor this way
+Imagine selecting a doctor only because they graduated from a prestigious university. No consultation. No diagnosis. No understanding of your symptoms. Just a list of qualifications. It sounds absurd. Yet this is exactly how many tutoring platforms expect parents to choose educators. Education deserves better.
+
+#### Qualifications matter—but only to a point
+This doesn't mean qualifications aren't important. They absolutely are. Every teacher should have strong subject knowledge. They should understand the curriculum. They should know how examinations work. They should be experienced enough to guide students correctly. Those are minimum requirements. Not differentiators.
+
+Once those standards are met, something much more important begins to matter: **The relationship**.
+
+#### Every child learns differently
+Think about two students:
+- **Student A**: Curious, loves asking questions, learns visually, enjoys discussions.
+- **Student B**: Quiet, prefers structure, learns through repetition, needs encouragement before speaking.
+
+Now imagine assigning both students the exact same teacher. One student flourishes. The other slowly loses confidence. The teacher didn't change. The student didn't suddenly become less capable. The fit changed.
+
+#### Learning is deeply personal
+Parents often believe that if a child isn't improving, the teacher isn't good enough. Sometimes that's true. But often, it's simply a mismatch. We've seen students who struggled for months suddenly improve after changing nothing except the mentor guiding them. Same syllabus, same books, same study hours. Different connection. That's because education isn't just knowledge transfer; it's human interaction.
+
+#### The invisible factors parents rarely see
+When we evaluate successful learning relationships, we consistently notice patterns that don't appear on teacher profiles, including:
+- Communication style & patience level
+- Teaching pace & personality compatibility
+- Ability to motivate & feedback style
+- Parent communication, adaptability, and emotional intelligence
+- Student confidence building
+
+These are difficult to measure individually. Together, they determine whether learning feels exciting—or exhausting.
+
+#### Why trial-and-error is expensive
+Many families discover mismatches only after several weeks. By then they've already invested time, money, and emotional energy. The student has fallen behind, confidence drops, and parents begin another search. Education shouldn't rely on repeated guessing.
+
+#### The assessment-first approach
+At TheMentR, we believe matching should happen before teaching begins. Instead of asking, *"Which teacher do you want?"*, we ask, *"Tell us about the learner."* We begin by understanding academic strengths, learning gaps, study habits, confidence levels, goals, preferred communication styles, and schedules. Only after understanding the student do we recommend a mentor.
+
+#### Why we built AVSAR
+One challenge quickly became obvious. Every assessment produced valuable information: patterns, learning behaviours, subject trends, and teacher performance. Instead of letting this information disappear, we built **AVSAR**, TheMentR's educational intelligence layer. It helps us continuously improve recommendations by learning from real educational outcomes, making every recommendation smarter over time.
+
+#### Better matching creates better outcomes
+When students are paired with mentors who genuinely complement their learning style, questions become easier to ask, mistakes become learning opportunities, and progress becomes measurable. That's the kind of education ecosystem we believe in. Education isn't a marketplace.
+
+#### Key Takeaways
+- Qualifications are essential, but they don't guarantee compatibility.
+- Student–teacher matching has a significant impact on learning outcomes.
+- Trial-and-error tutoring wastes time, money, and confidence.
+- Assessment before recommendation leads to better long-term relationships.
+- Every child deserves a mentor who fits not only academically, but personally.
+
+***
+**Continue Reading:**
+- *The Diagnostic Home Assessment: What Parents Should Expect*
+- *Inside AVSAR: How Data Intelligence Predicts Learning Gaps*
+- *Building a Trusted Teaching Practice: Lessons from Top Educators*`
     },
     {
       id: 2,
@@ -249,51 +327,130 @@ export default function BlogsPage() {
 
       <div className="container" style={{ position: 'relative', zIndex: 1 }}>
         
-        {/* Navigation Breadcrumb */}
-        <div style={{ textAlign: 'left' }}>
-          <FadeUp>
-            <Link to="/" className="journal-back-btn">
-              <ArrowLeft size={14} className="back-arrow" /> Back to Home
-            </Link>
-          </FadeUp>
-        </div>
-
-        {/* Page Header */}
-        <div className="journal-page-header">
-          <FadeUp delay={0.05}><div className="journal-page-eyebrow">THEMENTR JOURNAL</div></FadeUp>
-          <FadeUp delay={0.1}>
-            <h1 className="journal-page-title">
-              Education, <span className="serif-italic">examined.</span>
-            </h1>
-          </FadeUp>
-          <FadeUp delay={0.15}>
-            <p className="journal-page-subtitle">
-              Research, practical learning strategies and educational insights for parents, teachers and students.
-            </p>
-          </FadeUp>
-
-          {/* Category Chips Filters */}
-          <FadeUp delay={0.2}>
-            <div className="category-chips-container">
-              {categories.map(cat => (
-                <button
-                  key={cat}
-                  onClick={() => setActiveCategory(cat)}
-                  className={`category-chip ${activeCategory === cat ? 'active' : ''}`}
+        {selectedArticle ? (
+          <div>
+            {/* Back to list button */}
+            <div style={{ textAlign: 'left', marginBottom: 32 }}>
+              <FadeUp>
+                <button 
+                  onClick={() => setSelectedArticle(null)}
+                  className="journal-back-btn"
+                  style={{ cursor: 'pointer', background: '#FFFFFF', border: '1px solid rgba(15, 23, 42, 0.08)' }}
                 >
-                  {cat}
+                  <ArrowLeft size={14} className="back-arrow" /> Back to Journal
                 </button>
-              ))}
+              </FadeUp>
             </div>
-          </FadeUp>
-        </div>
 
-        {/* ============================================================== */}
-        {/* HERO FEATURED STORY (All Category Only) */}
-        {/* ============================================================== */}
-        {heroArticle && (
-          <FadeUp delay={0.25}>
-            <div className="journal-hero-card">
+            {/* Premium Article Layout */}
+            <div style={{ maxWidth: 740, margin: '0 auto', textAlign: 'left' }}>
+              <FadeUp>
+                <div style={{ display: 'flex', gap: 12, alignItems: 'center', marginBottom: 16 }}>
+                  <span className={`card-tag ${selectedArticle.tagClass}`} style={{ fontSize: 12, padding: '6px 14px' }}>{selectedArticle.tag}</span>
+                  <span style={{ fontSize: 13, color: '#64748B' }}>{selectedArticle.time}</span>
+                </div>
+                <h1 style={{ fontFamily: 'var(--font-hero)', fontSize: 'clamp(28px, 4vw, 44px)', fontWeight: 800, color: '#0F172A', lineHeight: 1.2, marginBottom: 20, letterSpacing: '-0.02em' }}>
+                  {selectedArticle.title}
+                </h1>
+                
+                <div style={{ display: 'flex', alignItems: 'center', gap: 12, borderTop: '1px solid rgba(15,23,42,0.06)', borderBottom: '1px solid rgba(15,23,42,0.06)', padding: '16px 0', marginBottom: 40 }}>
+                  <div style={{ width: 36, height: 36, borderRadius: '50%', background: '#EEF2FF', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 16 }}>✍️</div>
+                  <div>
+                    <div style={{ fontSize: 14, fontWeight: 700, color: '#0F172A' }}>TheMentR Research Team</div>
+                    <div style={{ fontSize: 12, color: '#64748B' }}>{selectedArticle.date}</div>
+                  </div>
+                </div>
+
+                <div 
+                  className="article-body-markdown"
+                  style={{
+                    fontFamily: 'var(--font-body)',
+                    fontSize: 16,
+                    color: '#334155',
+                    lineHeight: 1.85,
+                    letterSpacing: '-0.003em'
+                  }}
+                >
+                  {selectedArticle.content ? (
+                    selectedArticle.content.split('\n\n').map((paragraph, pIdx) => {
+                      if (paragraph.startsWith('### ')) {
+                        return <h2 key={pIdx} style={{ fontFamily: 'var(--font-hero)', fontSize: 24, fontWeight: 800, color: '#0F172A', marginTop: 36, marginBottom: 16 }}>{paragraph.replace('### ', '')}</h2>;
+                      }
+                      if (paragraph.startsWith('#### ')) {
+                        return <h3 key={pIdx} style={{ fontFamily: 'var(--font-hero)', fontSize: 20, fontWeight: 800, color: '#0F172A', marginTop: 28, marginBottom: 12 }}>{paragraph.replace('#### ', '')}</h3>;
+                      }
+                      if (paragraph.startsWith('- ')) {
+                        return (
+                          <ul key={pIdx} style={{ paddingLeft: 20, marginBottom: 20, listStyleType: 'disc' }}>
+                            {paragraph.split('\n').map((li, liIdx) => (
+                              <li key={liIdx} style={{ marginBottom: 8 }}>{li.replace('- ', '')}</li>
+                            ))}
+                          </ul>
+                        );
+                      }
+                      if (paragraph.startsWith('***')) {
+                        return <hr key={pIdx} style={{ border: 'none', borderTop: '1px solid rgba(15,23,42,0.08)', margin: '40px 0' }} />;
+                      }
+                      return <p key={pIdx} style={{ marginBottom: 24 }}>{paragraph}</p>;
+                    })
+                  ) : (
+                    <p>{selectedArticle.desc}</p>
+                  )}
+                </div>
+              </FadeUp>
+            </div>
+          </div>
+        ) : (
+          <div>
+            {/* Navigation Breadcrumb */}
+            <div style={{ textAlign: 'left' }}>
+              <FadeUp>
+                <Link to="/" className="journal-back-btn">
+                  <ArrowLeft size={14} className="back-arrow" /> Back to Home
+                </Link>
+              </FadeUp>
+            </div>
+
+            {/* Page Header */}
+            <div className="journal-page-header">
+              <FadeUp delay={0.05}><div className="journal-page-eyebrow">THEMENTR JOURNAL</div></FadeUp>
+              <FadeUp delay={0.1}>
+                <h1 className="journal-page-title">
+                  Education, <span className="serif-italic">examined.</span>
+                </h1>
+              </FadeUp>
+              <FadeUp delay={0.15}>
+                <p className="journal-page-subtitle">
+                  Research, practical learning strategies and educational insights for parents, teachers and students.
+                </p>
+              </FadeUp>
+
+              {/* Category Chips Filters */}
+              <FadeUp delay={0.2}>
+                <div className="category-chips-container">
+                  {categories.map(cat => (
+                    <button
+                      key={cat}
+                      onClick={() => setActiveCategory(cat)}
+                      className={`category-chip ${activeCategory === cat ? 'active' : ''}`}
+                    >
+                      {cat}
+                    </button>
+                  ))}
+                </div>
+              </FadeUp>
+            </div>
+
+            {/* ============================================================== */}
+            {/* HERO FEATURED STORY (All Category Only) */}
+            {/* ============================================================== */}
+            {heroArticle && (
+              <FadeUp delay={0.25}>
+                <div 
+                  className="journal-hero-card" 
+                  style={{ cursor: 'pointer' }}
+                  onClick={() => setSelectedArticle(heroArticle)}
+                >
               <div className="hero-cover-wrapper">
                 <div className="noise-grain" />
                 <div className="hero-glow" />
@@ -399,10 +556,11 @@ export default function BlogsPage() {
                   </button>
                 </div>
               </div>
-
             </div>
           </div>
         </FadeUp>
+      </div>
+      )}
 
       </div>
 
