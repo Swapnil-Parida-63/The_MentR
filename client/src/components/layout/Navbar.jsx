@@ -43,7 +43,7 @@ export default function Navbar() {
   const desktopNavLinks = [
     { label: 'Why TheMentR', id: 'why' },
     { label: 'Services', isAccordion: true, id: 'services' },
-    { label: 'Pricing', id: 'pricing' },
+    { label: 'Pricing', path: '/pricing' },
     { label: 'Gallery', id: 'gallery' },
     { label: 'Journal', id: 'blogs' }
   ];
@@ -51,7 +51,7 @@ export default function Navbar() {
   const mobileNavLinks = [
     { label: 'Why TheMentR', id: 'why' },
     { label: 'Services', isAccordion: true, id: 'services' },
-    { label: 'Pricing', id: 'pricing' },
+    { label: 'Pricing', path: '/pricing' },
     { label: 'Gallery', id: 'gallery' },
     { label: 'Journal', id: 'blogs' },
     { label: 'Contact', id: 'contact-section' },
@@ -220,7 +220,7 @@ export default function Navbar() {
                   return (
                     <button
                       key={item.label}
-                      onClick={() => navigateAndScroll('/', item.id)}
+                      onClick={() => item.path ? navigateAndScroll(item.path, null) : navigateAndScroll('/', item.id)}
                       style={{
                         background: 'none', border: 'none', color: '#1D2433', fontSize: 15,
                         fontWeight: 600, cursor: 'pointer', textAlign: 'left', fontFamily: 'var(--font-sans)',

@@ -472,6 +472,18 @@ export default function FormModal() {
   const handleParentSubmit = async (e) => {
     e.preventDefault();
     if (formSubmitted) return;
+
+    // Mandatory fields check
+    if (!parentName.trim() || !parentPhone.trim() || !studentName.trim() || !parentBoard || !parentGrade || !parentLocation.trim() || !guidanceSubject.trim()) {
+      alert("⚠️ All fields are mandatory. Please fill in all fields.");
+      return;
+    }
+    // Phone number validation: exactly 10 digits and only numbers
+    if (!/^\d{10}$/.test(parentPhone.trim())) {
+      alert("⚠️ Phone number must contain exactly 10 digits and only numbers.");
+      return;
+    }
+
     setFormSubmitted(true);
     try {
       await parentAPI.submit({
@@ -488,12 +500,25 @@ export default function FormModal() {
     } catch (err) {
       console.error(err);
       alert("❌ Connection error. Please make sure the backend is running.");
+      setFormSubmitted(false); // Reset on error so they can try again
     }
   };
 
   const handleRegistrationSubmit = async (e) => {
     e.preventDefault();
     if (formSubmitted) return;
+
+    // Mandatory fields check
+    if (!regParentName.trim() || !regParentPhone.trim() || !regLocation.trim() || !regStudentName.trim() || !regSchoolName.trim() || !regBoard || !regClass) {
+      alert("⚠️ All fields are mandatory. Please fill in all fields.");
+      return;
+    }
+    // Phone number validation: exactly 10 digits and only numbers
+    if (!/^\d{10}$/.test(regParentPhone.trim())) {
+      alert("⚠️ Phone number must contain exactly 10 digits and only numbers.");
+      return;
+    }
+
     setFormSubmitted(true);
     try {
       await parentAPI.register({
@@ -510,16 +535,35 @@ export default function FormModal() {
     } catch (err) {
       console.error(err);
       alert("❌ Connection error. Please make sure the backend is running.");
+      setFormSubmitted(false); // Reset on error so they can try again
     }
   };
 
   const handleTeacherSubmit = async (e) => {
     e.preventDefault();
     if (formSubmitted) return;
+
+    // Mandatory fields check
+    if (!teacherFirstName.trim() || !teacherLastName.trim() || !teacherEmail.trim() || !teacherPhone.trim() || !teacherDob.trim() || !teacherAddress.trim() || !teacherFatherName.trim() || !teacherMotherName.trim()) {
+      alert("⚠️ All fields are mandatory. Please fill in all fields.");
+      return;
+    }
+    // Preferences check
     if (boardsToTeach.length === 0 || classesToTeach.length === 0 || subjectsToTeach.length === 0 || preferredLocations.length === 0) {
       alert("⚠️ Please fill in all teaching and location preferences.");
       return;
     }
+    // Phone number validation: exactly 10 digits and only numbers
+    if (!/^\d{10}$/.test(teacherPhone.trim())) {
+      alert("⚠️ Phone number must contain exactly 10 digits and only numbers.");
+      return;
+    }
+    // Email validation: fixed Gmail pattern
+    if (!/^[a-zA-Z0-9._%+-]+@gmail\.com$/.test(teacherEmail.trim())) {
+      alert("⚠️ Email must be a valid Gmail address (e.g. user@gmail.com).");
+      return;
+    }
+
     setFormSubmitted(true);
     try {
       await teachersAPI.apply({
@@ -546,6 +590,7 @@ export default function FormModal() {
     } catch (err) {
       console.error(err);
       alert("❌ Connection error. Please make sure the backend is running.");
+      setFormSubmitted(false); // Reset on error so they can try again
     }
   };
 

@@ -9,6 +9,7 @@ import RegisterPage from './pages/RegisterPage';
 import BlogsPage from './pages/BlogsPage';
 import ContactPage from './pages/ContactPage';
 import GalleryPage from './pages/GalleryPage';
+import PricingPage from './pages/PricingPage';
 
 // ScrollToTop scroll restoration component for seamless routing
 function ScrollToTop() {
@@ -32,6 +33,7 @@ export default function App() {
             <Route path="/blogs" element={<BlogsPage />} />
             <Route path="/gallery" element={<GalleryPage />} />
             <Route path="/contact" element={<ContactPage />} />
+            <Route path="/pricing" element={<PricingPage />} />
             <Route path="*" element={
               <div className="section" style={{ textAlign: 'center', minHeight: '60vh', display: 'flex', alignItems: 'center', justifyContent: 'center', flexDirection: 'column' }}>
                 <h1 style={{ fontSize: 64, marginBottom: 16 }}>404</h1>

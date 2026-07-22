@@ -438,6 +438,18 @@ export default function FormsSection() {
   const handleParentSubmit = async (e) => {
     e.preventDefault();
     if (submitting || formSubmitted) return;
+
+    // Mandatory fields check
+    if (!parentName.trim() || !parentPhone.trim() || !studentName.trim() || !parentBoard || !parentGrade || !parentLocation.trim() || !guidanceSubject.trim()) {
+      showToast("⚠️ All fields are mandatory. Please fill in all fields.");
+      return;
+    }
+    // Phone number validation: exactly 10 digits and only numbers
+    if (!/^\d{10}$/.test(parentPhone.trim())) {
+      showToast("⚠️ Phone number must contain exactly 10 digits and only numbers.");
+      return;
+    }
+
     setSubmitting(true);
     setFormSubmitted(true);
     showToast("⏳ Sending request... Please wait.");
@@ -464,6 +476,7 @@ export default function FormsSection() {
     } catch (err) {
       console.error(err);
       showToast("❌ Connection error. Please check if backend is running.");
+      setFormSubmitted(false); // Reset on error so they can try again
     } finally {
       setTimeout(() => setSubmitting(false), 2000);
     }
@@ -472,6 +485,18 @@ export default function FormsSection() {
   const handleRegistrationSubmit = async (e) => {
     e.preventDefault();
     if (submitting || formSubmitted) return;
+
+    // Mandatory fields check
+    if (!regParentName.trim() || !regParentPhone.trim() || !regLocation.trim() || !regStudentName.trim() || !regSchoolName.trim() || !regBoard || !regClass) {
+      showToast("⚠️ All fields are mandatory. Please fill in all fields.");
+      return;
+    }
+    // Phone number validation: exactly 10 digits and only numbers
+    if (!/^\d{10}$/.test(regParentPhone.trim())) {
+      showToast("⚠️ Phone number must contain exactly 10 digits and only numbers.");
+      return;
+    }
+
     setSubmitting(true);
     setFormSubmitted(true);
     showToast("⏳ Sending request... Please wait.");
@@ -498,6 +523,7 @@ export default function FormsSection() {
     } catch (err) {
       console.error(err);
       showToast("❌ Connection error. Please check if backend is running.");
+      setFormSubmitted(false); // Reset on error so they can try again
     } finally {
       setTimeout(() => setSubmitting(false), 2000);
     }
@@ -506,8 +532,25 @@ export default function FormsSection() {
   const handleTeacherSubmit = async (e) => {
     e.preventDefault();
     if (submitting || formSubmitted) return;
+
+    // Mandatory fields check
+    if (!teacherFirstName.trim() || !teacherLastName.trim() || !teacherEmail.trim() || !teacherPhone.trim() || !teacherDob.trim() || !teacherAddress.trim() || !teacherFatherName.trim() || !teacherMotherName.trim()) {
+      showToast("⚠️ All fields are mandatory. Please fill in all fields.");
+      return;
+    }
+    // Preferences check
     if (boardsToTeach.length === 0 || classesToTeach.length === 0 || subjectsToTeach.length === 0 || preferredLocations.length === 0) {
       showToast("⚠️ Please fill in all teaching and location preferences.");
+      return;
+    }
+    // Phone number validation: exactly 10 digits and only numbers
+    if (!/^\d{10}$/.test(teacherPhone.trim())) {
+      showToast("⚠️ Phone number must contain exactly 10 digits and only numbers.");
+      return;
+    }
+    // Email validation: fixed Gmail pattern
+    if (!/^[a-zA-Z0-9._%+-]+@gmail\.com$/.test(teacherEmail.trim())) {
+      showToast("⚠️ Email must be a valid Gmail address (e.g. user@gmail.com).");
       return;
     }
 
@@ -551,6 +594,10 @@ export default function FormsSection() {
       setBoardsAlreadyTaught([]);
       setClassesToTeach([]);
       setClassesAlreadyTaught([]);
+      setBoardsToTeach([]);
+      setBoardsAlreadyTaught([]);
+      setClassesToTeach([]);
+      setClassesAlreadyTaught([]);
       setSubjectsToTeach([]);
       setSubjectsPreviouslyTaught([]);
       setMediumOfInstruction([]);
@@ -559,6 +606,7 @@ export default function FormsSection() {
     } catch (err) {
       console.error(err);
       showToast("❌ Connection error. Please check if backend is running.");
+      setFormSubmitted(false); // Reset on error so they can try again
     } finally {
       setTimeout(() => setSubmitting(false), 2000);
     }
