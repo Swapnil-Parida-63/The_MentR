@@ -1,0 +1,22 @@
+{
+  "$schema": "https://thementr.com/schemas/knowledge-document.v1.json",
+  "metadata": {
+    "title": "Example Knowledge Document Title",
+    "slug": "example-knowledge-document-slug",
+    "category": "company",
+    "tags": ["mentr", "overview", "education"],
+    "description": "Short description of the knowledge document for summary generation.",
+    "author": "TheMentR Content Team",
+    "version": "1.0.0",
+    "status": "published",
+    "language": "en",
+    "lastUpdated": "2026-07-20T00:00:00Z",
+    "source": "official_documentation",
+    "visibility": "public",
+    "priority": 1,
+    "format": "json",
+    "embeddingId": null,
+    "vectorId": null
+  },
+  "content": "Full text content of the document goes here. Markdown headers, subheadings, and bullet lists are supported."
+}

@@ -63,7 +63,7 @@ export default function BlogsPreview() {
                 width: '600px',
                 height: '600px',
                 borderRadius: '50%',
-                background: 'radial-gradient(circle, rgba(99, 102, 241, 0.035) 0%, transparent 70%)',
+                background: 'radial-gradient(circle, rgba(79, 124, 255, 0.06) 0%, transparent 70%)',
                 top: '-20%',
                 left: '-20%',
                 pointerEvents: 'none',
@@ -381,9 +381,9 @@ export default function BlogsPreview() {
         }
         .journal-supporting-card {
           background: #FFFFFF;
-          border: 1px solid rgba(15, 23, 42, 0.05);
+          border: 1px solid rgba(79, 124, 255, 0.08);
           border-radius: 20px;
-          box-shadow: 0 4px 16px rgba(15, 23, 42, 0.01);
+          box-shadow: 0 4px 16px rgba(79, 124, 255, 0.01);
           transition: all 0.28s cubic-bezier(0.16, 1, 0.3, 1);
           text-align: left;
         }

@@ -344,6 +344,7 @@ export default function FormModal() {
   const [parentStep, setParentStep] = useState(1);
   const [regStep, setRegStep] = useState(1);
   const [teacherStep, setTeacherStep] = useState(1);
+  const [formSubmitted, setFormSubmitted] = useState(false);
 
   // Parent Assessment Visit Form states
   const [parentName, setParentName] = useState('');
@@ -470,6 +471,8 @@ export default function FormModal() {
 
   const handleParentSubmit = async (e) => {
     e.preventDefault();
+    if (formSubmitted) return;
+    setFormSubmitted(true);
     try {
       await parentAPI.submit({
         parentName,
@@ -480,7 +483,7 @@ export default function FormModal() {
         location: parentLocation,
         specificSubject: guidanceSubject
       });
-      alert("✅ Assessment visit request submitted! We'll call you within 24 hours.");
+      alert("thank you ... our team will contact uh soon");
       handleClose();
     } catch (err) {
       console.error(err);
@@ -490,6 +493,8 @@ export default function FormModal() {
 
   const handleRegistrationSubmit = async (e) => {
     e.preventDefault();
+    if (formSubmitted) return;
+    setFormSubmitted(true);
     try {
       await parentAPI.register({
         parentName: regParentName,
@@ -510,11 +515,12 @@ export default function FormModal() {
 
   const handleTeacherSubmit = async (e) => {
     e.preventDefault();
+    if (formSubmitted) return;
     if (boardsToTeach.length === 0 || classesToTeach.length === 0 || subjectsToTeach.length === 0 || preferredLocations.length === 0) {
       alert("⚠️ Please fill in all teaching and location preferences.");
       return;
     }
-
+    setFormSubmitted(true);
     try {
       await teachersAPI.apply({
         firstName: teacherFirstName,
@@ -674,7 +680,7 @@ export default function FormModal() {
 
                       <div style={{ display: 'flex', gap: 16, marginTop: 'auto' }}>
                         <button type="button" onClick={() => setParentStep(2)} className="btn-editorial-secondary-pill" style={{ flex: 1 }}>Back</button>
-                        <button type="submit" className="btn-editorial-pill" style={{ flex: 2 }}>Book Assessment Visit →</button>
+                        <button type="submit" disabled={formSubmitted} className="btn-editorial-pill" style={{ flex: 2 }}>{formSubmitted ? 'Submitting...' : 'Book Assessment Visit →'}</button>
                       </div>
                     </div>
                   )}
@@ -753,7 +759,7 @@ export default function FormModal() {
 
                       <div style={{ display: 'flex', gap: 16, marginTop: 'auto' }}>
                         <button type="button" onClick={() => setRegStep(2)} className="btn-editorial-secondary-pill" style={{ flex: 1 }}>Back</button>
-                        <button type="submit" className="btn-editorial-pill" style={{ flex: 2 }}>Submit Registration →</button>
+                        <button type="submit" disabled={formSubmitted} className="btn-editorial-pill" style={{ flex: 2 }}>{formSubmitted ? 'Submitting...' : 'Submit Registration →'}</button>
                       </div>
                     </div>
                   )}
@@ -874,7 +880,7 @@ export default function FormModal() {
 
                       <div style={{ display: 'flex', gap: 16, marginTop: 'auto' }}>
                         <button type="button" onClick={() => setTeacherStep(3)} className="btn-editorial-secondary-pill" style={{ flex: 1 }}>Back</button>
-                        <button type="submit" className="btn-editorial-pill" style={{ flex: 2 }}>Apply to Join TheMentR →</button>
+                        <button type="submit" disabled={formSubmitted} className="btn-editorial-pill" style={{ flex: 2 }}>{formSubmitted ? 'Submitting...' : 'Apply to Join TheMentR →'}</button>
                       </div>
                     </div>
                   )}
@@ -905,6 +911,13 @@ export default function FormModal() {
         .btn-editorial-pill:hover {
           transform: translateY(-2px) !important;
           box-shadow: 0 6px 20px rgba(79, 124, 255, 0.3) !important;
+        }
+        .btn-editorial-pill:disabled {
+          background: #CBD5E1 !important;
+          color: #64748B !important;
+          cursor: not-allowed !important;
+          box-shadow: none !important;
+          transform: none !important;
         }
         .btn-editorial-secondary-pill {
           background: #FFFFFF !important;

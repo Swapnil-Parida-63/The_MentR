@@ -80,4 +80,13 @@ export const faqAPI = {
   getAll: (params) => api.get('/faqs', { params }),
 };
 
+export const aiAPI = {
+  chat: (data) => api.post('/ai/chat', data),
+  startBooking: (data) => api.post('/ai/booking/start', data),
+  continueBooking: (data) => api.post('/ai/booking/continue', data),
+  submitFeedback: (data) => api.post('/ai/feedback', data),
+  escalate: (data) => api.post('/ai/escalate', data),
+  getHealth: () => api.get('/ai/health'),
+};
+
 export default api;

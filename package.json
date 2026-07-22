@@ -7,6 +7,7 @@
   "scripts": {
     "dev": "nodemon src/server.js",
     "start": "node src/server.js",
+    "index:knowledge": "node scripts/indexKnowledge.js",
     "lint": "eslint src --ext .js",
     "test": "node --test"
   },

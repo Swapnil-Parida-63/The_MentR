@@ -121,7 +121,7 @@ export default function ServicesSection() {
             fontFamily: 'var(--font-body)',
             fontWeight: 600,
             fontSize: 12,
-            color: '#6366F1',
+            color: '#4F7CFF',
             letterSpacing: '0.15em',
             textTransform: 'uppercase',
             display: 'block',
@@ -181,8 +181,8 @@ export default function ServicesSection() {
                       width: 40,
                       height: 40,
                       borderRadius: 12,
-                      background: 'rgba(99, 102, 241, 0.06)',
-                      color: '#6366F1',
+                      background: 'rgba(79, 124, 255, 0.08)',
+                      color: '#4F7CFF',
                       display: 'flex',
                       alignItems: 'center',
                       justifyContent: 'center'
@@ -213,7 +213,7 @@ export default function ServicesSection() {
                     </div>
                   </div>
                   
-                  <div style={{ display: 'flex', alignItems: 'center', gap: 4, color: '#6366F1', fontSize: 12, fontWeight: 700, marginTop: 12 }}>
+                  <div style={{ display: 'flex', alignItems: 'center', gap: 4, color: '#4F7CFF', fontSize: 12, fontWeight: 700, marginTop: 12 }}>
                     <span>Learn more</span>
                     <ChevronRight size={14} />
                   </div>
@@ -247,10 +247,10 @@ export default function ServicesSection() {
                     gridColumn: feature.gridSpan,
                     background: '#FFFFFF',
                     borderRadius: 24,
-                    border: `1.5px solid ${isHovered ? '#6366F1' : 'rgba(99, 102, 241, 0.08)'}`,
+                    border: `1.5px solid ${isHovered ? '#4F7CFF' : 'rgba(79, 124, 255, 0.15)'}`,
                     boxShadow: isHovered 
-                      ? '0 12px 24px rgba(99, 102, 241, 0.05)' 
-                      : '0 4px 12px rgba(10, 22, 40, 0.02)',
+                      ? '0 15px 30px rgba(79, 124, 255, 0.12)' 
+                      : '0 4px 12px rgba(79, 124, 255, 0.02)',
                     padding: 32,
                     display: 'flex',
                     flexDirection: 'column',
@@ -265,11 +265,11 @@ export default function ServicesSection() {
                     width: 40,
                     height: 40,
                     borderRadius: 12,
-                    background: 'rgba(99, 102, 241, 0.05)',
+                    background: 'rgba(79, 124, 255, 0.08)',
                     display: 'flex',
                     alignItems: 'center',
                     justifyContent: 'center',
-                    color: '#6366F1'
+                    color: '#4F7CFF'
                   }}>
                     <IconComp size={20} strokeWidth={1.8} />
                   </div>

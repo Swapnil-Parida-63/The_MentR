@@ -67,7 +67,7 @@ export default function WhySection() {
               fontFamily: 'var(--font-section)', 
               fontWeight: 600, 
               fontSize: 12, 
-              color: '#6366F1', 
+              color: '#4F7CFF', 
               letterSpacing: '0.15em', 
               textTransform: 'uppercase',
               display: 'block',
@@ -130,8 +130,8 @@ export default function WhySection() {
                       width: 8,
                       height: 8,
                       borderRadius: '50%',
-                      border: `1.5px solid ${isHovered ? '#6366F1' : '#64748B'}`,
-                      background: isHovered ? '#6366F1' : 'transparent',
+                      border: `1.5px solid ${isHovered ? '#4F7CFF' : '#64748B'}`,
+                      background: isHovered ? '#4F7CFF' : 'transparent',
                       marginTop: 8,
                       flexShrink: 0,
                       transition: 'all 0.3s ease'
@@ -143,7 +143,7 @@ export default function WhySection() {
                         fontFamily: 'var(--font-hero)',
                         fontWeight: 700,
                         fontSize: 18,
-                        color: isHovered ? '#6366F1' : '#1E293B',
+                        color: isHovered ? '#4F7CFF' : '#1E293B',
                         margin: 0,
                         position: 'relative',
                         display: 'inline-block',
@@ -156,7 +156,7 @@ export default function WhySection() {
                           bottom: -2,
                           left: 0,
                           height: 1.5,
-                          background: '#6366F1',
+                          background: '#4F7CFF',
                           width: isHovered ? '100%' : '0%',
                           transition: 'width 0.35s cubic-bezier(0.16, 1, 0.3, 1)'
                         }} />
@@ -279,7 +279,7 @@ export default function WhySection() {
                   fontFamily: 'Space Grotesk, sans-serif',
                   fontWeight: 700,
                   fontSize: 40,
-                  color: isHovered ? '#6366F1' : '#A78BFA',
+                  color: isHovered ? '#4F7CFF' : '#7496FF',
                   transition: 'color 0.3s ease',
                   lineHeight: 1
                 }}>
@@ -291,7 +291,7 @@ export default function WhySection() {
                   fontFamily: 'var(--font-hero)',
                   fontWeight: 800,
                   fontSize: 22,
-                  color: isHovered ? '#6366F1' : '#1E293B',
+                  color: isHovered ? '#4F7CFF' : '#1E293B',
                   margin: '12px 0 10px',
                   position: 'relative',
                   display: 'inline-block',
@@ -305,7 +305,7 @@ export default function WhySection() {
                     bottom: -2,
                     left: 0,
                     height: 2,
-                    background: '#6366F1',
+                    background: '#4F7CFF',
                     width: isHovered ? '100%' : '0%',
                     transition: 'width 0.35s cubic-bezier(0.16, 1, 0.3, 1)'
                   }} />

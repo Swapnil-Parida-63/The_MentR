@@ -17,5 +17,6 @@ router.use('/organogram', require('./modules/organogram/organogram.routes'));
 router.use('/forms/contact', require('./modules/forms/contact-form.routes'));
 router.use('/payments', require('./modules/payment/payment.routes'));
 router.use('/chatbot', require('./modules/chatbot/chatbot.routes'));
+router.use('/ai', require('./modules/ai/ai.routes'));
 
 module.exports = router;

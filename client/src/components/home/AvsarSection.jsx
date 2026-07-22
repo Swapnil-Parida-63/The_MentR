@@ -77,7 +77,6 @@ export default function AvsarSection() {
   const proofRows = [
     { icon: Shield, metric: null, target: finalTeacherCount, suffix: '+', decimals: 0, label: 'Verified Teachers', desc: 'Every educator completes background verification and onboarding before joining.' },
     { icon: Heart, metric: null, target: 96, suffix: '%', decimals: 0, label: 'Parent Satisfaction Rate', desc: 'Measured continuously through real feedback and progress.' },
-    { icon: MapPin, metric: null, target: 18, suffix: '+', decimals: 0, label: 'Cities Covered', desc: 'Bringing quality education to student homes across multiple locations.' },
     { icon: Star, metric: null, target: 4.9, suffix: '★', decimals: 1, label: 'Average Teacher Rating', desc: 'Maintained through ongoing reviews and quality monitoring.' },
   ];
 

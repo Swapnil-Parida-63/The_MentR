@@ -267,11 +267,11 @@ export default function HeroSection() {
   };
 
   const getTeachingHours = () => {
-    const baseDate = new Date('2026-07-01T00:00:00');
+    const baseDate = new Date('2026-07-22T00:00:00');
     const currentDate = new Date();
     const diffTime = Math.max(0, currentDate - baseDate);
     const diffDays = Math.floor(diffTime / (1000 * 60 * 60 * 24));
-    return 500 + diffDays * 21.5;
+    return 1300 + diffDays * 31.5;
   };
 
   const journeyModules = [
@@ -369,7 +369,7 @@ export default function HeroSection() {
         left: '-10%',
         width: '45vw',
         height: '45vw',
-        background: 'radial-gradient(circle, rgba(99, 102, 241, 0.015) 0%, transparent 70%)',
+        background: 'radial-gradient(circle, rgba(79, 124, 255, 0.15) 0%, transparent 70%)',
         filter: 'blur(80px)',
         zIndex: 1,
         pointerEvents: 'none',
@@ -382,7 +382,7 @@ export default function HeroSection() {
         right: '15%',
         width: '55vw',
         height: '55vw',
-        background: 'radial-gradient(circle, rgba(139, 92, 246, 0.02) 0%, transparent 70%)',
+        background: 'radial-gradient(circle, rgba(116, 105, 248, 0.10) 0%, transparent 70%)',
         filter: 'blur(90px)',
         zIndex: 1,
         pointerEvents: 'none',
@@ -396,7 +396,7 @@ export default function HeroSection() {
         right: isMobile ? '-10%' : '-5%',
         width: isMobile ? '80vw' : '55vw',
         height: isMobile ? '80vw' : '55vw',
-        background: 'radial-gradient(circle, rgba(99, 102, 241, 0.035) 0%, transparent 70%)',
+        background: 'radial-gradient(circle, rgba(79, 124, 255, 0.18) 0%, transparent 70%)',
         filter: 'blur(40px)',
         zIndex: 1,
         pointerEvents: 'none'
@@ -662,7 +662,7 @@ export default function HeroSection() {
                 onClick={() => openModal('parent')}
                 className="btn btn-hero-primary"
                 style={{
-                  background: 'linear-gradient(135deg, #6366F1 0%, #8B5CF6 100%)',
+                  background: 'linear-gradient(135deg, #4F7CFF 0%, #6366F1 100%)',
                   color: '#FFFFFF',
                   fontWeight: 600,
                   fontSize: 15,
@@ -670,7 +670,7 @@ export default function HeroSection() {
                   borderRadius: 9999,
                   border: 'none',
                   cursor: 'pointer',
-                  boxShadow: '0 4px 14px rgba(99, 102, 241, 0.25)',
+                  boxShadow: '0 4px 14px rgba(79, 124, 255, 0.25)',
                   transition: 'all 0.2s ease',
                   width: isMobile ? '100%' : 'auto',
                   textAlign: 'center'
@@ -688,7 +688,7 @@ export default function HeroSection() {
                   fontSize: 15,
                   padding: '14px 28px',
                   borderRadius: 9999,
-                  border: '1px solid rgba(99, 102, 241, 0.15)',
+                  border: '1px solid rgba(79, 124, 255, 0.18)',
                   cursor: 'pointer',
                   boxShadow: '0 2px 8px rgba(10, 22, 40, 0.02)',
                   transition: 'all 0.2s ease',

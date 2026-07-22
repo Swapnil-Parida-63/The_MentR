@@ -354,6 +354,7 @@ export default function FormsSection() {
   const [activeTab, setActiveTab] = useState('assessment'); // 'assessment', 'parent_registration', 'teacher'
   const [highlightForm, setHighlightForm] = useState(false);
   const [submitting, setSubmitting] = useState(false);
+  const [formSubmitted, setFormSubmitted] = useState(false);
   const [isMobile, setIsMobile] = useState(window.innerWidth < 1024);
   const [toast, setToast] = useState(null);
 
@@ -436,8 +437,9 @@ export default function FormsSection() {
 
   const handleParentSubmit = async (e) => {
     e.preventDefault();
-    if (submitting) return;
+    if (submitting || formSubmitted) return;
     setSubmitting(true);
+    setFormSubmitted(true);
     showToast("⏳ Sending request... Please wait.");
     
     try {
@@ -450,7 +452,7 @@ export default function FormsSection() {
         location: parentLocation,
         specificSubject: guidanceSubject
       });
-      showToast("✅ Assessment visit request submitted! We'll call you within 24 hours.");
+      showToast("thank you ... our team will contact uh soon");
       setParentStep(1);
       setParentName('');
       setParentPhone('');
@@ -469,8 +471,9 @@ export default function FormsSection() {
 
   const handleRegistrationSubmit = async (e) => {
     e.preventDefault();
-    if (submitting) return;
+    if (submitting || formSubmitted) return;
     setSubmitting(true);
+    setFormSubmitted(true);
     showToast("⏳ Sending request... Please wait.");
     
     try {
@@ -502,13 +505,14 @@ export default function FormsSection() {
 
   const handleTeacherSubmit = async (e) => {
     e.preventDefault();
-    if (submitting) return;
+    if (submitting || formSubmitted) return;
     if (boardsToTeach.length === 0 || classesToTeach.length === 0 || subjectsToTeach.length === 0 || preferredLocations.length === 0) {
       showToast("⚠️ Please fill in all teaching and location preferences.");
       return;
     }
 
     setSubmitting(true);
+    setFormSubmitted(true);
     showToast("⏳ Sending application... Please wait.");
 
     try {
@@ -699,7 +703,7 @@ export default function FormsSection() {
 
                         <div style={{ display: 'flex', gap: 16, marginTop: 24 }}>
                           <button type="button" onClick={() => setParentStep(2)} className="btn-editorial-secondary-pill">Back</button>
-                          <button type="submit" className="btn-editorial-pill" disabled={submitting}>{submitting ? "Sending..." : "Book Assessment Visit →"}</button>
+                          <button type="submit" className="btn-editorial-pill" disabled={formSubmitted}>{formSubmitted ? "Submitting..." : "Book Assessment Visit →"}</button>
                         </div>
                       </div>
                     )}
@@ -772,7 +776,7 @@ export default function FormsSection() {
 
                         <div style={{ display: 'flex', gap: 16, marginTop: 24 }}>
                           <button type="button" onClick={() => setRegStep(2)} className="btn-editorial-secondary-pill">Back</button>
-                          <button type="submit" className="btn-editorial-pill" disabled={submitting}>{submitting ? "Sending..." : "Submit Registration →"}</button>
+                          <button type="submit" className="btn-editorial-pill" disabled={formSubmitted}>{formSubmitted ? "Submitting..." : "Submit Registration →"}</button>
                         </div>
                       </div>
                     )}
@@ -894,7 +898,7 @@ export default function FormsSection() {
 
                         <div style={{ display: 'flex', gap: 16, marginTop: 24 }}>
                           <button type="button" onClick={() => setTeacherStep(3)} className="btn-editorial-secondary-pill">Back</button>
-                          <button type="submit" className="btn-editorial-pill" disabled={submitting}>{submitting ? "Sending..." : "Apply to Join TheMentR →"}</button>
+                          <button type="submit" className="btn-editorial-pill" disabled={formSubmitted}>{formSubmitted ? "Submitting..." : "Apply to Join TheMentR →"}</button>
                         </div>
                       </div>
                     )}
@@ -907,10 +911,10 @@ export default function FormsSection() {
                 className="editorial-form-right"
                 style={{
                   background: activeTab === 'assessment'
-                    ? 'linear-gradient(180deg, #4A74F5 0%, #5E71FA 45%, #6E62EB 100%)'
+                    ? 'linear-gradient(180deg, #4F7CFF 0%, #4667E8 50%, #6366F1 100%)'
                     : activeTab === 'parent_registration'
-                    ? 'linear-gradient(180deg, #0D9488 0%, #0F766E 45%, #115E59 100%)'
-                    : 'linear-gradient(180deg, #6E62EB 0%, #5E71FA 45%, #4B74F5 100%)',
+                    ? 'linear-gradient(180deg, #1E40AF 0%, #3B82F6 100%)'
+                    : 'linear-gradient(180deg, #6366F1 0%, #4F7CFF 100%)',
                   transition: 'background 0.5s ease'
                 }}
               >
@@ -1117,6 +1121,13 @@ export default function FormsSection() {
         .btn-editorial-pill:hover {
           transform: translateY(-2px) !important;
           box-shadow: 0 6px 20px rgba(79, 124, 255, 0.3) !important;
+        }
+        .btn-editorial-pill:disabled {
+          background: #CBD5E1 !important;
+          color: #64748B !important;
+          cursor: not-allowed !important;
+          box-shadow: none !important;
+          transform: none !important;
         }
         .btn-editorial-secondary-pill {
           background: #FFFFFF !important;

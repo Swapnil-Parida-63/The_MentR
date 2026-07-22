@@ -121,7 +121,6 @@ const testimonialsData = [
 ];
 
 export default function TestimonialsSection() {
-  const [catFilter, setCatFilter] = useState('all'); // 'all', 'parent', 'teacher'
   const [typeFilter, setTypeFilter] = useState('all'); // 'all', 'text', 'video'
   const [activeIndex, setActiveIndex] = useState(0);
   const [readMore, setReadMore] = useState(false);
@@ -130,16 +129,15 @@ export default function TestimonialsSection() {
 
   // Filter testimonials based on selected controls
   const filteredTestimonials = testimonialsData.filter(item => {
-    const matchesCat = catFilter === 'all' ? true : item.category === catFilter;
     const matchesType = typeFilter === 'all' ? true : item.type === typeFilter;
-    return matchesCat && matchesType;
+    return matchesType;
   });
 
   // Reset indices when filters change
   useEffect(() => {
     setActiveIndex(0);
     setReadMore(false);
-  }, [catFilter, typeFilter]);
+  }, [typeFilter]);
 
   const activeItem = filteredTestimonials[activeIndex];
 
@@ -226,13 +224,6 @@ export default function TestimonialsSection() {
         {/* Testimonial Segmented Controls Filter Bar */}
         <FadeUp delay={0.2}>
           <div className="testimonial-filters-container">
-            {/* Category Filter */}
-            <div className="segmented-control">
-              <button onClick={() => setCatFilter('all')} className={`filter-btn ${catFilter === 'all' ? 'active' : ''}`}>All</button>
-              <button onClick={() => setCatFilter('parent')} className={`filter-btn ${catFilter === 'parent' ? 'active' : ''}`}>Parents</button>
-              <button onClick={() => setCatFilter('teacher')} className={`filter-btn ${catFilter === 'teacher' ? 'active' : ''}`}>Teachers</button>
-            </div>
-
             {/* Type Filter */}
             <div className="segmented-control">
               <button onClick={() => setTypeFilter('all')} className={`filter-btn ${typeFilter === 'all' ? 'active' : ''}`}>All</button>
@@ -278,23 +269,34 @@ export default function TestimonialsSection() {
 
                     {/* Verified Badge */}
                     <div style={{ display: 'flex', alignItems: 'center', marginBottom: 20 }}>
-                      <span className="verified-badge-pill">
-                        <CheckCircle size={10} color="#059669" fill="#D1FAE5" style={{ marginRight: 5 }} />
-                        Verified {activeItem.category.charAt(0).toUpperCase() + activeItem.category.slice(1)}
+                      <span className="verified-badge-pill" style={{
+                        background: activeItem.category === 'teacher' ? '#ECFDF5' : '#EFF6FF',
+                        color: activeItem.category === 'teacher' ? '#047857' : '#1D4ED8',
+                        borderColor: activeItem.category === 'teacher' ? 'rgba(16, 185, 129, 0.12)' : 'rgba(59, 130, 246, 0.12)'
+                      }}>
+                        <CheckCircle size={10} 
+                          color={activeItem.category === 'teacher' ? '#059669' : '#2563EB'} 
+                          fill={activeItem.category === 'teacher' ? '#D1FAE5' : '#DBEAFE'} 
+                          style={{ marginRight: 5 }} 
+                        />
+                        {activeItem.category === 'teacher' ? 'Verified Teacher' : 'Satisfied Parent'}
                       </span>
                     </div>
 
-                    {/* Quote */}
-                    <blockquote className="testimonial-quote">
-                      "{activeItem.quote}"
-                    </blockquote>
+                    {/* Text Container with fixed height for scrollability to keep card size identical */}
+                    <div className="testimonial-text-container">
+                      {/* Quote */}
+                      <blockquote className="testimonial-quote">
+                        "{activeItem.quote}"
+                      </blockquote>
 
-                    {/* Expandable story (inline) */}
-                    {readMore && (
-                      <p className="testimonial-fullstory animate-expand">
-                        {activeItem.fullStory}
-                      </p>
-                    )}
+                      {/* Expandable story (inline) */}
+                      {readMore && (
+                        <p className="testimonial-fullstory animate-expand">
+                          {activeItem.fullStory}
+                        </p>
+                      )}
+                    </div>
 
                     <div style={{ marginBottom: 28 }}>
                       <button onClick={() => setReadMore(!readMore)} className="read-story-btn">
@@ -319,11 +321,9 @@ export default function TestimonialsSection() {
             <FadeUp delay={0.25}>
               <div className="testimonial-card-surface" style={{ textAlign: 'center', padding: '80px 48px', color: '#64748B' }}>
                 <span style={{ fontSize: 32, display: 'block', marginBottom: 16 }}>✨</span>
-                <h4 style={{ fontSize: 18, fontWeight: 700, color: '#0F172A', marginBottom: 8 }}>{catFilter === 'parent' ? 'Parent Testimonials Coming Soon' : 'Video Reviews Coming Soon'}</h4>
+                <h4 style={{ fontSize: 18, fontWeight: 700, color: '#0F172A', marginBottom: 8 }}>Reviews Coming Soon</h4>
                 <p style={{ fontSize: 14, color: '#64748B', maxWidth: 440, margin: '0 auto', lineHeight: 1.6 }}>
-                  {catFilter === 'parent' 
-                    ? "Our parent assessment and onboarding interviews are currently being compiled. Check back soon to read their feedback!"
-                    : "Video reviews are being edited and processed. They will be published shortly."}
+                  Testimonial reviews are being compiled and processed. They will be published shortly.
                 </p>
               </div>
             </FadeUp>
@@ -407,13 +407,16 @@ export default function TestimonialsSection() {
         /* Card surface */
         .testimonial-card-surface {
           background: #FFFFFF;
-          border: 1px solid rgba(15, 23, 42, 0.06);
+          border: 1px solid rgba(79, 124, 255, 0.08);
           border-radius: 24px;
-          box-shadow: 0 25px 50px -12px rgba(15, 23, 42, 0.02), 
-                      0 4px 20px rgba(15, 23, 42, 0.01);
+          box-shadow: 0 25px 50px -12px rgba(79, 124, 255, 0.04), 
+                      0 4px 20px rgba(79, 124, 255, 0.02);
           overflow: hidden;
           padding: 48px;
           transition: border-color 0.3s ease;
+          height: 480px;
+          display: flex;
+          align-items: center;
         }
 
         .testimonial-split-layout {
@@ -462,13 +465,29 @@ export default function TestimonialsSection() {
           border-radius: 99px;
           border: 1px solid rgba(16, 185, 129, 0.12);
         }
+        .testimonial-text-container {
+          max-height: 180px;
+          overflow-y: auto;
+          padding-right: 8px;
+          margin-bottom: 20px;
+        }
+        .testimonial-text-container::-webkit-scrollbar {
+          width: 4px;
+        }
+        .testimonial-text-container::-webkit-scrollbar-track {
+          background: rgba(15, 23, 42, 0.02);
+        }
+        .testimonial-text-container::-webkit-scrollbar-thumb {
+          background: rgba(15, 23, 42, 0.1);
+          border-radius: 4px;
+        }
         .testimonial-quote {
           font-family: var(--font-hero);
           font-size: clamp(18px, 1.8vw, 24px);
           font-weight: 700;
           color: #0F172A;
           line-height: 1.45;
-          margin: 0 0 16px;
+          margin: 0;
           letter-spacing: -0.01em;
         }
         .testimonial-fullstory {
@@ -580,6 +599,10 @@ export default function TestimonialsSection() {
         }
 
         @media (max-width: 768px) {
+          .testimonial-card-surface {
+            height: auto !important;
+            min-height: auto !important;
+          }
           .testimonial-split-layout {
             grid-template-columns: 1fr !important;
             gap: 28px;
