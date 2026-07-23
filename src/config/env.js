@@ -13,6 +13,7 @@ const envSchema = z.object({
   API_BASE_URL: z.string().url().default('http://localhost:5000'),
   TEACHER_FORM_WEBHOOK_URL: z.string().url().optional().or(z.literal('')),
   PARENT_FORM_WEBHOOK_URL: z.string().url().optional().or(z.literal('')),
+  PRICING_FORM_WEBHOOK_URL: z.string().url().optional().or(z.literal('')),
   AI_PROVIDER: z.string().default('openai'),
   OPENAI_API_KEY: z.string().optional().default(''),
   OPENAI_MODEL: z.string().default('llama-3.3-70b-versatile'),

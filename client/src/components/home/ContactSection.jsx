@@ -95,7 +95,7 @@ export default function ContactSection({ background = 'white' }) {
           <FadeUp>
             <div>
               <div className="eyebrow">Contact</div>
-              <h2 style={{ fontSize: isMobile ? 28 : 36, marginBottom: 12 }}>We're here to help.</h2>
+              <h2 style={{ fontSize: isMobile ? 28 : 36, marginBottom: 12, marginTop: 0 }}>We're here to help.</h2>
               <p style={{ fontSize: isMobile ? 14 : 16, color: 'var(--color-text-secondary)', lineHeight: 1.8, marginBottom: isMobile ? 24 : 40 }}>Whether you have a question about our services, our team responds within one business day.</p>
               <div style={{ display: 'flex', flexDirection: 'column', gap: 20 }}>
                 {[
@@ -139,7 +139,7 @@ export default function ContactSection({ background = 'white' }) {
 
           <FadeUp delay={0.1}>
             <div>
-              <h3 style={{ fontSize: 24, marginBottom: 24 }}>Frequently Asked Questions</h3>
+              <h3 style={{ fontSize: 24, marginBottom: 24, marginTop: isMobile ? 0 : 42 }}>Frequently Asked Questions</h3>
               
               {!viewMore ? (
                 /* Initial view with 4 questions, one from each category */

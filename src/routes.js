@@ -18,5 +18,6 @@ router.use('/forms/contact', require('./modules/forms/contact-form.routes'));
 router.use('/payments', require('./modules/payment/payment.routes'));
 router.use('/chatbot', require('./modules/chatbot/chatbot.routes'));
 router.use('/ai', require('./modules/ai/ai.routes'));
+router.use('/pricing-leads', require('./modules/pricing/pricing-lead.routes'));
 
 module.exports = router;

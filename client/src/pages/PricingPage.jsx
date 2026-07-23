@@ -2,6 +2,7 @@ import { useState, useEffect, useRef } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useModal } from '../context/ModalContext';
 import { Check, ChevronDown, User, Phone, Mail, FileText, ChevronRight } from 'lucide-react';
+import { pricingAPI } from '../services/api';
 
 // Pricing Data
 const PRICING_DATA = {
@@ -286,6 +287,7 @@ export default function PricingPage() {
   const [selectedBoards, setSelectedBoards] = useState([]);
   const [selectedClasses, setSelectedClasses] = useState([]);
   const [selectedSubjects, setSelectedSubjects] = useState([]);
+  const [submitting, setSubmitting] = useState(false);
 
   // Determine which pricing tables to show
   const getApplicableCategories = () => {
@@ -324,8 +326,9 @@ export default function PricingPage() {
     setStep(2);
   };
 
-  const handleStep2Submit = (e) => {
+  const handleStep2Submit = async (e) => {
     e.preventDefault();
+    if (submitting) return;
     setErrorMsg("");
 
     if (selectedBoards.length === 0 || selectedClasses.length === 0 || selectedSubjects.length === 0) {
@@ -333,7 +336,25 @@ export default function PricingPage() {
       return;
     }
 
-    setStep(3);
+    setSubmitting(true);
+    try {
+      await pricingAPI.submit({
+        fullName,
+        phone,
+        email,
+        isParent,
+        boards: selectedBoards,
+        classes: selectedClasses,
+        subjects: selectedSubjects,
+        categories: getApplicableCategories()
+      });
+      setStep(3);
+    } catch (err) {
+      console.error(err);
+      setErrorMsg("❌ Connection error. Please try again.");
+    } finally {
+      setSubmitting(false);
+    }
   };
 
   return (
@@ -616,9 +637,10 @@ export default function PricingPage() {
                   <button 
                     type="submit" 
                     className="btn btn-primary" 
+                    disabled={submitting}
                     style={{ flex: 2, height: 48, borderRadius: 14, justifyContent: 'center' }}
                   >
-                    View Pricing →
+                    {submitting ? "Submitting..." : "View Pricing →"}
                   </button>
                 </div>
               </form>
