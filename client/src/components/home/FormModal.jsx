@@ -344,7 +344,16 @@ export default function FormModal() {
   const [parentStep, setParentStep] = useState(1);
   const [regStep, setRegStep] = useState(1);
   const [teacherStep, setTeacherStep] = useState(1);
-  const [formSubmitted, setFormSubmitted] = useState(false);
+  
+  // Independent submitting & disabled states per form (15-second cooldown)
+  const [parentSubmitting, setParentSubmitting] = useState(false);
+  const [parentDisabled, setParentDisabled] = useState(false);
+
+  const [regSubmitting, setRegSubmitting] = useState(false);
+  const [regDisabled, setRegDisabled] = useState(false);
+
+  const [teacherSubmitting, setTeacherSubmitting] = useState(false);
+  const [teacherDisabled, setTeacherDisabled] = useState(false);
 
   // Parent Assessment Visit Form states
   const [parentName, setParentName] = useState('');
@@ -471,7 +480,7 @@ export default function FormModal() {
 
   const handleParentSubmit = async (e) => {
     e.preventDefault();
-    if (formSubmitted) return;
+    if (parentSubmitting || parentDisabled) return;
 
     // Mandatory fields check
     if (!parentName.trim() || !parentPhone.trim() || !studentName.trim() || !parentBoard || !parentGrade || !parentLocation.trim() || !guidanceSubject.trim()) {
@@ -484,7 +493,8 @@ export default function FormModal() {
       return;
     }
 
-    setFormSubmitted(true);
+    setParentSubmitting(true);
+    setParentDisabled(true);
     try {
       await parentAPI.submit({
         parentName,
@@ -495,18 +505,20 @@ export default function FormModal() {
         location: parentLocation,
         specificSubject: guidanceSubject
       });
-      alert("thank you ... our team will contact uh soon");
+      alert("Thank you for joining, Our team will contact you soon.");
       handleClose();
     } catch (err) {
       console.error(err);
       alert("❌ Connection error. Please make sure the backend is running.");
-      setFormSubmitted(false); // Reset on error so they can try again
+    } finally {
+      setParentSubmitting(false);
+      setTimeout(() => setParentDisabled(false), 15000);
     }
   };
 
   const handleRegistrationSubmit = async (e) => {
     e.preventDefault();
-    if (formSubmitted) return;
+    if (regSubmitting || regDisabled) return;
 
     // Mandatory fields check
     if (!regParentName.trim() || !regParentPhone.trim() || !regLocation.trim() || !regStudentName.trim() || !regSchoolName.trim() || !regBoard || !regClass) {
@@ -519,7 +531,8 @@ export default function FormModal() {
       return;
     }
 
-    setFormSubmitted(true);
+    setRegSubmitting(true);
+    setRegDisabled(true);
     try {
       await parentAPI.register({
         parentName: regParentName,
@@ -530,18 +543,20 @@ export default function FormModal() {
         board: regBoard,
         class: regClass
       });
-      alert("✅ Parent registration successful!");
+      alert("Thank you for joining, Our team will contact you soon.");
       handleClose();
     } catch (err) {
       console.error(err);
       alert("❌ Connection error. Please make sure the backend is running.");
-      setFormSubmitted(false); // Reset on error so they can try again
+    } finally {
+      setRegSubmitting(false);
+      setTimeout(() => setRegDisabled(false), 15000);
     }
   };
 
   const handleTeacherSubmit = async (e) => {
     e.preventDefault();
-    if (formSubmitted) return;
+    if (teacherSubmitting || teacherDisabled) return;
 
     // Mandatory fields check
     if (!teacherFirstName.trim() || !teacherLastName.trim() || !teacherEmail.trim() || !teacherPhone.trim() || !teacherDob.trim() || !teacherAddress.trim() || !teacherFatherName.trim() || !teacherMotherName.trim()) {
@@ -564,7 +579,8 @@ export default function FormModal() {
       return;
     }
 
-    setFormSubmitted(true);
+    setTeacherSubmitting(true);
+    setTeacherDisabled(true);
     try {
       await teachersAPI.apply({
         firstName: teacherFirstName,
@@ -585,12 +601,14 @@ export default function FormModal() {
         mostComfortableMedium,
         preferredLocations
       });
-      alert("✅ Teacher application received! We'll review and contact you within 5–7 days.");
+      alert("Thank you for joining, Our team will contact you soon.");
       handleClose();
     } catch (err) {
       console.error(err);
       alert("❌ Connection error. Please make sure the backend is running.");
-      setFormSubmitted(false); // Reset on error so they can try again
+    } finally {
+      setTeacherSubmitting(false);
+      setTimeout(() => setTeacherDisabled(false), 15000);
     }
   };
 
@@ -669,14 +687,21 @@ export default function FormModal() {
                   {parentStep === 1 && (
                     <div style={{ flex: 1, display: 'flex', flexDirection: 'column' }}>
                       <UnderlineField label="Parent Name" placeholder="Your full name" value={parentName} onChange={e => setParentName(e.target.value)} required />
-                      <UnderlineField label="Phone Number" type="tel" placeholder="+91 00000 00000" value={parentPhone} onChange={e => setParentPhone(e.target.value)} required />
+                      <UnderlineField label="Phone Number" type="tel" placeholder="10-digit number" value={parentPhone} onChange={e => setParentPhone(e.target.value.replace(/\D/g, '').slice(0, 10))} required />
                       <UnderlineField label="Student Name" placeholder="Student's full name" value={studentName} onChange={e => setStudentName(e.target.value)} required />
                       
                       <button 
                         type="button" 
                         onClick={() => {
-                          if (parentName && parentPhone && studentName) setParentStep(2);
-                          else alert("⚠️ Please fill in all fields.");
+                          if (!parentName.trim() || !parentPhone.trim() || !studentName.trim()) {
+                            alert("⚠️ Please fill in all fields.");
+                            return;
+                          }
+                          if (!/^\d{10}$/.test(parentPhone.trim())) {
+                            alert("⚠️ Phone number must contain exactly 10 digits and only numbers.");
+                            return;
+                          }
+                          setParentStep(2);
                         }}
                         className="btn-editorial-pill" 
                         style={{ width: '100%', marginTop: 'auto' }}
@@ -706,7 +731,7 @@ export default function FormModal() {
                         <button 
                           type="button" 
                           onClick={() => {
-                            if (parentBoard && parentGrade && parentLocation) setParentStep(3);
+                            if (parentBoard && parentGrade && parentLocation.trim()) setParentStep(3);
                             else alert("⚠️ Please fill in all fields.");
                           }}
                           className="btn-editorial-pill" 
@@ -725,7 +750,7 @@ export default function FormModal() {
 
                       <div style={{ display: 'flex', gap: 16, marginTop: 'auto' }}>
                         <button type="button" onClick={() => setParentStep(2)} className="btn-editorial-secondary-pill" style={{ flex: 1 }}>Back</button>
-                        <button type="submit" disabled={formSubmitted} className="btn-editorial-pill" style={{ flex: 2 }}>{formSubmitted ? 'Submitting...' : 'Book Assessment Visit →'}</button>
+                        <button type="submit" disabled={parentSubmitting || parentDisabled} className="btn-editorial-pill" style={{ flex: 2 }}>{parentSubmitting ? 'Submitting...' : 'Book Assessment Visit →'}</button>
                       </div>
                     </div>
                   )}
@@ -748,14 +773,21 @@ export default function FormModal() {
                   {regStep === 1 && (
                     <div style={{ flex: 1, display: 'flex', flexDirection: 'column' }}>
                       <UnderlineField label="Parent Name" placeholder="Your full name" value={regParentName} onChange={e => setRegParentName(e.target.value)} required />
-                      <UnderlineField label="Contact Number" type="tel" placeholder="+91 00000 00000" value={regParentPhone} onChange={e => setRegParentPhone(e.target.value)} required />
+                      <UnderlineField label="Contact Number" type="tel" placeholder="10-digit number" value={regParentPhone} onChange={e => setRegParentPhone(e.target.value.replace(/\D/g, '').slice(0, 10))} required />
                       <UnderlineField label="Student Name" placeholder="Student's full name" value={regStudentName} onChange={e => setRegStudentName(e.target.value)} required />
                       
                       <button 
                         type="button" 
                         onClick={() => {
-                          if (regParentName && regParentPhone && regStudentName) setRegStep(2);
-                          else alert("⚠️ Please fill in all fields.");
+                          if (!regParentName.trim() || !regParentPhone.trim() || !regStudentName.trim()) {
+                            alert("⚠️ Please fill in all fields.");
+                            return;
+                          }
+                          if (!/^\d{10}$/.test(regParentPhone.trim())) {
+                            alert("⚠️ Phone number must contain exactly 10 digits and only numbers.");
+                            return;
+                          }
+                          setRegStep(2);
                         }}
                         className="btn-editorial-pill" 
                         style={{ width: '100%', marginTop: 'auto' }}
@@ -785,7 +817,7 @@ export default function FormModal() {
                         <button 
                           type="button" 
                           onClick={() => {
-                            if (regSchoolName && regBoard && regClass) setRegStep(3);
+                            if (regSchoolName.trim() && regBoard && regClass) setRegStep(3);
                             else alert("⚠️ Please fill in all fields.");
                           }}
                           className="btn-editorial-pill" 
@@ -804,7 +836,7 @@ export default function FormModal() {
 
                       <div style={{ display: 'flex', gap: 16, marginTop: 'auto' }}>
                         <button type="button" onClick={() => setRegStep(2)} className="btn-editorial-secondary-pill" style={{ flex: 1 }}>Back</button>
-                        <button type="submit" disabled={formSubmitted} className="btn-editorial-pill" style={{ flex: 2 }}>{formSubmitted ? 'Submitting...' : 'Submit Registration →'}</button>
+                        <button type="submit" disabled={regSubmitting || regDisabled} className="btn-editorial-pill" style={{ flex: 2 }}>{regSubmitting ? 'Submitting...' : 'Submit Registration →'}</button>
                       </div>
                     </div>
                   )}
@@ -832,14 +864,25 @@ export default function FormModal() {
                         <UnderlineField label="First Name" placeholder="First Name" value={teacherFirstName} onChange={e => setTeacherFirstName(e.target.value)} required />
                         <UnderlineField label="Last Name" placeholder="Last Name" value={teacherLastName} onChange={e => setTeacherLastName(e.target.value)} required />
                       </div>
-                      <UnderlineField label="Email Address" type="email" placeholder="email@address.com" value={teacherEmail} onChange={e => setTeacherEmail(e.target.value)} required />
-                      <UnderlineField label="Phone / WhatsApp" type="tel" placeholder="+91 00000 00000" value={teacherPhone} onChange={e => setTeacherPhone(e.target.value)} required />
+                      <UnderlineField label="Email Address" type="email" placeholder="user@gmail.com" value={teacherEmail} onChange={e => setTeacherEmail(e.target.value)} required />
+                      <UnderlineField label="Phone / WhatsApp" type="tel" placeholder="10-digit number" value={teacherPhone} onChange={e => setTeacherPhone(e.target.value.replace(/\D/g, '').slice(0, 10))} required />
                       
                       <button 
                         type="button" 
                         onClick={() => {
-                          if (teacherFirstName && teacherLastName && teacherEmail && teacherPhone) setTeacherStep(2);
-                          else alert("⚠️ Please fill in all fields.");
+                          if (!teacherFirstName.trim() || !teacherLastName.trim() || !teacherEmail.trim() || !teacherPhone.trim()) {
+                            alert("⚠️ Please fill in all fields.");
+                            return;
+                          }
+                          if (!/^\d{10}$/.test(teacherPhone.trim())) {
+                            alert("⚠️ Phone number must contain exactly 10 digits and only numbers.");
+                            return;
+                          }
+                          if (!/^[a-zA-Z0-9._%+-]+@gmail\.com$/.test(teacherEmail.trim())) {
+                            alert("⚠️ Email must be a valid Gmail address (e.g. user@gmail.com).");
+                            return;
+                          }
+                          setTeacherStep(2);
                         }}
                         className="btn-editorial-pill" 
                         style={{ width: '100%', marginTop: 'auto' }}
@@ -864,7 +907,7 @@ export default function FormModal() {
                         <button 
                           type="button" 
                           onClick={() => {
-                            if (teacherDob && teacherAddress && teacherFatherName && teacherMotherName) setTeacherStep(3);
+                            if (teacherDob && teacherAddress.trim() && teacherFatherName.trim() && teacherMotherName.trim()) setTeacherStep(3);
                             else alert("⚠️ Please fill in all fields.");
                           }}
                           className="btn-editorial-pill" 
@@ -925,7 +968,7 @@ export default function FormModal() {
 
                       <div style={{ display: 'flex', gap: 16, marginTop: 'auto' }}>
                         <button type="button" onClick={() => setTeacherStep(3)} className="btn-editorial-secondary-pill" style={{ flex: 1 }}>Back</button>
-                        <button type="submit" disabled={formSubmitted} className="btn-editorial-pill" style={{ flex: 2 }}>{formSubmitted ? 'Submitting...' : 'Apply to Join TheMentR →'}</button>
+                        <button type="submit" disabled={teacherSubmitting || teacherDisabled} className="btn-editorial-pill" style={{ flex: 2 }}>{teacherSubmitting ? 'Submitting...' : 'Apply to Join TheMentR →'}</button>
                       </div>
                     </div>
                   )}

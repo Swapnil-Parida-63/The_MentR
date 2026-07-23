@@ -9,35 +9,36 @@ const baseController = createCrudController(parentRequirementService);
 baseController.create = asyncHandler(async (req, res) => {
   const item = await parentRequirementService.create(req.body);
 
-  // Perform background POST request to the external webhook
-  try {
-    const webhookUrl = env.PARENT_FORM_WEBHOOK_URL;
-    if (webhookUrl) {
-      const payload = {
-        type: "requirement",
-        parentName: item.parentName || "",
-        phone: item.phone || "",
-        email: item.email || "",
-        location: item.location || "",
-        studentName: item.studentName || "",
-        specificSubject: item.specificSubject || "",
-        board: item.board || "",
-        class: item.class || "",
-        learningMode: item.learningMode || "",
-        preferredTiming: item.preferredTiming || "",
-        additionalNotes: item.additionalNotes || ""
-      };
+  // Perform non-blocking background POST request to the external webhook
+  const webhookUrl = env.PARENT_FORM_WEBHOOK_URL;
+  if (webhookUrl) {
+    const payload = {
+      type: "requirement",
+      parentName: item.parentName || "",
+      phone: item.phone || "",
+      email: item.email || "",
+      location: item.location || "",
+      studentName: item.studentName || "",
+      specificSubject: item.specificSubject || "",
+      board: item.board || "",
+      class: item.class || "",
+      learningMode: item.learningMode || "",
+      preferredTiming: item.preferredTiming || "",
+      additionalNotes: item.additionalNotes || ""
+    };
 
-      const response = await fetch(webhookUrl, {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(payload)
+    fetch(webhookUrl, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(payload)
+    })
+      .then(async (response) => {
+        const responseBody = await response.text();
+        console.log(`Successfully forwarded parent requirement to webhook. Status: ${response.status}, Response: ${responseBody}`);
+      })
+      .catch((error) => {
+        console.error(`Error forwarding parent requirement to webhook: ${error.message}`);
       });
-      const responseBody = await response.text();
-      console.log(`Successfully forwarded parent requirement to webhook. Status: ${response.status}, Response: ${responseBody}`);
-    }
-  } catch (error) {
-    console.error(`Error forwarding parent requirement to webhook: ${error.message}`);
   }
 
   res.status(201).json({ success: true, data: item });

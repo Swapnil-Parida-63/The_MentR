@@ -72,7 +72,24 @@ const PRICING_DATA = {
 };
 
 const BOARDS = ["CBSE", "ICSE", "State Board", "ISC", "NIOS", "IB", "IGCSE"];
-const CLASSES = ["1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12"];
+const CLASS_GROUPS = [
+  {
+    title: "AP Pricing • Classes 1–3",
+    options: ["1", "2", "3"]
+  },
+  {
+    title: "BP Pricing • Classes 4–7",
+    options: ["4", "5", "6", "7"]
+  },
+  {
+    title: "DP Pricing • Classes 8–10",
+    options: ["8", "9", "10"]
+  },
+  {
+    title: "EP Pricing • Classes 11–12",
+    options: ["11", "12"]
+  }
+];
 const SUBJECTS = [
   "Mathematics", "Physics", "Chemistry", "Biology", "Science",
   "English", "Hindi", "Odia", "Social Science", "History",
@@ -81,7 +98,7 @@ const SUBJECTS = [
 ];
 
 // Helper components
-function MultiSelectDropdown({ label, options, selectedValues, onChange }) {
+function MultiSelectDropdown({ label, options, groups, selectedValues, onChange }) {
   const [isOpen, setIsOpen] = useState(false);
   const dropdownRef = useRef(null);
 
@@ -137,18 +154,18 @@ function MultiSelectDropdown({ label, options, selectedValues, onChange }) {
                 color: '#4F7CFF',
                 fontSize: 11.5,
                 fontWeight: 600,
-                padding: '2px 8px',
+                padding: '3px 10px',
                 borderRadius: 99,
                 display: 'inline-flex',
                 alignItems: 'center',
-                gap: 4
+                gap: 5
               }}
               onClick={(e) => {
                 e.stopPropagation();
                 toggleOption(v);
               }}
             >
-              {v} <span style={{ fontSize: 9 }}>✕</span>
+              {label === 'Class' ? `Class ${v}` : v} <span style={{ fontSize: 9 }}>✕</span>
             </span>
           ))
         )}
@@ -165,39 +182,89 @@ function MultiSelectDropdown({ label, options, selectedValues, onChange }) {
           right: 0,
           background: '#FFFFFF',
           border: '1px solid rgba(79, 124, 255, 0.12)',
-          boxShadow: '0 12px 32px rgba(15, 23, 42, 0.08)',
-          borderRadius: 12,
+          boxShadow: '0 12px 32px rgba(15, 23, 42, 0.12)',
+          borderRadius: 14,
           zIndex: 999,
-          maxHeight: 180,
+          maxHeight: 260,
           overflowY: 'auto',
           marginTop: 6,
           padding: 8
         }}>
-          {options.map(opt => {
-            const isSelected = selectedValues.includes(opt);
-            return (
-              <div
-                key={opt}
-                onClick={() => toggleOption(opt)}
-                style={{
-                  padding: '8px 12px',
-                  fontSize: 13.5,
+          {groups ? (
+            groups.map((group, gIdx) => (
+              <div key={group.title} style={{ marginBottom: gIdx < groups.length - 1 ? 10 : 0 }}>
+                {/* Group Header */}
+                <div style={{
+                  fontSize: 11,
+                  fontWeight: 700,
+                  color: '#4F7CFF',
+                  background: 'rgba(79, 124, 255, 0.06)',
+                  padding: '6px 10px',
                   borderRadius: 6,
-                  cursor: 'pointer',
-                  background: isSelected ? 'rgba(79, 124, 255, 0.05)' : 'transparent',
-                  color: isSelected ? '#4F7CFF' : '#1D2433',
-                  fontWeight: isSelected ? 600 : 500,
+                  marginBottom: 4,
+                  letterSpacing: '0.03em',
+                  textTransform: 'uppercase',
                   display: 'flex',
-                  justifyContent: 'space-between',
                   alignItems: 'center',
-                  transition: 'all 0.2s'
-                }}
-              >
-                {opt}
-                {isSelected && <span style={{ fontSize: 12 }}>✓</span>}
+                  gap: 6
+                }}>
+                  <span>⚡</span> {group.title}
+                </div>
+                {/* Group Items */}
+                {group.options.map(opt => {
+                  const isSelected = selectedValues.includes(opt);
+                  return (
+                    <div
+                      key={opt}
+                      onClick={() => toggleOption(opt)}
+                      style={{
+                        padding: '8px 12px 8px 24px',
+                        fontSize: 13.5,
+                        borderRadius: 8,
+                        cursor: 'pointer',
+                        background: isSelected ? 'rgba(79, 124, 255, 0.08)' : 'transparent',
+                        color: isSelected ? '#4F7CFF' : '#1D2433',
+                        fontWeight: isSelected ? 600 : 500,
+                        display: 'flex',
+                        justifyContent: 'space-between',
+                        alignItems: 'center',
+                        transition: 'all 0.2s'
+                      }}
+                    >
+                      <span>Class {opt}</span>
+                      {isSelected && <span style={{ fontSize: 12, fontWeight: 700 }}>✓</span>}
+                    </div>
+                  );
+                })}
               </div>
-            );
-          })}
+            ))
+          ) : (
+            options.map(opt => {
+              const isSelected = selectedValues.includes(opt);
+              return (
+                <div
+                  key={opt}
+                  onClick={() => toggleOption(opt)}
+                  style={{
+                    padding: '8px 12px',
+                    fontSize: 13.5,
+                    borderRadius: 8,
+                    cursor: 'pointer',
+                    background: isSelected ? 'rgba(79, 124, 255, 0.08)' : 'transparent',
+                    color: isSelected ? '#4F7CFF' : '#1D2433',
+                    fontWeight: isSelected ? 600 : 500,
+                    display: 'flex',
+                    justifyContent: 'space-between',
+                    alignItems: 'center',
+                    transition: 'all 0.2s'
+                  }}
+                >
+                  <span>{opt}</span>
+                  {isSelected && <span style={{ fontSize: 12, fontWeight: 700 }}>✓</span>}
+                </div>
+              );
+            })
+          )}
         </div>
       )}
     </div>
@@ -524,7 +591,7 @@ export default function PricingPage() {
 
                 <MultiSelectDropdown 
                   label="Class"
-                  options={CLASSES}
+                  groups={CLASS_GROUPS}
                   selectedValues={selectedClasses}
                   onChange={setSelectedClasses}
                 />

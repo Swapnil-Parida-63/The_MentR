@@ -1,5 +1,5 @@
 import { Link, useNavigate } from 'react-router-dom';
-import { FaInstagram, FaLinkedinIn, FaXTwitter, FaYoutube, FaWhatsapp, FaEnvelope } from 'react-icons/fa6';
+import { FaInstagram, FaLinkedinIn, FaXTwitter, FaFacebookF, FaWhatsapp, FaEnvelope } from 'react-icons/fa6';
 
 export default function Footer() {
   const navigate = useNavigate();
@@ -19,10 +19,10 @@ export default function Footer() {
   const socialLinks = [
     { icon: <FaEnvelope size={15} />, label: 'Email', href: 'mailto:contact@thementr.com' },
     { icon: <FaWhatsapp size={15} />, label: 'WhatsApp', href: 'https://wa.me/919668562631' },
-    { icon: <FaInstagram size={15} />, label: 'Instagram', href: '#' },
-    { icon: <FaLinkedinIn size={15} />, label: 'LinkedIn', href: '#' },
-    { icon: <FaXTwitter size={15} />, label: 'Twitter', href: '#' },
-    { icon: <FaYoutube size={15} />, label: 'YouTube', href: '#' }
+    { icon: <FaInstagram size={15} />, label: 'Instagram', href: 'https://www.instagram.com/thementrnetwork?igsh=MWRkOWh4eWI0ODg5dA==' },
+    { icon: <FaLinkedinIn size={15} />, label: 'LinkedIn', href: 'https://www.linkedin.com/company/thementrnetwork/' },
+    { icon: <FaXTwitter size={15} />, label: 'Twitter', href: 'https://x.com/TheMentRNetwork' },
+    { icon: <FaFacebookF size={15} />, label: 'Facebook', href: 'https://www.facebook.com/share/1CR7mAbF8C/' }
   ];
 
   const footerCols = [

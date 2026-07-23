@@ -353,12 +353,20 @@ function UnderlineMultiSelect({ label, options, selectedValues, onChange }) {
 export default function FormsSection() {
   const [activeTab, setActiveTab] = useState('assessment'); // 'assessment', 'parent_registration', 'teacher'
   const [highlightForm, setHighlightForm] = useState(false);
-  const [submitting, setSubmitting] = useState(false);
-  const [formSubmitted, setFormSubmitted] = useState(false);
   const [isMobile, setIsMobile] = useState(window.innerWidth < 1024);
   const [toast, setToast] = useState(null);
 
   const showToast = (msg) => { setToast(msg); setTimeout(() => setToast(null), 4000); };
+
+  // Independent submitting & disabled states per form (15-second cooldown)
+  const [parentSubmitting, setParentSubmitting] = useState(false);
+  const [parentDisabled, setParentDisabled] = useState(false);
+
+  const [regSubmitting, setRegSubmitting] = useState(false);
+  const [regDisabled, setRegDisabled] = useState(false);
+
+  const [teacherSubmitting, setTeacherSubmitting] = useState(false);
+  const [teacherDisabled, setTeacherDisabled] = useState(false);
 
   // Step states
   const [parentStep, setParentStep] = useState(1);
@@ -437,7 +445,7 @@ export default function FormsSection() {
 
   const handleParentSubmit = async (e) => {
     e.preventDefault();
-    if (submitting || formSubmitted) return;
+    if (parentSubmitting || parentDisabled) return;
 
     // Mandatory fields check
     if (!parentName.trim() || !parentPhone.trim() || !studentName.trim() || !parentBoard || !parentGrade || !parentLocation.trim() || !guidanceSubject.trim()) {
@@ -450,8 +458,8 @@ export default function FormsSection() {
       return;
     }
 
-    setSubmitting(true);
-    setFormSubmitted(true);
+    setParentSubmitting(true);
+    setParentDisabled(true);
     showToast("⏳ Sending request... Please wait.");
     
     try {
@@ -464,7 +472,7 @@ export default function FormsSection() {
         location: parentLocation,
         specificSubject: guidanceSubject
       });
-      showToast("thank you ... our team will contact uh soon");
+      showToast("Thank you for joining, Our team will contact you soon.");
       setParentStep(1);
       setParentName('');
       setParentPhone('');
@@ -476,15 +484,15 @@ export default function FormsSection() {
     } catch (err) {
       console.error(err);
       showToast("❌ Connection error. Please check if backend is running.");
-      setFormSubmitted(false); // Reset on error so they can try again
     } finally {
-      setTimeout(() => setSubmitting(false), 2000);
+      setParentSubmitting(false);
+      setTimeout(() => setParentDisabled(false), 15000);
     }
   };
 
   const handleRegistrationSubmit = async (e) => {
     e.preventDefault();
-    if (submitting || formSubmitted) return;
+    if (regSubmitting || regDisabled) return;
 
     // Mandatory fields check
     if (!regParentName.trim() || !regParentPhone.trim() || !regLocation.trim() || !regStudentName.trim() || !regSchoolName.trim() || !regBoard || !regClass) {
@@ -497,8 +505,8 @@ export default function FormsSection() {
       return;
     }
 
-    setSubmitting(true);
-    setFormSubmitted(true);
+    setRegSubmitting(true);
+    setRegDisabled(true);
     showToast("⏳ Sending request... Please wait.");
     
     try {
@@ -511,7 +519,7 @@ export default function FormsSection() {
         board: regBoard,
         class: regClass
       });
-      showToast("✅ Parent registration successful!");
+      showToast("Thank you for joining, Our team will contact you soon.");
       setRegStep(1);
       setRegParentName('');
       setRegParentPhone('');
@@ -523,15 +531,15 @@ export default function FormsSection() {
     } catch (err) {
       console.error(err);
       showToast("❌ Connection error. Please check if backend is running.");
-      setFormSubmitted(false); // Reset on error so they can try again
     } finally {
-      setTimeout(() => setSubmitting(false), 2000);
+      setRegSubmitting(false);
+      setTimeout(() => setRegDisabled(false), 15000);
     }
   };
 
   const handleTeacherSubmit = async (e) => {
     e.preventDefault();
-    if (submitting || formSubmitted) return;
+    if (teacherSubmitting || teacherDisabled) return;
 
     // Mandatory fields check
     if (!teacherFirstName.trim() || !teacherLastName.trim() || !teacherEmail.trim() || !teacherPhone.trim() || !teacherDob.trim() || !teacherAddress.trim() || !teacherFatherName.trim() || !teacherMotherName.trim()) {
@@ -554,8 +562,8 @@ export default function FormsSection() {
       return;
     }
 
-    setSubmitting(true);
-    setFormSubmitted(true);
+    setTeacherSubmitting(true);
+    setTeacherDisabled(true);
     showToast("⏳ Sending application... Please wait.");
 
     try {
@@ -578,7 +586,7 @@ export default function FormsSection() {
         mostComfortableMedium,
         preferredLocations
       });
-      showToast("✅ Teacher application received! We'll review and contact you within 5–7 days.");
+      showToast("Thank you for joining, Our team will contact you soon.");
       
       // Reset forms
       setTeacherStep(1);
@@ -594,10 +602,6 @@ export default function FormsSection() {
       setBoardsAlreadyTaught([]);
       setClassesToTeach([]);
       setClassesAlreadyTaught([]);
-      setBoardsToTeach([]);
-      setBoardsAlreadyTaught([]);
-      setClassesToTeach([]);
-      setClassesAlreadyTaught([]);
       setSubjectsToTeach([]);
       setSubjectsPreviouslyTaught([]);
       setMediumOfInstruction([]);
@@ -606,9 +610,9 @@ export default function FormsSection() {
     } catch (err) {
       console.error(err);
       showToast("❌ Connection error. Please check if backend is running.");
-      setFormSubmitted(false); // Reset on error so they can try again
     } finally {
-      setTimeout(() => setSubmitting(false), 2000);
+      setTeacherSubmitting(false);
+      setTimeout(() => setTeacherDisabled(false), 15000);
     }
   };
 
@@ -698,14 +702,21 @@ export default function FormsSection() {
                     {parentStep === 1 && (
                       <div style={{ animation: 'fadeFormStep 0.4s ease' }}>
                         <UnderlineField label="Parent Name" placeholder="Your full name" value={parentName} onChange={e => setParentName(e.target.value)} required />
-                        <UnderlineField label="Phone Number" type="tel" placeholder="+91 00000 00000" value={parentPhone} onChange={e => setParentPhone(e.target.value)} required />
+                        <UnderlineField label="Phone Number" type="tel" placeholder="10-digit number" value={parentPhone} onChange={e => setParentPhone(e.target.value.replace(/\D/g, '').slice(0, 10))} required />
                         <UnderlineField label="Student Name" placeholder="Student's full name" value={studentName} onChange={e => setStudentName(e.target.value)} required />
                         
                         <button 
                           type="button" 
                           onClick={() => {
-                            if (parentName && parentPhone && studentName) setParentStep(2);
-                            else showToast("⚠️ Please fill in all fields.");
+                            if (!parentName.trim() || !parentPhone.trim() || !studentName.trim()) {
+                              showToast("⚠️ Please fill in all fields.");
+                              return;
+                            }
+                            if (!/^\d{10}$/.test(parentPhone.trim())) {
+                              showToast("⚠️ Phone number must contain exactly 10 digits and only numbers.");
+                              return;
+                            }
+                            setParentStep(2);
                           }}
                           className="btn-editorial-pill"
                           style={{ marginTop: 24 }}
@@ -734,7 +745,7 @@ export default function FormsSection() {
                           <button 
                             type="button" 
                             onClick={() => {
-                              if (parentBoard && parentGrade && parentLocation) setParentStep(3);
+                              if (parentBoard && parentGrade && parentLocation.trim()) setParentStep(3);
                               else showToast("⚠️ Please fill in all fields.");
                             }} 
                             className="btn-editorial-pill"
@@ -751,7 +762,7 @@ export default function FormsSection() {
 
                         <div style={{ display: 'flex', gap: 16, marginTop: 24 }}>
                           <button type="button" onClick={() => setParentStep(2)} className="btn-editorial-secondary-pill">Back</button>
-                          <button type="submit" className="btn-editorial-pill" disabled={formSubmitted}>{formSubmitted ? "Submitting..." : "Book Assessment Visit →"}</button>
+                          <button type="submit" className="btn-editorial-pill" disabled={parentSubmitting || parentDisabled}>{parentSubmitting ? "Submitting..." : "Book Assessment Visit →"}</button>
                         </div>
                       </div>
                     )}
@@ -771,14 +782,21 @@ export default function FormsSection() {
                     {regStep === 1 && (
                       <div style={{ animation: 'fadeFormStep 0.4s ease' }}>
                         <UnderlineField label="Parent Name" placeholder="Your full name" value={regParentName} onChange={e => setRegParentName(e.target.value)} required />
-                        <UnderlineField label="Contact Number" type="tel" placeholder="+91 00000 00000" value={regParentPhone} onChange={e => setRegParentPhone(e.target.value)} required />
+                        <UnderlineField label="Contact Number" type="tel" placeholder="10-digit number" value={regParentPhone} onChange={e => setRegParentPhone(e.target.value.replace(/\D/g, '').slice(0, 10))} required />
                         <UnderlineField label="Student Name" placeholder="Student's full name" value={regStudentName} onChange={e => setRegStudentName(e.target.value)} required />
                         
                         <button 
                           type="button" 
                           onClick={() => {
-                            if (regParentName && regParentPhone && regStudentName) setRegStep(2);
-                            else showToast("⚠️ Please fill in all fields.");
+                            if (!regParentName.trim() || !regParentPhone.trim() || !regStudentName.trim()) {
+                              showToast("⚠️ Please fill in all fields.");
+                              return;
+                            }
+                            if (!/^\d{10}$/.test(regParentPhone.trim())) {
+                              showToast("⚠️ Phone number must contain exactly 10 digits and only numbers.");
+                              return;
+                            }
+                            setRegStep(2);
                           }}
                           className="btn-editorial-pill"
                           style={{ marginTop: 24 }}
@@ -807,7 +825,7 @@ export default function FormsSection() {
                           <button 
                             type="button" 
                             onClick={() => {
-                              if (regSchoolName && regBoard && regClass) setRegStep(3);
+                              if (regSchoolName.trim() && regBoard && regClass) setRegStep(3);
                               else showToast("⚠️ Please fill in all fields.");
                             }} 
                             className="btn-editorial-pill"
@@ -824,7 +842,7 @@ export default function FormsSection() {
 
                         <div style={{ display: 'flex', gap: 16, marginTop: 24 }}>
                           <button type="button" onClick={() => setRegStep(2)} className="btn-editorial-secondary-pill">Back</button>
-                          <button type="submit" className="btn-editorial-pill" disabled={formSubmitted}>{formSubmitted ? "Submitting..." : "Submit Registration →"}</button>
+                          <button type="submit" className="btn-editorial-pill" disabled={regSubmitting || regDisabled}>{regSubmitting ? "Submitting..." : "Submit Registration →"}</button>
                         </div>
                       </div>
                     )}
@@ -850,14 +868,25 @@ export default function FormsSection() {
                           <UnderlineField label="First Name" placeholder="First Name" value={teacherFirstName} onChange={e => setTeacherFirstName(e.target.value)} required />
                           <UnderlineField label="Last Name" placeholder="Last Name" value={teacherLastName} onChange={e => setTeacherLastName(e.target.value)} required />
                         </div>
-                        <UnderlineField label="Email Address" type="email" placeholder="email@address.com" value={teacherEmail} onChange={e => setTeacherEmail(e.target.value)} required />
-                        <UnderlineField label="Phone / WhatsApp" type="tel" placeholder="+91 00000 00000" value={teacherPhone} onChange={e => setTeacherPhone(e.target.value)} required />
+                        <UnderlineField label="Email Address" type="email" placeholder="user@gmail.com" value={teacherEmail} onChange={e => setTeacherEmail(e.target.value)} required />
+                        <UnderlineField label="Phone / WhatsApp" type="tel" placeholder="10-digit number" value={teacherPhone} onChange={e => setTeacherPhone(e.target.value.replace(/\D/g, '').slice(0, 10))} required />
                         
                         <button 
                           type="button" 
                           onClick={() => {
-                            if (teacherFirstName && teacherLastName && teacherEmail && teacherPhone) setTeacherStep(2);
-                            else showToast("⚠️ Please fill in all fields.");
+                            if (!teacherFirstName.trim() || !teacherLastName.trim() || !teacherEmail.trim() || !teacherPhone.trim()) {
+                              showToast("⚠️ Please fill in all fields.");
+                              return;
+                            }
+                            if (!/^\d{10}$/.test(teacherPhone.trim())) {
+                              showToast("⚠️ Phone number must contain exactly 10 digits and only numbers.");
+                              return;
+                            }
+                            if (!/^[a-zA-Z0-9._%+-]+@gmail\.com$/.test(teacherEmail.trim())) {
+                              showToast("⚠️ Email must be a valid Gmail address (e.g. user@gmail.com).");
+                              return;
+                            }
+                            setTeacherStep(2);
                           }}
                           className="btn-editorial-pill"
                           style={{ marginTop: 24 }}
@@ -883,7 +912,7 @@ export default function FormsSection() {
                           <button 
                             type="button" 
                             onClick={() => {
-                              if (teacherDob && teacherAddress && teacherFatherName && teacherMotherName) setTeacherStep(3);
+                              if (teacherDob && teacherAddress.trim() && teacherFatherName.trim() && teacherMotherName.trim()) setTeacherStep(3);
                               else showToast("⚠️ Please fill in all fields.");
                             }} 
                             className="btn-editorial-pill"
@@ -946,7 +975,7 @@ export default function FormsSection() {
 
                         <div style={{ display: 'flex', gap: 16, marginTop: 24 }}>
                           <button type="button" onClick={() => setTeacherStep(3)} className="btn-editorial-secondary-pill">Back</button>
-                          <button type="submit" className="btn-editorial-pill" disabled={formSubmitted}>{formSubmitted ? "Submitting..." : "Apply to Join TheMentR →"}</button>
+                          <button type="submit" className="btn-editorial-pill" disabled={teacherSubmitting || teacherDisabled}>{teacherSubmitting ? "Submitting..." : "Apply to Join TheMentR →"}</button>
                         </div>
                       </div>
                     )}
