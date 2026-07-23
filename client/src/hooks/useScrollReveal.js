@@ -2,7 +2,7 @@ import React, { useEffect, useRef } from 'react';
 
 export function useScrollReveal(options = {}) {
   const {
-    threshold = 0.45, // Trigger threshold for desktop
+    threshold = 0.15, // Lower threshold for responsive desktop reveal
     y = 24,
     easing = 'cubic-bezier(0.16, 1, 0.3, 1)' // Premium Stripe/Apple easeOutExpo
   } = options;
@@ -35,6 +35,7 @@ export function useScrollReveal(options = {}) {
             el.style.transition = `opacity ${duration}s ease-out, transform ${duration}s ease-out`;
             el.style.opacity = '1';
             el.style.transform = 'translate3d(0, 0, 0)';
+            observer.unobserve(el); // Keep visible permanently
           }
         },
         { threshold: 0 }
@@ -42,7 +43,7 @@ export function useScrollReveal(options = {}) {
       observer.observe(el);
       return () => observer.disconnect();
     } else {
-      // Desktop: Keep existing desktop scroll reveal behavior exactly as is
+      // Desktop: One-way slide-up reveal, elements never disappear on scroll
       el.style.opacity = '0';
       el.style.transform = `translate3d(0, ${y}px, 0)`;
       el.style.transition = 'none';
@@ -50,29 +51,11 @@ export function useScrollReveal(options = {}) {
 
       const observer = new IntersectionObserver(
         ([entry]) => {
-          const rect = entry.boundingClientRect;
-          const isBelow = rect.top > (window.innerHeight * 0.3);
-
           if (entry.isIntersecting) {
-            if (isBelow) {
-              el.style.transition = `opacity ${duration}s ${easing}, transform ${duration}s ${easing}`;
-              el.style.opacity = '1';
-              el.style.transform = 'translate3d(0, 0, 0)';
-            } else {
-              el.style.transition = 'none';
-              el.style.opacity = '1';
-              el.style.transform = 'translate3d(0, 0, 0)';
-            }
-          } else {
-            if (isBelow) {
-              el.style.transition = 'none';
-              el.style.opacity = '0';
-              el.style.transform = `translate3d(0, ${y}px, 0)`;
-            } else {
-              el.style.transition = 'none';
-              el.style.opacity = '1';
-              el.style.transform = 'translate3d(0, 0, 0)';
-            }
+            el.style.transition = `opacity ${duration}s ${easing}, transform ${duration}s ${easing}`;
+            el.style.opacity = '1';
+            el.style.transform = 'translate3d(0, 0, 0)';
+            observer.unobserve(el); // Keep visible permanently, preventing scroll out hide/show
           }
         },
         { threshold }
@@ -85,7 +68,7 @@ export function useScrollReveal(options = {}) {
   return ref;
 }
 
-export function FadeUp({ children, delay = 0, y = 24, duration = 0.7, threshold = 0.45, className = '', style = {} }) {
+export function FadeUp({ children, delay = 0, y = 24, duration = 0.7, threshold = 0.15, className = '', style = {} }) {
   const ref = useScrollReveal({ y, duration, delay, threshold });
   return React.createElement('div', {
     ref,
