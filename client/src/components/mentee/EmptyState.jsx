@@ -23,16 +23,29 @@ export default function EmptyState() {
           width: 52,
           height: 52,
           borderRadius: '50%',
-          background: 'linear-gradient(135deg, rgba(79, 124, 255, 0.12) 0%, rgba(116, 105, 248, 0.12) 100%)',
           border: '1px solid rgba(79, 124, 255, 0.2)',
-          color: '#4F7CFF',
           display: 'flex',
           alignItems: 'center',
           justifyContent: 'center',
-          marginBottom: 12
+          marginBottom: 12,
+          overflow: 'hidden',
+          background: 'transparent',
+          boxShadow: '0 4px 12px rgba(0, 0, 0, 0.05)'
         }}
       >
-        <Sparkles size={24} />
+        <img 
+          src="/ChatGPT_Logo.png" 
+          alt="Mentee Logo" 
+          style={{ width: '100%', height: '100%', objectFit: 'cover', display: 'block' }} 
+          onError={(e) => {
+            e.target.style.display = 'none';
+            e.target.parentNode.style.background = 'linear-gradient(135deg, rgba(79, 124, 255, 0.12) 0%, rgba(116, 105, 248, 0.12) 100%)';
+            const el = document.createElement('span');
+            el.innerText = '✨';
+            el.style.fontSize = '24px';
+            e.target.parentNode.appendChild(el);
+          }}
+        />
       </div>
 
       <h5

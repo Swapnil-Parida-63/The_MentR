@@ -29,16 +29,29 @@ export default function ChatHeader({ onClose, onReset }) {
             width: 40,
             height: 40,
             borderRadius: '50%',
-            background: 'linear-gradient(135deg, #4F7CFF 0%, #7469F8 100%)',
+            background: 'transparent',
             display: 'flex',
             alignItems: 'center',
             justifyContent: 'center',
             color: '#FFFFFF',
-            boxShadow: '0 4px 12px rgba(79, 124, 255, 0.35)',
-            border: '2px solid rgba(255, 255, 255, 0.2)'
+            boxShadow: '0 4px 12px rgba(0, 0, 0, 0.15)',
+            border: '2px solid rgba(255, 255, 255, 0.2)',
+            overflow: 'hidden'
           }}
         >
-          <Sparkles size={20} />
+          <img 
+            src="/ChatGPT_Logo.png" 
+            alt="Mentee Logo" 
+            style={{ width: '100%', height: '100%', objectFit: 'cover', display: 'block' }} 
+            onError={(e) => {
+              e.target.style.display = 'none';
+              e.target.parentNode.style.background = 'linear-gradient(135deg, #4F7CFF 0%, #7469F8 100%)';
+              const el = document.createElement('span');
+              el.innerText = '✨';
+              el.style.fontSize = '16px';
+              e.target.parentNode.appendChild(el);
+            }}
+          />
           {/* Online Dot */}
           <span
             style={{
@@ -50,7 +63,8 @@ export default function ChatHeader({ onClose, onReset }) {
               borderRadius: '50%',
               background: '#10B981',
               border: '2px solid #0F172A',
-              boxShadow: '0 0 6px rgba(16, 185, 129, 0.8)'
+              boxShadow: '0 0 6px rgba(16, 185, 129, 0.8)',
+              zIndex: 10
             }}
           />
         </div>

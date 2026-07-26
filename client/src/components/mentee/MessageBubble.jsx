@@ -86,7 +86,7 @@ export default function MessageBubble({ message, onActionClick }) {
             width: 28,
             height: 28,
             borderRadius: '50%',
-            background: isUser ? '#E2E8F0' : 'linear-gradient(135deg, #4F7CFF 0%, #7469F8 100%)',
+            background: isUser ? '#E2E8F0' : 'transparent',
             color: isUser ? '#475569' : '#FFFFFF',
             display: 'flex',
             alignItems: 'center',
@@ -94,10 +94,27 @@ export default function MessageBubble({ message, onActionClick }) {
             flexShrink: 0,
             fontSize: 12,
             marginTop: 2,
-            boxShadow: isUser ? 'none' : '0 2px 8px rgba(79, 124, 255, 0.25)'
+            boxShadow: isUser ? 'none' : '0 2px 8px rgba(0, 0, 0, 0.08)',
+            overflow: 'hidden'
           }}
         >
-          {isUser ? <User size={15} /> : <Sparkles size={14} />}
+          {isUser ? (
+            <User size={15} />
+          ) : (
+            <img 
+              src="/ChatGPT_Logo.png" 
+              alt="Mentee Logo" 
+              style={{ width: '100%', height: '100%', objectFit: 'cover', display: 'block' }} 
+              onError={(e) => {
+                e.target.style.display = 'none';
+                e.target.parentNode.style.background = 'linear-gradient(135deg, #4F7CFF 0%, #7469F8 100%)';
+                const el = document.createElement('span');
+                el.innerText = '✨';
+                el.style.fontSize = '12px';
+                e.target.parentNode.appendChild(el);
+              }}
+            />
+          )}
         </div>
 
         {/* Bubble */}

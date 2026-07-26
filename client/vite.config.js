@@ -2,6 +2,19 @@ import { defineConfig } from 'vite';
 import react from '@vitejs/plugin-react';
 import tailwindcss from '@tailwindcss/vite';
 import path from 'path';
+import fs from 'fs';
+
+// Auto-copy the chatbot logo to the public assets directory on Vite startup
+const srcLogo = path.resolve(__dirname, 'dist/assets/ChatGPT Image Jul 23, 2026, 10_24_45 PM.png');
+const destLogo = path.resolve(__dirname, 'public/ChatGPT_Logo.png');
+if (fs.existsSync(srcLogo)) {
+  try {
+    fs.copyFileSync(srcLogo, destLogo);
+    console.log('[Vite Config] Chatbot logo copied to public/ChatGPT_Logo.png successfully.');
+  } catch (err) {
+    console.error('[Vite Config] Error copying chatbot logo:', err.message);
+  }
+}
 
 export default defineConfig({
   plugins: [react(), tailwindcss()],

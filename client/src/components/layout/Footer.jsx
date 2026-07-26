@@ -55,9 +55,8 @@ export default function Footer() {
       links: [
         { label: 'FAQ', onClick: () => navigateAndScroll('/', 'contact-section') },
         { label: 'Help Centre', to: '/contact' },
-        { label: 'Privacy Policy', onClick: () => {} },
-        { label: 'Terms & Conditions', onClick: () => {} },
-        { label: 'Refund Policy', onClick: () => {} }
+        { label: 'Terms & Conditions', to: '/terms-parents' },
+        { label: 'Privacy Policy', to: '/privacy' }
       ]
     }
   ];
@@ -147,9 +146,9 @@ export default function Footer() {
         <div style={{ borderTop: '1px solid rgba(255,255,255,0.08)', paddingTop: 28, display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: 16 }}>
           <p style={{ fontSize: 13, color: 'rgba(255,255,255,0.35)' }}>© 2025 TheMentR Education Pvt. Ltd. All rights reserved.</p>
           <div style={{ display: 'flex', gap: 24 }}>
-            {['Privacy', 'Terms', 'Cookies'].map(t => (
-              <a key={t} href="#" style={{ fontSize: 13, color: 'rgba(255,255,255,0.35)', textDecoration: 'none' }}>{t}</a>
-            ))}
+            <Link to="/privacy" style={{ fontSize: 13, color: 'rgba(255,255,255,0.35)', textDecoration: 'none' }}>Privacy</Link>
+            <Link to="/terms-parents" style={{ fontSize: 13, color: 'rgba(255,255,255,0.35)', textDecoration: 'none' }}>Terms & Conditions</Link>
+            <Link to="/contact" style={{ fontSize: 13, color: 'rgba(255,255,255,0.35)', textDecoration: 'none' }}>Cookies</Link>
           </div>
         </div>
       </div>

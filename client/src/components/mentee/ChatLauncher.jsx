@@ -27,25 +27,49 @@ export default function ChatLauncher({ isOpen, onClick, unreadCount = 0 }) {
         justifyContent: 'center',
         zIndex: 99990,
         transition: 'all 0.3s cubic-bezier(0.16, 1, 0.3, 1)',
-        outline: 'none'
+        outline: 'none',
+        padding: 0
       }}
     >
       {/* Icon */}
       {isOpen ? (
         <X size={26} style={{ transition: 'transform 0.2s ease' }} />
       ) : (
-        <div style={{ position: 'relative', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-          <MessageSquare size={26} />
-          <Sparkles
-            size={14}
-            style={{
-              position: 'absolute',
-              top: -6,
-              right: -8,
-              color: '#FFD700',
-              filter: 'drop-shadow(0 0 4px rgba(255, 215, 0, 0.8))'
+        <div style={{ width: '100%', height: '100%', borderRadius: '50%', overflow: 'hidden', position: 'relative', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+          <img 
+            src="/ChatGPT_Logo.png" 
+            alt="Mentee AI" 
+            style={{ width: '100%', height: '100%', objectFit: 'cover', display: 'block' }} 
+            onError={(e) => {
+              e.target.style.display = 'none';
+              const fallback = document.getElementById('launcher-fallback');
+              if (fallback) fallback.style.display = 'flex';
             }}
           />
+          <div 
+            id="launcher-fallback"
+            style={{ 
+              display: 'none', 
+              width: '100%', 
+              height: '100%', 
+              alignItems: 'center', 
+              justifyContent: 'center',
+              position: 'absolute',
+              inset: 0
+            }}
+          >
+            <MessageSquare size={26} />
+            <Sparkles
+              size={14}
+              style={{
+                position: 'absolute',
+                top: 12,
+                right: 12,
+                color: '#FFD700',
+                filter: 'drop-shadow(0 0 4px rgba(255, 215, 0, 0.8))'
+              }}
+            />
+          </div>
         </div>
       )}
 

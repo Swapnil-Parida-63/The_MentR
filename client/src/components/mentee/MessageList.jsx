@@ -6,11 +6,15 @@ import MessageBubble from './MessageBubble';
  * Scrollable list containing conversation message bubbles and auto-scrolling logic.
  */
 export default function MessageList({ messages = [], onActionClick }) {
-  const bottomRef = useRef(null);
   const containerRef = useRef(null);
 
   useEffect(() => {
-    bottomRef.current?.scrollIntoView({ behavior: 'smooth' });
+    if (containerRef.current) {
+      containerRef.current.scrollTo({
+        top: containerRef.current.scrollHeight,
+        behavior: 'smooth'
+      });
+    }
   }, [messages]);
 
   return (
@@ -22,7 +26,9 @@ export default function MessageList({ messages = [], onActionClick }) {
         overflowY: 'auto',
         WebkitOverflowScrolling: 'touch',
         display: 'flex',
-        flexDirection: 'column'
+        flexDirection: 'column',
+        willChange: 'scroll-position',
+        transform: 'translateZ(0)'
       }}
     >
       {messages.map((msg, index) => (
@@ -32,7 +38,6 @@ export default function MessageList({ messages = [], onActionClick }) {
           onActionClick={onActionClick}
         />
       ))}
-      <div ref={bottomRef} />
     </div>
   );
 }
