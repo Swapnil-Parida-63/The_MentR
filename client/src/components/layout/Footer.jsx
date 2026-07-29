@@ -55,8 +55,8 @@ export default function Footer() {
       links: [
         { label: 'FAQ', onClick: () => navigateAndScroll('/', 'contact-section') },
         { label: 'Help Centre', to: '/contact' },
-        { label: 'Terms & Conditions', to: '/terms-parents' },
-        { label: 'Privacy Policy', to: '/privacy' }
+        { label: 'Terms & Conditions', to: '/terms-parents', target: '_blank' },
+        { label: 'Privacy Policy', to: '/privacy', target: '_blank' }
       ]
     }
   ];
@@ -127,6 +127,8 @@ export default function Footer() {
                     ) : (
                       <Link 
                         to={link.to || '#'} 
+                        target={link.target}
+                        rel={link.target === '_blank' ? 'noopener noreferrer' : undefined}
                         onClick={!link.to ? (e) => e.preventDefault() : undefined}
                         style={{ fontSize: 14, color: 'rgba(255,255,255,0.65)', textDecoration: 'none', transition: 'color 0.3s' }}
                         onMouseEnter={e => e.target.style.color = 'white'}
@@ -146,8 +148,8 @@ export default function Footer() {
         <div style={{ borderTop: '1px solid rgba(255,255,255,0.08)', paddingTop: 28, display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: 16 }}>
           <p style={{ fontSize: 13, color: 'rgba(255,255,255,0.35)' }}>© 2025 TheMentR Education Pvt. Ltd. All rights reserved.</p>
           <div style={{ display: 'flex', gap: 24 }}>
-            <Link to="/privacy" style={{ fontSize: 13, color: 'rgba(255,255,255,0.35)', textDecoration: 'none' }}>Privacy</Link>
-            <Link to="/terms-parents" style={{ fontSize: 13, color: 'rgba(255,255,255,0.35)', textDecoration: 'none' }}>Terms & Conditions</Link>
+            <Link to="/privacy" target="_blank" rel="noopener noreferrer" style={{ fontSize: 13, color: 'rgba(255,255,255,0.35)', textDecoration: 'none' }}>Privacy</Link>
+            <Link to="/terms-parents" target="_blank" rel="noopener noreferrer" style={{ fontSize: 13, color: 'rgba(255,255,255,0.35)', textDecoration: 'none' }}>Terms & Conditions</Link>
             <Link to="/contact" style={{ fontSize: 13, color: 'rgba(255,255,255,0.35)', textDecoration: 'none' }}>Cookies</Link>
           </div>
         </div>

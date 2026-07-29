@@ -1,459 +1,501 @@
 import { useState, useEffect, useRef } from 'react';
 
+/* ========================================================================== */
+/* HOOK: Intersection Observer for scroll-in animations                       */
+/* ========================================================================== */
+function useInView(threshold = 0.15) {
+  const ref = useRef(null);
+  const [inView, setInView] = useState(false);
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      ([entry]) => { if (entry.isIntersecting) setInView(true); },
+      { threshold }
+    );
+    if (ref.current) observer.observe(ref.current);
+    return () => observer.disconnect();
+  }, []);
+  return [ref, inView];
+}
+
+/* ========================================================================== */
+/* VISION SECTION — Premium Editorial Brand Manifesto                         */
+/* ========================================================================== */
 export default function VisionSection() {
   const [isMobile, setIsMobile] = useState(window.innerWidth < 1024);
-  const [isVisible, setIsVisible] = useState(false);
-  
-  // Interactive Column States
-  const [hoverVision, setHoverVision] = useState(false);
-  const [hoverMission, setHoverMission] = useState(false);
-  
-  const [visionCoords, setVisionCoords] = useState({ x: 0, y: 0 });
-  const [missionCoords, setMissionCoords] = useState({ x: 0, y: 0 });
-  
-  const domRef = useRef();
+  const [visionRef, visionInView] = useInView(0.1);
+  const [missionRef, missionInView] = useInView(0.1);
+  const [timelineRef, timelineInView] = useInView(0.1);
 
   useEffect(() => {
-    const handleResize = () => setIsMobile(window.innerWidth < 1024);
-    window.addEventListener('resize', handleResize);
-    
-    // Intersection Observer to trigger scroll entrance animation
-    const observer = new IntersectionObserver(([entry]) => {
-      if (entry.isIntersecting) {
-        setIsVisible(true);
-      }
-    }, { threshold: 0.15 });
-
-    if (domRef.current) {
-      observer.observe(domRef.current);
-    }
-
-    return () => {
-      window.removeEventListener('resize', handleResize);
-      if (domRef.current) observer.unobserve(domRef.current);
-    };
+    const onResize = () => setIsMobile(window.innerWidth < 1024);
+    window.addEventListener('resize', onResize);
+    return () => window.removeEventListener('resize', onResize);
   }, []);
 
-  const handleMouseMove = (e, column) => {
-    if (isMobile) return;
-    const rect = e.currentTarget.getBoundingClientRect();
-    const x = (e.clientX - rect.left - rect.width / 2) * 0.04; 
-    const y = (e.clientY - rect.top - rect.height / 2) * 0.04;
-    if (column === 'vision') {
-      setVisionCoords({ x, y });
-    } else {
-      setMissionCoords({ x, y });
-    }
-  };
-
-  const resetCoords = (column) => {
-    if (column === 'vision') {
-      setHoverVision(false);
-      setVisionCoords({ x: 0, y: 0 });
-    } else {
-      setHoverMission(false);
-      setMissionCoords({ x: 0, y: 0 });
-    }
-  };
-
-  const renderSpansForText = (text, startDelay = 0) => {
-    return text.split('').map((char, index) => {
-      const isSpace = char === ' ';
-      return (
-        <span
-          key={index}
-          style={{
-            display: 'inline-block',
-            opacity: isVisible ? 1 : 0,
-            transform: isVisible ? 'translateY(0)' : 'translateY(16px)',
-            filter: isVisible ? 'blur(0)' : 'blur(4px)',
-            transition: 'opacity 0.7s cubic-bezier(0.16, 1, 0.3, 1), transform 0.7s cubic-bezier(0.16, 1, 0.3, 1), filter 0.7s cubic-bezier(0.16, 1, 0.3, 1)',
-            transitionDelay: `${startDelay + index * 16}ms`
-          }}
-        >
-          {isSpace ? '\u00A0' : char}
-        </span>
-      );
-    });
+  const sectionBase = {
+    background: '#FFFFFF',
+    position: 'relative',
+    overflow: 'hidden',
   };
 
   return (
-    <section 
-      id="vision" 
-      ref={domRef}
-      style={{ 
-        background: '#FAFAFC', 
-        position: 'relative', 
-        overflow: 'hidden', 
-        padding: isMobile ? '60px 0' : '85px 0',
-        display: 'flex',
-        alignItems: 'center',
-        minHeight: 'auto',
-        cursor: 'default'
-      }}
-    >
-      {/* Background Animated Gradient Blobs */}
-      <div className="blob blob-1" style={{
-        position: 'absolute',
-        top: '-15%',
-        left: '-15%',
-        width: '50vw',
-        height: '50vw',
-        background: 'radial-gradient(circle, rgba(99, 102, 241, 0.07) 0%, transparent 70%)',
-        filter: 'blur(40px)',
-        zIndex: 1,
-        pointerEvents: 'none'
-      }} />
-      <div className="blob blob-2" style={{
-        position: 'absolute',
-        bottom: '-15%',
-        right: '-15%',
-        width: '55vw',
-        height: '55vw',
-        background: 'radial-gradient(circle, rgba(139, 92, 246, 0.05) 0%, transparent 70%)',
-        filter: 'blur(40px)',
-        zIndex: 1,
-        pointerEvents: 'none'
-      }} />
+    <section id="vision" style={{ background: '#FFFFFF' }}>
 
-      <div className="container" style={{ position: 'relative', zIndex: 2, width: '100%' }}>
-        <div style={{ 
-          display: 'grid', 
-          gridTemplateColumns: isMobile ? '1fr' : '1fr 1fr', 
-          gap: isMobile ? '80px' : '120px', 
-          alignItems: 'center',
-          position: 'relative'
-        }}>
-          
-          {/* Vertical Separator Line (Desktop) */}
-          {!isMobile && (
-            <div style={{
-              position: 'absolute',
-              left: '50%',
-              top: '5%',
-              width: '1px',
-              height: isVisible ? '90%' : '0%',
-              background: 'linear-gradient(to bottom, transparent, rgba(99, 102, 241, 0.15) 30%, rgba(139, 92, 246, 0.15) 70%, transparent)',
-              transform: 'translateX(-50%)',
-              transition: 'height 1.8s cubic-bezier(0.16, 1, 0.3, 1) 0.3s',
-              zIndex: 3
-            }} />
-          )}
-
-          {/* Left Column: Vision */}
-          <div 
-            onMouseEnter={() => setHoverVision(true)}
-            onMouseLeave={() => resetCoords('vision')}
-            onMouseMove={(e) => handleMouseMove(e, 'vision')}
-            onClick={() => {
-              if (isMobile) {
-                setHoverVision(!hoverVision);
-              }
-            }}
-            style={{
-              opacity: isVisible ? 1 : 0,
-              transform: isVisible 
-                ? `translate3d(${visionCoords.x}px, ${visionCoords.y}px, 0)` 
-                : 'translate3d(0, 40px, 0) scale(0.98)',
-              filter: isVisible ? 'blur(0px)' : 'blur(6px)',
-              transition: 'opacity 1.2s cubic-bezier(0.16, 1, 0.3, 1), transform 1.2s cubic-bezier(0.16, 1, 0.3, 1), filter 1.2s cubic-bezier(0.16, 1, 0.3, 1)',
-              textAlign: 'left',
-              display: 'flex',
-              flexDirection: 'column',
-              justifyContent: 'center',
-              minHeight: isMobile ? 'auto' : '360px',
-              cursor: isMobile ? 'pointer' : 'default'
-            }}
-          >
-            {/* Tiny Eyebrow */}
-            <span style={{
-              fontSize: 12,
-              fontWeight: 700,
-              color: '#6366F1',
-              letterSpacing: '0.15em',
-              textTransform: 'uppercase',
-              marginBottom: 20,
-              display: 'block'
-            }}>
-              Our Vision
-            </span>
-
-            {/* Typography Heading */}
-            <h2 style={{
-              fontFamily: 'var(--font-hero)',
-              fontSize: isMobile ? 'clamp(28px, 6.5vw, 36px)' : 'clamp(36px, 3.5vw, 48px)',
-              fontWeight: 800,
-              lineHeight: 1.15,
-              letterSpacing: '-0.03em',
-              color: hoverVision ? '#6366F1' : '#1E293B',
-              margin: 0,
-              transform: hoverVision ? 'translateY(-4px)' : 'translateY(0)',
-              transition: 'all 0.5s cubic-bezier(0.16, 1, 0.3, 1)'
-            }}>
-              {renderSpansForText('EVERY STUDENT.', 0)}<br />
-              {renderSpansForText('THE RIGHT MENTOR.', 200)}
-            </h2>
-
-            {/* Underline grow */}
-            <div style={{
-              height: '3px',
-              background: 'linear-gradient(90deg, #6366F1 0%, #8B5CF6 100%)',
-              width: hoverVision ? '160px' : '0px',
-              marginTop: 20,
-              borderRadius: '1.5px',
-              transition: 'width 0.5s cubic-bezier(0.16, 1, 0.3, 1)'
-            }} />
-
-            {/* Supporting Paragraph */}
-            <div style={{
-              opacity: hoverVision ? 1 : 0,
-              transform: hoverVision ? 'translateY(0)' : 'translateY(20px)',
-              filter: hoverVision ? 'blur(0)' : 'blur(4px)',
-              maxHeight: hoverVision ? '200px' : '0px',
-              marginTop: hoverVision ? '28px' : '0px',
-              transition: 'all 0.6s cubic-bezier(0.16, 1, 0.3, 1)',
-              overflow: 'hidden'
-            }}>
-              <p style={{
-                fontFamily: 'var(--font-body)',
-                fontSize: isMobile ? 15 : 16,
-                color: '#64748B',
-                lineHeight: 1.7,
-                margin: 0,
-                fontWeight: 450
-              }}>
-                We envision a future where quality education is guided by purpose, not chance. Every learner deserves personalized mentorship, meaningful direction, and measurable progress.
-              </p>
-            </div>
-          </div>
-
-          {/* Right Column: Mission */}
-          <div 
-            onMouseEnter={() => setHoverMission(true)}
-            onMouseLeave={() => resetCoords('mission')}
-            onMouseMove={(e) => handleMouseMove(e, 'mission')}
-            onClick={() => {
-              if (isMobile) {
-                setHoverMission(!hoverMission);
-              }
-            }}
-            style={{
-              opacity: isVisible ? 1 : 0,
-              transform: isVisible 
-                ? `translate3d(${missionCoords.x}px, ${missionCoords.y}px, 0)` 
-                : 'translate3d(0, 40px, 0) scale(0.98)',
-              filter: isVisible ? 'blur(0px)' : 'blur(6px)',
-              transition: 'opacity 1.2s cubic-bezier(0.16, 1, 0.3, 1) 0.15s, transform 1.2s cubic-bezier(0.16, 1, 0.3, 1) 0.15s, filter 1.2s cubic-bezier(0.16, 1, 0.3, 1) 0.15s',
-              textAlign: 'left',
-              display: 'flex',
-              flexDirection: 'column',
-              justifyContent: 'center',
-              minHeight: isMobile ? 'auto' : '360px',
-              cursor: isMobile ? 'pointer' : 'default'
-            }}
-          >
-            {/* Tiny Eyebrow */}
-            <span style={{
-              fontSize: 12,
-              fontWeight: 700,
-              color: '#8B5CF6',
-              letterSpacing: '0.15em',
-              textTransform: 'uppercase',
-              marginBottom: 20,
-              display: 'block'
-            }}>
-              Our Mission
-            </span>
-
-            {/* Typography Heading */}
-            <h2 style={{
-              fontFamily: 'var(--font-hero)',
-              fontSize: isMobile ? 'clamp(28px, 6.5vw, 36px)' : 'clamp(36px, 3.5vw, 48px)',
-              fontWeight: 800,
-              lineHeight: 1.15,
-              letterSpacing: '-0.03em',
-              color: hoverMission ? '#8B5CF6' : '#1E293B',
-              margin: 0,
-              transform: hoverMission ? 'translateY(-4px)' : 'translateY(0)',
-              transition: 'all 0.5s cubic-bezier(0.16, 1, 0.3, 1)'
-            }}>
-              {renderSpansForText('BEYOND', 150)}<br />
-              {renderSpansForText('FINDING TEACHERS.', 300)}
-            </h2>
-
-            {/* Underline grow */}
-            <div style={{
-              height: '3px',
-              background: 'linear-gradient(90deg, #8B5CF6 0%, #A78BFA 100%)',
-              width: hoverMission ? '160px' : '0px',
-              marginTop: 20,
-              borderRadius: '1.5px',
-              transition: 'width 0.5s cubic-bezier(0.16, 1, 0.3, 1)'
-            }} />
-
-            {/* Supporting Paragraph */}
-            <div style={{
-              opacity: hoverMission ? 1 : 0,
-              transform: hoverMission ? 'translateY(0)' : 'translateY(20px)',
-              filter: hoverMission ? 'blur(0)' : 'blur(4px)',
-              maxHeight: hoverMission ? '200px' : '0px',
-              marginTop: hoverMission ? '28px' : '0px',
-              transition: 'all 0.6s cubic-bezier(0.16, 1, 0.3, 1)',
-              overflow: 'hidden'
-            }}>
-              <p style={{
-                fontFamily: 'var(--font-body)',
-                fontSize: isMobile ? 15 : 16,
-                color: '#64748B',
-                lineHeight: 1.7,
-                margin: 0,
-                fontWeight: 450
-              }}>
-                We solve the overlooked challenges in learning through assessments, verified educators, intelligent matching, and continuous accountability. Because education begins with finding the right mentor.
-              </p>
-            </div>
-          </div>
-
-        </div>
-
-        {/* Horizontal Timeline at the Bottom */}
+      {/* ================================================================== */}
+      {/* BLOCK 1 — VISION                                                    */}
+      {/* Text LEFT · Illustration RIGHT                                      */}
+      {/* ================================================================== */}
+      <div
+        ref={visionRef}
+        style={{
+          ...sectionBase,
+          padding: isMobile ? '80px 0 60px' : '120px 0 80px',
+        }}
+      >
+        {/* Subtle ambient glow */}
         <div style={{
-          marginTop: isMobile ? '64px' : '96px',
-          borderTop: '1.5px solid rgba(99, 102, 241, 0.08)',
-          paddingTop: '54px',
-          opacity: isVisible ? 1 : 0,
-          transform: isVisible ? 'translateY(0)' : 'translateY(30px)',
-          transition: 'opacity 1.2s cubic-bezier(0.16, 1, 0.3, 1) 0.35s, transform 1.2s cubic-bezier(0.16, 1, 0.3, 1) 0.35s',
-          width: '100%',
-          position: 'relative'
-        }}>
-          {/* Connecting Line (Desktop) */}
-          {!isMobile && (
+          position: 'absolute', top: 0, left: 0,
+          width: '55%', height: '100%',
+          background: 'radial-gradient(ellipse at 10% 50%, rgba(99,102,241,0.045) 0%, transparent 65%)',
+          pointerEvents: 'none', zIndex: 0,
+        }} />
+
+        <div className="container" style={{ position: 'relative', zIndex: 1 }}>
+          {isMobile ? (
+            /* ---- MOBILE: Stack ---- */
+            <div style={{ display: 'flex', flexDirection: 'column', gap: 48 }}>
+              <EditorialTextBlock
+                eyebrow="Our Vision"
+                eyebrowColor="#6366F1"
+                heading={<>Every student.<br />The right mentor.</>}
+                headingGradient="linear-gradient(135deg, #1E293B 0%, #3730A3 100%)"
+                body="We envision a future where quality education is guided by purpose, not chance. Every learner deserves personalized mentorship, meaningful direction, and measurable progress — regardless of where they start."
+                pullQuote="Quality education is a right, not a privilege."
+                inView={visionInView}
+                delay={0}
+              />
+              <EditorialImage
+                src="/mentr_vision_illustration.png"
+                alt="A luminous architectural portal representing boundless opportunity in education"
+                inView={visionInView}
+                delay={200}
+                isMobile={isMobile}
+              />
+            </div>
+          ) : (
+            /* ---- DESKTOP: Text LEFT · Image RIGHT ---- */
             <div style={{
-              position: 'absolute',
-              top: '70px', 
-              left: '12.5%',
-              right: '12.5%',
-              height: '2px',
-              background: 'linear-gradient(90deg, #6366F1 0%, #8B5CF6 66%, #E2E8F0 67%, #E2E8F0 100%)',
-              zIndex: 1
-            }} />
+              display: 'grid',
+              gridTemplateColumns: '1fr 1fr',
+              gap: '80px',
+              alignItems: 'center',
+              minHeight: 520,
+            }}>
+              <EditorialTextBlock
+                eyebrow="Our Vision"
+                eyebrowColor="#6366F1"
+                heading={<>Every student.<br />The right mentor.</>}
+                headingGradient="linear-gradient(135deg, #1E293B 0%, #3730A3 100%)"
+                body="We envision a future where quality education is guided by purpose, not chance. Every learner deserves personalized mentorship, meaningful direction, and measurable progress — regardless of where they start."
+                pullQuote="Quality education is a right, not a privilege."
+                inView={visionInView}
+                delay={0}
+              />
+              <EditorialImage
+                src="/mentr_vision_illustration.png"
+                alt="A luminous architectural portal representing boundless opportunity in education"
+                inView={visionInView}
+                delay={200}
+                isMobile={isMobile}
+              />
+            </div>
           )}
+        </div>
+      </div>
 
-          {/* Grid of Nodes / Mobile Swipe Carousel */}
-          <div 
-            className={isMobile ? "mobile-swipe-carousel" : ""}
-            style={{
-              display: isMobile ? 'flex' : 'grid',
-              gridTemplateColumns: isMobile ? 'none' : 'repeat(4, 1fr)',
-              gap: isMobile ? '0' : '40px',
-              position: 'relative',
-              zIndex: 2
-            }}
-          >
-            {[
-              { year: '2022 — FOUNDED', title: 'Assessment Visits', desc: 'First in India to offer structured home-based student evaluations before teacher placement.', active: true },
-              { year: '2023 — EXPANDED', title: 'Online Platform', desc: 'TheMentR Online launches alongside a dedicated Olympiad preparation track.', active: true },
-              { year: '2024 — AVSAR', title: 'Data Intelligence', desc: 'Proprietary analytics begin tracking selection rates, performance, and ecosystem health.', active: true },
-              { year: '2025–26 — ROADMAP', title: 'National Expansion', desc: '50 cities. 10,000+ verified teachers. AI-assisted matching powered by learning outcome data.', active: false }
-            ].map((node, index) => (
-              <div 
-                key={index} 
-                className={`timeline-node-item ${isMobile ? 'mobile-swipe-card' : ''}`}
-                style={{ 
-                  display: 'flex', 
-                  flexDirection: 'column',
-                  alignItems: isMobile ? 'flex-start' : 'center',
-                  textAlign: isMobile ? 'left' : 'center',
-                  gap: '20px',
-                  background: isMobile ? '#FFFFFF' : 'transparent',
-                  border: isMobile ? '1px solid rgba(15, 23, 42, 0.05)' : 'none',
-                  borderRadius: isMobile ? '20px' : '0px',
-                  padding: isMobile ? '24px' : '0px',
-                  boxShadow: isMobile ? '0 4px 12px rgba(10, 22, 40, 0.01)' : 'none'
-                }}
-              >
-                {/* Node Circle */}
-                <div style={{
-                  width: 32,
-                  height: 32,
-                  borderRadius: '50%',
-                  background: node.active ? 'linear-gradient(135deg, #6366F1 0%, #8B5CF6 100%)' : '#FFFFFF',
-                  border: `2px solid ${node.active ? 'transparent' : '#E2E8F0'}`,
-                  display: 'flex',
-                  alignItems: 'center',
-                  justifyContent: 'center',
-                  color: node.active ? '#FFFFFF' : '#8B5CF6',
-                  fontSize: 12,
-                  fontWeight: 800,
-                  boxShadow: node.active ? '0 4px 10px rgba(99,102,241,0.25)' : 'none',
-                  flexShrink: 0,
-                  transition: 'transform 0.4s cubic-bezier(0.16, 1, 0.3, 1)'
-                }}>
-                  {node.active ? '✓' : '→'}
-                </div>
+      {/* Thin full-width divider */}
+      <div style={{
+        height: '1px',
+        background: 'linear-gradient(90deg, transparent 0%, rgba(99,102,241,0.12) 30%, rgba(139,92,246,0.12) 70%, transparent 100%)',
+        margin: '0 auto',
+        maxWidth: '90%',
+      }} />
 
-                {/* Node Content */}
-                <div style={{ display: 'flex', flexDirection: 'column', gap: 6 }}>
-                  <span style={{
-                    fontSize: 10,
-                    fontWeight: 700,
-                    color: node.active ? '#6366F1' : '#64748B',
-                    letterSpacing: '0.05em',
-                    textTransform: 'uppercase'
+      {/* ================================================================== */}
+      {/* BLOCK 2 — MISSION                                                   */}
+      {/* Illustration LEFT · Text RIGHT                                      */}
+      {/* ================================================================== */}
+      <div
+        ref={missionRef}
+        style={{
+          ...sectionBase,
+          background: '#FAFAFC',
+          padding: isMobile ? '60px 0 80px' : '80px 0 120px',
+        }}
+      >
+        {/* Ambient glow right side */}
+        <div style={{
+          position: 'absolute', top: 0, right: 0,
+          width: '55%', height: '100%',
+          background: 'radial-gradient(ellipse at 90% 50%, rgba(139,92,246,0.045) 0%, transparent 65%)',
+          pointerEvents: 'none', zIndex: 0,
+        }} />
+
+        <div className="container" style={{ position: 'relative', zIndex: 1 }}>
+          {isMobile ? (
+            /* ---- MOBILE: Stack ---- */
+            <div style={{ display: 'flex', flexDirection: 'column', gap: 48 }}>
+              <EditorialTextBlock
+                eyebrow="Our Mission"
+                eyebrowColor="#8B5CF6"
+                heading={<>Beyond finding<br />teachers.</>}
+                headingGradient="linear-gradient(135deg, #1E293B 0%, #6D28D9 100%)"
+                body="We solve the overlooked challenges in learning: understanding the child, matching with the right educator, and sustaining accountability over time. Because a great mentor changes the entire trajectory of a life."
+                pullQuote="The right match changes everything."
+                inView={missionInView}
+                delay={0}
+              />
+              <EditorialImage
+                src="/mentr_mission_illustration.png"
+                alt="An elegant winding pathway representing purposeful guidance in education"
+                inView={missionInView}
+                delay={200}
+                isMobile={isMobile}
+                accent="#8B5CF6"
+              />
+            </div>
+          ) : (
+            /* ---- DESKTOP: Image LEFT · Text RIGHT ---- */
+            <div style={{
+              display: 'grid',
+              gridTemplateColumns: '1fr 1fr',
+              gap: '80px',
+              alignItems: 'center',
+              minHeight: 520,
+            }}>
+              <EditorialImage
+                src="/mentr_mission_illustration.png"
+                alt="An elegant winding pathway representing purposeful guidance in education"
+                inView={missionInView}
+                delay={0}
+                isMobile={isMobile}
+                accent="#8B5CF6"
+              />
+              <EditorialTextBlock
+                eyebrow="Our Mission"
+                eyebrowColor="#8B5CF6"
+                heading={<>Beyond finding<br />teachers.</>}
+                headingGradient="linear-gradient(135deg, #1E293B 0%, #6D28D9 100%)"
+                body="We solve the overlooked challenges in learning: understanding the child, matching with the right educator, and sustaining accountability over time. Because a great mentor changes the entire trajectory of a life."
+                pullQuote="The right match changes everything."
+                inView={missionInView}
+                delay={200}
+              />
+            </div>
+          )}
+        </div>
+      </div>
+
+      {/* Thin full-width divider */}
+      <div style={{
+        height: '1px',
+        background: 'linear-gradient(90deg, transparent 0%, rgba(99,102,241,0.12) 30%, rgba(139,92,246,0.12) 70%, transparent 100%)',
+        margin: '0 auto',
+        maxWidth: '90%',
+      }} />
+
+      {/* ================================================================== */}
+      {/* BLOCK 3 — MILESTONES TIMELINE                                       */}
+      {/* ================================================================== */}
+      <div
+        ref={timelineRef}
+        style={{
+          background: '#FFFFFF',
+          padding: isMobile ? '60px 0 70px' : '80px 0 100px',
+          position: 'relative',
+          overflow: 'hidden',
+        }}
+      >
+        {/* Blob glow */}
+        <div className="blob blob-1" style={{
+          position: 'absolute', top: '-20%', left: '-10%',
+          width: '50vw', height: '50vw',
+          background: 'radial-gradient(circle, rgba(99,102,241,0.05) 0%, transparent 70%)',
+          filter: 'blur(40px)', zIndex: 0, pointerEvents: 'none',
+        }} />
+        <div className="blob blob-2" style={{
+          position: 'absolute', bottom: '-20%', right: '-10%',
+          width: '50vw', height: '50vw',
+          background: 'radial-gradient(circle, rgba(139,92,246,0.04) 0%, transparent 70%)',
+          filter: 'blur(40px)', zIndex: 0, pointerEvents: 'none',
+        }} />
+
+        <div className="container" style={{ position: 'relative', zIndex: 1 }}>
+          {/* Section label */}
+          <div style={{
+            textAlign: 'center',
+            marginBottom: isMobile ? 40 : 64,
+            opacity: timelineInView ? 1 : 0,
+            transform: timelineInView ? 'translateY(0)' : 'translateY(20px)',
+            transition: 'opacity 0.9s ease 0.1s, transform 0.9s ease 0.1s',
+          }}>
+            <span style={{
+              fontSize: 11, fontWeight: 700, letterSpacing: '0.16em',
+              textTransform: 'uppercase', color: '#6366F1',
+              display: 'inline-flex', alignItems: 'center', gap: 8,
+            }}>
+              <span style={{ display: 'inline-block', width: 24, height: 1, background: '#6366F1', verticalAlign: 'middle' }} />
+              Our Journey So Far
+              <span style={{ display: 'inline-block', width: 24, height: 1, background: '#6366F1', verticalAlign: 'middle' }} />
+            </span>
+          </div>
+
+          {/* Timeline Grid */}
+          <div style={{ position: 'relative' }}>
+            {/* Connecting line (desktop) */}
+            {!isMobile && (
+              <div style={{
+                position: 'absolute',
+                top: 20,
+                left: '12.5%',
+                right: '12.5%',
+                height: '2px',
+                background: 'linear-gradient(90deg, #6366F1 0%, #8B5CF6 66%, #E2E8F0 67%, #E2E8F0 100%)',
+                zIndex: 1,
+                opacity: timelineInView ? 1 : 0,
+                transition: 'opacity 1s ease 0.4s',
+              }} />
+            )}
+
+            <div
+              className={isMobile ? 'mobile-swipe-carousel' : ''}
+              style={{
+                display: isMobile ? 'flex' : 'grid',
+                gridTemplateColumns: isMobile ? 'none' : 'repeat(4, 1fr)',
+                gap: isMobile ? '0' : '40px',
+                position: 'relative',
+                zIndex: 2,
+              }}
+            >
+              {[
+                { year: '2022 — Founded', title: 'Assessment Visits', desc: 'First in India to offer structured home-based student evaluations before teacher placement.', active: true, delay: 0 },
+                { year: '2023 — Expanded', title: 'Online Platform', desc: 'TheMentR Online launches alongside a dedicated Olympiad preparation track.', active: true, delay: 100 },
+                { year: '2024 — AVSAR', title: 'Data Intelligence', desc: 'Proprietary analytics begin tracking selection rates, performance, and ecosystem health.', active: true, delay: 200 },
+                { year: '2025–26 — Roadmap', title: 'National Expansion', desc: '50 cities. 10,000+ verified teachers. AI-assisted matching powered by learning outcome data.', active: false, delay: 300 },
+              ].map((node, i) => (
+                <div
+                  key={i}
+                  className={`timeline-node-item ${isMobile ? 'mobile-swipe-card' : ''}`}
+                  style={{
+                    display: 'flex',
+                    flexDirection: 'column',
+                    alignItems: isMobile ? 'flex-start' : 'center',
+                    textAlign: isMobile ? 'left' : 'center',
+                    gap: 20,
+                    background: isMobile ? '#FFFFFF' : 'transparent',
+                    border: isMobile ? '1px solid rgba(15,23,42,0.05)' : 'none',
+                    borderRadius: isMobile ? 20 : 0,
+                    padding: isMobile ? 24 : 0,
+                    boxShadow: isMobile ? '0 4px 12px rgba(10,22,40,0.01)' : 'none',
+                    opacity: timelineInView ? 1 : 0,
+                    transform: timelineInView ? 'translateY(0)' : 'translateY(24px)',
+                    transition: `opacity 0.8s ease ${0.3 + node.delay * 0.001}s, transform 0.8s ease ${0.3 + node.delay * 0.001}s`,
+                  }}
+                >
+                  {/* Node dot */}
+                  <div style={{
+                    width: 32, height: 32, borderRadius: '50%', flexShrink: 0,
+                    background: node.active ? 'linear-gradient(135deg, #6366F1 0%, #8B5CF6 100%)' : '#FFFFFF',
+                    border: `2px solid ${node.active ? 'transparent' : '#E2E8F0'}`,
+                    display: 'flex', alignItems: 'center', justifyContent: 'center',
+                    color: node.active ? '#FFFFFF' : '#8B5CF6',
+                    fontSize: 12, fontWeight: 800,
+                    boxShadow: node.active ? '0 4px 12px rgba(99,102,241,0.28)' : 'none',
+                    transition: 'transform 0.4s ease',
                   }}>
-                    {node.year}
-                  </span>
-                  <h4 style={{
-                    fontFamily: 'var(--font-hero)',
-                    fontSize: 15,
-                    fontWeight: 700,
-                    color: '#1E293B',
-                    margin: 0
-                  }}>
-                    {node.title}
-                  </h4>
-                  <p style={{
-                    fontFamily: 'var(--font-body)',
-                    fontSize: 12,
-                    color: '#64748B',
-                    lineHeight: 1.5,
-                    margin: 0,
-                    maxWidth: isMobile ? 'none' : '240px'
-                  }}>
-                    {node.desc}
-                  </p>
+                    {node.active ? '✓' : '→'}
+                  </div>
+                  <div style={{ display: 'flex', flexDirection: 'column', gap: 6 }}>
+                    <span style={{
+                      fontSize: 10, fontWeight: 700, letterSpacing: '0.06em',
+                      textTransform: 'uppercase',
+                      color: node.active ? '#6366F1' : '#94A3B8',
+                    }}>
+                      {node.year}
+                    </span>
+                    <h4 style={{
+                      fontFamily: 'var(--font-hero)', fontSize: 15, fontWeight: 700,
+                      color: '#1E293B', margin: 0,
+                    }}>
+                      {node.title}
+                    </h4>
+                    <p style={{
+                      fontFamily: 'var(--font-body)', fontSize: 12.5,
+                      color: '#64748B', lineHeight: 1.55, margin: 0,
+                      maxWidth: isMobile ? 'none' : 220,
+                    }}>
+                      {node.desc}
+                    </p>
+                  </div>
                 </div>
-              </div>
-            ))}
+              ))}
+            </div>
           </div>
         </div>
-
       </div>
 
       <style>{`
-        .blob-1 {
-          animation: drift 16s ease-in-out infinite;
+        .blob-1 { animation: blobDrift 16s ease-in-out infinite; }
+        .blob-2 { animation: blobDriftReverse 20s ease-in-out infinite; }
+        .timeline-node-item:hover > div:first-child {
+          transform: scale(1.14) translateY(-2px);
+          box-shadow: 0 8px 18px rgba(99,102,241,0.3) !important;
         }
-        .blob-2 {
-          animation: drift-reverse 20s ease-in-out infinite;
+        @keyframes blobDrift {
+          0%, 100% { transform: translate3d(0,0,0) scale(1); }
+          50% { transform: translate3d(36px,28px,0) scale(1.07); }
         }
-        
-        .timeline-node-item:hover div:first-child {
-          transform: scale(1.15) translateY(-2px);
-          box-shadow: 0 6px 14px rgba(99,102,241,0.35);
-        }
-        
-        @keyframes drift {
-          0%, 100% { transform: translate3d(0, 0, 0) scale(1); }
-          50% { transform: translate3d(40px, 30px, 0) scale(1.08); }
-        }
-        
-        @keyframes drift-reverse {
-          0%, 100% { transform: translate3d(0, 0, 0) scale(1.08); }
-          50% { transform: translate3d(-30px, -40px, 0) scale(1); }
+        @keyframes blobDriftReverse {
+          0%, 100% { transform: translate3d(0,0,0) scale(1.07); }
+          50% { transform: translate3d(-28px,-36px,0) scale(1); }
         }
       `}</style>
     </section>
+  );
+}
+
+/* ========================================================================== */
+/* EDITORIAL TEXT BLOCK COMPONENT                                             */
+/* ========================================================================== */
+function EditorialTextBlock({ eyebrow, eyebrowColor, heading, headingGradient, body, pullQuote, inView, delay = 0 }) {
+  const baseTransition = `opacity 0.9s cubic-bezier(0.16,1,0.3,1) ${delay}ms, transform 0.9s cubic-bezier(0.16,1,0.3,1) ${delay}ms`;
+
+  return (
+    <div style={{
+      display: 'flex', flexDirection: 'column', justifyContent: 'center',
+      opacity: inView ? 1 : 0,
+      transform: inView ? 'translateY(0)' : 'translateY(32px)',
+      transition: baseTransition,
+    }}>
+      {/* Eyebrow */}
+      <span style={{
+        fontSize: 11, fontWeight: 700, letterSpacing: '0.16em',
+        textTransform: 'uppercase', color: eyebrowColor,
+        display: 'inline-flex', alignItems: 'center', gap: 8,
+        marginBottom: 22,
+        opacity: inView ? 1 : 0,
+        transform: inView ? 'translateY(0)' : 'translateY(12px)',
+        transition: `opacity 0.8s ease ${delay + 80}ms, transform 0.8s ease ${delay + 80}ms`,
+      }}>
+        <span style={{
+          display: 'inline-block', width: 20, height: 1.5,
+          background: eyebrowColor, verticalAlign: 'middle', borderRadius: 1,
+        }} />
+        {eyebrow}
+      </span>
+
+      {/* Heading */}
+      <h2 style={{
+        fontFamily: 'var(--font-hero)',
+        fontSize: 'clamp(36px, 3.6vw, 54px)',
+        fontWeight: 800,
+        lineHeight: 1.12,
+        letterSpacing: '-0.035em',
+        background: headingGradient,
+        WebkitBackgroundClip: 'text',
+        WebkitTextFillColor: 'transparent',
+        backgroundClip: 'text',
+        margin: '0 0 28px',
+        opacity: inView ? 1 : 0,
+        transform: inView ? 'translateY(0)' : 'translateY(20px)',
+        transition: `opacity 0.9s ease ${delay + 160}ms, transform 0.9s ease ${delay + 160}ms`,
+      }}>
+        {heading}
+      </h2>
+
+      {/* Pull Quote */}
+      <div style={{
+        borderLeft: `3px solid ${eyebrowColor}`,
+        paddingLeft: 18,
+        marginBottom: 24,
+        opacity: inView ? 1 : 0,
+        transform: inView ? 'translateX(0)' : 'translateX(-12px)',
+        transition: `opacity 0.8s ease ${delay + 240}ms, transform 0.8s ease ${delay + 240}ms`,
+      }}>
+        <p style={{
+          fontFamily: 'var(--font-hero)',
+          fontSize: 'clamp(15px, 1.4vw, 18px)',
+          fontWeight: 600,
+          color: '#334155',
+          lineHeight: 1.5,
+          margin: 0,
+          fontStyle: 'italic',
+        }}>
+          "{pullQuote}"
+        </p>
+      </div>
+
+      {/* Body */}
+      <p style={{
+        fontFamily: 'var(--font-body)',
+        fontSize: 'clamp(14px, 1.1vw, 16px)',
+        fontWeight: 400,
+        color: '#64748B',
+        lineHeight: 1.75,
+        margin: 0,
+        maxWidth: 480,
+        opacity: inView ? 1 : 0,
+        transform: inView ? 'translateY(0)' : 'translateY(12px)',
+        transition: `opacity 0.8s ease ${delay + 320}ms, transform 0.8s ease ${delay + 320}ms`,
+      }}>
+        {body}
+      </p>
+    </div>
+  );
+}
+
+/* ========================================================================== */
+/* EDITORIAL IMAGE COMPONENT                                                  */
+/* ========================================================================== */
+function EditorialImage({ src, alt, inView, delay = 0, isMobile, accent = '#6366F1' }) {
+  return (
+    <div style={{
+      position: 'relative',
+      display: 'flex',
+      alignItems: 'center',
+      justifyContent: 'center',
+      opacity: inView ? 1 : 0,
+      transform: inView ? 'scale(1) translateY(0)' : 'scale(0.97) translateY(20px)',
+      transition: `opacity 1.2s cubic-bezier(0.16,1,0.3,1) ${delay}ms, transform 1.2s cubic-bezier(0.16,1,0.3,1) ${delay}ms`,
+    }}>
+      {/* Soft ambient glow — appears behind illustration, not around it */}
+      <div style={{
+        position: 'absolute',
+        inset: isMobile ? '-20px' : '-48px',
+        background: `radial-gradient(ellipse at 50% 60%, ${accent}18 0%, transparent 68%)`,
+        pointerEvents: 'none',
+        zIndex: 0,
+      }} />
+
+      {/* 
+        NO card, NO border, NO box-shadow, NO rounded container.
+        The image renders directly on the page.
+        mix-blend-mode: multiply dissolves any white PNG background into the page.
+      */}
+      <img
+        src={src}
+        alt={alt}
+        loading="lazy"
+        style={{
+          position: 'relative',
+          zIndex: 1,
+          width: '100%',
+          height: 'auto',
+          display: 'block',
+          mixBlendMode: 'multiply',
+          /* No border, no shadow, no border-radius — drawn on the page */
+        }}
+      />
+    </div>
   );
 }

@@ -16,6 +16,18 @@ if (fs.existsSync(srcLogo)) {
   }
 }
 
+// Auto-copy the new hero image to the public directory
+const srcImg = path.resolve(__dirname, 'dist/Gemini_Generated_Image_lmg5iglmg5iglmg5.png');
+const destImg = path.resolve(__dirname, 'public/Gemini_Generated_Image_lmg5iglmg5iglmg5.png');
+if (fs.existsSync(srcImg)) {
+  try {
+    fs.copyFileSync(srcImg, destImg);
+    console.log('[Vite Config] New Gemini hero image copied successfully.');
+  } catch (err) {
+    console.error('[Vite Config] Error copying Gemini hero image:', err.message);
+  }
+}
+
 export default defineConfig({
   plugins: [react(), tailwindcss()],
   resolve: {

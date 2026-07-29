@@ -231,29 +231,29 @@ export default function Navbar() {
                     </button>
                   );
                 })}
-              </div>
 
-              {/* Primary CTA at bottom of drawer */}
-              <button
-                onClick={() => navigateAndScroll('/', 'contact-forms')}
-                className="btn"
-                style={{
-                  fontSize: 14,
-                  padding: '13px 20px',
-                  borderRadius: 16,
-                  background: 'linear-gradient(135deg, #4F7CFF 0%, #7469F8 100%)',
-                  color: 'white',
-                  border: 'none',
-                  fontWeight: 600,
-                  cursor: 'pointer',
-                  marginTop: 20,
-                  textAlign: 'center',
-                  boxShadow: '0 4px 12px rgba(79, 124, 255, 0.25)',
-                  width: '100%'
-                }}
-              >
-                Book Assessment
-              </button>
+                {/* Primary CTA positioned right near Join as a Teacher */}
+                <button
+                  onClick={() => navigateAndScroll('/', 'contact-forms')}
+                  className="btn"
+                  style={{
+                    fontSize: 14,
+                    padding: '12px 20px',
+                    borderRadius: 14,
+                    background: 'linear-gradient(135deg, #4F7CFF 0%, #7469F8 100%)',
+                    color: 'white',
+                    border: 'none',
+                    fontWeight: 600,
+                    cursor: 'pointer',
+                    marginTop: 12,
+                    textAlign: 'center',
+                    boxShadow: '0 4px 14px rgba(79, 124, 255, 0.25)',
+                    width: '100%'
+                  }}
+                >
+                  Book Assessment
+                </button>
+              </div>
             </div>
             
             <style>{`
