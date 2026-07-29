@@ -47,115 +47,7 @@ function CountUp({ end, duration = 1500, decimals = 0, suffix = "" }) {
   return <span ref={ref}>{count.toFixed(decimals)}{suffix}</span>;
 }
 
-/* ========================================================================== */
-/* MOVING CONSTELLATION NETWORK LINES & GLOWING DOTS BACKGROUND                */
-/* ========================================================================== */
 
-function HeroConstellationNetwork({ isMobile = false }) {
-  const nodes = [
-    { id: 1, x: 10, y: 8, r: 6, color: '#4F7CFF', glow: 'rgba(79, 124, 255, 0.28)' },
-    { id: 2, x: 42, y: 12, r: 3, color: '#7469F8', glow: 'rgba(116, 105, 248, 0.25)' },
-    { id: 3, x: 52, y: 18, r: 2.5, color: '#4F7CFF', glow: 'rgba(79, 124, 255, 0.22)' },
-    { id: 4, x: 42, y: 52, r: 4.5, color: '#7469F8', glow: 'rgba(116, 105, 248, 0.32)' },
-    { id: 5, x: 60, y: 15, r: 3, color: '#4F7CFF', glow: 'rgba(79, 124, 255, 0.22)' },
-    { id: 6, x: 90, y: 10, r: 4, color: '#7469F8', glow: 'rgba(116, 105, 248, 0.28)' },
-    { id: 7, x: 95, y: 48, r: 5, color: '#4F7CFF', glow: 'rgba(79, 124, 255, 0.35)' },
-    { id: 8, x: 88, y: 68, r: 3, color: '#7469F8', glow: 'rgba(116, 105, 248, 0.22)' },
-    { id: 9, x: 98, y: 92, r: 4.5, color: '#4F7CFF', glow: 'rgba(79, 124, 255, 0.28)' },
-    { id: 10, x: 80, y: 95, r: 3, color: '#7469F8', glow: 'rgba(116, 105, 248, 0.22)' },
-    { id: 11, x: 8, y: 82, r: 3.5, color: '#4F7CFF', glow: 'rgba(79, 124, 255, 0.25)' },
-    { id: 12, x: 26, y: 40, r: 2.5, color: '#7469F8', glow: 'rgba(116, 105, 248, 0.2)' },
-  ];
-
-  const connections = [
-    { from: 1, to: 2 },
-    { from: 1, to: 4 },
-    { from: 1, to: 12 },
-    { from: 2, to: 3 },
-    { from: 2, to: 5 },
-    { from: 3, to: 6 },
-    { from: 4, to: 5 },
-    { from: 4, to: 7 },
-    { from: 4, to: 11 },
-    { from: 4, to: 12 },
-    { from: 5, to: 6 },
-    { from: 6, to: 7 },
-    { from: 7, to: 8 },
-    { from: 7, to: 9 },
-    { from: 8, to: 9 },
-    { from: 8, to: 10 },
-    { from: 9, to: 10 },
-  ];
-
-  return (
-    <motion.svg
-      viewBox="0 0 1000 600"
-      preserveAspectRatio="none"
-      initial={{ opacity: 0.7 }}
-      animate={{ opacity: [0.65, 0.85, 0.65] }}
-      transition={{ duration: 6, repeat: Infinity, ease: 'easeInOut' }}
-      style={{
-        position: 'absolute',
-        inset: 0,
-        width: '100%',
-        height: '100%',
-        pointerEvents: 'none',
-        zIndex: 1
-      }}
-    >
-      <defs>
-        <linearGradient id="constellationLineGrad" x1="0" y1="0" x2="1" y2="1">
-          <stop offset="0%" stopColor="#4F7CFF" stopOpacity="0.25" />
-          <stop offset="100%" stopColor="#7469F8" stopOpacity="0.18" />
-        </linearGradient>
-      </defs>
-
-      {/* Connecting Moving Constellation Network Lines */}
-      {connections.map((c, i) => {
-        const n1 = nodes.find(n => n.id === c.from);
-        const n2 = nodes.find(n => n.id === c.to);
-        if (!n1 || !n2) return null;
-        return (
-          <motion.line
-            key={i}
-            x1={`${n1.x}%`}
-            y1={`${n1.y}%`}
-            x2={`${n2.x}%`}
-            y2={`${n2.y}%`}
-            stroke="url(#constellationLineGrad)"
-            strokeWidth="1.2"
-            strokeDasharray={i % 2 === 0 ? "5 5" : "none"}
-            initial={{ opacity: 0.4 }}
-            animate={{ opacity: [0.35, 0.75, 0.35] }}
-            transition={{ duration: 4 + (i % 3), repeat: Infinity, ease: 'easeInOut', delay: i * 0.2 }}
-          />
-        );
-      })}
-
-      {/* Pulsing Glowing Constellation Nodes */}
-      {nodes.map((n) => (
-        <g key={n.id}>
-          {/* Outer Soft Glow Ring */}
-          <motion.circle
-            cx={`${n.x}%`}
-            cy={`${n.y}%`}
-            r={isMobile ? n.r * 1.8 : n.r * 2.5}
-            fill={n.glow}
-            animate={{ scale: [1, 1.4, 1], opacity: [0.4, 0.85, 0.4] }}
-            transition={{ duration: 3.5, repeat: Infinity, ease: 'easeInOut', delay: n.id * 0.3 }}
-          />
-          {/* Inner Solid Node */}
-          <circle
-            cx={`${n.x}%`}
-            cy={`${n.y}%`}
-            r={isMobile ? n.r * 0.8 : n.r}
-            fill={n.color}
-          />
-        </g>
-      ))}
-    </motion.svg>
-  );
-}
 
 /* ========================================================================== */
 /* CONTINUOUS LEARNING PATH AND HAND-DRAWN DOODLES                            */
@@ -563,8 +455,7 @@ export default function HeroSection() {
         pointerEvents: 'none'
       }} />
 
-      {/* Background Layer 2: Moving Constellation Lines & Glowing Node Network */}
-      <HeroConstellationNetwork isMobile={isMobile} />
+
 
       {/* Continuous Learning Journey Doodles Layer */}
       <HeroJourneyDoodles isMobile={isMobile} />
