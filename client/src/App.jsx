@@ -30,18 +30,21 @@ export default function App() {
         <Routes>
           <Route path="/login" element={<LoginPage />} />
           <Route path="/register" element={<RegisterPage />} />
+          
+          {/* Standalone Legal Pages (Loaded only when clicked, no Layout/Navbar/Footer wrapper) */}
+          <Route path="/terms" element={<Suspense fallback={<div style={{ padding: 40, textAlign: 'center', minHeight: '60vh' }}>Loading Legal Center...</div>}><TeacherTermsPage /></Suspense>} />
+          <Route path="/terms-teachers" element={<Suspense fallback={<div style={{ padding: 40, textAlign: 'center', minHeight: '60vh' }}>Loading Legal Center...</div>}><TeacherTermsPage /></Suspense>} />
+          <Route path="/terms/teachers" element={<Suspense fallback={<div style={{ padding: 40, textAlign: 'center', minHeight: '60vh' }}>Loading Legal Center...</div>}><TeacherTermsPage /></Suspense>} />
+          <Route path="/terms-parents" element={<Suspense fallback={<div style={{ padding: 40, textAlign: 'center', minHeight: '60vh' }}>Loading Legal Center...</div>}><TeacherTermsPage /></Suspense>} />
+          <Route path="/privacy" element={<Suspense fallback={<div style={{ padding: 40, textAlign: 'center', minHeight: '60vh' }}>Loading Legal Center...</div>}><TeacherTermsPage /></Suspense>} />
+          <Route path="/privacy-policy" element={<Suspense fallback={<div style={{ padding: 40, textAlign: 'center', minHeight: '60vh' }}>Loading Legal Center...</div>}><TeacherTermsPage /></Suspense>} />
+
           <Route element={<Layout />}>
             <Route path="/" element={<HomePage />} />
             <Route path="/blogs" element={<BlogsPage />} />
             <Route path="/gallery" element={<GalleryPage />} />
             <Route path="/contact" element={<ContactPage />} />
             <Route path="/pricing" element={<PricingPage />} />
-            <Route path="/terms" element={<Suspense fallback={<div style={{ padding: 40, textAlign: 'center', minHeight: '60vh' }}>Loading Legal Center...</div>}><TeacherTermsPage /></Suspense>} />
-            <Route path="/terms-teachers" element={<Suspense fallback={<div style={{ padding: 40, textAlign: 'center', minHeight: '60vh' }}>Loading Legal Center...</div>}><TeacherTermsPage /></Suspense>} />
-            <Route path="/terms/teachers" element={<Suspense fallback={<div style={{ padding: 40, textAlign: 'center', minHeight: '60vh' }}>Loading Legal Center...</div>}><TeacherTermsPage /></Suspense>} />
-            <Route path="/terms-parents" element={<Suspense fallback={<div style={{ padding: 40, textAlign: 'center', minHeight: '60vh' }}>Loading Legal Center...</div>}><TeacherTermsPage /></Suspense>} />
-            <Route path="/privacy" element={<Suspense fallback={<div style={{ padding: 40, textAlign: 'center', minHeight: '60vh' }}>Loading Legal Center...</div>}><TeacherTermsPage /></Suspense>} />
-            <Route path="/privacy-policy" element={<Suspense fallback={<div style={{ padding: 40, textAlign: 'center', minHeight: '60vh' }}>Loading Legal Center...</div>}><TeacherTermsPage /></Suspense>} />
             <Route path="*" element={
               <div className="section" style={{ textAlign: 'center', minHeight: '60vh', display: 'flex', alignItems: 'center', justifyContent: 'center', flexDirection: 'column' }}>
                 <h1 style={{ fontSize: 64, marginBottom: 16 }}>404</h1>

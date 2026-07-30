@@ -30,10 +30,16 @@ export default function TermsPage() {
         {/* Back Button */}
         <button
           onClick={() => {
-            if (window.history.length > 1) {
+            const hasHistory = window.history.length > 1 && document.referrer && document.referrer.includes(window.location.host);
+            if (hasHistory) {
               navigate(-1);
             } else {
-              navigate('/');
+              // Close the new tab and return to the previous main website tab
+              window.close();
+              // Fallback if window.close() is blocked by the browser
+              setTimeout(() => {
+                navigate('/');
+              }, 150);
             }
           }}
           style={{
