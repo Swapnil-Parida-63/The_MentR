@@ -9,7 +9,9 @@ const pricingLeadBody = z.object({
   boards: z.array(z.string().min(1)).optional().default([]),
   classes: z.array(z.string().min(1)).optional().default([]),
   subjects: z.array(z.string().min(1)).optional().default([]),
-  categories: z.array(z.string().min(1)).optional().default([])
+  categories: z.array(z.string().min(1)).optional().default([]),
+  selectedPriceCode: z.string().optional(),
+  selectedPriceRange: z.string().optional()
 });
 
 const createPricingLeadSchema = z.object({ body: pricingLeadBody });

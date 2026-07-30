@@ -92,6 +92,7 @@ const CLASS_GROUPS = [
   }
 ];
 const SUBJECTS = [
+  "All Subjects",
   "Mathematics", "Physics", "Chemistry", "Biology", "Science",
   "English", "Hindi", "Odia", "Social Science", "History",
   "Geography", "Political Science", "Economics", "Computer Science",
@@ -114,10 +115,19 @@ function MultiSelectDropdown({ label, options, groups, selectedValues, onChange 
   }, []);
 
   const toggleOption = (opt) => {
-    if (selectedValues.includes(opt)) {
-      onChange(selectedValues.filter(v => v !== opt));
+    if (opt === "All Subjects") {
+      if (selectedValues.includes("All Subjects")) {
+        onChange([]);
+      } else {
+        onChange(["All Subjects"]);
+      }
     } else {
-      onChange([...selectedValues, opt]);
+      const nextValues = selectedValues.filter(v => v !== "All Subjects");
+      if (nextValues.includes(opt)) {
+        onChange(nextValues.filter(v => v !== opt));
+      } else {
+        onChange([...nextValues, opt]);
+      }
     }
   };
 
@@ -288,6 +298,11 @@ export default function PricingPage() {
   const [selectedClasses, setSelectedClasses] = useState([]);
   const [selectedSubjects, setSelectedSubjects] = useState([]);
   const [submitting, setSubmitting] = useState(false);
+  
+  // Step 3 States (Price Selection & Success)
+  const [selectedPrices, setSelectedPrices] = useState([]); // Array of { code, range }
+  const [isSuccess, setIsSuccess] = useState(false);
+  const [submitCooldown, setSubmitCooldown] = useState(false);
 
   // Determine which pricing tables to show
   const getApplicableCategories = () => {
@@ -326,9 +341,8 @@ export default function PricingPage() {
     setStep(2);
   };
 
-  const handleStep2Submit = async (e) => {
+  const handleStep2Submit = (e) => {
     e.preventDefault();
-    if (submitting) return;
     setErrorMsg("");
 
     if (selectedBoards.length === 0 || selectedClasses.length === 0 || selectedSubjects.length === 0) {
@@ -336,7 +350,76 @@ export default function PricingPage() {
       return;
     }
 
+    setStep(3);
+  };
+
+  const [showScrollArrow, setShowScrollArrow] = useState(false);
+
+  useEffect(() => {
+    if (step !== 3 || isSuccess) {
+      setShowScrollArrow(false);
+      return;
+    }
+
+    const checkScroll = () => {
+      const scrollHeight = document.documentElement.scrollHeight;
+      const scrollTop = window.scrollY || document.documentElement.scrollTop;
+      const clientHeight = window.innerHeight;
+
+      if (scrollHeight > clientHeight + 50) {
+        if (scrollHeight - scrollTop - clientHeight > 100) {
+          setShowScrollArrow(true);
+        } else {
+          setShowScrollArrow(false);
+        }
+      } else {
+        setShowScrollArrow(false);
+      }
+    };
+
+    checkScroll();
+    const timer = setTimeout(checkScroll, 250);
+
+    window.addEventListener('scroll', checkScroll);
+    window.addEventListener('resize', checkScroll);
+
+    return () => {
+      clearTimeout(timer);
+      window.removeEventListener('scroll', checkScroll);
+      window.removeEventListener('resize', checkScroll);
+    };
+  }, [step, isSuccess, selectedClasses]);
+
+  const scrollToBottom = () => {
+    window.scrollTo({
+      top: document.documentElement.scrollHeight,
+      behavior: 'smooth'
+    });
+  };
+
+  const handleSelectPrice = (code, range) => {
+    const exists = selectedPrices.some(p => p.code === code);
+    if (exists) {
+      setSelectedPrices(selectedPrices.filter(p => p.code !== code));
+    } else {
+      setSelectedPrices([...selectedPrices, { code, range }]);
+    }
+  };
+
+  const handleFinalSubmit = async () => {
+    if (selectedPrices.length === 0 || submitCooldown) return;
     setSubmitting(true);
+    setSubmitCooldown(true);
+    setErrorMsg("");
+
+    // Set cooldown timer for 15 seconds
+    setTimeout(() => {
+      setSubmitCooldown(false);
+    }, 15000);
+
+    const codesStr = selectedPrices.map(p => p.code).join(', ');
+    const rangesStr = selectedPrices.map(p => p.range).join('; ');
+
     try {
       await pricingAPI.submit({
         fullName,
@@ -346,9 +429,11 @@ export default function PricingPage() {
         boards: selectedBoards,
         classes: selectedClasses,
         subjects: selectedSubjects,
-        categories: getApplicableCategories()
+        categories: getApplicableCategories(),
+        selectedPriceCode: codesStr,
+        selectedPriceRange: rangesStr
       });
-      setStep(3);
+      setIsSuccess(true);
     } catch (err) {
       console.error(err);
       setErrorMsg("❌ Connection error. Please try again.");
@@ -647,7 +732,7 @@ export default function PricingPage() {
             </motion.div>
           )}
 
-          {step === 3 && (
+          {!isSuccess && step === 3 && (
             <motion.div
               key="step3"
               initial={{ opacity: 0, y: 15 }}
@@ -668,9 +753,9 @@ export default function PricingPage() {
                       {category.title}
                     </h3>
                     <p style={{ fontFamily: 'var(--font-body)', fontSize: 13.5, color: '#64748B', marginBottom: 28 }}>
-                      Fee structure for selected class range.
+                      Please select preferred fee codes (you can choose one or multiple) from the list below to submit.
                     </p>
-
+ 
                     {/* Premium Table layout */}
                     <div style={{ overflowX: 'auto', border: '1px solid rgba(79, 124, 255, 0.12)', borderRadius: 16, marginBottom: 32 }}>
                       <table style={{ width: '100%', borderCollapse: 'collapse', textAlign: 'left', fontSize: 14.5 }}>
@@ -681,29 +766,58 @@ export default function PricingPage() {
                           </tr>
                         </thead>
                         <tbody>
-                          {category.rows.map((row, idx) => (
-                            <tr 
-                              key={row.code} 
-                              style={{ 
-                                borderBottom: idx < category.rows.length - 1 ? '1px solid rgba(79, 124, 255, 0.06)' : 'none',
-                                background: idx % 2 === 1 ? 'rgba(79, 124, 255, 0.01)' : 'transparent'
-                              }}
-                            >
-                              <td style={{ padding: '14px 20px', color: '#1D2433', fontWeight: 550 }}>{row.code}</td>
-                              <td style={{ padding: '14px 20px', color: '#4F7CFF', fontWeight: 700, textAlign: 'right' }}>{row.range}</td>
-                            </tr>
-                          ))}
+                          {category.rows.map((row, idx) => {
+                            const isSelected = selectedPrices.some(p => p.code === row.code);
+                            return (
+                              <tr 
+                                key={row.code} 
+                                onClick={() => handleSelectPrice(row.code, row.range)}
+                                style={{ 
+                                  borderBottom: idx < category.rows.length - 1 ? '1px solid rgba(79, 124, 255, 0.06)' : 'none',
+                                  background: isSelected 
+                                    ? 'rgba(79, 124, 255, 0.08)' 
+                                    : idx % 2 === 1 ? 'rgba(79, 124, 255, 0.01)' : 'transparent',
+                                  cursor: 'pointer',
+                                  transition: 'all 0.2s ease'
+                                }}
+                              >
+                                <td style={{ padding: '14px 20px', color: '#1D2433', fontWeight: 550 }}>
+                                  <div style={{ display: 'flex', alignItems: 'center', gap: 12 }}>
+                                    <div style={{
+                                      width: 18,
+                                      height: 18,
+                                      borderRadius: 4,
+                                      border: isSelected ? '5px solid #4F7CFF' : '2px solid rgba(79, 124, 255, 0.25)',
+                                      background: '#FFFFFF',
+                                      transition: 'all 0.2s ease'
+                                    }} />
+                                    {row.code}
+                                  </div>
+                                </td>
+                                <td style={{ padding: '14px 20px', color: '#4F7CFF', fontWeight: 700, textAlign: 'right' }}>{row.range}</td>
+                              </tr>
+                            );
+                          })}
                         </tbody>
                       </table>
                     </div>
-
-                    {/* CTA and Assessment trigger */}
+ 
+                    {/* Submit selection button */}
                     <button 
-                      onClick={() => openModal('parent')}
+                      onClick={handleFinalSubmit}
+                      disabled={submitting || submitCooldown || selectedPrices.length === 0}
                       className="btn btn-primary"
-                      style={{ width: '100%', height: 48, borderRadius: 14, justifyContent: 'center', fontSize: 15 }}
+                      style={{ 
+                        width: '100%', 
+                        height: 48, 
+                        borderRadius: 14, 
+                        justifyContent: 'center', 
+                        fontSize: 15,
+                        opacity: (submitting || submitCooldown || selectedPrices.length === 0) ? 0.6 : 1,
+                        cursor: (submitting || submitCooldown || selectedPrices.length === 0) ? 'not-allowed' : 'pointer'
+                      }}
                     >
-                      Proceed with Assessment
+                      {submitting ? "Submitting Selection..." : submitCooldown ? "Submitted (Please wait...)" : "Submit Selection"}
                     </button>
                     
                     <div style={{ 
@@ -729,7 +843,7 @@ export default function PricingPage() {
                   </div>
                 );
               })}
-
+ 
               {/* Back to change selections */}
               <button 
                 onClick={() => setStep(2)} 
@@ -740,9 +854,101 @@ export default function PricingPage() {
               </button>
             </motion.div>
           )}
+
+          {isSuccess && (
+            <motion.div
+              key="success"
+              initial={{ opacity: 0, y: 15 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: -15 }}
+              transition={{ duration: 0.35, ease: [0.16, 1, 0.3, 1] }}
+              className="card-brand-glow"
+              style={{ background: '#FFFFFF', borderRadius: 28, padding: '48px 32px', textAlign: 'center' }}
+            >
+              <div style={{
+                width: 64,
+                height: 64,
+                borderRadius: '50%',
+                background: 'rgba(5, 150, 105, 0.1)',
+                color: '#059669',
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                fontSize: 28,
+                margin: '0 auto 24px',
+                fontWeight: 'bold'
+              }}>
+                ✓
+              </div>
+              <h2 style={{ fontFamily: 'var(--font-hero)', fontWeight: 800, fontSize: 26, color: '#1D2433', margin: '0 0 12px' }}>
+                Pricing Selection Submitted!
+              </h2>
+              <p style={{ fontFamily: 'var(--font-body)', fontSize: 15, color: '#5C667A', lineHeight: 1.6, marginBottom: 32 }}>
+                Thank you, <strong>{fullName}</strong>. Your pricing plan selection (<strong>{selectedPrices.map(p => p.code).join(', ')}</strong>) has been successfully submitted.
+                Our team will contact you shortly at <strong>{phone}</strong>.
+              </p>
+              <a href="/" className="btn btn-primary" style={{ height: 46, borderRadius: 14, justifyContent: 'center', display: 'inline-flex' }}>
+                Go back to Homepage
+              </a>
+            </motion.div>
+          )}
         </AnimatePresence>
 
       </div>
+
+      {/* Floating Scroll Down Arrow Indicator */}
+      <AnimatePresence>
+        {showScrollArrow && (
+          <motion.div
+            initial={{ opacity: 0, scale: 0.8, y: 10 }}
+            animate={{ 
+              opacity: 1, 
+              scale: 1, 
+              y: [0, -6, 0] 
+            }}
+            exit={{ opacity: 0, scale: 0.8, y: 10 }}
+            transition={{
+              y: {
+                repeat: Infinity,
+                duration: 1.8,
+                ease: "easeInOut"
+              },
+              opacity: { duration: 0.25 },
+              scale: { duration: 0.25 }
+            }}
+            onClick={scrollToBottom}
+            style={{
+              position: 'fixed',
+              bottom: 30,
+              right: 30,
+              width: 48,
+              height: 48,
+              borderRadius: '50%',
+              background: '#FFFFFF',
+              border: '1px solid rgba(79, 124, 255, 0.15)',
+              boxShadow: '0 8px 30px rgba(79, 124, 255, 0.22)',
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              cursor: 'pointer',
+              color: '#4F7CFF',
+              zIndex: 99999,
+              transition: 'background-color 0.2s, transform 0.2s'
+            }}
+            onMouseEnter={e => {
+              e.currentTarget.style.backgroundColor = '#FAFBFD';
+              e.currentTarget.style.transform = 'scale(1.05)';
+            }}
+            onMouseLeave={e => {
+              e.currentTarget.style.backgroundColor = '#FFFFFF';
+              e.currentTarget.style.transform = 'scale(1)';
+            }}
+            title="Scroll Down"
+          >
+            <ChevronDown size={22} strokeWidth={2.5} />
+          </motion.div>
+        )}
+      </AnimatePresence>
     </div>
   );
 }

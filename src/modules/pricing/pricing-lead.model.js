@@ -9,7 +9,9 @@ const pricingLeadSchema = new mongoose.Schema(
     boards: [{ type: String, trim: true }],
     classes: [{ type: String, trim: true }],
     subjects: [{ type: String, trim: true }],
-    categories: [{ type: String, trim: true }]
+    categories: [{ type: String, trim: true }],
+    selectedPriceCode: { type: String, trim: true },
+    selectedPriceRange: { type: String, trim: true }
   },
   { timestamps: true }
 );

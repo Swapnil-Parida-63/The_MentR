@@ -1,4 +1,5 @@
 import { useState, useEffect, useRef } from 'react';
+import { motion, AnimatePresence } from 'framer-motion';
 
 /* ========================================================================== */
 /* HOOK: Intersection Observer for scroll-in animations                       */
@@ -69,13 +70,13 @@ export default function VisionSection() {
                 eyebrowColor="#6366F1"
                 heading={<>Every student.<br />The right mentor.</>}
                 headingGradient="linear-gradient(135deg, #1E293B 0%, #3730A3 100%)"
-                body="We envision a future where quality education is guided by purpose, not chance. Every learner deserves personalized mentorship, meaningful direction, and measurable progress — regardless of where they start."
+                body="We envision a future where quality education is guided by purpose, not chance. Every learner deserves personalized mentorship, meaningful direction, and measurable progress regardless of where they start."
                 pullQuote="Quality education is a right, not a privilege."
                 inView={visionInView}
                 delay={0}
               />
               <EditorialImage
-                src="/mentr_vision_illustration.png"
+                src="/ChatGPT Image Jul 30, 2026, 11_28_11 PM.png"
                 alt="A luminous architectural portal representing boundless opportunity in education"
                 inView={visionInView}
                 delay={200}
@@ -90,19 +91,19 @@ export default function VisionSection() {
               gap: '80px',
               alignItems: 'center',
               minHeight: 520,
-            }}>
+             }}>
               <EditorialTextBlock
                 eyebrow="Our Vision"
                 eyebrowColor="#6366F1"
                 heading={<>Every student.<br />The right mentor.</>}
                 headingGradient="linear-gradient(135deg, #1E293B 0%, #3730A3 100%)"
-                body="We envision a future where quality education is guided by purpose, not chance. Every learner deserves personalized mentorship, meaningful direction, and measurable progress — regardless of where they start."
+                body="We envision a future where quality education is guided by purpose, not chance. Every learner deserves personalized mentorship, meaningful direction, and measurable progress regardless of where they start."
                 pullQuote="Quality education is a right, not a privilege."
                 inView={visionInView}
                 delay={0}
               />
               <EditorialImage
-                src="/mentr_vision_illustration.png"
+                src="/ChatGPT Image Jul 30, 2026, 11_28_11 PM.png"
                 alt="A luminous architectural portal representing boundless opportunity in education"
                 inView={visionInView}
                 delay={200}
@@ -156,7 +157,7 @@ export default function VisionSection() {
                 delay={0}
               />
               <EditorialImage
-                src="/mentr_mission_illustration.png"
+                src="/ChatGPT Image Jul 30, 2026, 11_34_55 PM.png"
                 alt="An elegant winding pathway representing purposeful guidance in education"
                 inView={missionInView}
                 delay={200}
@@ -174,7 +175,7 @@ export default function VisionSection() {
               minHeight: 520,
             }}>
               <EditorialImage
-                src="/mentr_mission_illustration.png"
+                src="/ChatGPT Image Jul 30, 2026, 11_34_55 PM.png"
                 alt="An elegant winding pathway representing purposeful guidance in education"
                 inView={missionInView}
                 delay={0}
@@ -458,23 +459,44 @@ function EditorialTextBlock({ eyebrow, eyebrowColor, heading, headingGradient, b
 /* EDITORIAL IMAGE COMPONENT                                                  */
 /* ========================================================================== */
 function EditorialImage({ src, alt, inView, delay = 0, isMobile, accent = '#6366F1' }) {
+  const [hovered, setHovered] = useState(false);
+
   return (
-    <div style={{
-      position: 'relative',
-      display: 'flex',
-      alignItems: 'center',
-      justifyContent: 'center',
-      opacity: inView ? 1 : 0,
-      transform: inView ? 'scale(1) translateY(0)' : 'scale(0.97) translateY(20px)',
-      transition: `opacity 1.2s cubic-bezier(0.16,1,0.3,1) ${delay}ms, transform 1.2s cubic-bezier(0.16,1,0.3,1) ${delay}ms`,
-    }}>
-      {/* Soft ambient glow — appears behind illustration, not around it */}
+    <motion.div
+      initial={{ opacity: 0, scale: 0.97, y: 20 }}
+      animate={inView ? { opacity: 1, scale: 1, y: 0 } : { opacity: 0, scale: 0.97, y: 20 }}
+      whileHover={isMobile ? {} : { 
+        scale: 1.04, 
+        y: -10, 
+        rotate: src.includes("mission") ? 1.2 : -1.2 
+      }}
+      transition={{ 
+        opacity: { duration: 0.8, ease: "easeOut", delay: delay / 1000 },
+        scale: { type: "spring", stiffness: 450, damping: 20 },
+        y: { type: "spring", stiffness: 450, damping: 20 },
+        rotate: { type: "spring", stiffness: 450, damping: 20 }
+      }}
+      onMouseEnter={() => setHovered(true)}
+      onMouseLeave={() => setHovered(false)}
+      style={{
+        position: 'relative',
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'center',
+        zIndex: 5
+      }}
+    >
+      {/* Dynamic ambient glow — appears behind illustration */}
       <div style={{
         position: 'absolute',
-        inset: isMobile ? '-20px' : '-48px',
-        background: `radial-gradient(ellipse at 50% 60%, ${accent}18 0%, transparent 68%)`,
+        inset: isMobile ? '-30px' : '-60px',
+        background: `radial-gradient(circle at 50% 50%, ${accent}45 0%, ${accent}15 45%, transparent 70%)`,
+        filter: 'blur(16px)',
         pointerEvents: 'none',
         zIndex: 0,
+        transform: hovered ? 'scale(1.28)' : 'scale(1)',
+        opacity: hovered ? 1 : 0.55,
+        transition: 'all 0.35s cubic-bezier(0.16, 1, 0.3, 1)'
       }} />
 
       {/* 
@@ -493,9 +515,9 @@ function EditorialImage({ src, alt, inView, delay = 0, isMobile, accent = '#6366
           height: 'auto',
           display: 'block',
           mixBlendMode: 'multiply',
-          /* No border, no shadow, no border-radius — drawn on the page */
+          transition: 'all 0.3s ease'
         }}
       />
-    </div>
+    </motion.div>
   );
 }

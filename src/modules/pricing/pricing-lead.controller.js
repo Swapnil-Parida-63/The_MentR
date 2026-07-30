@@ -9,11 +9,11 @@ const baseController = createCrudController(pricingLeadService);
 baseController.create = asyncHandler(async (req, res) => {
   const item = await pricingLeadService.create(req.body);
 
-  // Perform non-blocking background POST request to the external webhook
-  const webhookUrl = env.PRICING_FORM_WEBHOOK_URL || env.PARENT_FORM_WEBHOOK_URL;
+  // Perform non-blocking background POST request to the external parent webhook
+  const webhookUrl = env.PARENT_FORM_WEBHOOK_URL || env.PRICING_FORM_WEBHOOK_URL;
   if (webhookUrl) {
     const payload = {
-      type: "pricing_lead",
+      type: "pricing_response",
       fullName: item.fullName || "",
       phone: item.phone || "",
       email: item.email || "",
@@ -21,7 +21,9 @@ baseController.create = asyncHandler(async (req, res) => {
       boards: item.boards || [],
       classes: item.classes || [],
       subjects: item.subjects || [],
-      categories: item.categories || []
+      categories: item.categories || [],
+      selectedPriceCode: item.selectedPriceCode || "",
+      selectedPriceRange: item.selectedPriceRange || ""
     };
 
     fetch(webhookUrl, {

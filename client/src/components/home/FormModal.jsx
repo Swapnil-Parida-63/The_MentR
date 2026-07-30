@@ -4,7 +4,7 @@ import { useModal } from '../../context/ModalContext';
 import BorderGlow from './BorderGlow';
 import { parentAPI, teachersAPI } from '../../services/api';
 
-const subjectsList = ['Mathematics', 'Physics', 'Chemistry', 'Biology', 'English', 'Social Studies', 'Computer Science'];
+const subjectsList = ['All Subjects', 'Mathematics', 'Physics', 'Chemistry', 'Biology', 'English', 'Social Studies', 'Computer Science'];
 const boardsOptions = ['CBSE', 'ICSE', 'IB', 'State Board'];
 const classesOptions = ['Class 1–5', 'Class 6–8', 'Class 9–10', 'Class 11–12'];
 const mediumsList = ['English', 'Hindi', 'Odia', 'Bengali', 'Bilingual'];
@@ -206,10 +206,19 @@ function UnderlineMultiSelect({ label, options, selectedValues, onChange }) {
   }, []);
 
   const toggleOption = (opt) => {
-    if (selectedValues.includes(opt)) {
-      onChange(selectedValues.filter(v => v !== opt));
+    if (opt === "All Subjects") {
+      if (selectedValues.includes("All Subjects")) {
+        onChange([]);
+      } else {
+        onChange(["All Subjects"]);
+      }
     } else {
-      onChange([...selectedValues, opt]);
+      const nextValues = selectedValues.filter(v => v !== "All Subjects");
+      if (nextValues.includes(opt)) {
+        onChange(nextValues.filter(v => v !== opt));
+      } else {
+        onChange([...nextValues, opt]);
+      }
     }
   };
 
@@ -362,7 +371,7 @@ export default function FormModal() {
   const [parentBoard, setParentBoard] = useState('');
   const [parentGrade, setParentGrade] = useState('');
   const [parentLocation, setParentLocation] = useState('');
-  const [guidanceSubject, setGuidanceSubject] = useState('');
+  const [guidanceSubject, setGuidanceSubject] = useState([]);
 
   // Parent Registration Form states
   const [regParentName, setRegParentName] = useState('');
@@ -411,7 +420,7 @@ export default function FormModal() {
       setParentBoard('');
       setParentGrade('');
       setParentLocation('');
-      setGuidanceSubject('');
+      setGuidanceSubject([]);
 
       setRegParentName('');
       setRegParentPhone('');
@@ -483,7 +492,7 @@ export default function FormModal() {
     if (parentSubmitting || parentDisabled) return;
 
     // Mandatory fields check
-    if (!parentName.trim() || !parentPhone.trim() || !studentName.trim() || !parentBoard || !parentGrade || !parentLocation.trim() || !guidanceSubject.trim()) {
+    if (!parentName.trim() || !parentPhone.trim() || !studentName.trim() || !parentBoard || !parentGrade || !parentLocation.trim() || guidanceSubject.length === 0) {
       alert("⚠️ All fields are mandatory. Please fill in all fields.");
       return;
     }
@@ -503,7 +512,7 @@ export default function FormModal() {
         board: parentBoard,
         class: parentGrade,
         location: parentLocation,
-        specificSubject: guidanceSubject
+        specificSubject: guidanceSubject.join(', ')
       });
       alert("Thank you for joining, Our team will contact you soon.");
       handleClose();
@@ -746,7 +755,7 @@ export default function FormModal() {
                   {/* Step 3 Fields */}
                   {parentStep === 3 && (
                     <div style={{ flex: 1, display: 'flex', flexDirection: 'column' }}>
-                      <UnderlineTextarea label="Any specific subject required for guidance" placeholder="E.g. Mathematics, Physics, Chemistry, etc." value={guidanceSubject} onChange={e => setGuidanceSubject(e.target.value)} required />
+                      <UnderlineMultiSelect label="Any specific subject required for guidance" options={subjectsList} selectedValues={guidanceSubject} onChange={setGuidanceSubject} />
 
                       <div style={{ display: 'flex', gap: 16, marginTop: 'auto' }}>
                         <button type="button" onClick={() => setParentStep(2)} className="btn-editorial-secondary-pill" style={{ flex: 1 }}>Back</button>
