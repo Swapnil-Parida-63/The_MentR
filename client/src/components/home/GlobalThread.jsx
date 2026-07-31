@@ -185,16 +185,7 @@ export default function GlobalThread() {
   return (
     <div style={{ position: 'absolute', inset: 0, pointerEvents: 'none', zIndex: 0, overflow: 'hidden' }}>
       
-      {/* Self-contained CSS for Compositor-thread GPU sliding faint glow (Lag-Free) */}
       <style>{`
-        @keyframes leftSlideGlow {
-          0% { stroke-dashoffset: 0; }
-          100% { stroke-dashoffset: -12000; }
-        }
-        @keyframes rightSlideGlow {
-          0% { stroke-dashoffset: 0; }
-          100% { stroke-dashoffset: 12000; }
-        }
         .doodle-item {
           transition: transform 0.3s ease, opacity 0.3s ease;
           cursor: pointer;
@@ -206,41 +197,8 @@ export default function GlobalThread() {
         }
       `}</style>
 
-      {/* LEFT SIDE THREAD */}
+      {/* LEFT SIDE MARGIN CONTENT */}
       <div style={{ position: 'absolute', top: 0, left: 0, width: 240, height: '100%' }}>
-        <svg width="240" height={height} style={{ overflow: 'visible' }}>
-          <defs>
-            <linearGradient id="leftThreadGrad" x1="0" y1="0" x2="0" y2="1">
-              <stop offset="0%" stopColor="#4F7CFF" stopOpacity="0.25" />
-              <stop offset="50%" stopColor="#7C5CFF" stopOpacity="0.25" />
-              <stop offset="100%" stopColor="#10B981" stopOpacity="0.25" />
-            </linearGradient>
-          </defs>
-          
-          {/* Base path line */}
-          <path
-            d={leftPathD}
-            stroke="url(#leftThreadGrad)"
-            strokeWidth="1.5"
-            fill="none"
-          />
-
-          {/* Faint flowing glow segment inside the line (Compositor animated) */}
-          <path
-            d={leftPathD}
-            stroke="#7C5CFF"
-            strokeWidth="2.2"
-            fill="none"
-            strokeLinecap="round"
-            style={{
-              strokeDasharray: '120, 480',
-              animation: 'leftSlideGlow 60s linear infinite',
-              filter: 'drop-shadow(0 0 5px #7C5CFF)',
-              opacity: 0.55
-            }}
-          />
-        </svg>
-
         {/* Left Side Badges */}
         {leftNodes.map((node, idx) => {
           const IconComp = node.icon;
@@ -248,22 +206,12 @@ export default function GlobalThread() {
 
           return (
             <div key={`left-node-${idx}`} style={{ position: 'absolute', top: node.y, left: node.x, pointerEvents: 'none' }}>
-              <div style={{
-                width: 6,
-                height: 6,
-                borderRadius: '50%',
-                background: node.color,
-                boxShadow: `0 0 6px ${node.color}`,
-                transform: 'translate(-50%, -50%)',
-                zIndex: 2
-              }} />
-
               {/* Glassmorphic Badge offset right */}
               <div style={{
                 position: 'absolute',
-                left: 16,
+                left: 0,
                 top: '50%',
-                transform: 'translateY(-50%)',
+                transform: 'translate(-50%, -50%)',
                 display: 'flex',
                 alignItems: 'center',
                 gap: 6,
@@ -301,11 +249,11 @@ export default function GlobalThread() {
                 left: doodle.x, 
                 transform: 'translate(-50%, -50%)',
                 color: doodle.color,
-                opacity: 0.45, // raised visibility
+                opacity: 0.45,
                 display: 'flex',
                 alignItems: 'center',
                 justifyContent: 'center',
-                width: 44, // bigger doodle size
+                width: 44,
                 height: 44
               }}
             >
@@ -317,39 +265,8 @@ export default function GlobalThread() {
         })}
       </div>
 
-      {/* RIGHT SIDE THREAD */}
+      {/* RIGHT SIDE MARGIN CONTENT */}
       <div style={{ position: 'absolute', top: 0, right: 0, width: 240, height: '100%' }}>
-        <svg width="240" height={height} style={{ overflow: 'visible' }}>
-          <defs>
-            <linearGradient id="rightThreadGrad" x1="0" y1="0" x2="0" y2="1">
-              <stop offset="0%" stopColor="#10B981" stopOpacity="0.25" />
-              <stop offset="50%" stopColor="#7C5CFF" stopOpacity="0.25" />
-              <stop offset="100%" stopColor="#4F7CFF" stopOpacity="0.25" />
-            </linearGradient>
-          </defs>
-          <path
-            d={rightPathD}
-            stroke="url(#rightThreadGrad)"
-            strokeWidth="1.5"
-            fill="none"
-          />
-
-          {/* Faint flowing glow segment inside the line (Compositor animated) */}
-          <path
-            d={rightPathD}
-            stroke="#4F7CFF"
-            strokeWidth="2.2"
-            fill="none"
-            strokeLinecap="round"
-            style={{
-              strokeDasharray: '120, 480',
-              animation: 'rightSlideGlow 60s linear infinite',
-              filter: 'drop-shadow(0 0 5px #4F7CFF)',
-              opacity: 0.55
-            }}
-          />
-        </svg>
-
         {/* Right Side Badges */}
         {rightNodes.map((node, idx) => {
           const IconComp = node.icon;
@@ -357,22 +274,12 @@ export default function GlobalThread() {
 
           return (
             <div key={`right-node-${idx}`} style={{ position: 'absolute', top: node.y, left: node.x, pointerEvents: 'none' }}>
-              <div style={{
-                width: 6,
-                height: 6,
-                borderRadius: '50%',
-                background: node.color,
-                boxShadow: `0 0 6px ${node.color}`,
-                transform: 'translate(-50%, -50%)',
-                zIndex: 2
-              }} />
-
               {/* Glassmorphic Badge offset left */}
               <div style={{
                 position: 'absolute',
-                left: -16,
+                left: 0,
                 top: '50%',
-                transform: 'translate(-100%, -50%)',
+                transform: 'translate(-50%, -50%)',
                 display: 'flex',
                 alignItems: 'center',
                 gap: 6,
