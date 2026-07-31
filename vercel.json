@@ -19,6 +19,22 @@
       "dest": "api/index.js"
     },
     {
+      "src": "/mentR_Logo.png",
+      "dest": "client/mentR_Logo.png"
+    },
+    {
+      "src": "/logo.png",
+      "dest": "client/logo.png"
+    },
+    {
+      "src": "/tab_icon.png",
+      "dest": "client/tab_icon.png"
+    },
+    {
+      "src": "/ChatGPT_Logo.png",
+      "dest": "client/ChatGPT_Logo.png"
+    },
+    {
       "handle": "filesystem"
     },
     {
