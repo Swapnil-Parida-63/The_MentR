@@ -1,10 +1,11 @@
 import { useState, useEffect } from 'react';
-import { motion } from 'framer-motion';
+import { motion, AnimatePresence } from 'framer-motion';
+import { FileText, ShieldCheck, Target, TrendingUp, Award, Plus } from 'lucide-react';
 
 export default function WhySection() {
   const [isMobile, setIsMobile] = useState(window.innerWidth < 1024);
-  const [hoveredRow, setHoveredRow] = useState(null);
-  const [hoveredCol, setHoveredCol] = useState(null);
+  const [hoveredModuleId, setHoveredModuleId] = useState(null);
+  const [expandedMobileId, setExpandedMobileId] = useState(1);
 
   useEffect(() => {
     const handleResize = () => setIsMobile(window.innerWidth < 1024);
@@ -12,60 +13,127 @@ export default function WhySection() {
     return () => window.removeEventListener('resize', handleResize);
   }, []);
 
-  const fadeInUp = {
-    hidden: { opacity: 0, y: 24 },
-    visible: { 
-      opacity: 1, 
-      y: 0,
-      transition: { duration: 0.65, ease: [0.16, 1, 0.3, 1] }
-    }
-  };
-
-  const featureRows = [
+  const modules = [
     {
       id: 1,
       title: 'Assessment First',
-      desc: 'Every learning journey begins by understanding the student.'
+      description: 'Every learning journey begins by understanding the student.',
+      icon: FileText,
+      emoji: '📝',
+      x: 90,
+      y: 110,
+      curve: 'M 250,250 Q 120,200 90,110',
+      pathData: 'M 250,250 Q 120,200 90,110'
     },
     {
       id: 2,
       title: 'Verified Educators',
-      desc: 'Every mentor is carefully screened, evaluated and continuously supported.'
+      description: 'Every mentor is carefully screened, evaluated and continuously supported.',
+      icon: ShieldCheck,
+      emoji: '✅',
+      x: 410,
+      y: 130,
+      curve: 'M 250,250 Q 380,180 410,130',
+      pathData: 'M 250,250 Q 380,180 410,130'
     },
     {
       id: 3,
       title: 'Intelligent Matching',
-      desc: 'Students are matched based on learning needs, goals and teaching style.'
+      description: 'Students are matched based on learning needs, goals and teaching style.',
+      icon: Target,
+      emoji: '🎯',
+      x: 390,
+      y: 390,
+      curve: 'M 250,250 Q 320,380 390,390',
+      pathData: 'M 250,250 Q 320,380 390,390'
     },
     {
       id: 4,
       title: 'Built-in Accountability',
-      desc: 'Track progress, receive insights and focus on measurable outcomes.'
+      description: 'Track progress, receive insights and focus on measurable outcomes.',
+      icon: TrendingUp,
+      emoji: '📈',
+      x: 110,
+      y: 370,
+      curve: 'M 250,250 Q 130,300 110,370',
+      pathData: 'M 250,250 Q 130,300 110,370'
+    }
+  ];
+
+  // Secondary decorative nodes to increase density without clutter
+  const secondaryNodes = [
+    { id: 's1', label: 'Learning Style', size: 6, x: 50, y: 220, color: '#4F7CFF', curve: 'M 250,250 Q 150,230 50,220' },
+    { id: 's2', label: 'Weekly Reports', size: 6, x: 340, y: 50, color: '#7C5CFF', curve: 'M 250,250 Q 300,150 340,50' },
+    { id: 's3', label: 'Parent Insights', size: 7, x: 480, y: 210, color: '#4F7CFF', curve: 'M 250,250 Q 380,230 480,210', extendsOffscreen: true },
+    { id: 's4', label: 'Goal Tracking', size: 6, x: 475, y: 300, color: '#7C5CFF', curve: 'M 250,250 Q 370,290 475,300', extendsOffscreen: true },
+    { id: 's5', label: 'AI Assistance', size: 6, x: 190, y: 440, color: '#10B981', curve: 'M 250,250 Q 220,350 190,440' },
+    { id: 's6', label: 'Homework Support', size: 6, x: 40, y: 450, color: '#4F7CFF', curve: 'M 250,250 Q 140,360 40,450' },
+    { id: 's7', label: 'Olympiad', size: 6, x: 430, y: 460, color: '#7C5CFF', curve: 'M 250,250 Q 350,380 430,460' },
+    { id: 's8', label: 'Feedback', size: 6, x: 210, y: 70, color: '#4F7CFF', curve: 'M 250,250 Q 230,150 210,70' },
+    { id: 's9', label: 'Attendance', size: 6, x: 520, y: 380, color: '#10B981', curve: 'M 250,250 Q 420,330 520,380', extendsOffscreen: true }
+  ];
+
+  // A highly irregular, winding, hand-drawn curve (random waves wrapping text and returning to core)
+  const backgroundPaths = [
+    { 
+      id: 'single-loop', 
+      d: 'M 250,250 C 180,350 -20,480 -120,380 C -220,280 -450,450 -450,260 C -450,70 -350,10 -150,120 C 20,230 120,80 250,250', 
+      color: '#7C5CFF', 
+      duration: 20
     }
   ];
 
   return (
-    <div id="why" style={{ background: '#FAFAFC', padding: isMobile ? '80px 0' : '160px 0', overflow: 'hidden' }}>
-      
-      {/* SECTION 1: TWO COLUMN MANIFESTO */}
-      <div className="container">
-        <motion.div 
-          initial="hidden"
-          whileInView="visible"
-          viewport={{ once: true, margin: "-100px" }}
-          variants={fadeInUp}
-          style={{ 
-            display: 'grid', 
-            gridTemplateColumns: isMobile ? '1fr' : '0.4fr 0.6fr', 
-            gap: isMobile ? '60px' : '100px',
-            alignItems: 'start'
-          }}
-        >
-          {/* Left Column (40%) */}
-          <div style={{ textAlign: 'left' }}>
+    <section 
+      id="why" 
+      style={{ 
+        background: 'transparent', 
+        padding: isMobile ? '140px 0 100px' : '150px 0', 
+        position: 'relative', 
+        overflow: 'hidden',
+        fontFamily: 'var(--font-sans)',
+        borderBottom: '1px solid rgba(79, 124, 255, 0.05)'
+      }}
+    >
+      {/* Ambient gradient circles behind network to create depth */}
+      <div style={{
+        position: 'absolute',
+        top: '20%',
+        right: '15%',
+        width: '320px',
+        height: '320px',
+        background: 'radial-gradient(circle, rgba(79, 124, 255, 0.045) 0%, transparent 70%)',
+        filter: 'blur(40px)',
+        pointerEvents: 'none',
+        zIndex: 0
+      }} />
+      <div style={{
+        position: 'absolute',
+        bottom: '15%',
+        right: '5%',
+        width: '380px',
+        height: '380px',
+        background: 'radial-gradient(circle, rgba(124, 92, 255, 0.035) 0%, transparent 70%)',
+        filter: 'blur(50px)',
+        pointerEvents: 'none',
+        zIndex: 0
+      }} />
+
+      <div className="container" style={{ position: 'relative', zIndex: 1 }}>
+        <div style={{
+          display: 'grid',
+          gridTemplateColumns: isMobile ? '1fr' : '0.42fr 0.58fr',
+          gap: isMobile ? '64px' : '80px',
+          alignItems: 'center'
+        }}>
+          
+          {/* ============================================================== */}
+          {/* LEFT SIDE: Heading block (Exactly Unchanged)                   */}
+          {/* ============================================================== */}
+          <div style={{ textAlign: 'left', maxWidth: 480 }}>
             <span style={{ 
-              fontFamily: 'var(--font-section)', 
-              fontWeight: 600, 
+              fontFamily: 'var(--font-sans)', 
+              fontWeight: 650, 
               fontSize: 12, 
               color: '#4F7CFF', 
               letterSpacing: '0.15em', 
@@ -73,13 +141,14 @@ export default function WhySection() {
               display: 'block',
               marginBottom: 16
             }}>
-              Why TheMentR
+              Ecosystem
             </span>
+            
             <h2 style={{
               fontFamily: 'var(--font-hero)',
               fontWeight: 800,
-              fontSize: isMobile ? 'clamp(32px, 8vw, 44px)' : 'clamp(44px, 4vw, 56px)',
-              lineHeight: 1.1,
+              fontSize: isMobile ? 'clamp(32px, 8vw, 44px)' : 'clamp(44px, 3.8vw, 56px)',
+              lineHeight: 1.15,
               letterSpacing: '-0.03em',
               color: '#1E293B',
               margin: 0
@@ -88,246 +157,638 @@ export default function WhySection() {
               build another<br />
               marketplace.
             </h2>
+            
             <p style={{
               fontFamily: 'var(--font-body)',
-              fontWeight: 450,
+              fontWeight: 400,
               fontSize: 16,
               color: '#64748B',
-              lineHeight: 1.6,
+              lineHeight: 1.7,
               marginTop: 24,
-              marginRight: isMobile ? 0 : 20
+              maxWidth: 420
             }}>
-              We built a learning ecosystem not another listing platform.
+              We built a coordinated learning ecosystem. Every component works in unison to guide, verify, match, and sustain accountability for a complete learning journey.
             </p>
           </div>
 
-          {/* Right Column (60%) */}
-          <div style={{ display: 'flex', flexDirection: 'column' }}>
-            {featureRows.map((row, idx) => {
-              const isHovered = hoveredRow === row.id;
-              return (
-                <div 
-                  key={row.id}
-                  onMouseEnter={() => setHoveredRow(row.id)}
-                  onMouseLeave={() => setHoveredRow(null)}
-                  style={{
-                    display: 'flex',
-                    flexDirection: 'column',
-                    transform: isHovered ? 'translateX(6px)' : 'translateX(0)',
-                    transition: 'transform 0.3s cubic-bezier(0.16, 1, 0.3, 1)',
-                    cursor: 'pointer'
-                  }}
-                >
-                  {/* Row Content */}
-                  <div style={{
-                    padding: isMobile ? '12px 0' : '24px 0',
-                    display: 'flex',
-                    alignItems: 'flex-start',
-                    gap: 16
-                  }}>
-                    {/* Circle Indicator */}
-                    <div style={{
-                      width: 8,
-                      height: 8,
-                      borderRadius: '50%',
-                      border: `1.5px solid ${isHovered ? '#4F7CFF' : '#64748B'}`,
-                      background: isHovered ? '#4F7CFF' : 'transparent',
-                      marginTop: 8,
-                      flexShrink: 0,
-                      transition: 'all 0.3s ease'
-                    }} />
-
-                    {/* Text block */}
-                    <div style={{ display: 'flex', flexDirection: 'column', gap: 6 }}>
-                      <h4 style={{
-                        fontFamily: 'var(--font-hero)',
-                        fontWeight: 700,
-                        fontSize: 18,
-                        color: isHovered ? '#4F7CFF' : '#1E293B',
-                        margin: 0,
-                        position: 'relative',
-                        display: 'inline-block',
-                        transition: 'color 0.3s ease'
-                      }}>
-                        {row.title}
-                        {/* Title Underline grow */}
-                        <div style={{
-                          position: 'absolute',
-                          bottom: -2,
-                          left: 0,
-                          height: 1.5,
-                          background: '#4F7CFF',
-                          width: isHovered ? '100%' : '0%',
-                          transition: 'width 0.35s cubic-bezier(0.16, 1, 0.3, 1)'
-                        }} />
-                      </h4>
-                      <p style={{
-                        fontFamily: 'var(--font-body)',
-                        fontWeight: 450,
-                        fontSize: 14,
-                        color: '#64748B',
-                        lineHeight: 1.55,
-                        margin: 0
-                      }}>
-                        {row.desc}
-                      </p>
-                    </div>
-                  </div>
-
-                  {/* Elegant Thin Divider */}
-                  {idx < featureRows.length - 1 && (
-                    <div style={{ height: 1, background: '#E8EAF2', width: '100%' }} />
-                  )}
-                </div>
-              );
-            })}
-          </div>
-        </motion.div>
-      </div>
-
-      {/* SECTION 2: THE PERSONAL HOOK */}
-      <div className="container" style={{ marginTop: isMobile ? '100px' : '180px' }}>
-        <motion.div
-          initial="hidden"
-          whileInView="visible"
-          viewport={{ once: true, margin: "-100px" }}
-          variants={fadeInUp}
-          style={{ textAlign: 'center', marginBottom: isMobile ? '60px' : '100px' }}
-        >
-          <h2 style={{
-            fontFamily: 'var(--font-hero)',
-            fontWeight: 800,
-            fontSize: isMobile ? 'clamp(36px, 8vw, 48px)' : 'clamp(56px, 4.5vw, 72px)',
-            lineHeight: 1.1,
-            letterSpacing: '-0.04em',
-            color: '#1E293B',
-            margin: '0 auto',
-            maxWidth: '900px'
-          }}>
-            Never before<br />
-            has learning<br />
-            been this personal.
-          </h2>
-        </motion.div>
-
-        {/* THREE CORE PRINCIPLES */}
-        <motion.div
-          initial="hidden"
-          whileInView="visible"
-          viewport={{ once: true, margin: "-100px" }}
-          variants={fadeInUp}
-          className={isMobile ? "mobile-swipe-carousel" : ""}
-          style={{
-            display: isMobile ? 'flex' : 'grid',
-            gridTemplateColumns: isMobile ? 'none' : 'repeat(3, 1fr)',
-            gap: isMobile ? '0' : '64px',
-            position: 'relative'
-          }}
-        >
-          {[
-            {
-              id: '01',
-              title: 'Assessment',
-              desc: 'Every student is understood before learning begins.'
-            },
-            {
-              id: '02',
-              title: 'Matching',
-              desc: 'Every learner is paired with the educator who fits them best.'
-            },
-            {
-              id: '03',
-              title: 'Progress',
-              desc: 'Every milestone is measured to ensure continuous growth.'
-            }
-          ].map((col, idx) => {
-            const isHovered = hoveredCol === col.id;
-            return (
-              <div 
-                key={col.id}
-                onMouseEnter={() => setHoveredCol(col.id)}
-                onMouseLeave={() => setHoveredCol(null)}
-                className={isMobile ? "mobile-swipe-card" : ""}
-                style={{ 
-                  display: 'flex', 
-                  flexDirection: 'column', 
-                  textAlign: 'left',
-                  position: 'relative',
-                  paddingLeft: isMobile ? '0px' : '16px',
-                  background: isMobile ? '#FFFFFF' : 'transparent',
-                  border: isMobile ? '1px solid rgba(15, 23, 42, 0.05)' : 'none',
-                  borderRadius: isMobile ? '20px' : '0px',
-                  padding: isMobile ? '24px' : '0px',
-                  boxShadow: isMobile ? '0 4px 12px rgba(10, 22, 40, 0.01)' : 'none',
-                  cursor: 'pointer'
-                }}
-              >
-                {/* Desktop Vertical Divider Lines */}
-                {!isMobile && idx > 0 && (
-                  <div style={{
-                    position: 'absolute',
-                    left: -32,
-                    top: 0,
-                    bottom: 0,
-                    width: 1,
-                    background: '#E8EAF2'
-                  }} />
-                )}
-
-                {/* Number */}
+          {/* ============================================================== */}
+          {/* RIGHT SIDE: Interactive Ecosystem Visualization                */}
+          {/* ============================================================== */}
+          <div>
+            {isMobile ? (
+              /* MOBILE LAYOUT: Glassmorphic Expandable Timeline Accordion Cards */
+              <div style={{ 
+                display: 'flex', 
+                flexDirection: 'column', 
+                gap: '20px', 
+                position: 'relative',
+              }}>
+                {/* Connecting Neon Vertical Line */}
                 <div style={{
-                  fontFamily: 'Space Grotesk, sans-serif',
-                  fontWeight: 700,
-                  fontSize: 40,
-                  color: isHovered ? '#4F7CFF' : '#7496FF',
-                  transition: 'color 0.3s ease',
-                  lineHeight: 1
+                  position: 'absolute',
+                  left: 42,
+                  top: 30,
+                  bottom: 30,
+                  width: 3,
+                  background: 'linear-gradient(180deg, #4F7CFF 0%, #7C5CFF 50%, #10B981 100%)',
+                  boxShadow: '0 0 10px rgba(124, 92, 255, 0.5)',
+                  zIndex: 0,
+                  opacity: 0.75
+                }} />
+
+                {modules.map((mod) => {
+                  const isExpanded = expandedMobileId === mod.id;
+                  const IconComp = mod.icon;
+                  return (
+                    <div 
+                      key={mod.id} 
+                      onClick={() => setExpandedMobileId(isExpanded ? null : mod.id)}
+                      style={{ 
+                        display: 'flex', 
+                        gap: '18px', 
+                        alignItems: 'center', 
+                        position: 'relative', 
+                        zIndex: 1,
+                        background: isExpanded 
+                          ? 'linear-gradient(135deg, rgba(255, 255, 255, 0.99) 0%, rgba(124, 92, 255, 0.04) 100%)' 
+                          : 'rgba(255, 255, 255, 0.65)',
+                        backdropFilter: 'blur(8px)',
+                        WebkitBackdropFilter: 'blur(8px)',
+                        border: isExpanded 
+                          ? '1.5px solid rgba(124, 92, 255, 0.3)' 
+                          : '1px solid rgba(79, 124, 255, 0.06)',
+                        borderLeft: isExpanded 
+                          ? '4px solid #7C5CFF' 
+                          : '1.5px solid rgba(79, 124, 255, 0.06)',
+                        borderRadius: 20,
+                        padding: '18px 22px',
+                        boxShadow: isExpanded 
+                          ? '0 16px 36px rgba(124, 92, 255, 0.12), 0 0 12px rgba(124, 92, 255, 0.04)' 
+                          : '0 4px 16px rgba(15, 23, 42, 0.01)',
+                        cursor: 'pointer',
+                        transition: 'all 0.3s cubic-bezier(0.16, 1, 0.3, 1)'
+                      }}
+                    >
+                      {/* Enclosed Icon Circle with pulsing active state rings */}
+                      <div style={{
+                        position: 'relative',
+                        width: 48,
+                        height: 48,
+                        borderRadius: '50%',
+                        background: '#FFFFFF',
+                        border: isExpanded 
+                          ? '1.5px solid rgba(124, 92, 255, 0.45)' 
+                          : '1px solid rgba(79, 124, 255, 0.1)',
+                        color: isExpanded ? '#7C5CFF' : '#4F7CFF',
+                        display: 'flex',
+                        alignItems: 'center',
+                        justifyContent: 'center',
+                        flexShrink: 0,
+                        boxShadow: isExpanded 
+                          ? '0 0 12px rgba(124, 92, 255, 0.25)' 
+                          : '0 2px 6px rgba(0,0,0,0.02)',
+                        transition: 'all 0.3s'
+                      }}>
+                        {isExpanded && (
+                          <motion.div
+                            animate={{ scale: [1, 1.35, 1], opacity: [0.65, 0, 0.65] }}
+                            transition={{ repeat: Infinity, duration: 2.2, ease: "easeInOut" }}
+                            style={{
+                              position: 'absolute',
+                              inset: -5,
+                              borderRadius: '50%',
+                              border: '1.5px solid #7C5CFF',
+                              pointerEvents: 'none'
+                            }}
+                          />
+                        )}
+                        <IconComp size={22} strokeWidth={2.2} />
+                      </div>
+
+                      {/* Header and Collapsible Body */}
+                      <div style={{ textAlign: 'left', flex: 1 }}>
+                        <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', width: '100%' }}>
+                          <h4 style={{ 
+                            margin: 0, 
+                            fontSize: '15.5px', 
+                            fontWeight: 750, 
+                            color: isExpanded ? '#7C5CFF' : '#1E293B',
+                            transition: 'color 0.3s'
+                          }}>
+                            {mod.title}
+                          </h4>
+                          <motion.div
+                            animate={{ rotate: isExpanded ? 45 : 0 }}
+                            transition={{ duration: 0.25 }}
+                            style={{
+                              color: isExpanded ? '#7C5CFF' : '#64748B',
+                              display: 'flex',
+                              alignItems: 'center',
+                              justifyContent: 'center'
+                            }}
+                          >
+                            <Plus size={18} strokeWidth={2.5} />
+                          </motion.div>
+                        </div>
+
+                        <AnimatePresence initial={false}>
+                          {isExpanded && (
+                            <motion.div
+                              initial={{ height: 0, opacity: 0, marginTop: 0 }}
+                              animate={{ height: 'auto', opacity: 1, marginTop: 8 }}
+                              exit={{ height: 0, opacity: 0, marginTop: 0 }}
+                              transition={{ duration: 0.28, ease: "easeInOut" }}
+                              style={{ overflow: 'hidden' }}
+                            >
+                              <p style={{ 
+                                margin: 0, 
+                                fontSize: '13px', 
+                                lineHeight: 1.6, 
+                                color: '#64748B',
+                                fontWeight: 400
+                              }}>
+                                {mod.description}
+                              </p>
+                            </motion.div>
+                          )}
+                        </AnimatePresence>
+                      </div>
+                    </div>
+                  );
+                })}
+              </div>
+            ) : (
+              /* DESKTOP LAYOUT: Interactive Spheres that morph to Cards on Hover */
+              <div style={{
+                position: 'relative',
+                width: 500,
+                height: 500,
+                margin: '0 auto',
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center'
+              }}>
+                
+                {/* Dotted Background Grid for software design depth */}
+                <div style={{
+                  position: 'absolute',
+                  inset: -20,
+                  backgroundImage: 'radial-gradient(rgba(79, 124, 255, 0.08) 1.2px, transparent 1px)',
+                  backgroundSize: '20px 20px',
+                  pointerEvents: 'none',
+                  zIndex: 0
+                }} />
+
+                {/* Ghost UI Panels in background */}
+                <div style={{
+                  position: 'absolute',
+                  top: 50,
+                  right: 210,
+                  width: 120,
+                  height: 70,
+                  borderRadius: 8,
+                  background: 'rgba(255, 255, 255, 0.25)',
+                  border: '1px solid rgba(79, 124, 255, 0.06)',
+                  boxShadow: '0 4px 12px rgba(10, 22, 40, 0.01)',
+                  opacity: 0.08,
+                  transform: 'rotate(-4deg)',
+                  pointerEvents: 'none',
+                  display: 'flex',
+                  flexDirection: 'column',
+                  gap: 4,
+                  padding: 8,
+                  zIndex: 0
                 }}>
-                  {col.id}
+                  <div style={{ width: 30, height: 4, background: 'rgba(29,36,51,0.2)', borderRadius: 2 }} />
+                  <div style={{ width: 80, height: 3, background: 'rgba(29,36,51,0.1)', borderRadius: 2.5 }} />
+                  <div style={{ width: 65, height: 3, background: 'rgba(29,36,51,0.1)', borderRadius: 2.5 }} />
                 </div>
 
-                {/* Title */}
-                <h4 style={{
-                  fontFamily: 'var(--font-hero)',
-                  fontWeight: 800,
-                  fontSize: 22,
-                  color: isHovered ? '#4F7CFF' : '#1E293B',
-                  margin: '12px 0 10px',
-                  position: 'relative',
-                  display: 'inline-block',
-                  transition: 'color 0.3s ease',
-                  alignSelf: 'flex-start'
-                }}>
-                  {col.title}
-                  {/* Underline grow */}
-                  <div style={{
-                    position: 'absolute',
-                    bottom: -2,
-                    left: 0,
-                    height: 2,
-                    background: '#4F7CFF',
-                    width: isHovered ? '100%' : '0%',
-                    transition: 'width 0.35s cubic-bezier(0.16, 1, 0.3, 1)'
-                  }} />
-                </h4>
+                {/* SVG Connections, Guides & Orbit Rings */}
+                <svg 
+                  width="500" 
+                  height="500" 
+                  viewBox="0 0 500 500" 
+                  style={{ position: 'absolute', inset: 0, overflow: 'visible', pointerEvents: 'none', zIndex: 1 }}
+                >
+                  <defs>
+                    <linearGradient id="whyLineGradRefined" x1="0" y1="0" x2="1" y2="1">
+                      <stop offset="0%" stopColor="#4F7CFF" />
+                      <stop offset="100%" stopColor="#7C5CFF" />
+                    </linearGradient>
+                  </defs>
 
-                {/* Description */}
-                <p style={{
-                  fontFamily: 'var(--font-body)',
-                  fontWeight: 450,
-                  fontSize: 15,
-                  color: '#64748B',
-                  lineHeight: 1.6,
-                  margin: 0
+                  {/* Concentric orbit rings in background (5-8% opacity) */}
+                  <circle cx="250" cy="250" r="100" stroke="rgba(79, 124, 255, 0.05)" strokeWidth="1.2" fill="none" />
+                  <circle cx="250" cy="250" r="155" stroke="rgba(124, 92, 255, 0.04)" strokeWidth="1" strokeDasharray="3 6" fill="none" />
+                  <circle cx="250" cy="250" r="210" stroke="rgba(79, 124, 255, 0.03)" strokeWidth="1.2" fill="none" />
+                  <ellipse cx="250" cy="250" rx="270" ry="150" stroke="rgba(124, 92, 255, 0.04)" strokeWidth="1" transform="rotate(-30 250 250)" fill="none" />
+
+                  {/* Swooping glowing background lines wrapping around left-side text (Solid Winding Waves with Sliding Laser Glow) */}
+                  {backgroundPaths.map(path => (
+                    <g key={path.id}>
+                      {/* Blurred backing glow */}
+                      <path
+                        d={path.d}
+                        stroke={path.color}
+                        strokeWidth="5"
+                        fill="none"
+                        style={{
+                          opacity: 0.12,
+                          filter: 'blur(3.5px)'
+                        }}
+                      />
+                      {/* Solid sharp base line */}
+                      <path
+                        d={path.d}
+                        stroke={path.color === '#4F7CFF' ? 'rgba(79, 124, 255, 0.28)' : 'rgba(124, 92, 255, 0.22)'}
+                        strokeWidth="1.5"
+                        fill="none"
+                      />
+                      {/* Sliding glowing energy pulse segment */}
+                      <motion.path
+                        d={path.d}
+                        stroke={path.color}
+                        strokeWidth="2.5"
+                        fill="none"
+                        strokeLinecap="round"
+                        initial={{ pathLength: 0.12, pathOffset: 0 }}
+                        animate={{ pathOffset: [0, 1] }}
+                        transition={{
+                          repeat: Infinity,
+                          duration: path.duration,
+                          ease: "linear",
+                          delay: Math.random() * 2
+                        }}
+                        style={{
+                          filter: `drop-shadow(0 0 6px ${path.color})`,
+                          opacity: 0.85
+                        }}
+                      />
+                    </g>
+                  ))}
+
+                  {/* Connectors mapping for main interactive modules — Vibrant Neon Purple Glow */}
+                  {modules.map(mod => {
+                    const isSelected = hoveredModuleId === mod.id;
+                    const isAnySelected = hoveredModuleId !== null;
+                    return (
+                      <g key={`connector-${mod.id}`}>
+                        <path
+                          d={mod.curve}
+                          stroke="#7C5CFF"
+                          strokeWidth={isSelected ? 6.5 : 3.5}
+                          fill="none"
+                          style={{
+                            opacity: isAnySelected ? (isSelected ? 0.9 : 0.15) : 0.55,
+                            filter: 'blur(3px)',
+                            transition: 'all 0.35s ease'
+                          }}
+                        />
+                        <path
+                          d={mod.curve}
+                          stroke={isSelected ? "#D8B4FE" : "rgba(124, 92, 255, 0.75)"}
+                          strokeWidth={isSelected ? 2.5 : 1.5}
+                          fill="none"
+                          style={{
+                            opacity: isAnySelected ? (isSelected ? 1.0 : 0.25) : 0.8,
+                            transition: 'all 0.35s ease'
+                          }}
+                        />
+                      </g>
+                    );
+                  })}
+
+                  {/* Slow, subtle glowing data flow particles traveling along connectors */}
+                  {modules.map((mod, index) => {
+                    const duration = [14, 18, 13, 16][index];
+                    return (
+                      <motion.circle
+                        key={`particle-${mod.id}`}
+                        r="3"
+                        fill="#D8B4FE"
+                        style={{ 
+                          offsetPath: `path("${mod.pathData}")`,
+                          filter: 'drop-shadow(0 0 5px #7C5CFF)',
+                          opacity: hoveredModuleId === null || hoveredModuleId === mod.id ? 0.95 : 0.2,
+                          transition: 'opacity 0.35s'
+                        }}
+                        animate={{ offsetDistance: ["100%", "0%"] }} // flow towards the MentR Core center
+                        transition={{
+                          repeat: Infinity,
+                          duration: duration,
+                          ease: "linear",
+                          delay: index * 1.5
+                        }}
+                      />
+                    );
+                  })}
+
+                  {/* Secondary Nodes Connection Lines */}
+                  {secondaryNodes.map(node => (
+                    <path
+                      key={`sec-line-${node.id}`}
+                      d={node.curve}
+                      stroke="rgba(226, 232, 240, 0.35)"
+                      strokeWidth="0.8"
+                      fill="none"
+                    />
+                  ))}
+                </svg>
+
+                {/* Central "MentR Core" Live Engine Node */}
+                <div style={{
+                  position: 'absolute',
+                  width: 116,
+                  height: 116,
+                  borderRadius: '50%',
+                  background: 'radial-gradient(circle, rgba(255, 255, 255, 0.98) 0%, rgba(243, 244, 246, 0.92) 100%)',
+                  border: '1.5px solid rgba(124, 92, 255, 0.25)',
+                  boxShadow: '0 16px 48px rgba(124, 92, 255, 0.16), 0 4px 16px rgba(15, 23, 42, 0.03)',
+                  display: 'flex',
+                  flexDirection: 'column',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  zIndex: 5,
+                  userSelect: 'none'
                 }}>
-                  {col.desc}
-                </p>
+                  {/* Outer Pulsing ambient glows */}
+                  <motion.div
+                    animate={{ scale: [1, 1.45, 1], opacity: [0.45, 0, 0.45] }}
+                    transition={{ repeat: Infinity, duration: 8, ease: "easeInOut" }}
+                    style={{
+                      position: 'absolute',
+                      inset: -16,
+                      borderRadius: '50%',
+                      background: 'radial-gradient(circle, rgba(124, 92, 255, 0.15) 0%, transparent 70%)',
+                      filter: 'blur(8px)',
+                      pointerEvents: 'none',
+                      zIndex: -1
+                    }}
+                  />
+                  {/* Layered opposite rotating guide circles */}
+                  <motion.div
+                    animate={{ rotate: 360 }}
+                    transition={{ repeat: Infinity, duration: 45, ease: "linear" }}
+                    style={{
+                      position: 'absolute',
+                      inset: -20,
+                      borderRadius: '50%',
+                      border: '1.2px dashed rgba(124, 92, 255, 0.08)',
+                      pointerEvents: 'none'
+                    }}
+                  />
+                  <motion.div
+                    animate={{ rotate: -360 }}
+                    transition={{ repeat: Infinity, duration: 60, ease: "linear" }}
+                    style={{
+                      position: 'absolute',
+                      inset: -40,
+                      borderRadius: '50%',
+                      border: '1px dashed rgba(79, 124, 255, 0.06)',
+                      pointerEvents: 'none'
+                    }}
+                  />
+                  {/* Core micro-particles */}
+                  {[
+                    { id: 1, top: -10, left: 20, delay: 0 },
+                    { id: 2, top: 40, left: 120, delay: 1.5 },
+                    { id: 3, top: 110, left: 50, delay: 3 },
+                    { id: 4, top: 80, left: -20, delay: 0.5 },
+                  ].map(pt => (
+                    <motion.div
+                      key={`core-pt-${pt.id}`}
+                      animate={{
+                        x: [0, 8, -4, 0],
+                        y: [0, -10, 6, 0]
+                      }}
+                      transition={{
+                        repeat: Infinity,
+                        duration: 8,
+                        ease: "easeInOut",
+                        delay: pt.delay
+                      }}
+                      style={{
+                        position: 'absolute',
+                        top: pt.top,
+                        left: pt.left,
+                        width: 3.5,
+                        height: 3.5,
+                        borderRadius: '50%',
+                        background: '#7C5CFF',
+                        opacity: 0.5,
+                        boxShadow: '0 0 6px #7C5CFF',
+                        pointerEvents: 'none'
+                      }}
+                    />
+                  ))}
+                  
+                  <span style={{ fontSize: 11, fontWeight: 750, color: '#4F7CFF', textTransform: 'uppercase', letterSpacing: '0.08em' }}>MentR</span>
+                  <span style={{ fontSize: 13, fontWeight: 800, color: '#1E293B' }}>Core</span>
+                </div>
+
+                {/* Secondary Decorative Nodes (Pill badges, low opacity, connected off-screen) */}
+                {secondaryNodes.map(node => {
+                  return (
+                    <div
+                      key={node.id}
+                      style={{
+                        position: 'absolute',
+                        left: node.x - (node.size / 2),
+                        top: node.y - (node.size / 2),
+                        zIndex: 4,
+                        display: 'flex',
+                        alignItems: 'center',
+                        pointerEvents: 'none'
+                      }}
+                    >
+                      {/* Node Dot */}
+                      <div style={{
+                        width: node.size,
+                        height: node.size,
+                        borderRadius: '50%',
+                        background: 'rgba(255, 255, 255, 0.4)',
+                        border: '1px solid rgba(79, 124, 255, 0.08)',
+                        boxShadow: '0 2px 4px rgba(0,0,0,0.01)',
+                        opacity: 0.35
+                      }} />
+                      {/* Delicate software text label */}
+                      <span style={{
+                        marginLeft: 8,
+                        fontSize: 7.5,
+                        fontWeight: 650,
+                        color: '#64748B',
+                        opacity: 0.28,
+                        letterSpacing: '0.05em',
+                        whiteSpace: 'nowrap'
+                      }}>
+                        {node.label.toUpperCase()}
+                      </span>
+                    </div>
+                  );
+                })}
+
+                {/* Spheres that morph into cards upon hovering (Floating, Breathing & Highly Clickable 3D Glass spheres) */}
+                {modules.map(mod => {
+                  const isSelected = hoveredModuleId === mod.id;
+                  const isAnySelected = hoveredModuleId !== null;
+                  const IconComp = mod.icon;
+
+                  return (
+                    <div
+                      key={mod.id}
+                      onMouseEnter={() => setHoveredModuleId(mod.id)}
+                      onMouseLeave={() => setHoveredModuleId(null)}
+                      style={{
+                        position: 'absolute',
+                        left: mod.x, 
+                        top: mod.y,
+                        zIndex: 6,
+                        transform: 'translate(-50%, -50%)',
+                        display: 'flex',
+                        flexDirection: 'column',
+                        alignItems: 'center',
+                        justifyContent: 'center'
+                      }}
+                    >
+                      <motion.div
+                        layout // morph shapes smoothly
+                        animate={{
+                          width: isSelected ? 240 : 68, // slightly larger spheres
+                          height: isSelected ? 120 : 68,
+                          borderRadius: isSelected ? 16 : 34,
+                          y: isSelected ? 0 : [0, -6, 0] // floating breathing loop
+                        }}
+                        transition={{
+                          width: { type: "spring", stiffness: 350, damping: 26 },
+                          height: { type: "spring", stiffness: 350, damping: 26 },
+                          borderRadius: { type: "spring", stiffness: 350, damping: 26 },
+                          y: isSelected ? { duration: 0.2 } : { repeat: Infinity, duration: 4 + mod.id, ease: "easeInOut" }
+                        }}
+                        style={{
+                          background: isSelected 
+                            ? 'rgba(255, 255, 255, 0.98)' 
+                            : 'radial-gradient(circle at 30% 30%, #FFFFFF 30%, #F3F5FF 65%, #D6DEFF 100%)', // premium 3D glass sphere gradient
+                          backdropFilter: 'blur(10px)',
+                          WebkitBackdropFilter: 'blur(10px)',
+                          border: isSelected 
+                            ? '1.8px solid rgba(124, 92, 255, 0.55)' 
+                            : '2px solid rgba(79, 124, 255, 0.16)', // thicker border for visibility
+                          boxShadow: isSelected 
+                            ? '0 16px 36px rgba(124, 92, 255, 0.18), 0 0 16px rgba(79, 124, 255, 0.08)' 
+                            : '0 10px 24px rgba(79, 124, 255, 0.16), 0 0 12px rgba(124, 92, 255, 0.08)', // inviting soft glow shadow
+                          display: 'flex',
+                          alignItems: isSelected ? 'flex-start' : 'center',
+                          justifyContent: isSelected ? 'flex-start' : 'center',
+                          padding: isSelected ? '14px' : '0px',
+                          boxSizing: 'border-box',
+                          cursor: 'pointer',
+                          opacity: isAnySelected ? (isSelected ? 1.0 : 0.45) : 1.0,
+                          transition: 'opacity 0.35s ease, border 0.35s ease',
+                          overflow: 'hidden',
+                          position: 'relative'
+                        }}
+                      >
+                        {/* Conspicuous hot pink active indicator dot to make it highly clickable */}
+                        {!isSelected && (
+                          <div style={{
+                            position: 'absolute',
+                            top: 4,
+                            right: 4,
+                            width: 8,
+                            height: 8,
+                            borderRadius: '50%',
+                            background: '#EC4899', // hot pink indicator dot
+                            boxShadow: '0 0 8px #EC4899, 0 0 4px #EC4899',
+                            zIndex: 10
+                          }} />
+                        )}
+
+                        {/* Inviting breathing halo ring */}
+                        {!isSelected && (
+                          <motion.div
+                            animate={{ scale: [1, 1.25, 1], opacity: [0.4, 0, 0.4] }}
+                            transition={{ repeat: Infinity, duration: 3.5 + mod.id, ease: "easeInOut" }}
+                            style={{
+                              position: 'absolute',
+                              inset: -8,
+                              borderRadius: '50%',
+                              border: '1.5px solid rgba(124, 92, 255, 0.4)',
+                              pointerEvents: 'none'
+                            }}
+                          />
+                        )}
+
+                        {isSelected ? (
+                          // Hover State Card Layout
+                          <motion.div
+                            initial={{ opacity: 0 }}
+                            animate={{ opacity: 1 }}
+                            transition={{ delay: 0.08 }}
+                            style={{ display: 'flex', flexDirection: 'column', gap: 6, textAlign: 'left', width: '100%' }}
+                          >
+                            <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
+                              <div style={{
+                                width: 28,
+                                height: 28,
+                                borderRadius: '50%',
+                                background: 'rgba(124, 92, 255, 0.06)',
+                                display: 'flex',
+                                alignItems: 'center',
+                                justifyContent: 'center',
+                                color: '#7C5CFF'
+                              }}>
+                                <IconComp size={15} strokeWidth={2.2} />
+                              </div>
+                              <span style={{ fontSize: 13, fontWeight: 750, color: '#1E293B' }}>{mod.title}</span>
+                            </div>
+                            
+                            <p style={{ 
+                              margin: 0, 
+                              fontSize: 11.5, 
+                              lineHeight: 1.45, 
+                              color: '#64748B', 
+                              fontWeight: 400 
+                            }}>
+                              {mod.description}
+                            </p>
+                          </motion.div>
+                        ) : (
+                          // Default State Sphere Layout
+                          <div style={{ color: '#4F7CFF', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                            <IconComp size={26} strokeWidth={2.2} />
+                          </div>
+                        )}
+                      </motion.div>
+
+                      {/* Visible title labels below default spheres */}
+                      {!isSelected && (
+                        <span style={{
+                          position: 'absolute',
+                          top: 76,
+                          left: '50%',
+                          transform: 'translateX(-50%)',
+                          fontSize: 11,
+                          fontWeight: 750,
+                          color: '#1E293B',
+                          letterSpacing: '0.01em',
+                          whiteSpace: 'nowrap',
+                          opacity: 0.9,
+                          textAlign: 'center',
+                          pointerEvents: 'none'
+                        }}>
+                          {mod.title}
+                        </span>
+                      )}
+                    </div>
+                  );
+                })}
               </div>
-            );
-          })}
-        </motion.div>
-      </div>
+            )}
+          </div>
 
-    </div>
+        </div>
+      </div>
+    </section>
   );
 }

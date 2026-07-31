@@ -11,10 +11,12 @@ import GalleryPreview from '../components/home/GalleryPreview';
 import BlogsPreview from '../components/home/BlogsPreview';
 import FormsSection from '../components/home/FormsSection';
 import ContactSection from '../components/home/ContactSection';
+import GlobalThread from '../components/home/GlobalThread';
 
 export default function HomePage() {
   return (
-    <>
+    <div style={{ position: 'relative', width: '100%', overflow: 'hidden' }}>
+      <GlobalThread />
       <HeroSection />
       <VisionSection />
       <PainPointsSection />
@@ -28,6 +30,6 @@ export default function HomePage() {
       <BlogsPreview />
       <FormsSection />
       <ContactSection />
-    </>
+    </div>
   );
 }
