@@ -31,6 +31,14 @@
       "dest": "client/tab_icon.png"
     },
     {
+      "src": "/favicon.ico",
+      "dest": "client/tab_icon.png"
+    },
+    {
+      "src": "/favicon.svg",
+      "dest": "client/favicon.svg"
+    },
+    {
       "src": "/ChatGPT_Logo.png",
       "dest": "client/ChatGPT_Logo.png"
     },
