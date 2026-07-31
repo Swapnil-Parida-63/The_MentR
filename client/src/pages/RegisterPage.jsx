@@ -32,7 +32,7 @@ export default function RegisterPage() {
       >
         <div style={{ padding: 48, cursor: 'default' }}>
           <Link to="/" style={{ display: 'flex', alignItems: 'center', textDecoration: 'none', marginBottom: 32 }}>
-            <img src="/logo.png" alt="TheMentR Logo" style={{ height: 42, objectFit: 'contain' }} />
+            <img src={`${import.meta.env.BASE_URL}logo.png`} alt="TheMentR Logo" style={{ height: 42, objectFit: 'contain' }} />
           </Link>
           <h1 style={{ fontFamily: 'var(--font-display)', fontSize: 28, marginBottom: 8 }}>Create your account</h1>
           <p style={{ fontSize: 15, color: 'var(--color-text-secondary)', marginBottom: 32 }}>Join the TheMentR ecosystem</p>

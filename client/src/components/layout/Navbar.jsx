@@ -69,7 +69,7 @@ export default function Navbar() {
           justifyContent: 'space-between', padding: '0 16px', zIndex: 99999,
           boxShadow: '0 8px 32px rgba(15, 23, 42, 0.05)'
         }}>
-          <img src="/mentR_Logo.png" alt="TheMentR Logo" style={{ height: 28, objectFit: 'contain', cursor: 'pointer', marginRight: 8, borderRadius: 2 }} onClick={() => navigateAndScroll('/', null)} />
+          <img src={`${import.meta.env.BASE_URL}mentR_Logo.png`} alt="TheMentR Logo" style={{ height: 28, objectFit: 'contain', cursor: 'pointer', marginRight: 8, borderRadius: 2 }} onClick={() => navigateAndScroll('/', null)} />
           
           <div style={{ display: 'flex', alignItems: 'center', gap: 6 }}>
             <button
@@ -300,7 +300,7 @@ export default function Navbar() {
       {/* Left: Logo Container with Overflow and Entrance Animation */}
       <div style={{ width: 175, height: '100%', display: 'flex', alignItems: 'center', position: 'relative' }}>
         <img 
-          src="/mentR_Logo.png" 
+          src={`${import.meta.env.BASE_URL}mentR_Logo.png`} 
           alt="TheMentR Logo" 
           className="logo-nav-emblem"
           style={{ 

@@ -290,7 +290,7 @@ function HeroEcosystemImage() {
       overflow: 'visible'
     }}>
       <img
-        src="/Gemini_Generated_Image_lmg5iglmg5iglmg5.png"
+        src={`${import.meta.env.BASE_URL}Gemini_Generated_Image_lmg5iglmg5iglmg5.png`}
         alt="MentR Educational Ecosystem"
         style={{
           width: '100%',

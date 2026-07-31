@@ -76,7 +76,7 @@ export default function VisionSection() {
                 delay={0}
               />
               <EditorialImage
-                src="/ChatGPT Image Jul 30, 2026, 11_28_11 PM.png"
+                src={`${import.meta.env.BASE_URL}ChatGPT Image Jul 30, 2026, 11_28_11 PM.png`}
                 alt="A luminous architectural portal representing boundless opportunity in education"
                 inView={visionInView}
                 delay={200}
@@ -103,7 +103,7 @@ export default function VisionSection() {
                 delay={0}
               />
               <EditorialImage
-                src="/ChatGPT Image Jul 30, 2026, 11_28_11 PM.png"
+                src={`${import.meta.env.BASE_URL}ChatGPT Image Jul 30, 2026, 11_28_11 PM.png`}
                 alt="A luminous architectural portal representing boundless opportunity in education"
                 inView={visionInView}
                 delay={200}
@@ -157,7 +157,7 @@ export default function VisionSection() {
                 delay={0}
               />
               <EditorialImage
-                src="/ChatGPT Image Jul 30, 2026, 11_34_55 PM.png"
+                src={`${import.meta.env.BASE_URL}ChatGPT Image Jul 30, 2026, 11_34_55 PM.png`}
                 alt="An elegant winding pathway representing purposeful guidance in education"
                 inView={missionInView}
                 delay={200}
@@ -175,7 +175,7 @@ export default function VisionSection() {
               minHeight: 520,
             }}>
               <EditorialImage
-                src="/ChatGPT Image Jul 30, 2026, 11_34_55 PM.png"
+                src={`${import.meta.env.BASE_URL}ChatGPT Image Jul 30, 2026, 11_34_55 PM.png`}
                 alt="An elegant winding pathway representing purposeful guidance in education"
                 inView={missionInView}
                 delay={0}

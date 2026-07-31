@@ -277,7 +277,7 @@ export default function PainPointsSection() {
               }}
             >
               <img 
-                src="/ChatGPT Image Jul 31, 2026, 01_55_40 AM.png"
+                src={`${import.meta.env.BASE_URL}ChatGPT Image Jul 31, 2026, 01_55_40 AM.png`}
                 alt="Families searching and lost in educational choices"
                 style={{
                   width: '100%',
@@ -322,7 +322,7 @@ export default function PainPointsSection() {
               }}
             >
               <img 
-                src="/ChatGPT Image Jul 31, 2026, 01_57_32 AM.png"
+                src={`${import.meta.env.BASE_URL}ChatGPT Image Jul 31, 2026, 01_57_32 AM.png`}
                 alt="Brilliant educators waiting to be discovered"
                 style={{
                   width: '100%',

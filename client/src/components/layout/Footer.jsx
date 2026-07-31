@@ -68,7 +68,7 @@ export default function Footer() {
           {/* Brand */}
           <div>
             <Link to="/" onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })} style={{ display: 'flex', alignItems: 'center', textDecoration: 'none', marginBottom: 0 }}>
-              <img src="/mentR_Logo.png" alt="TheMentR Logo" style={{ height: 40, objectFit: 'contain', borderRadius: '3px' }} />
+              <img src={`${import.meta.env.BASE_URL}mentR_Logo.png`} alt="TheMentR Logo" style={{ height: 40, objectFit: 'contain', borderRadius: '3px' }} />
             </Link>
             <p style={{ fontSize: 15, color: 'rgba(255,255,255,0.55)', lineHeight: 1.8, margin: '16px 0 24px', maxWidth: 280 }}>
               Building the educational infrastructure India deserves — one verified teacher, one matched student, one family at a time.

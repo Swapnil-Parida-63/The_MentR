@@ -37,7 +37,7 @@ export default function ChatLauncher({ isOpen, onClick, unreadCount = 0 }) {
       ) : (
         <div style={{ width: '100%', height: '100%', borderRadius: '50%', overflow: 'hidden', position: 'relative', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
           <img 
-            src="/ChatGPT_Logo.png" 
+            src={`${import.meta.env.BASE_URL}ChatGPT_Logo.png`} 
             alt="Mentee AI" 
             style={{ width: '100%', height: '100%', objectFit: 'cover', display: 'block' }} 
             onError={(e) => {

@@ -40,7 +40,7 @@ export default function ChatHeader({ onClose, onReset }) {
           }}
         >
           <img 
-            src="/ChatGPT_Logo.png" 
+            src={`${import.meta.env.BASE_URL}ChatGPT_Logo.png`} 
             alt="Mentee Logo" 
             style={{ width: '100%', height: '100%', objectFit: 'cover', display: 'block' }} 
             onError={(e) => {
