@@ -209,7 +209,7 @@ export default function ServicesSection() {
     <section 
       id="services" 
       style={{ 
-        background: '#FAFAFC', 
+        background: 'transparent', 
         padding: isMobile ? '60px 0' : '110px 0',
         position: 'relative',
         overflow: 'hidden'

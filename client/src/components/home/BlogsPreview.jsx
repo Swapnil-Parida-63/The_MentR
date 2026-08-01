@@ -13,7 +13,7 @@ export default function BlogsPreview() {
   }, []);
 
   return (
-    <section id="blogs" className="section journal-section-wrapper" style={{ background: '#fafafc', position: 'relative', overflow: 'hidden' }}>
+    <section id="blogs" className="section journal-section-wrapper" style={{ background: 'transparent', position: 'relative', overflow: 'hidden' }}>
       <div className="container" style={{ position: 'relative', zIndex: 1 }}>
         
         {/* Header Block */}

@@ -82,7 +82,7 @@ export default function ContactSection({ background = 'white' }) {
     return () => window.removeEventListener('resize', handleResize);
   }, []);
   
-  const finalBg = background === 'white' ? '#fafafc' : background;
+  const finalBg = background === 'white' ? 'transparent' : background;
 
   const toggleFaq = (key) => {
     setOpenFaq(openFaq === key ? null : key);

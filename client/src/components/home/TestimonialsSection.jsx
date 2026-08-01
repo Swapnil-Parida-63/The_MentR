@@ -190,7 +190,7 @@ export default function TestimonialsSection() {
   };
 
   return (
-    <section id="testimonials" className="section" style={{ background: '#fafafc', padding: '140px 0', position: 'relative', overflow: 'hidden' }}>
+    <section id="testimonials" className="section" style={{ background: 'transparent', padding: '140px 0', position: 'relative', overflow: 'hidden' }}>
       
       {/* Background layer */}
       <div style={{

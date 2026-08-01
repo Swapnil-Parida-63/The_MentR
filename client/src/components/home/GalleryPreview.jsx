@@ -85,7 +85,7 @@ const galleryItems = [
 import { useState, useEffect } from 'react';
 
 export default function GalleryPreview({ background = 'var(--color-neutral)' }) {
-  const finalBg = background === 'var(--color-neutral)' ? '#fafafc' : background;
+  const finalBg = background === 'var(--color-neutral)' ? 'transparent' : background;
   const [isMobile, setIsMobile] = useState(window.innerWidth < 1024);
 
   useEffect(() => {

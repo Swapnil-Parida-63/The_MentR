@@ -194,7 +194,7 @@ export default function PainPointsSection() {
                   return (
                     <div 
                       key={point.id}
-                      style={{ position: 'relative' }}
+                      style={{ position: 'relative', display: 'inline-block', width: 64, height: 64 }}
                       onMouseEnter={() => setActiveParentId(point.id)}
                       onMouseLeave={() => setActiveParentId(null)}
                     >
@@ -229,15 +229,14 @@ export default function PainPointsSection() {
                       <AnimatePresence>
                         {activeParentId === point.id && (
                           <motion.div
-                            initial={{ opacity: 0, y: 8, scale: 0.96 }}
-                            animate={{ opacity: 1, y: 0, scale: 1 }}
-                            exit={{ opacity: 0, y: 8, scale: 0.96 }}
+                            initial={{ opacity: 0, y: 8, x: '-50%', scale: 0.96 }}
+                            animate={{ opacity: 1, y: 0, x: '-50%', scale: 1 }}
+                            exit={{ opacity: 0, y: 8, x: '-50%', scale: 0.96 }}
                             transition={{ duration: 0.18, ease: "easeOut" }}
                             style={{
                               position: 'absolute',
                               bottom: 'calc(100% + 14px)',
                               left: '50%',
-                              transform: 'translateX(-50%)',
                               width: 260,
                               padding: '16px',
                               background: 'rgba(255, 255, 255, 0.98)',
@@ -439,7 +438,7 @@ export default function PainPointsSection() {
                   return (
                     <div 
                       key={point.id}
-                      style={{ position: 'relative' }}
+                      style={{ position: 'relative', display: 'inline-block', width: 64, height: 64 }}
                       onMouseEnter={() => setActiveTeacherId(point.id)}
                       onMouseLeave={() => setActiveTeacherId(null)}
                     >
@@ -474,15 +473,14 @@ export default function PainPointsSection() {
                       <AnimatePresence>
                         {activeTeacherId === point.id && (
                           <motion.div
-                            initial={{ opacity: 0, y: 8, scale: 0.96 }}
-                            animate={{ opacity: 1, y: 0, scale: 1 }}
-                            exit={{ opacity: 0, y: 8, scale: 0.96 }}
+                            initial={{ opacity: 0, y: 8, x: '-50%', scale: 0.96 }}
+                            animate={{ opacity: 1, y: 0, x: '-50%', scale: 1 }}
+                            exit={{ opacity: 0, y: 8, x: '-50%', scale: 0.96 }}
                             transition={{ duration: 0.18, ease: "easeOut" }}
                             style={{
                               position: 'absolute',
                               bottom: 'calc(100% + 14px)',
                               left: '50%',
-                              transform: 'translateX(-50%)',
                               width: 260,
                               padding: '16px',
                               background: 'rgba(255, 255, 255, 0.98)',

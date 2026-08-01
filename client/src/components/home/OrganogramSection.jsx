@@ -55,7 +55,7 @@ export default function OrganogramSection() {
   const activeDept = hoveredIndex !== null ? depts[hoveredIndex] : null;
 
   return (
-    <section id="organogram" className="section" style={{ background: '#fafafc', padding: '120px 0', position: 'relative', overflow: 'hidden' }}>
+    <section id="organogram" className="section" style={{ background: 'transparent', padding: '120px 0', position: 'relative', overflow: 'hidden' }}>
       {/* Background ambient radial glow */}
       <div style={{
         position: 'absolute',

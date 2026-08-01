@@ -55,7 +55,7 @@ const HeroIllustration = () => (
     <circle cx="200" cy="170" r="100" fill="rgba(99, 102, 241, 0.04)" filter="blur(40px)" />
     
     {/* Central Mentor Representation */}
-    <g className="illust-mentor" style={{ transformOrigin: '200px 170px' }}>
+    <g className="hover-mentor" style={{ transformOrigin: '200px 170px' }}>
       <rect x="130" y="100" width="140" height="140" rx="24" fill="#FFFFFF" stroke="rgba(99, 102, 241, 0.15)" strokeWidth="1.5" style={{ filter: 'drop-shadow(0 15px 30px rgba(99, 102, 241, 0.04))' }} />
       {/* Avatar Outline */}
       <circle cx="200" cy="150" r="28" stroke="#6366F1" strokeWidth="1.8" fill="#FFFFFF" />
@@ -67,31 +67,39 @@ const HeroIllustration = () => (
 
     {/* Floating Verification Badge (Top Left) */}
     <g className="illust-float-badge" style={{ transformOrigin: '80px 90px' }}>
-      <circle cx="80" cy="90" r="26" fill="#FFFFFF" stroke="rgba(16, 185, 129, 0.15)" strokeWidth="1.2" style={{ filter: 'drop-shadow(0 10px 20px rgba(16, 185, 129, 0.03))' }} />
-      <path d="M 74 90 L 78 94 L 86 86" stroke="#10B981" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round" />
+      <g className="hover-badge" style={{ transformOrigin: '80px 90px' }}>
+        <circle cx="80" cy="90" r="26" fill="#FFFFFF" stroke="rgba(16, 185, 129, 0.15)" strokeWidth="1.2" style={{ filter: 'drop-shadow(0 10px 20px rgba(16, 185, 129, 0.03))' }} />
+        <path d="M 74 90 L 78 94 L 86 86" stroke="#10B981" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round" />
+      </g>
     </g>
 
     {/* Floating Mini Chart Report (Top Right) */}
     <g className="illust-float-chart" style={{ transformOrigin: '320px 100px' }}>
-      <rect x="290" y="70" width="60" height="60" rx="14" fill="#FFFFFF" stroke="rgba(99, 102, 241, 0.15)" strokeWidth="1.2" style={{ filter: 'drop-shadow(0 10px 20px rgba(99, 102, 241, 0.03))' }} />
-      <line x1="302" y1="110" x2="338" y2="110" stroke="rgba(99, 102, 241, 0.15)" strokeWidth="1.5" strokeLinecap="round" />
-      <rect x="305" y="92" width="6" height="14" rx="2" fill="#6366F1" />
-      <rect x="317" y="82" width="6" height="24" rx="2" fill="rgba(99, 102, 241, 0.4)" />
-      <rect x="329" y="87" width="6" height="19" rx="2" fill="#10B981" />
+      <g className="hover-chart" style={{ transformOrigin: '320px 100px' }}>
+        <rect x="290" y="70" width="60" height="60" rx="14" fill="#FFFFFF" stroke="rgba(99, 102, 241, 0.15)" strokeWidth="1.2" style={{ filter: 'drop-shadow(0 10px 20px rgba(99, 102, 241, 0.03))' }} />
+        <line x1="302" y1="110" x2="338" y2="110" stroke="rgba(99, 102, 241, 0.15)" strokeWidth="1.5" strokeLinecap="round" />
+        <rect x="305" y="92" width="6" height="14" rx="2" fill="#6366F1" />
+        <rect x="317" y="82" width="6" height="24" rx="2" fill="rgba(99, 102, 241, 0.4)" />
+        <rect x="329" y="87" width="6" height="19" rx="2" fill="#10B981" />
+      </g>
     </g>
 
     {/* Floating Learning Icons */}
     <g className="illust-float-book" style={{ transformOrigin: '90px 250px' }}>
-      <circle cx="90" cy="250" r="22" fill="#FFFFFF" stroke="rgba(99, 102, 241, 0.1)" strokeWidth="1" style={{ filter: 'drop-shadow(0 8px 16px rgba(10, 22, 40, 0.02))' }} />
-      <path d="M 82 245 H 98 V 257 H 82 Z" stroke="#64748B" strokeWidth="1.2" fill="none" />
-      <line x1="86" y1="249" x2="94" y2="249" stroke="#64748B" strokeWidth="1.2" />
-      <line x1="86" y1="253" x2="94" y2="253" stroke="#64748B" strokeWidth="1.2" />
+      <g className="hover-book" style={{ transformOrigin: '90px 250px' }}>
+        <circle cx="90" cy="250" r="22" fill="#FFFFFF" stroke="rgba(99, 102, 241, 0.1)" strokeWidth="1" style={{ filter: 'drop-shadow(0 8px 16px rgba(10, 22, 40, 0.02))' }} />
+        <path d="M 82 245 H 98 V 257 H 82 Z" stroke="#64748B" strokeWidth="1.2" fill="none" />
+        <line x1="86" y1="249" x2="94" y2="249" stroke="#64748B" strokeWidth="1.2" />
+        <line x1="86" y1="253" x2="94" y2="253" stroke="#64748B" strokeWidth="1.2" />
+      </g>
     </g>
     
     <g className="illust-float-light" style={{ transformOrigin: '310px 240px' }}>
-      <circle cx="310" cy="240" r="22" fill="#FFFFFF" stroke="rgba(99, 102, 241, 0.1)" strokeWidth="1" style={{ filter: 'drop-shadow(0 8px 16px rgba(10, 22, 40, 0.02))' }} />
-      <circle cx="310" cy="236" r="6" stroke="#6366F1" strokeWidth="1.2" fill="none" />
-      <path d="M 307 242 H 313 L 311 247 H 309 Z" stroke="#6366F1" strokeWidth="1.2" fill="none" />
+      <g className="hover-light" style={{ transformOrigin: '310px 240px' }}>
+        <circle cx="310" cy="240" r="22" fill="#FFFFFF" stroke="rgba(99, 102, 241, 0.1)" strokeWidth="1" style={{ filter: 'drop-shadow(0 8px 16px rgba(10, 22, 40, 0.02))' }} />
+        <circle cx="310" cy="236" r="6" stroke="#6366F1" strokeWidth="1.2" fill="none" />
+        <path d="M 307 242 H 313 L 311 247 H 309 Z" stroke="#6366F1" strokeWidth="1.2" fill="none" />
+      </g>
     </g>
 
     {/* Orbit lines */}
@@ -135,7 +143,7 @@ export default function AvsarSection() {
     <section 
       id="avsar" 
       style={{ 
-        background: '#FAF9FC', 
+        background: 'transparent', 
         padding: isMobile ? '80px 0 100px' : '140px 0 160px', 
         position: 'relative', 
         overflow: 'hidden',
@@ -168,6 +176,51 @@ export default function AvsarSection() {
         .illust-float-chart { animation: float-chart 8s ease-in-out infinite; }
         .illust-float-book { animation: float-book 7s ease-in-out infinite; }
         .illust-float-light { animation: float-light 9s ease-in-out infinite; }
+
+        /* Hero Illustration Hover effects */
+        .hover-mentor {
+          cursor: pointer;
+          transition: transform 0.4s cubic-bezier(0.165, 0.84, 0.44, 1);
+        }
+        .hover-mentor:hover {
+          transform: scale(1.04) translateY(-3px);
+        }
+
+        .hover-badge {
+          cursor: pointer;
+          transition: transform 0.45s cubic-bezier(0.175, 0.885, 0.32, 1.275), filter 0.3s;
+        }
+        .hover-badge:hover {
+          transform: scale(1.22) rotate(10deg);
+          filter: drop-shadow(0 10px 20px rgba(16, 185, 129, 0.3));
+        }
+
+        .hover-chart {
+          cursor: pointer;
+          transition: transform 0.45s cubic-bezier(0.175, 0.885, 0.32, 1.275), filter 0.3s;
+        }
+        .hover-chart:hover {
+          transform: scale(1.22) rotate(-10deg);
+          filter: drop-shadow(0 10px 20px rgba(99, 102, 241, 0.28));
+        }
+
+        .hover-book {
+          cursor: pointer;
+          transition: transform 0.45s cubic-bezier(0.175, 0.885, 0.32, 1.275), filter 0.3s;
+        }
+        .hover-book:hover {
+          transform: scale(1.2) translateY(-4px);
+          filter: drop-shadow(0 10px 20px rgba(100, 116, 139, 0.25));
+        }
+
+        .hover-light {
+          cursor: pointer;
+          transition: transform 0.45s cubic-bezier(0.175, 0.885, 0.32, 1.275), filter 0.3s;
+        }
+        .hover-light:hover {
+          transform: scale(1.25);
+          filter: drop-shadow(0 0 12px rgba(99, 102, 241, 0.65));
+        }
 
         .mobile-snap-carousel {
           display: flex;
@@ -418,10 +471,10 @@ export default function AvsarSection() {
                   <h4 style={{ fontSize: '14px', fontWeight: 800, color: '#1E293B', margin: 0 }}>Selection Rate by Board</h4>
                   <div style={{ display: 'flex', flexDirection: 'column', gap: '10px' }}>
                     {[
-                      { label: 'CBSE', val: 82, color: '#6366F1' },
-                      { label: 'ICSE', val: 71, color: '#7C5CFF' },
-                      { label: 'IB', val: 58, color: '#10B981' },
-                      { label: 'State Boards', val: 64, color: '#64748B' }
+                      { label: 'CBSE', val: 95, color: '#6366F1' },
+                      { label: 'ICSE', val: 83, color: '#7C5CFF' },
+                      { label: 'State Board', val: 96, color: '#64748B' },
+                      { label: 'IGCSE', val: 80, color: '#10B981' }
                     ].map(b => (
                       <div key={b.label} style={{ display: 'flex', flexDirection: 'column', gap: '4px' }}>
                         <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: '11px', fontWeight: 'bold' }}>
@@ -772,10 +825,10 @@ export default function AvsarSection() {
 
               <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: '28px' }}>
                 {[
-                  { label: 'CBSE', val: 82, desc: 'Highly selective CBSE curriculum vetting standards.', color: '#6366F1' },
-                  { label: 'ICSE', val: 71, desc: 'Advanced ICSE curriculum alignment evaluation.', color: '#7C5CFF' },
-                  { label: 'IB', val: 58, desc: 'International Baccalaureate criteria selection.', color: '#10B981' },
-                  { label: 'State Boards', val: 64, desc: 'Regional syllabus evaluation checks.', color: '#64748B' }
+                  { label: 'CBSE', val: 95, desc: 'Highly selective CBSE curriculum vetting standards.', color: '#6366F1' },
+                  { label: 'ICSE', val: 83, desc: 'Advanced ICSE curriculum alignment evaluation.', color: '#7C5CFF' },
+                  { label: 'State Board', val: 96, desc: 'Regional syllabus evaluation checks.', color: '#64748B' },
+                  { label: 'IGCSE', val: 80, desc: 'International General Certificate of Secondary Education alignment.', color: '#10B981' }
                 ].map(b => (
                   <div key={b.label} style={{ display: 'flex', flexDirection: 'column', gap: 10 }}>
                     <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: 13, fontWeight: 800 }}>

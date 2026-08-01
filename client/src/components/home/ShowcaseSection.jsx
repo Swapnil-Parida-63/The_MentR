@@ -8,112 +8,21 @@ import { Clock, CheckCircle, Calendar, MessageSquare, TrendingUp, Award, Laptop,
 
 // PARENT APP SCREENS
 const ParentScreen = ({ index }) => {
-  switch (index) {
-    case 0: // Dashboard
-      return (
-        <div style={{ display: 'flex', flexDirection: 'column', height: '100%', padding: '16px 12px' }}>
-          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 16 }}>
-            <span style={{ fontSize: 10, fontWeight: 700, color: '#94A3B8' }}>DASHBOARD</span>
-            <span style={{ fontSize: 9, padding: '2px 6px', background: '#EEF2FF', color: '#6366F1', borderRadius: 4, fontWeight: 600 }}>Parent Portal</span>
-          </div>
-          <div style={{ background: '#F8FAFC', borderRadius: 12, padding: 12, marginBottom: 12, border: '1px solid rgba(15,23,42,0.04)' }}>
-            <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: 4 }}>
-              <span style={{ fontSize: 11, fontWeight: 700, color: '#1E293B' }}>📅 Today's Session</span>
-              <span style={{ fontSize: 10, color: '#6366F1', fontWeight: 600 }}>4:00 PM</span>
-            </div>
-            <div style={{ fontSize: 12, fontWeight: 600, color: '#0F172A' }}>Mathematics</div>
-            <div style={{ fontSize: 10, color: '#64748B', marginTop: 2 }}>Class 9 CBSE · Priya Ma'am</div>
-          </div>
-          <div style={{ background: '#F8FAFC', borderRadius: 12, padding: 12, border: '1px solid rgba(15,23,42,0.04)', display: 'flex', alignItems: 'center', gap: 12 }}>
-            <div style={{ position: 'relative', width: 44, height: 44, borderRadius: '50%', background: 'conic-gradient(#6366F1 94%, #E2E8F0 0%)', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-              <div style={{ width: 36, height: 36, borderRadius: '50%', background: '#FFFFFF', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 10, fontWeight: 700, color: '#6366F1' }}>94%</div>
-            </div>
-            <div>
-              <div style={{ fontSize: 11, fontWeight: 700, color: '#1E293B' }}>Monthly Attendance</div>
-              <div style={{ fontSize: 9, color: '#10B981', fontWeight: 600, marginTop: 1 }}>12/12 Sessions Present</div>
-            </div>
-          </div>
-        </div>
-      );
-    case 1: // Attendance
-      return (
-        <div style={{ display: 'flex', flexDirection: 'column', height: '100%', padding: '16px 12px' }}>
-          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 12 }}>
-            <span style={{ fontSize: 10, fontWeight: 700, color: '#94A3B8' }}>ATTENDANCE MATRIX</span>
-            <span style={{ fontSize: 10, fontWeight: 700, color: '#10B981' }}>94% Present</span>
-          </div>
-          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(7, 1fr)', gap: 6, marginBottom: 12 }}>
-            {['S','M','T','W','T','F','S'].map((d, i) => <div key={i} style={{ fontSize: 9, color: '#94A3B8', fontWeight: 700, textAlign: 'center' }}>{d}</div>)}
-            {Array.from({ length: 28 }).map((_, i) => {
-              const absent = i === 4 || i === 18;
-              const future = i > 22;
-              return (
-                <div 
-                  key={i} 
-                  style={{ 
-                    aspectRatio: '1', 
-                    borderRadius: 6, 
-                    background: future ? '#F1F5F9' : absent ? '#FEE2E2' : '#DCFCE7', 
-                    color: future ? '#94A3B8' : absent ? '#EF4444' : '#10B981', 
-                    display: 'flex', 
-                    alignItems: 'center', 
-                    justifyContent: 'center', 
-                    fontSize: 9, 
-                    fontWeight: 700 
-                  }}
-                >
-                  {i + 1}
-                </div>
-              );
-            })}
-          </div>
-        </div>
-      );
-    case 2: // Reports
-      return (
-        <div style={{ display: 'flex', flexDirection: 'column', height: '100%', padding: '16px 12px' }}>
-          <span style={{ fontSize: 10, fontWeight: 700, color: '#94A3B8', marginBottom: 12 }}>PROGRESS REPORTS</span>
-          <div style={{ display: 'flex', flexDirection: 'column', gap: 10 }}>
-            {[
-              { subject: 'Algebra', val: 92, label: 'Strong', color: '#6366F1' },
-              { subject: 'Geometry', val: 78, label: 'Improving', color: '#4F7CFF' },
-              { subject: 'Physics', val: 88, label: 'Normal', color: '#7469F8' }
-            ].map(r => (
-              <div key={r.subject}>
-                <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: 10, fontWeight: 700, color: '#1E293B', marginBottom: 4 }}>
-                  <span>{r.subject}</span>
-                  <span style={{ color: r.color }}>{r.val}% ({r.label})</span>
-                </div>
-                <div style={{ height: 6, background: '#E2E8F0', borderRadius: 3, overflow: 'hidden' }}>
-                  <div style={{ height: '100%', width: `${r.val}%`, background: r.color, borderRadius: 3 }} />
-                </div>
-              </div>
-            ))}
-          </div>
-        </div>
-      );
-    default:
-      return (
-        <div style={{ display: 'flex', flexDirection: 'column', height: '100%', padding: '16px 12px' }}>
-          <span style={{ fontSize: 10, fontWeight: 700, color: '#94A3B8', marginBottom: 12 }}>HOMEWORK TRACKER</span>
-          <div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
-            {[
-              { t: 'Trigonometry Worksheet', d: 'Due tomorrow', done: false },
-              { t: 'Physics Lab Report', d: 'Completed 2d ago', done: true },
-              { t: 'English Comprehension', d: 'Completed 4d ago', done: true }
-            ].map(hw => (
-              <div key={hw.t} style={{ display: 'flex', gap: 8, alignItems: 'center', padding: 8, background: '#F8FAFC', borderRadius: 8 }}>
-                <CheckCircle size={14} color={hw.done ? '#10B981' : '#CBD5E1'} fill={hw.done ? '#DCFCE7' : 'transparent'} />
-                <div>
-                  <div style={{ fontSize: 10, fontWeight: 700, color: hw.done ? '#64748B' : '#1E293B', textDecoration: hw.done ? 'line-through' : 'none' }}>{hw.t}</div>
-                  <div style={{ fontSize: 8, color: '#94A3B8', marginTop: 1 }}>{hw.d}</div>
-                </div>
-              </div>
-            ))}
-          </div>
-        </div>
-      );
-  }
+  const images = [
+    `${import.meta.env.BASE_URL}parent_app_real_1.jpg`,
+    `${import.meta.env.BASE_URL}parent_app_real_2.jpg`,
+    `${import.meta.env.BASE_URL}parent_app_real_3.jpg`,
+    `${import.meta.env.BASE_URL}parent_app_real_4.jpg`
+  ];
+  return (
+    <div style={{ width: '100%', height: '100%', overflow: 'hidden', background: '#0F172A', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+      <img 
+        src={images[index]} 
+        alt={`Parent App Screen ${index + 1}`} 
+        style={{ width: '100%', height: '100%', objectFit: 'cover', display: 'block' }} 
+      />
+    </div>
+  );
 };
 
 // TEACHER APP SCREENS
@@ -308,7 +217,7 @@ export default function ShowcaseSection() {
   }, [activeTab]);
 
   return (
-    <section id="showcase" className="section" style={{ background: '#fafafc', position: 'relative', overflow: 'hidden', padding: '140px 0' }}>
+    <section id="showcase" className="section" style={{ background: 'transparent', position: 'relative', overflow: 'hidden', padding: '140px 0' }}>
       
       {/* Background layer: Subtle warm glow */}
       <div style={{
@@ -490,23 +399,40 @@ export default function ShowcaseSection() {
               </div>
             </div>
             
-            {/* Laptop Mockup Column */}
-            <div className="showcase-mockup-col">
-              <div className="laptop-mockup-frame">
-                <div className="laptop-screen-bezel">
-                  <div className="laptop-screen-content">
-                    {/* Dynamic Transition Wrapper */}
-                    <div key={olympiadIndex} className="animate-screen" style={{ height: '100%' }}>
-                      <OlympiadScreen index={olympiadIndex} />
-                    </div>
-                  </div>
-                </div>
-                <div className="laptop-keyboard-base" />
-              </div>
-              <div className="mockup-nav-dots" style={{ marginTop: 24 }}>
-                {[0, 1, 2].map(i => (
-                  <button key={i} onClick={() => setOlympiadIndex(i)} className={`mockup-dot ${olympiadIndex === i ? 'active' : ''}`} />
-                ))}
+            {/* Coming Soon Column */}
+            <div className="showcase-mockup-col" style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', minHeight: 360 }}>
+              <div style={{
+                background: 'rgba(79, 124, 255, 0.03)',
+                border: '1.5px dashed rgba(79, 124, 255, 0.25)',
+                borderRadius: 24,
+                padding: '60px 40px',
+                textAlign: 'center',
+                display: 'flex',
+                flexDirection: 'column',
+                alignItems: 'center',
+                justifyContent: 'center',
+                gap: 16,
+                maxWidth: 440,
+                width: '100%',
+                boxShadow: '0 10px 30px rgba(79, 124, 255, 0.02)',
+                animation: 'deviceFloat 6s ease-in-out infinite'
+              }}>
+                <div style={{
+                  width: 64,
+                  height: 64,
+                  borderRadius: '50%',
+                  background: 'rgba(79, 124, 255, 0.08)',
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  fontSize: 28,
+                  color: '#4F7CFF',
+                  marginBottom: 8
+                }}>🚀</div>
+                <h4 style={{ fontFamily: 'var(--font-hero)', fontSize: 24, fontWeight: 800, color: '#0F172A', margin: 0 }}>Coming Soon</h4>
+                <p style={{ fontFamily: 'var(--font-sans)', fontSize: 14, color: '#64748B', lineHeight: 1.6, margin: 0 }}>
+                  We are finalizing the Olympiad testing platform to deliver national benchmarking, rewards, and deep analytics. Stay tuned!
+                </p>
               </div>
             </div>
 

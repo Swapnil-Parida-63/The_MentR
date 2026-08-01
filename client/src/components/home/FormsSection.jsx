@@ -626,7 +626,7 @@ export default function FormsSection() {
   };
 
   return (
-    <section id="contact-forms" className="section" style={{ background: '#fafafc', padding: isMobile ? '60px 0' : '120px 0' }}>
+    <section id="contact-forms" className="section" style={{ background: 'transparent', padding: isMobile ? '60px 0' : '120px 0' }}>
       <div className="container">
         <FadeUp><div className="eyebrow">Get Started</div></FadeUp>
         <FadeUp delay={0.1} duration={0.8} y={24}>

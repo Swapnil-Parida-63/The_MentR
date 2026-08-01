@@ -369,15 +369,30 @@ export default function VisionSection() {
 /* EDITORIAL TEXT BLOCK COMPONENT                                             */
 /* ========================================================================== */
 function EditorialTextBlock({ eyebrow, eyebrowColor, heading, headingGradient, body, pullQuote, inView, delay = 0 }) {
+  const [isMobile, setIsMobile] = useState(window.innerWidth < 1024);
+  const [isHovered, setIsHovered] = useState(false);
+
+  useEffect(() => {
+    const handleResize = () => setIsMobile(window.innerWidth < 1024);
+    window.addEventListener('resize', handleResize);
+    return () => window.removeEventListener('resize', handleResize);
+  }, []);
+
+  const showContent = isMobile || isHovered;
   const baseTransition = `opacity 0.9s cubic-bezier(0.16,1,0.3,1) ${delay}ms, transform 0.9s cubic-bezier(0.16,1,0.3,1) ${delay}ms`;
 
   return (
-    <div style={{
-      display: 'flex', flexDirection: 'column', justifyContent: 'center',
-      opacity: inView ? 1 : 0,
-      transform: inView ? 'translateY(0)' : 'translateY(32px)',
-      transition: baseTransition,
-    }}>
+    <div 
+      onMouseEnter={() => setIsHovered(true)}
+      onMouseLeave={() => setIsHovered(false)}
+      style={{
+        display: 'flex', flexDirection: 'column', justifyContent: 'center',
+        opacity: inView ? 1 : 0,
+        transform: inView ? 'translateY(0)' : 'translateY(32px)',
+        transition: baseTransition,
+        cursor: isMobile ? 'default' : 'pointer'
+      }}
+    >
       {/* Eyebrow */}
       <span style={{
         fontSize: 11, fontWeight: 700, letterSpacing: '0.16em',
@@ -414,43 +429,45 @@ function EditorialTextBlock({ eyebrow, eyebrowColor, heading, headingGradient, b
         {heading}
       </h2>
 
-      {/* Pull Quote */}
-      <div style={{
-        borderLeft: `3px solid ${eyebrowColor}`,
-        paddingLeft: 18,
-        marginBottom: 24,
-        opacity: inView ? 1 : 0,
-        transform: inView ? 'translateX(0)' : 'translateX(-12px)',
-        transition: `opacity 0.8s ease ${delay + 240}ms, transform 0.8s ease ${delay + 240}ms`,
-      }}>
-        <p style={{
-          fontFamily: 'var(--font-hero)',
-          fontSize: 'clamp(15px, 1.4vw, 18px)',
-          fontWeight: 600,
-          color: '#334155',
-          lineHeight: 1.5,
-          margin: 0,
-          fontStyle: 'italic',
+      {/* Collapsible Content */}
+      <motion.div
+        initial={isMobile ? { height: 'auto', opacity: 1 } : { height: 0, opacity: 0 }}
+        animate={showContent ? { height: 'auto', opacity: 1 } : { height: 0, opacity: 0 }}
+        transition={{ duration: 0.45, ease: [0.16, 1, 0.3, 1] }}
+        style={{ overflow: 'hidden' }}
+      >
+        {/* Pull Quote */}
+        <div style={{
+          borderLeft: `3px solid ${eyebrowColor}`,
+          paddingLeft: 18,
+          marginBottom: 24,
         }}>
-          "{pullQuote}"
-        </p>
-      </div>
+          <p style={{
+            fontFamily: 'var(--font-hero)',
+            fontSize: 'clamp(15px, 1.4vw, 18px)',
+            fontWeight: 600,
+            color: '#334155',
+            lineHeight: 1.5,
+            margin: 0,
+            fontStyle: 'italic',
+          }}>
+            "{pullQuote}"
+          </p>
+        </div>
 
-      {/* Body */}
-      <p style={{
-        fontFamily: 'var(--font-body)',
-        fontSize: 'clamp(14px, 1.1vw, 16px)',
-        fontWeight: 400,
-        color: '#64748B',
-        lineHeight: 1.75,
-        margin: 0,
-        maxWidth: 480,
-        opacity: inView ? 1 : 0,
-        transform: inView ? 'translateY(0)' : 'translateY(12px)',
-        transition: `opacity 0.8s ease ${delay + 320}ms, transform 0.8s ease ${delay + 320}ms`,
-      }}>
-        {body}
-      </p>
+        {/* Body */}
+        <p style={{
+          fontFamily: 'var(--font-body)',
+          fontSize: 'clamp(14px, 1.1vw, 16px)',
+          fontWeight: 400,
+          color: '#64748B',
+          lineHeight: 1.75,
+          margin: 0,
+          maxWidth: 480,
+        }}>
+          {body}
+        </p>
+      </motion.div>
     </div>
   );
 }
