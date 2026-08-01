@@ -6,6 +6,7 @@ export default function PainPointsSection() {
   const [isMobile, setIsMobile] = useState(window.innerWidth < 1024);
   const [activeParentId, setActiveParentId] = useState(null);
   const [activeTeacherId, setActiveTeacherId] = useState(null);
+  const [hoveredPanel, setHoveredPanel] = useState(null);
 
   useEffect(() => {
     const handleResize = () => setIsMobile(window.innerWidth < 1024);
@@ -107,13 +108,17 @@ export default function PainPointsSection() {
         {/* ============================================================== */}
         {/* SECTION 1 — PARENTS (Families)                                  */}
         {/* ============================================================== */}
-        <div style={{
-          display: 'grid',
-          gridTemplateColumns: isMobile ? '1fr' : '1fr 1.1fr',
-          gap: isMobile ? '32px' : '80px',
-          alignItems: 'center',
-          marginBottom: isMobile ? '100px' : '160px'
-        }}>
+        <div 
+          onMouseEnter={() => setHoveredPanel('parents')}
+          onMouseLeave={() => setHoveredPanel(null)}
+          style={{
+            display: 'grid',
+            gridTemplateColumns: isMobile ? '1fr' : '1fr 1.1fr',
+            gap: isMobile ? '32px' : '80px',
+            alignItems: 'center',
+            marginBottom: isMobile ? '100px' : '160px'
+          }}
+        >
           
           {/* Content Block */}
           <div style={{ textAlign: 'left', maxWidth: 480 }}>
@@ -125,31 +130,39 @@ export default function PainPointsSection() {
               style={{
                 fontFamily: 'var(--font-hero)',
                 fontWeight: 800,
-                fontSize: 'clamp(28px, 2.5vw, 38px)',
+                fontSize: 'clamp(32px, 3vw, 44px)',
                 lineHeight: 1.2,
                 letterSpacing: '-0.03em',
                 color: '#1E293B',
-                margin: '0 0 20px'
+                margin: 0,
+                cursor: 'default'
               }}
             >
               Finding the right mentor shouldn't feel like luck.
             </motion.h3>
 
-            <motion.p
-              initial={{ opacity: 0, y: 15 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.7, delay: 0.15 }}
-              style={{
-                fontSize: '15px',
-                color: '#64748B',
-                lineHeight: 1.7,
-                margin: '0 0 36px',
-                fontWeight: 400
-              }}
+            {/* Collapsible paragraph - revealed on hover */}
+            <motion.div
+              initial={isMobile ? { opacity: 1, height: 'auto' } : { opacity: 0, height: 0 }}
+              animate={isMobile || hoveredPanel === 'parents' 
+                ? { opacity: 1, height: 'auto', marginTop: 16, marginBottom: 24 } 
+                : { opacity: 0, height: 0, marginTop: 0, marginBottom: 0 }
+              }
+              transition={{ duration: 0.4, ease: [0.16, 1, 0.3, 1] }}
+              style={{ overflow: 'hidden' }}
             >
-              Searching through endless profiles shouldn't be the path to understanding your child's needs. The current process is filled with uncertainty.
-            </motion.p>
+              <p
+                style={{
+                  fontSize: '15px',
+                  color: '#64748B',
+                  lineHeight: 1.7,
+                  margin: 0,
+                  fontWeight: 400
+                }}
+              >
+                Searching through endless profiles shouldn't be the path to understanding your child's needs. The current process is filled with uncertainty.
+              </p>
+            </motion.div>
 
             {/* Parent Hotspots / Mobile list */}
             {isMobile ? (
@@ -174,8 +187,8 @@ export default function PainPointsSection() {
                 ))}
               </div>
             ) : (
-              /* Desktop Hotspots Row */
-              <div style={{ display: 'flex', gap: '24px', position: 'relative' }}>
+              /* Desktop Hotspots Row - always visible */
+              <div style={{ display: 'flex', gap: '24px', position: 'relative', marginTop: hoveredPanel === 'parents' ? 0 : 24, transition: 'margin-top 0.4s ease' }}>
                 {parentPoints.map(point => {
                   const IconComponent = point.icon;
                   return (
@@ -238,7 +251,6 @@ export default function PainPointsSection() {
                               textAlign: 'left'
                             }}
                           >
-                            {/* Little indicator arrow */}
                             <div style={{
                               position: 'absolute',
                               top: '100%',
@@ -276,15 +288,22 @@ export default function PainPointsSection() {
                 padding: '0 24px',
               }}
             >
-              <img 
+              <motion.img 
                 src={`${import.meta.env.BASE_URL}ChatGPT Image Jul 31, 2026, 01_55_40 AM.png`}
                 alt="Families searching and lost in educational choices"
+                whileHover={{ 
+                  scale: 1.03,
+                  y: -8,
+                  filter: "drop-shadow(0 20px 35px rgba(79, 124, 255, 0.12))"
+                }}
+                transition={{ type: "spring", stiffness: 300, damping: 22 }}
                 style={{
                   width: '100%',
                   height: 'auto',
                   maxHeight: 440,
                   objectFit: 'contain',
-                  mixBlendMode: 'multiply'
+                  mixBlendMode: 'multiply',
+                  cursor: 'pointer'
                 }}
               />
             </motion.div>
@@ -300,12 +319,16 @@ export default function PainPointsSection() {
         {/* ============================================================== */}
         {/* SECTION 2 — TEACHERS (Educators)                                */}
         {/* ============================================================== */}
-        <div style={{
-          display: 'grid',
-          gridTemplateColumns: isMobile ? '1fr' : '1.1fr 1fr',
-          gap: isMobile ? '32px' : '80px',
-          alignItems: 'center'
-        }}>
+        <div 
+          onMouseEnter={() => setHoveredPanel('educators')}
+          onMouseLeave={() => setHoveredPanel(null)}
+          style={{
+            display: 'grid',
+            gridTemplateColumns: isMobile ? '1fr' : '1.1fr 1fr',
+            gap: isMobile ? '32px' : '80px',
+            alignItems: 'center'
+          }}
+        >
           
           {/* Illustration Side (Left on Desktop) */}
           {!isMobile && (
@@ -321,15 +344,22 @@ export default function PainPointsSection() {
                 padding: '0 24px',
               }}
             >
-              <img 
+              <motion.img 
                 src={`${import.meta.env.BASE_URL}ChatGPT Image Jul 31, 2026, 01_57_32 AM.png`}
                 alt="Brilliant educators waiting to be discovered"
+                whileHover={{ 
+                  scale: 1.03,
+                  y: -8,
+                  filter: "drop-shadow(0 20px 35px rgba(123, 97, 255, 0.12))"
+                }}
+                transition={{ type: "spring", stiffness: 300, damping: 22 }}
                 style={{
                   width: '100%',
                   height: 'auto',
                   maxHeight: 440,
                   objectFit: 'contain',
-                  mixBlendMode: 'multiply'
+                  mixBlendMode: 'multiply',
+                  cursor: 'pointer'
                 }}
               />
             </motion.div>
@@ -345,31 +375,39 @@ export default function PainPointsSection() {
               style={{
                 fontFamily: 'var(--font-hero)',
                 fontWeight: 800,
-                fontSize: 'clamp(28px, 2.5vw, 38px)',
+                fontSize: 'clamp(32px, 3vw, 44px)',
                 lineHeight: 1.2,
                 letterSpacing: '-0.03em',
                 color: '#1E293B',
-                margin: '0 0 20px'
+                margin: 0,
+                cursor: 'default'
               }}
             >
               Great educators deserve to be discovered.
             </motion.h3>
 
-            <motion.p
-              initial={{ opacity: 0, y: 15 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.7, delay: 0.15 }}
-              style={{
-                fontSize: '15px',
-                color: '#64748B',
-                lineHeight: 1.7,
-                margin: '0 0 36px',
-                fontWeight: 400
-              }}
+            {/* Collapsible paragraph - revealed on hover */}
+            <motion.div
+              initial={isMobile ? { opacity: 1, height: 'auto' } : { opacity: 0, height: 0 }}
+              animate={isMobile || hoveredPanel === 'educators' 
+                ? { opacity: 1, height: 'auto', marginTop: 16, marginBottom: 24 } 
+                : { opacity: 0, height: 0, marginTop: 0, marginBottom: 0 }
+              }
+              transition={{ duration: 0.4, ease: [0.16, 1, 0.3, 1] }}
+              style={{ overflow: 'hidden' }}
             >
-              Brilliant teachers shouldn't have to compete for visibility or spend hours managing logistics. They deserve to focus on what they do best: teaching.
-            </motion.p>
+              <p
+                style={{
+                  fontSize: '15px',
+                  color: '#64748B',
+                  lineHeight: 1.7,
+                  margin: 0,
+                  fontWeight: 400
+                }}
+              >
+                Brilliant teachers shouldn't have to compete for visibility or spend hours managing logistics. They deserve to focus on what they do best: teaching.
+              </p>
+            </motion.div>
 
             {/* Educator Hotspots / Mobile list */}
             {isMobile ? (
@@ -394,8 +432,8 @@ export default function PainPointsSection() {
                 ))}
               </div>
             ) : (
-              /* Desktop Hotspots Row */
-              <div style={{ display: 'flex', gap: '24px', position: 'relative' }}>
+              /* Desktop Hotspots Row - always visible */
+              <div style={{ display: 'flex', gap: '24px', position: 'relative', marginTop: hoveredPanel === 'educators' ? 0 : 24, transition: 'margin-top 0.4s ease' }}>
                 {educatorPoints.map(point => {
                   const IconComponent = point.icon;
                   return (
@@ -458,7 +496,6 @@ export default function PainPointsSection() {
                               textAlign: 'left'
                             }}
                           >
-                            {/* Little indicator arrow */}
                             <div style={{
                               position: 'absolute',
                               top: '100%',
