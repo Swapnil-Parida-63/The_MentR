@@ -73,7 +73,7 @@ export default function GlobalThread() {
     };
   }, []);
 
-  if (isMobile) return null; // Keep mobile view clean
+
 
   const step = 600;
   const leftAmplitudes = [90, 130, 70, 110, 80, 120, 70, 100, 80, 130, 90, 110, 75, 115, 85, 125, 70, 105, 90, 120];
@@ -198,9 +198,9 @@ export default function GlobalThread() {
       `}</style>
 
       {/* LEFT SIDE MARGIN CONTENT */}
-      <div style={{ position: 'absolute', top: 0, left: 0, width: 240, height: '100%' }}>
+      <div style={{ position: 'absolute', top: 0, left: 0, width: isMobile ? 40 : 240, height: '100%' }}>
         {/* Left Side Badges */}
-        {leftNodes.map((node, idx) => {
+        {!isMobile && leftNodes.map((node, idx) => {
           const IconComp = node.icon;
           if (node.y > height) return null;
 
@@ -246,18 +246,18 @@ export default function GlobalThread() {
               style={{ 
                 position: 'absolute', 
                 top: doodle.y, 
-                left: doodle.x, 
+                left: isMobile ? 12 : doodle.x, 
                 transform: 'translate(-50%, -50%)',
                 color: doodle.color,
-                opacity: 0.45,
+                opacity: isMobile ? 0.28 : 0.45,
                 display: 'flex',
                 alignItems: 'center',
                 justifyContent: 'center',
-                width: 44,
-                height: 44
+                width: isMobile ? 28 : 44,
+                height: isMobile ? 28 : 44
               }}
             >
-              <svg width="44" height="44" viewBox="0 0 70 70" style={{ pointerEvents: 'auto' }}>
+              <svg width={isMobile ? "28" : "44"} height={isMobile ? "28" : "44"} viewBox="0 0 70 70" style={{ pointerEvents: 'auto' }}>
                 {doodlesMap[doodle.type]}
               </svg>
             </div>
@@ -266,9 +266,9 @@ export default function GlobalThread() {
       </div>
 
       {/* RIGHT SIDE MARGIN CONTENT */}
-      <div style={{ position: 'absolute', top: 0, right: 0, width: 240, height: '100%' }}>
+      <div style={{ position: 'absolute', top: 0, right: 0, width: isMobile ? 40 : 240, height: '100%' }}>
         {/* Right Side Badges */}
-        {rightNodes.map((node, idx) => {
+        {!isMobile && rightNodes.map((node, idx) => {
           const IconComp = node.icon;
           if (node.y > height) return null;
 
@@ -314,18 +314,19 @@ export default function GlobalThread() {
               style={{ 
                 position: 'absolute', 
                 top: doodle.y, 
-                left: doodle.x, 
-                transform: 'translate(-50%, -50%)',
+                left: isMobile ? undefined : doodle.x,
+                right: isMobile ? 12 : undefined, 
+                transform: 'translate(50%, -50%)', // Shift rightward for perfect gutter alignment on mobile
                 color: doodle.color,
-                opacity: 0.45,
+                opacity: isMobile ? 0.28 : 0.45,
                 display: 'flex',
                 alignItems: 'center',
                 justifyContent: 'center',
-                width: 44,
-                height: 44
+                width: isMobile ? 28 : 44,
+                height: isMobile ? 28 : 44
               }}
             >
-              <svg width="44" height="44" viewBox="0 0 70 70" style={{ pointerEvents: 'auto' }}>
+              <svg width={isMobile ? "28" : "44"} height={isMobile ? "28" : "44"} viewBox="0 0 70 70" style={{ pointerEvents: 'auto' }}>
                 {doodlesMap[doodle.type]}
               </svg>
             </div>

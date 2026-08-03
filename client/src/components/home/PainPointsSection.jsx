@@ -8,6 +8,12 @@ export default function PainPointsSection() {
   const [activeTeacherId, setActiveTeacherId] = useState(null);
   const [hoveredPanel, setHoveredPanel] = useState(null);
 
+  // Mobile progressive disclosure states
+  const [isParentIntroExpanded, setIsParentIntroExpanded] = useState(false);
+  const [isTeacherIntroExpanded, setIsTeacherIntroExpanded] = useState(false);
+  const [expandedParentPoint, setExpandedParentPoint] = useState(null);
+  const [expandedTeacherPoint, setExpandedTeacherPoint] = useState(null);
+
   useEffect(() => {
     const handleResize = () => setIsMobile(window.innerWidth < 1024);
     window.addEventListener('resize', handleResize);
@@ -72,7 +78,7 @@ export default function PainPointsSection() {
     <section 
       id="pain" 
       style={{ 
-        background: 'transparent', 
+        background: 'linear-gradient(180deg, #F4F6F9 0%, #E9ECF1 100%)', 
         padding: isMobile ? '80px 0 100px' : '140px 0 160px', 
         position: 'relative', 
         overflow: 'hidden',
@@ -127,15 +133,17 @@ export default function PainPointsSection() {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ duration: 0.7 }}
+              onClick={() => isMobile && setIsParentIntroExpanded(!isParentIntroExpanded)}
               style={{
                 fontFamily: 'var(--font-hero)',
                 fontWeight: 800,
-                fontSize: 'clamp(32px, 3vw, 44px)',
+                fontSize: isMobile ? '38px' : 'clamp(32px, 3vw, 44px)',
                 lineHeight: 1.2,
                 letterSpacing: '-0.03em',
                 color: '#1E293B',
                 margin: 0,
-                cursor: 'default'
+                cursor: isMobile ? 'pointer' : 'default',
+                userSelect: 'none'
               }}
             >
               Finding the right mentor shouldn't feel like luck.
@@ -143,10 +151,10 @@ export default function PainPointsSection() {
 
             {/* Collapsible paragraph - revealed on hover */}
             <motion.div
-              initial={isMobile ? { opacity: 1, height: 'auto' } : { opacity: 0, height: 0 }}
-              animate={isMobile || hoveredPanel === 'parents' 
-                ? { opacity: 1, height: 'auto', marginTop: 16, marginBottom: 24 } 
-                : { opacity: 0, height: 0, marginTop: 0, marginBottom: 0 }
+              initial={{ opacity: 0, height: 0 }}
+              animate={isMobile 
+                ? (isParentIntroExpanded ? { opacity: 1, height: 'auto', marginTop: 16, marginBottom: 24 } : { opacity: 0, height: 0, marginTop: 0, marginBottom: 0 })
+                : (hoveredPanel === 'parents' ? { opacity: 1, height: 'auto', marginTop: 16, marginBottom: 24 } : { opacity: 0, height: 0, marginTop: 0, marginBottom: 0 })
               }
               transition={{ duration: 0.4, ease: [0.16, 1, 0.3, 1] }}
               style={{ overflow: 'hidden' }}
@@ -167,7 +175,7 @@ export default function PainPointsSection() {
             {/* Parent Hotspots / Mobile list */}
             {isMobile ? (
               /* Mobile Zig-zag list (Left aligned) */
-              <div style={{ display: 'flex', flexDirection: 'column', gap: '28px' }}>
+              <div style={{ display: 'flex', flexDirection: 'column', gap: '28px', marginTop: '32px' }}>
                 {parentPoints.map(point => (
                   <div key={point.id} style={{ display: 'flex', gap: '16px', alignItems: 'flex-start', textAlign: 'left' }}>
                     <div style={{
@@ -179,9 +187,24 @@ export default function PainPointsSection() {
                     }}>
                       <point.icon size={20} strokeWidth={2.2} />
                     </div>
-                    <div>
-                      <h4 style={{ margin: '0 0 4px', fontSize: 15, fontWeight: 700, color: '#1E293B' }}>{point.title}</h4>
-                      <p style={{ margin: 0, fontSize: 13, lineHeight: 1.5, color: '#64748B' }}>{point.description}</p>
+                    <div 
+                      onClick={() => setExpandedParentPoint(expandedParentPoint === point.id ? null : point.id)}
+                      style={{ cursor: 'pointer', userSelect: 'none', flex: 1 }}
+                    >
+                      <h4 style={{ margin: '0 0 4px', fontSize: 18, fontWeight: 700, color: '#1E293B' }}>{point.title}</h4>
+                      <AnimatePresence>
+                        {expandedParentPoint === point.id && (
+                          <motion.p 
+                            initial={{ opacity: 0, height: 0 }}
+                            animate={{ opacity: 1, height: 'auto', marginTop: 4 }}
+                            exit={{ opacity: 0, height: 0, marginTop: 0 }}
+                            transition={{ duration: 0.25 }}
+                            style={{ margin: 0, fontSize: 13.5, lineHeight: 1.5, color: '#64748B', overflow: 'hidden' }}
+                          >
+                            {point.description}
+                          </motion.p>
+                        )}
+                      </AnimatePresence>
                     </div>
                   </div>
                 ))}
@@ -371,15 +394,17 @@ export default function PainPointsSection() {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ duration: 0.7 }}
+              onClick={() => isMobile && setIsTeacherIntroExpanded(!isTeacherIntroExpanded)}
               style={{
                 fontFamily: 'var(--font-hero)',
                 fontWeight: 800,
-                fontSize: 'clamp(32px, 3vw, 44px)',
+                fontSize: isMobile ? '38px' : 'clamp(32px, 3vw, 44px)',
                 lineHeight: 1.2,
                 letterSpacing: '-0.03em',
                 color: '#1E293B',
                 margin: 0,
-                cursor: 'default'
+                cursor: isMobile ? 'pointer' : 'default',
+                userSelect: 'none'
               }}
             >
               Great educators deserve to be discovered.
@@ -387,10 +412,10 @@ export default function PainPointsSection() {
 
             {/* Collapsible paragraph - revealed on hover */}
             <motion.div
-              initial={isMobile ? { opacity: 1, height: 'auto' } : { opacity: 0, height: 0 }}
-              animate={isMobile || hoveredPanel === 'educators' 
-                ? { opacity: 1, height: 'auto', marginTop: 16, marginBottom: 24 } 
-                : { opacity: 0, height: 0, marginTop: 0, marginBottom: 0 }
+              initial={{ opacity: 0, height: 0 }}
+              animate={isMobile 
+                ? (isTeacherIntroExpanded ? { opacity: 1, height: 'auto', marginTop: 16, marginBottom: 24 } : { opacity: 0, height: 0, marginTop: 0, marginBottom: 0 })
+                : (hoveredPanel === 'educators' ? { opacity: 1, height: 'auto', marginTop: 16, marginBottom: 24 } : { opacity: 0, height: 0, marginTop: 0, marginBottom: 0 })
               }
               transition={{ duration: 0.4, ease: [0.16, 1, 0.3, 1] }}
               style={{ overflow: 'hidden' }}
@@ -411,7 +436,7 @@ export default function PainPointsSection() {
             {/* Educator Hotspots / Mobile list */}
             {isMobile ? (
               /* Mobile Zig-zag list (Right aligned) */
-              <div style={{ display: 'flex', flexDirection: 'column', gap: '28px' }}>
+              <div style={{ display: 'flex', flexDirection: 'column', gap: '28px', marginTop: '32px' }}>
                 {educatorPoints.map(point => (
                   <div key={point.id} style={{ display: 'flex', gap: '16px', alignItems: 'flex-start', flexDirection: 'row-reverse', textAlign: 'right' }}>
                     <div style={{
@@ -423,9 +448,24 @@ export default function PainPointsSection() {
                     }}>
                       <point.icon size={20} strokeWidth={2.2} />
                     </div>
-                    <div>
-                      <h4 style={{ margin: '0 0 4px', fontSize: 15, fontWeight: 700, color: '#1E293B' }}>{point.title}</h4>
-                      <p style={{ margin: 0, fontSize: 13, lineHeight: 1.5, color: '#64748B' }}>{point.description}</p>
+                    <div 
+                      onClick={() => setExpandedTeacherPoint(expandedTeacherPoint === point.id ? null : point.id)}
+                      style={{ cursor: 'pointer', userSelect: 'none', flex: 1 }}
+                    >
+                      <h4 style={{ margin: '0 0 4px', fontSize: 18, fontWeight: 700, color: '#1E293B' }}>{point.title}</h4>
+                      <AnimatePresence>
+                        {expandedTeacherPoint === point.id && (
+                          <motion.p 
+                            initial={{ opacity: 0, height: 0 }}
+                            animate={{ opacity: 1, height: 'auto', marginTop: 4 }}
+                            exit={{ opacity: 0, height: 0, marginTop: 0 }}
+                            transition={{ duration: 0.25 }}
+                            style={{ margin: 0, fontSize: 13.5, lineHeight: 1.5, color: '#64748B', overflow: 'hidden' }}
+                          >
+                            {point.description}
+                          </motion.p>
+                        )}
+                      </AnimatePresence>
                     </div>
                   </div>
                 ))}

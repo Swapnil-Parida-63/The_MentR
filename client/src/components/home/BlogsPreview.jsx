@@ -70,61 +70,63 @@ export default function BlogsPreview() {
                 zIndex: 0
               }} />
 
-              <div className="journal-featured-card" style={{ position: 'relative', zIndex: 1 }}>
-                {/* Image Area with abstract geometric learning artwork & noise grain */}
-                <div className="featured-image-container">
-                  <div className="noise-grain" />
-                  <div className="abstract-glow" />
-                  
-                  {/* Premium Abstract SVG Composition */}
-                  <svg className="abstract-svg" viewBox="0 0 400 240" fill="none" xmlns="http://www.w3.org/2000/svg">
-                    <circle cx="200" cy="120" r="100" stroke="rgba(99, 102, 241, 0.08)" strokeWidth="1.5" />
-                    <circle cx="200" cy="120" r="70" stroke="rgba(79, 124, 255, 0.05)" strokeWidth="1" strokeDasharray="4 4" />
-                    <circle cx="200" cy="120" r="130" stroke="rgba(99, 102, 241, 0.03)" strokeWidth="1" />
+              <Link to="/blogs" state={{ articleId: 1 }} style={{ textDecoration: 'none', color: 'inherit', display: 'block' }}>
+                <div className="journal-featured-card" style={{ position: 'relative', zIndex: 1, cursor: 'pointer' }}>
+                  {/* Image Area with abstract geometric learning artwork & noise grain */}
+                  <div className="featured-image-container">
+                    <div className="noise-grain" />
+                    <div className="abstract-glow" />
                     
-                    <path d="M120 70 L122 75 L127 77 L122 79 L120 84 L118 79 L113 77 L118 75 Z" fill="#6366F1" opacity="0.4" />
-                    <path d="M280 160 L281.5 164 L286 165.5 L281.5 167 L280 171 L278.5 167 L274 165.5 L278.5 164 Z" fill="#10B981" opacity="0.4" />
-                    
-                    {/* 3D abstract open book drawing */}
-                    <g transform="translate(145, 80)">
-                      <path d="M10 50 Q 30 45 55 52 L 55 12 Q 30 5 10 10 Z" fill="#FFFFFF" stroke="rgba(99, 102, 241, 0.15)" strokeWidth="1.5" />
-                      <path d="M55 52 Q 80 45 100 50 L 100 10 Q 80 5 55 12 Z" fill="#FFFFFF" stroke="rgba(99, 102, 241, 0.15)" strokeWidth="1.5" />
-                      <path d="M18 20 H 45 M18 28 H 45 M18 36 H 38" stroke="rgba(99, 102, 241, 0.12)" strokeWidth="1.5" strokeLinecap="round" />
-                      <path d="M62 20 H 90 M62 28 H 90 M62 36 H 82" stroke="rgba(99, 102, 241, 0.12)" strokeWidth="1.5" strokeLinecap="round" />
-                      <line x1="55" y1="12" x2="55" y2="52" stroke="#6366F1" strokeWidth="2" strokeLinecap="round" opacity="0.6" />
-                    </g>
+                    {/* Premium Abstract SVG Composition */}
+                    <svg className="abstract-svg" viewBox="0 0 400 240" fill="none" xmlns="http://www.w3.org/2000/svg">
+                      <circle cx="200" cy="120" r="100" stroke="rgba(99, 102, 241, 0.08)" strokeWidth="1.5" />
+                      <circle cx="200" cy="120" r="70" stroke="rgba(79, 124, 255, 0.05)" strokeWidth="1" strokeDasharray="4 4" />
+                      <circle cx="200" cy="120" r="130" stroke="rgba(99, 102, 241, 0.03)" strokeWidth="1" />
+                      
+                      <path d="M120 70 L122 75 L127 77 L122 79 L120 84 L118 79 L113 77 L118 75 Z" fill="#6366F1" opacity="0.4" />
+                      <path d="M280 160 L281.5 164 L286 165.5 L281.5 167 L280 171 L278.5 167 L274 165.5 L278.5 164 Z" fill="#10B981" opacity="0.4" />
+                      
+                      {/* 3D abstract open book drawing */}
+                      <g transform="translate(145, 80)">
+                        <path d="M10 50 Q 30 45 55 52 L 55 12 Q 30 5 10 10 Z" fill="#FFFFFF" stroke="rgba(99, 102, 241, 0.15)" strokeWidth="1.5" />
+                        <path d="M55 52 Q 80 45 100 50 L 100 10 Q 80 5 55 12 Z" fill="#FFFFFF" stroke="rgba(99, 102, 241, 0.15)" strokeWidth="1.5" />
+                        <path d="M18 20 H 45 M18 28 H 45 M18 36 H 38" stroke="rgba(99, 102, 241, 0.12)" strokeWidth="1.5" strokeLinecap="round" />
+                        <path d="M62 20 H 90 M62 28 H 90 M62 36 H 82" stroke="rgba(99, 102, 241, 0.12)" strokeWidth="1.5" strokeLinecap="round" />
+                        <line x1="55" y1="12" x2="55" y2="52" stroke="#6366F1" strokeWidth="2" strokeLinecap="round" opacity="0.6" />
+                      </g>
 
-                    <path d="M90 150 A 60 60 0 0 1 310 150" stroke="rgba(79, 124, 255, 0.08)" strokeWidth="1.5" strokeLinecap="round" />
-                    <line x1="200" y1="50" x2="200" y2="190" stroke="rgba(99, 102, 241, 0.05)" strokeWidth="1" strokeDasharray="3 3" />
-                  </svg>
-                </div>
-                
-                <div className="featured-card-content">
-                  <span className="featured-pill">FEATURED</span>
-                  <h3 className="featured-card-title">
-                    Why the teacher–student match matters more than the teacher's qualification
-                  </h3>
-                  <p className="featured-card-desc">
-                    We analysed 3,200 parent feedback reports. The strongest predictor of learning outcomes wasn't the teacher's credentials, but the personal connection and rapport.
-                  </p>
+                      <path d="M90 150 A 60 60 0 0 1 310 150" stroke="rgba(79, 124, 255, 0.08)" strokeWidth="1.5" strokeLinecap="round" />
+                      <line x1="200" y1="50" x2="200" y2="190" stroke="rgba(99, 102, 241, 0.05)" strokeWidth="1" strokeDasharray="3 3" />
+                    </svg>
+                  </div>
                   
-                  <div className="featured-card-divider" />
-                  
-                  <div className="featured-card-metadata">
-                    <span className="meta-item">
-                      <User size={13} className="meta-icon" /> By TheMentR Research
-                    </span>
-                    <span className="meta-dot">•</span>
-                    <span className="meta-item">
-                      <Clock size={13} className="meta-icon" /> 8 min read
-                    </span>
-                    <span className="meta-dot">•</span>
-                    <span className="meta-item">
-                      <Calendar size={13} className="meta-icon" /> June 2025
-                    </span>
+                  <div className="featured-card-content">
+                    <span className="featured-pill">FEATURED</span>
+                    <h3 className="featured-card-title">
+                      Why the teacher–student match matters more than the teacher's qualification
+                    </h3>
+                    <p className="featured-card-desc">
+                      We analysed 3,200 parent feedback reports. The strongest predictor of learning outcomes wasn't the teacher's credentials, but the personal connection and rapport.
+                    </p>
+                    
+                    <div className="featured-card-divider" />
+                    
+                    <div className="featured-card-metadata">
+                      <span className="meta-item">
+                        <User size={13} className="meta-icon" /> By TheMentR Research
+                      </span>
+                      <span className="meta-dot">•</span>
+                      <span className="meta-item">
+                        <Clock size={13} className="meta-icon" /> 8 min read
+                      </span>
+                      <span className="meta-dot">•</span>
+                      <span className="meta-item">
+                        <Calendar size={13} className="meta-icon" /> June 2025
+                      </span>
+                    </div>
                   </div>
                 </div>
-              </div>
+              </Link>
             </div>
           </FadeUp>
 
@@ -133,6 +135,15 @@ export default function BlogsPreview() {
             <div className="supporting-articles-stack">
               {[
                 { 
+                  articleId: 8,
+                  tagClass: 'tag-parents', 
+                  tagText: 'Parents', 
+                  title: 'How do I hire the right home tutor in Bhubaneswar?', 
+                  desc: 'Find verified subject experts, personalised learning, and structured mentorship with The MentR in Bhubaneswar.', 
+                  time: '6 min read' 
+                },
+                { 
+                  articleId: 2,
                   tagClass: 'tag-olympiad', 
                   tagText: 'Olympiad', 
                   title: 'How to prepare for IMO Stage 1 in 60 days', 
@@ -140,38 +151,34 @@ export default function BlogsPreview() {
                   time: '5 min read' 
                 },
                 { 
+                  articleId: 3,
                   tagClass: 'tag-parents', 
                   tagText: 'Parents', 
                   title: 'The assessment visit: what to expect', 
                   desc: 'Before we match any student, we listen.', 
                   time: '4 min read' 
                 },
-                { 
-                  tagClass: 'tag-teachers', 
-                  tagText: 'Teachers', 
-                  title: 'Building a teaching practice: advice from top educators', 
-                  desc: 'Our highest-rated teachers share how they build student trust.', 
-                  time: '6 min read' 
-                },
               ].map((b) => (
-                <div key={b.title} className="journal-supporting-card">
-                  <div className="supporting-card-inner">
-                    <div className="supporting-card-header">
-                      <span className={`supporting-tag ${b.tagClass}`}>{b.tagText}</span>
-                      <ArrowUpRight size={16} className="card-arrow-icon" />
-                    </div>
-                    
-                    <h4 className="supporting-card-title">{b.title}</h4>
-                    <p className="supporting-card-desc">{b.desc}</p>
-                    
-                    <div className="supporting-card-divider" />
-                    
-                    <div className="supporting-card-metadata">
-                      <Clock size={12} className="meta-icon" />
-                      <span>{b.time}</span>
+                <Link to="/blogs" state={{ articleId: b.articleId }} key={b.title} style={{ textDecoration: 'none', color: 'inherit', display: 'block' }}>
+                  <div className="journal-supporting-card" style={{ cursor: 'pointer' }}>
+                    <div className="supporting-card-inner">
+                      <div className="supporting-card-header">
+                        <span className={`supporting-tag ${b.tagClass}`}>{b.tagText}</span>
+                        <ArrowUpRight size={16} className="card-arrow-icon" />
+                      </div>
+                      
+                      <h4 className="supporting-card-title">{b.title}</h4>
+                      <p className="supporting-card-desc">{b.desc}</p>
+                      
+                      <div className="supporting-card-divider" />
+                      
+                      <div className="supporting-card-metadata">
+                        <Clock size={12} className="meta-icon" />
+                        <span>{b.time}</span>
+                      </div>
                     </div>
                   </div>
-                </div>
+                </Link>
               ))}
             </div>
           </FadeUp>

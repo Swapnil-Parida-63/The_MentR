@@ -371,6 +371,7 @@ export default function VisionSection() {
 function EditorialTextBlock({ eyebrow, eyebrowColor, heading, headingGradient, body, pullQuote, inView, delay = 0 }) {
   const [isMobile, setIsMobile] = useState(window.innerWidth < 1024);
   const [isHovered, setIsHovered] = useState(false);
+  const [isMobileExpanded, setIsMobileExpanded] = useState(false);
 
   useEffect(() => {
     const handleResize = () => setIsMobile(window.innerWidth < 1024);
@@ -378,19 +379,27 @@ function EditorialTextBlock({ eyebrow, eyebrowColor, heading, headingGradient, b
     return () => window.removeEventListener('resize', handleResize);
   }, []);
 
-  const showContent = isMobile || isHovered;
+  const showContent = isMobile ? isMobileExpanded : isHovered;
   const baseTransition = `opacity 0.9s cubic-bezier(0.16,1,0.3,1) ${delay}ms, transform 0.9s cubic-bezier(0.16,1,0.3,1) ${delay}ms`;
+
+  const handleBlockClick = () => {
+    if (isMobile) {
+      setIsMobileExpanded(!isMobileExpanded);
+    }
+  };
 
   return (
     <div 
-      onMouseEnter={() => setIsHovered(true)}
-      onMouseLeave={() => setIsHovered(false)}
+      onMouseEnter={() => !isMobile && setIsHovered(true)}
+      onMouseLeave={() => !isMobile && setIsHovered(false)}
+      onClick={handleBlockClick}
       style={{
         display: 'flex', flexDirection: 'column', justifyContent: 'center',
         opacity: inView ? 1 : 0,
         transform: inView ? 'translateY(0)' : 'translateY(32px)',
         transition: baseTransition,
-        cursor: isMobile ? 'default' : 'pointer'
+        cursor: 'pointer',
+        userSelect: 'none'
       }}
     >
       {/* Eyebrow */}
@@ -431,7 +440,7 @@ function EditorialTextBlock({ eyebrow, eyebrowColor, heading, headingGradient, b
 
       {/* Collapsible Content */}
       <motion.div
-        initial={isMobile ? { height: 'auto', opacity: 1 } : { height: 0, opacity: 0 }}
+        initial={{ height: 0, opacity: 0 }}
         animate={showContent ? { height: 'auto', opacity: 1 } : { height: 0, opacity: 0 }}
         transition={{ duration: 0.45, ease: [0.16, 1, 0.3, 1] }}
         style={{ overflow: 'hidden' }}

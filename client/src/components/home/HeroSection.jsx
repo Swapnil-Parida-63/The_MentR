@@ -392,6 +392,7 @@ function TrustMetrics({ isMobile = false, teacherCount = 639, teachingHours = 19
 export default function HeroSection() {
   const { openModal } = useModal();
   const [isMobile, setIsMobile] = useState(window.innerWidth < 1024);
+  const [isMobileContentExpanded, setIsMobileContentExpanded] = useState(false);
 
   useEffect(() => {
     const handleResize = () => {
@@ -427,7 +428,7 @@ export default function HeroSection() {
         background: '#FFFFFF', 
         position: 'relative', 
         overflow: 'hidden', 
-        padding: isMobile ? '110px 0 40px' : '125px 0 50px' 
+        padding: isMobile ? '160px 0 40px' : '125px 0 50px' 
       }}
     >
       {/* Background Layer 1: Ambient light glows */}
@@ -454,6 +455,36 @@ export default function HeroSection() {
         zIndex: 1,
         pointerEvents: 'none'
       }} />
+
+      {/* Mobile Top Right Background Graphic */}
+      {isMobile && (
+        <div style={{
+          position: 'absolute',
+          top: 0,
+          right: 0,
+          width: '320px',
+          height: '320px',
+          zIndex: 1,
+          pointerEvents: 'none',
+          overflow: 'hidden'
+        }}>
+          <img 
+            src="/ChatGPT Image Jul 31, 2026, 01_55_40 AM.png" 
+            alt="Ecosystem graphic" 
+            style={{
+              width: '100%',
+              height: '100%',
+              objectFit: 'contain',
+              transform: 'translate(0%, -10%)',
+              opacity: 0.9,
+              imageRendering: 'auto',
+              WebkitBackfaceVisibility: 'hidden',
+              maskImage: 'radial-gradient(circle at top right, black 35%, transparent 75%)',
+              WebkitMaskImage: 'radial-gradient(circle at top right, black 35%, transparent 75%)'
+            }} 
+          />
+        </div>
+      )}
 
 
 
@@ -595,10 +626,10 @@ export default function HeroSection() {
 
         {/* MOBILE COMPOSITION */}
         {isMobile && (
-          <div style={{ display: 'flex', flexDirection: 'column', gap: 20, textAlign: 'left' }}>
+          <div style={{ display: 'flex', flexDirection: 'column', gap: 20, textAlign: 'left', position: 'relative', zIndex: 2 }}>
             
             {/* 1. Heading */}
-            <div>
+            <div style={{ cursor: 'pointer', userSelect: 'none' }} onClick={() => setIsMobileContentExpanded(!isMobileContentExpanded)}>
               <span style={{
                 fontFamily: 'var(--font-body)',
                 fontWeight: 600,
@@ -631,18 +662,31 @@ export default function HeroSection() {
                   right mentor.
                 </span>
               </h1>
-              <p style={{
-                fontFamily: 'var(--font-body)',
-                fontSize: 14,
-                color: '#64748B',
-                lineHeight: 1.55,
-                margin: 0
-              }}>
-                Finding the right teacher shouldn't be guesswork. Assessment-first learning. Verified educators. Personalized guidance. Measurable outcomes.
-              </p>
             </div>
 
-            {/* 2. CTA Buttons */}
+            <AnimatePresence>
+              {isMobileContentExpanded && (
+                <motion.div
+                  initial={{ opacity: 0, height: 0 }}
+                  animate={{ opacity: 1, height: 'auto' }}
+                  exit={{ opacity: 0, height: 0 }}
+                  transition={{ duration: 0.35, ease: 'easeInOut' }}
+                  style={{ overflow: 'hidden' }}
+                >
+                  <p style={{
+                    fontFamily: 'var(--font-body)',
+                    fontSize: 14,
+                    color: '#64748B',
+                    lineHeight: 1.55,
+                    margin: '0 0 10px'
+                  }}>
+                    Finding the right teacher shouldn't be guesswork. Assessment-first learning. Verified educators. Personalized guidance. Measurable outcomes.
+                  </p>
+                </motion.div>
+              )}
+            </AnimatePresence>
+
+            {/* 2. CTA Buttons (Always Visible) */}
             <div style={{ display: 'flex', flexDirection: 'column', gap: 10, width: '100%' }}>
               <button
                 onClick={() => openModal('parent')}
@@ -685,7 +729,7 @@ export default function HeroSection() {
               </button>
             </div>
 
-            {/* 3. Statistics Grid */}
+            {/* 3. Statistics Grid (Always Visible) */}
             <TrustMetrics 
               isMobile={true} 
               teacherCount={getTeacherCount()} 
@@ -706,6 +750,10 @@ export default function HeroSection() {
           transform: translateY(-2px);
           border-color: #2563EB !important;
           box-shadow: 0 4px 12px rgba(37, 99, 235, 0.08) !important;
+        }
+        @keyframes pulseScale {
+          0%, 100% { transform: scale(1); opacity: 0.95; }
+          50% { transform: scale(1.04); opacity: 1; }
         }
       `}</style>
     </section>

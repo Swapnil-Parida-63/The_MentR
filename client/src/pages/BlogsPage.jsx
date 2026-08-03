@@ -1,5 +1,5 @@
-import { useState } from 'react';
-import { Link } from 'react-router-dom';
+import { useState, useEffect } from 'react';
+import { Link, useLocation } from 'react-router-dom';
 import { FadeUp } from '../hooks/useScrollReveal';
 import { Clock, Calendar, User, ArrowLeft, ArrowUpRight } from 'lucide-react';
 
@@ -128,14 +128,9 @@ const CoverIllustration = ({ type }) => {
 };
 
 // ==============================================================
-// 2. MAIN BLOGS PAGE COMPONENT
+// 2. MAIN BLOGS PAGE DATA SET
 // ==============================================================
-export default function BlogsPage() {
-  const [activeCategory, setActiveCategory] = useState('All');
-  const [selectedArticle, setSelectedArticle] = useState(null);
-
-  // Hardcoded premium journal articles dataset
-  const articles = [
+const articles = [
     {
       id: 1,
       tag: 'Research',
@@ -203,7 +198,7 @@ These are difficult to measure individually. Together, they determine whether le
 Many families discover mismatches only after several weeks. By then they've already invested time, money, and emotional energy. The student has fallen behind, confidence drops, and parents begin another search. Education shouldn't rely on repeated guessing.
 
 #### The assessment-first approach
-At TheMentR, we believe matching should happen before teaching begins. Instead of asking, *"Which teacher do you want?"*, we ask, *"Tell us about the learner."* We begin by understanding academic strengths, learning gaps, study habits, confidence levels, goals, preferred communication styles, and schedules. Only after understanding the student do we recommend a mentor.
+At TheMentR, we believe matching should happen before teaching begins. Instead of asking, *\"Which teacher do you want?\"*, we ask, *\"Tell us about the learner.\"* We begin by understanding academic strengths, learning gaps, study habits, confidence levels, goals, preferred communication styles, and schedules. Only after understanding the student do we recommend a mentor.
 
 #### Why we built AVSAR
 One challenge quickly became obvious. Every assessment produced valuable information: patterns, learning behaviours, subject trends, and teacher performance. Instead of letting this information disappear, we built **AVSAR**, TheMentR's educational intelligence layer. It helps us continuously improve recommendations by learning from real educational outcomes, making every recommendation smarter over time.
@@ -284,10 +279,208 @@ When students are paired with mentors who genuinely complement their learning st
       time: "10 min read",
       date: "December 2025",
       coverType: 'research'
-    }
-  ];
+    },
+    {
+      id: 8,
+      tag: 'Parents',
+      tagClass: 'tag-parents',
+      title: "How do I hire the right home tutor in Bhubaneswar?",
+      desc: "Learn how to hire the right home tutor in Bhubaneswar. Find verified subject experts, personalised learning, and structured mentorship with The MentR.",
+      time: "6 min read",
+      date: "August 2026",
+      coverType: 'parents',
+      content: `### How Do I Hire the Right Home Tutor in Bhubaneswar?
 
-  const categories = ['All', 'Parents', 'Teachers', 'Olympiad', 'Study Tips', 'Research', 'Success Stories'];
+As a parent in Bhubaneswar, you may have considered providing additional educational support to your child. It can be achieved through personalised home learning in Bhubaneswar. There are a huge number of options for tutoring out there, making it easy to find a tutor, but not so easy to find the right home tutor in Bhubaneswar. Selecting an incorrect option could cause students to become frustrated, lose time and achieve inadequately.
+
+The MentR streamlines the entire process with structured mentorship and progressive data-based tracking. We have helped thousands of students across India, and one problem comes up again and again: it's not that the student cannot do it.
+
+Having a good tutor does more than just improve marks. It often transforms the way a student learns altogether.
+
+#### Table of Contents
+- How do I choose the right home tutor in Bhubaneswar for my child?
+- Where can I find subject-wise home tutors in Bhubaneswar near my location?
+- What are the benefits of hiring a private home tutor in Bhubaneswar?
+- How quickly can I find and book a home tutor nearby in Bhubaneswar?
+
+### How do I choose the right home tutor in Bhubaneswar for my child?
+
+To choose the verified private tutors in Bhubaneswar, you need a key evaluation of the subject expertise of the respective tutor. Further, you need to analyse whether the tutor can keep your child engaged and has experience with your child’s particular board. Selecting a tutor should follow a structured framework rather than relying solely on word-of-mouth recommendations.
+
+#### Identification of Academic Gaps
+Identify if your child requires support in relevant subjects such as Mathematics, Science, English, Commerce or exam preparation. The challenge in learning should determine the tutor.
+
+#### Match student to tutor
+Board familiarity matters. Provide the tutor with experience in teaching students from CBSE, ICSE, BSE, or CHSE boards and who is well acquainted with their respective examination patterns.
+
+#### Evaluate Teaching Methodology
+A good tutor conveys information and assesses comprehension, adjusting instruction as necessary. Avoid tutors who simply assign work without ensuring comprehension.
+
+#### Requesting A Demo Session
+Watch the way they communicate, their knowledge of the subject and student involvement before committing.
+
+#### Setting 30-Day Goals
+Set up measurable goals, such as finishing the syllabus, learning the chapters, or getting closer to the objectives on tests. A good tutor will welcome this kind of structured planning.
+
+Thus, to answer the question of how to hire the best home tutor in Bhubaneswar for CBSE and ICSE students, all mentors undergo a strict verification process, including reviews of their skills, teaching evaluations and compatibility tests, before being paired with a student at The MentR.
+
+### Where can I find subject-wise home tutors in Bhubaneswar near my location?
+
+Selecting a tutor requires subject-matter expertise, in which both the subject matter and what to look for are taken into consideration. Here are the factors that are listed below:
+- Mathematics - Focus on conceptual clarity, mock tests, and transparent progress tracking
+- Science - Look for practical explanations and strong board exam preparation
+- Commerce - Prioritise problem-solving skills and real-world applications
+- Competitive Exams - Emphasis on syllabus planning and time management
+
+The MentR's location-based matching system pairs students with tutors based on expertise, board familiarity and geographical areas. For instance, a Class 11 Student in Physics from Patia is paired with the most appropriate Mentor in that vicinity.
+
+### What are the benefits of hiring a private home tutor in Bhubaneswar?
+
+Private tuition is an excellent alternative to classroom tutoring, which is very effective in tackling problems unique to a student, through how a verified private home tutor in Bhubaneswar can make a difference through personalised one-to-one learning:
+
+tr - td(Student Issue) td(Ways in which Private Tuition Helps)
+tr - td(Hesitation to ask questions) td(One-to-one learning ecology)
+tr - td(Falling behind in the chapters) td(Identifying the targeted gap)
+tr - td(Inconsistent scores) td(Structured set of assessments and revision)
+tr - td(Weak writing skills in the exam) td(Techniques which are specific to a particular board)
+
+In the MentR environment, we focus on routine, consistent learning through development plans, milestone tracking and tailored mentorship, which is often evident in the measurable progress students make.
+
+### How quickly can I find and book a home tutor nearby in Bhubaneswar?
+
+You can actually find and even book a verified home tutor in Bhubaneswar within 1 or 2 days, which involves searching and connecting on day 1, then scheduling a free demo and finalising the tutor on day 2. Here is the step-by-step booking procedure:
+- Submit a consultation request
+- Complete a 20–30 minute student assessment
+- Receive top tutor matches based on subject, board, and location
+- Begin a guided 30-day learning programme
+
+This step-by-step procedure will guide you to book a home tutor with ease.
+In cases where a tutor-student match is not optimal, the MentR review and reassignment process is conducted to ensure continuity of learning.
+
+### Summary
+
+Not just qualifications are to be checked when hiring the right home tutor in Bhubaneswar. Verified mentors, structured pedagogy, customised roadmaps and data-driven tracking provide the support students need to succeed, with the MentR.
+
+Contact us at +91-9668562631 to find out how life-changing mentorship can be with a structured approach. Parents need to assess the subject's knowledge and their familiarity with the board, teaching approach and measurable outcomes.
+
+### FAQs
+
+#### How to determine the qualification of Home tutors in Bhubaneswar?
+Check subject expertise, experience with the board, teaching experience, and a history of student progress.
+
+#### How often per week will my child be at the school?
+The number of sessions many students need is two or weekly, up to four sessions per week, depending on the learning gaps and academic goals.
+
+#### When will academic improvement occur?
+Students start to make noticeable improvements in 6-8 weeks with a proper study schedule.`
+    },
+    {
+      id: 9,
+      tag: 'Parents',
+      tagClass: 'tag-parents',
+      title: "Is home tuition best for students in Bhubaneswar?",
+      desc: "Discover how to choose the best home tuition in Bhubaneswar. Find verified CBSE tutors, personalised learning, and expert guidance with The MentR.",
+      time: "5 min read",
+      date: "August 2026",
+      coverType: 'parents',
+      content: `### Is Home Tuition the Best Choice for Students in Bhubaneswar?
+
+Home tuition can be the best form of academic support when classroom learning is not enough. It has had a tangible impact on Bhubaneswar families who are budget-conscious and looking for personalised solutions, and has provided a fitting educational solution.
+
+The current educational atmosphere is highly competitive, and students need more individual attention than traditional schools can offer. So parents have been searching for private home tuition services in Bhubaneswar with experienced tutors to provide focused academic care for their children.
+
+#### Table of Contents
+- How can I find the best home tutor in Bhubaneswar?
+- How do I find experienced tutors near me in Bhubaneswar?
+- Which is the best home tuition service in Bhubaneswar for CBSE students?
+- Can I get a private home tutor in Bhubaneswar?
+
+### How can I find the best home tutor in Bhubaneswar?
+
+Choosing the right tutor isn't just about finding someone who knows their subject well. In that case, you can use tutoring platforms to filter candidates by browsing verified reviews, booking demo sessions or even by subject.
+
+Being competitive in today's academic environment is crucial. In most classroom contexts, little time is usually left for any sort of individual clarification of questions, revision of concepts or adjustment of speed. A private home tuition addresses this gap.
+
+When you are selecting the best home tutor in Bhubaneswar for CBSE students, here are the key factors to consider:
+- Familiarity with the curriculum standards of CBSE, BSE, CHSE and ICSE
+- A structured, goal-oriented teaching approach
+- A track record of measurable student improvement
+- Clear communication with parents on progress and challenges
+- Strong subject expertise and relevant academic qualifications
+
+Ask each tutor three questions before deciding:
+- How do you assess the learning gaps within the first few sessions?
+- How do you adapt when a student is not improvising?
+- How do you track the progress month by month?
+
+At The MentR, we consider not only qualifications when judging tutors but also how well they teach and communicate with their students.
+
+### How do I find experienced tutors near me in Bhubaneswar?
+
+For the selection of experienced private tutors in Bhubaneswar, individuals have to turn to specific tutors and listing websites in Bhubaneswar. Currently, parents mainly seek reassurance from verified tutoring platforms that provide quality assurance and clarity.
+
+tr - td(Key Factor) td(Unverified Tutor) td(A Structured Platform)
+tr - td(Teaching Plan) td(Relies on the tutor) td(Based on the curriculum)
+tr - td(Progress Track) td(Inconsistent) td(Consistent and reported to parents)
+tr - td(Tutor Verification) td(Limited) td(Assessed and thoroughly screened)
+tr - td(Accountability) td(Variable) td(Much more organised)
+
+The MentR uses a robust matching and induction framework to ensure that all students are matched with a tutor who can meet their board, subject and learning-level requirements.
+
+### Which is the best home tuition service in Bhubaneswar for CBSE students?
+
+Effective home tuition should be more than a mere look through the book material, particularly for CBSE students. A good CBSE home tutoring service in Bhubaneswar will provide the following:
+
+For CBSE students, good home tutoring services Bhubaneswar should entail the following:
+- Syllabus plan for CBSE based on the term-exam timetable
+- A focus on the conceptual understanding over rote memorisation
+- Regular Mock assessments and revision strategies
+- Ongoing three-way communication between tutor, student and parent
+
+The MentR's mentorship model is built on exactly this. Students are paired with tutors who align with the board syllabus, are trained in board-specific topics, and are guided through a structured series of learning milestones throughout the academic year.
+
+### Can I get a private home tutor in Bhubaneswar?
+
+Yes. It is easy to find a home tutor verified with a professional tutoring website in Bhubaneswar. Hiring a home tutor who is professionally verified on a reputable tutoring website is simple. It's about enabling the right service, not merely about being available; the emphasis is on results. It all makes a difference when you choose the right service that focuses not only on availability but also on results.
+
+One-to-one tuition, where needed, has been shown to achieve outstanding outcomes for individuals. Students who go from bad to good have one thing in common: a consistent study plan, frequent tests and a tutor who adjusts to their learning pace.
+
+All students at The MentR have an individual mentor with whom they have established an ongoing relationship throughout the year, who knows their particular academic background and situation intimately.
+
+### Summary
+
+Home Tuition Services are one of the most effective forms of learning assistance for learners in the Bhubaneswar region. Enhanced outcomes and more self-assured, independent learners come from personalised attention, flexible learning schedules, curriculum-aligned teaching and structured learning.
+
+For those considering structured tutoring at home, start by identifying your child's learning barriers and exploring The MentR to connect with targeted tutors and find a tutoring program that aligns with your child's learning objectives. The first step in your child's learning journey is to book a consultation by emailing book@thementr.com. Families searching for a reliable mentorship service that offers expert, structured home tuition in Bhubaneswar are opting for MentR.
+
+### FAQs
+
+#### How many home tuition sessions per week are usually effective?
+Generally, two to four sessions are recommended per week. Your child's grade, subject challenge and academic goals will determine the right number.
+
+#### What is the difference between home tuition and online tutoring?
+Home tuition offers face-to-face interaction and immediate in-person support. Online tutoring also offers access to more tutors and more flexible scheduling for children. Either format can be a good fit, depending on the student's needs.
+
+#### How quickly do improvements happen with private tutoring?
+The most dramatic change in student performance is probably achieved within a few weeks when the sessions are held regularly, the student is actively involved in learning, and instruction is well organised.`
+    }
+];
+
+const categories = ['All', 'Parents', 'Teachers', 'Olympiad', 'Study Tips', 'Research', 'Success Stories'];
+
+export default function BlogsPage() {
+  const [activeCategory, setActiveCategory] = useState('All');
+  const [selectedArticle, setSelectedArticle] = useState(null);
+  const location = useLocation();
+
+  useEffect(() => {
+    if (location.state && location.state.articleId) {
+      const art = articles.find(a => a.id === location.state.articleId);
+      if (art) {
+        setSelectedArticle(art);
+      }
+    }
+  }, [location.state]);
 
   // Filter articles based on active chip
   const filteredArticles = activeCategory === 'All'
@@ -373,6 +566,49 @@ When students are paired with mentors who genuinely complement their learning st
                 >
                   {selectedArticle.content ? (
                     selectedArticle.content.split('\n\n').map((paragraph, pIdx) => {
+                      if (paragraph.trim().startsWith('tr -')) {
+                        const rows = paragraph.split('\n').map(rowStr => {
+                          const cells = [];
+                          const matches = rowStr.match(/td\(([^)]+)\)/g);
+                          if (matches) {
+                            matches.forEach(m => {
+                              const content = m.substring(3, m.length - 1);
+                              cells.push(content);
+                            });
+                          }
+                          return cells;
+                        }).filter(c => c.length > 0);
+
+                        if (rows.length > 0) {
+                          return (
+                            <div key={pIdx} style={{ overflowX: 'auto', margin: '24px 0', border: '1.2px solid rgba(15, 23, 42, 0.08)', borderRadius: 16, background: '#FFFFFF', boxShadow: '0 4px 15px rgba(15, 23, 42, 0.01)' }}>
+                              <table style={{ width: '100%', borderCollapse: 'collapse', fontSize: 14, fontFamily: 'var(--font-sans)' }}>
+                                <thead>
+                                  <tr style={{ background: '#F8FAFC', borderBottom: '1px solid rgba(15, 23, 42, 0.08)' }}>
+                                    {rows[0].map((headerText, hIdx) => (
+                                      <th key={hIdx} style={{ padding: '14px 20px', fontWeight: 700, color: '#1E293B', textAlign: 'left' }}>{headerText}</th>
+                                    ))}
+                                  </tr>
+                                </thead>
+                                <tbody>
+                                  {rows.slice(1).map((r, rIdx) => (
+                                    <tr key={rIdx} style={{ borderBottom: rIdx < rows.length - 2 ? '1px solid rgba(15, 23, 42, 0.04)' : 'none' }}>
+                                      {r.map((cellText, cIdx) => (
+                                        <td key={cIdx} style={{ 
+                                          padding: '14px 20px', 
+                                          color: cIdx === 0 ? '#1E293B' : '#475569', 
+                                          fontWeight: cIdx === 0 ? 600 : 400,
+                                          lineHeight: 1.5 
+                                        }}>{cellText}</td>
+                                      ))}
+                                    </tr>
+                                  ))}
+                                </tbody>
+                              </table>
+                            </div>
+                          );
+                        }
+                      }
                       if (paragraph.startsWith('### ')) {
                         return <h2 key={pIdx} style={{ fontFamily: 'var(--font-hero)', fontSize: 24, fontWeight: 800, color: '#0F172A', marginTop: 36, marginBottom: 16 }}>{paragraph.replace('### ', '')}</h2>;
                       }
@@ -481,7 +717,11 @@ When students are paired with mentors who genuinely complement their learning st
             const isWide = activeCategory === 'All' && art.wide;
             return (
               <FadeUp key={art.id} delay={0.1 + (idx * 0.05)}>
-                <div className={`journal-card ${isWide ? 'journal-card-wide' : ''}`}>
+                <div 
+                  className={`journal-card ${isWide ? 'journal-card-wide' : ''}`}
+                  style={{ cursor: 'pointer' }}
+                  onClick={() => setSelectedArticle(art)}
+                >
                   <div className="cover-image-wrapper">
                     <div className="noise-grain" />
                     <CoverIllustration type={art.coverType} />

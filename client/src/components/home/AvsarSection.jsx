@@ -123,8 +123,7 @@ export default function AvsarSection() {
     const currentDate = new Date();
     const diffTime = Math.max(0, currentDate - baseDate);
     const diffDays = Math.floor(diffTime / (1000 * 60 * 60 * 24));
-    const count = 565 + Math.floor(diffDays / 3) * 2;
-    return Math.min(count, 5000);
+    return Math.min(639 + Math.floor(diffDays * 1.5), 5000);
   };
 
   const finalTeacherCount = getTeacherCount();
