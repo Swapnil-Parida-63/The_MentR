@@ -1,11 +1,29 @@
 import { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { FileText, ShieldCheck, Target, TrendingUp, Award, Plus } from 'lucide-react';
+import { FileText, ShieldCheck, Target, TrendingUp, Award, Plus, Sparkles, Cpu } from 'lucide-react';
 
 export default function WhySection() {
   const [isMobile, setIsMobile] = useState(window.innerWidth < 1024);
   const [hoveredModuleId, setHoveredModuleId] = useState(null);
   const [expandedMobileId, setExpandedMobileId] = useState(1);
+
+  // Orbiting decorative icons
+  const decorativeIcons = [
+    { icon: Award, r: 165, angle: 0, speed: 45, size: 15 },
+    { icon: Sparkles, r: 205, angle: Math.PI * 2 / 3, speed: 55, size: 14 },
+    { icon: Cpu, r: 185, angle: Math.PI * 4 / 3, speed: 50, size: 15 },
+    { icon: Target, r: 225, angle: Math.PI / 3, speed: 65, size: 15 }
+  ];
+
+  // Constellation network points in the background
+  const constellationNodes = [
+    { cx: 160, cy: 180, r: 1.5, delay: 0 },
+    { cx: 330, cy: 120, r: 2, delay: 1 },
+    { cx: 340, cy: 300, r: 1.5, delay: 2 },
+    { cx: 170, cy: 320, r: 2, delay: 0.5 },
+    { cx: 210, cy: 130, r: 1.5, delay: 1.5 },
+    { cx: 290, cy: 370, r: 2, delay: 2.5 }
+  ];
 
   useEffect(() => {
     const handleResize = () => setIsMobile(window.innerWidth < 1024);
@@ -118,6 +136,31 @@ export default function WhySection() {
         pointerEvents: 'none',
         zIndex: 0
       }} />
+      {/* Left side ambient glow */}
+      <div style={{
+        position: 'absolute',
+        top: '15%',
+        left: '5%',
+        width: '450px',
+        height: '450px',
+        background: 'radial-gradient(circle, rgba(79, 124, 255, 0.02) 0%, rgba(124, 92, 255, 0.008) 50%, transparent 80%)',
+        filter: 'blur(70px)',
+        pointerEvents: 'none',
+        zIndex: 0
+      }} />
+      {/* Faint center mesh glow */}
+      <div style={{
+        position: 'absolute',
+        top: '50%',
+        left: '50%',
+        transform: 'translate(-50%, -50%)',
+        width: '650px',
+        height: '650px',
+        background: 'radial-gradient(circle, rgba(124, 92, 255, 0.02) 0%, rgba(79, 124, 255, 0.008) 60%, transparent 80%)',
+        filter: 'blur(90px)',
+        pointerEvents: 'none',
+        zIndex: 0
+      }} />
 
       <div className="container" style={{ position: 'relative', zIndex: 1 }}>
         <div style={{
@@ -141,7 +184,7 @@ export default function WhySection() {
               display: 'block',
               marginBottom: 16
             }}>
-              Ecosystem
+              The MentR
             </span>
             
             <h2 style={{
@@ -378,11 +421,71 @@ export default function WhySection() {
                     </linearGradient>
                   </defs>
 
-                  {/* Concentric orbit rings in background (5-8% opacity) */}
+                  {/* Concentric orbit rings in background (2-5% opacity) */}
+                  <circle cx="250" cy="250" r="70" stroke="rgba(124, 92, 255, 0.03)" strokeWidth="1" fill="none" />
                   <circle cx="250" cy="250" r="100" stroke="rgba(79, 124, 255, 0.05)" strokeWidth="1.2" fill="none" />
+                  <circle cx="250" cy="250" r="130" stroke="rgba(124, 92, 255, 0.02)" strokeWidth="1" strokeDasharray="2 4" fill="none" />
                   <circle cx="250" cy="250" r="155" stroke="rgba(124, 92, 255, 0.04)" strokeWidth="1" strokeDasharray="3 6" fill="none" />
+                  <circle cx="250" cy="250" r="180" stroke="rgba(79, 124, 255, 0.025)" strokeWidth="1.2" fill="none" />
                   <circle cx="250" cy="250" r="210" stroke="rgba(79, 124, 255, 0.03)" strokeWidth="1.2" fill="none" />
+                  <circle cx="250" cy="250" r="230" stroke="rgba(124, 92, 255, 0.015)" strokeWidth="1" strokeDasharray="4 8" fill="none" />
                   <ellipse cx="250" cy="250" rx="270" ry="150" stroke="rgba(124, 92, 255, 0.04)" strokeWidth="1" transform="rotate(-30 250 250)" fill="none" />
+
+                  {/* Constellation Nodes inside background network */}
+                  {constellationNodes.map((n, i) => (
+                    <g key={`const-${i}`}>
+                      <motion.circle
+                        cx={n.cx}
+                        cy={n.cy}
+                        r={n.r}
+                        fill="rgba(124, 92, 255, 0.35)"
+                        animate={{ opacity: [0.15, 0.55, 0.15], scale: [1, 1.35, 1] }}
+                        transition={{ repeat: Infinity, duration: 4, delay: n.delay }}
+                      />
+                      {i < constellationNodes.length - 1 && (
+                        <line
+                          x1={n.cx}
+                          y1={n.cy}
+                          x2={constellationNodes[i + 1].cx}
+                          y2={constellationNodes[i + 1].cy}
+                          stroke="rgba(124, 92, 255, 0.04)"
+                          strokeWidth="0.8"
+                        />
+                      )}
+                    </g>
+                  ))}
+
+                  {/* Text-to-Ecosystem Visual Bridge Line */}
+                  <g style={{ opacity: hoveredModuleId !== null ? 0.3 : 1, transition: 'opacity 0.35s' }}>
+                    <path
+                      d="M -220,100 Q -100,50 -40,160 T 250,250"
+                      stroke="rgba(124, 92, 255, 0.08)"
+                      strokeWidth="3.5"
+                      fill="none"
+                      style={{ filter: 'blur(2px)' }}
+                    />
+                    <path
+                      d="M -220,100 Q -100,50 -40,160 T 250,250"
+                      stroke="rgba(124, 92, 255, 0.18)"
+                      strokeWidth="1.2"
+                      strokeDasharray="3 6"
+                      fill="none"
+                    />
+                    <motion.circle
+                      r="2.5"
+                      fill="#7C5CFF"
+                      style={{
+                        offsetPath: 'path("M -220,100 Q -100,50 -40,160 T 250,250")',
+                        filter: 'drop-shadow(0 0 3px #7C5CFF)',
+                      }}
+                      animate={{ offsetDistance: ["0%", "100%"] }}
+                      transition={{
+                        repeat: Infinity,
+                        duration: 10,
+                        ease: "linear"
+                      }}
+                    />
+                  </g>
 
                   {/* Swooping glowing background lines wrapping around left-side text (Solid Winding Waves with Sliding Laser Glow) */}
                   {backgroundPaths.map(path => (
@@ -434,24 +537,29 @@ export default function WhySection() {
                     const isAnySelected = hoveredModuleId !== null;
                     return (
                       <g key={`connector-${mod.id}`}>
+                        {/* Underlying connection line */}
                         <path
                           d={mod.curve}
-                          stroke="#7C5CFF"
-                          strokeWidth={isSelected ? 6.5 : 3.5}
+                          stroke="rgba(124, 92, 255, 0.08)"
+                          strokeWidth="2"
                           fill="none"
-                          style={{
-                            opacity: isAnySelected ? (isSelected ? 0.9 : 0.15) : 0.55,
-                            filter: 'blur(3px)',
-                            transition: 'all 0.35s ease'
-                          }}
                         />
-                        <path
+                        {/* Interactive flow path with custom gradients and dash offset */}
+                        <motion.path
                           d={mod.curve}
-                          stroke={isSelected ? "#D8B4FE" : "rgba(124, 92, 255, 0.75)"}
-                          strokeWidth={isSelected ? 2.5 : 1.5}
+                          stroke="url(#whyLineGradRefined)"
+                          strokeWidth={isSelected ? 3.0 : 1.8}
+                          strokeDasharray="6 20"
                           fill="none"
+                          animate={{ strokeDashoffset: [0, -52] }}
+                          transition={{
+                            repeat: Infinity,
+                            duration: isSelected ? 3 : 6,
+                            ease: "linear"
+                          }}
                           style={{
-                            opacity: isAnySelected ? (isSelected ? 1.0 : 0.25) : 0.8,
+                            opacity: isAnySelected ? (isSelected ? 1 : 0.25) : 0.6,
+                            filter: isSelected ? 'drop-shadow(0 0 4px rgba(124, 92, 255, 0.6))' : 'none',
                             transition: 'all 0.35s ease'
                           }}
                         />
@@ -461,26 +569,47 @@ export default function WhySection() {
 
                   {/* Slow, subtle glowing data flow particles traveling along connectors */}
                   {modules.map((mod, index) => {
+                    const isSelected = hoveredModuleId === mod.id;
                     const duration = [14, 18, 13, 16][index];
                     return (
-                      <motion.circle
-                        key={`particle-${mod.id}`}
-                        r="3"
-                        fill="#D8B4FE"
-                        style={{ 
-                          offsetPath: `path("${mod.pathData}")`,
-                          filter: 'drop-shadow(0 0 5px #7C5CFF)',
-                          opacity: hoveredModuleId === null || hoveredModuleId === mod.id ? 0.95 : 0.2,
-                          transition: 'opacity 0.35s'
-                        }}
-                        animate={{ offsetDistance: ["100%", "0%"] }} // flow towards the MentR Core center
-                        transition={{
-                          repeat: Infinity,
-                          duration: duration,
-                          ease: "linear",
-                          delay: index * 1.5
-                        }}
-                      />
+                      <g key={`flow-particle-grp-${mod.id}`}>
+                        {/* Standard flowing particle */}
+                        <motion.circle
+                          r="3"
+                          fill="#D8B4FE"
+                          style={{ 
+                            offsetPath: `path("${mod.pathData}")`,
+                            filter: 'drop-shadow(0 0 5px #7C5CFF)',
+                            opacity: hoveredModuleId === null || hoveredModuleId === mod.id ? 0.95 : 0.2,
+                            transition: 'opacity 0.35s'
+                          }}
+                          animate={{ offsetDistance: ["0%", "100%"] }} // flow from the Core to the outer nodes
+                          transition={{
+                            repeat: Infinity,
+                            duration: duration,
+                            ease: "linear",
+                            delay: index * 1.5
+                          }}
+                        />
+                        {/* High-speed pulse on hover */}
+                        {isSelected && (
+                          <motion.circle
+                            r="4.5"
+                            fill="#FFFFFF"
+                            style={{
+                              offsetPath: `path("${mod.pathData}")`,
+                              filter: 'drop-shadow(0 0 8px #7C5CFF) drop-shadow(0 0 4px #7C5CFF)',
+                              opacity: 1
+                            }}
+                            animate={{ offsetDistance: ["0%", "100%"] }}
+                            transition={{
+                              repeat: Infinity,
+                              duration: 1.8,
+                              ease: "easeOut"
+                            }}
+                          />
+                        )}
+                      </g>
                     );
                   })}
 
@@ -492,40 +621,127 @@ export default function WhySection() {
                       stroke="rgba(226, 232, 240, 0.35)"
                       strokeWidth="0.8"
                       fill="none"
+                      style={{
+                        opacity: hoveredModuleId !== null ? 0.15 : 0.6,
+                        transition: 'opacity 0.35s ease'
+                      }}
                     />
                   ))}
                 </svg>
-
-                {/* Central "MentR Core" Live Engine Node */}
+                {/* Orbiting Decorative Icons (Desktop only, Orbiting MentR Core at very low opacity) */}
                 <div style={{
                   position: 'absolute',
-                  width: 116,
-                  height: 116,
-                  borderRadius: '50%',
-                  background: 'radial-gradient(circle, rgba(255, 255, 255, 0.98) 0%, rgba(243, 244, 246, 0.92) 100%)',
-                  border: '1.5px solid rgba(124, 92, 255, 0.25)',
-                  boxShadow: '0 16px 48px rgba(124, 92, 255, 0.16), 0 4px 16px rgba(15, 23, 42, 0.03)',
-                  display: 'flex',
-                  flexDirection: 'column',
-                  alignItems: 'center',
-                  justifyContent: 'center',
-                  zIndex: 5,
-                  userSelect: 'none'
+                  left: '50%',
+                  top: '50%',
+                  transform: 'translate(-50%, -50%)',
+                  pointerEvents: 'none',
+                  zIndex: 2
                 }}>
-                  {/* Outer Pulsing ambient glows */}
+                  {decorativeIcons.map((item, idx) => {
+                    const Icon = item.icon;
+                    return (
+                      <motion.div
+                        key={`orbit-icon-${idx}`}
+                        style={{
+                          position: 'absolute',
+                          color: '#7C5CFF',
+                          opacity: hoveredModuleId !== null ? 0.05 : 0.15,
+                          display: 'flex',
+                          alignItems: 'center',
+                          justifyContent: 'center',
+                          transition: 'opacity 0.35s ease'
+                        }}
+                        animate={{
+                          x: [
+                            item.r * Math.cos(item.angle),
+                            item.r * Math.cos(item.angle + Math.PI * 2)
+                          ],
+                          y: [
+                            item.r * Math.sin(item.angle),
+                            item.r * Math.sin(item.angle + Math.PI * 2)
+                          ],
+                          rotate: [0, 360]
+                        }}
+                        transition={{
+                          x: { repeat: Infinity, duration: item.speed, ease: "linear" },
+                          y: { repeat: Infinity, duration: item.speed, ease: "linear" },
+                          rotate: { repeat: Infinity, duration: item.speed, ease: "linear" }
+                        }}
+                      >
+                        <Icon size={item.size} />
+                      </motion.div>
+                    );
+                  })}
+                </div>
+
+                           {/* Central "MentR Core" Live Engine Node */}
+                <motion.div 
+                  animate={{
+                    scale: hoveredModuleId ? 1.05 : [1, 1.02, 1],
+                    borderColor: hoveredModuleId ? 'rgba(124, 92, 255, 0.45)' : 'rgba(124, 92, 255, 0.22)'
+                  }}
+                  transition={{
+                    scale: hoveredModuleId ? { type: 'spring', stiffness: 300, damping: 20 } : { repeat: Infinity, duration: 6, ease: "easeInOut" }
+                  }}
+                  style={{
+                    position: 'absolute',
+                    width: 120,
+                    height: 120,
+                    borderRadius: '50%',
+                    background: 'radial-gradient(circle at 35% 35%, rgba(255, 255, 255, 0.98) 0%, rgba(248, 250, 252, 0.94) 60%, rgba(238, 242, 255, 0.88) 100%)',
+                    border: '1.5px solid rgba(124, 92, 255, 0.22)',
+                    boxShadow: '0 20px 50px rgba(124, 92, 255, 0.14), 0 4px 16px rgba(15, 23, 42, 0.04), inset 0 0 20px rgba(255, 255, 255, 0.6)',
+                    backdropFilter: 'blur(16px)',
+                    WebkitBackdropFilter: 'blur(16px)',
+                    display: 'flex',
+                    flexDirection: 'column',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    zIndex: 5,
+                    userSelect: 'none'
+                  }}
+                >
+                  {/* Outer Pulsing ambient glows (Multiple layered delays) */}
                   <motion.div
-                    animate={{ scale: [1, 1.45, 1], opacity: [0.45, 0, 0.45] }}
-                    transition={{ repeat: Infinity, duration: 8, ease: "easeInOut" }}
+                    animate={{ scale: [1, 1.35, 1], opacity: [0.35, 0, 0.35] }}
+                    transition={{ repeat: Infinity, duration: 5, ease: "easeInOut" }}
                     style={{
                       position: 'absolute',
-                      inset: -16,
+                      inset: -12,
                       borderRadius: '50%',
-                      background: 'radial-gradient(circle, rgba(124, 92, 255, 0.15) 0%, transparent 70%)',
+                      background: 'radial-gradient(circle, rgba(124, 92, 255, 0.12) 0%, transparent 70%)',
+                      filter: 'blur(6px)',
+                      pointerEvents: 'none',
+                      zIndex: -1
+                    }}
+                  />
+                  <motion.div
+                    animate={{ scale: [1, 1.55, 1], opacity: [0.25, 0, 0.25] }}
+                    transition={{ repeat: Infinity, duration: 7, ease: "easeInOut", delay: 1 }}
+                    style={{
+                      position: 'absolute',
+                      inset: -24,
+                      borderRadius: '50%',
+                      background: 'radial-gradient(circle, rgba(79, 124, 255, 0.08) 0%, transparent 70%)',
                       filter: 'blur(8px)',
                       pointerEvents: 'none',
                       zIndex: -1
                     }}
                   />
+                  <motion.div
+                    animate={{ scale: [1, 1.8, 1], opacity: [0.15, 0, 0.15] }}
+                    transition={{ repeat: Infinity, duration: 9, ease: "easeInOut", delay: 2 }}
+                    style={{
+                      position: 'absolute',
+                      inset: -36,
+                      borderRadius: '50%',
+                      background: 'radial-gradient(circle, rgba(124, 92, 255, 0.05) 0%, transparent 70%)',
+                      filter: 'blur(10px)',
+                      pointerEvents: 'none',
+                      zIndex: -1
+                    }}
+                  />
+                  
                   {/* Layered opposite rotating guide circles */}
                   <motion.div
                     animate={{ rotate: 360 }}
@@ -549,6 +765,7 @@ export default function WhySection() {
                       pointerEvents: 'none'
                     }}
                   />
+                  
                   {/* Core micro-particles */}
                   {[
                     { id: 1, top: -10, left: 20, delay: 0 },
@@ -585,7 +802,7 @@ export default function WhySection() {
                   
                   <span style={{ fontSize: 11, fontWeight: 750, color: '#4F7CFF', textTransform: 'uppercase', letterSpacing: '0.08em' }}>MentR</span>
                   <span style={{ fontSize: 13, fontWeight: 800, color: '#1E293B' }}>Core</span>
-                </div>
+                </motion.div>
 
                 {/* Secondary Decorative Nodes (Pill badges, low opacity, connected off-screen) */}
                 {secondaryNodes.map(node => {
@@ -668,52 +885,56 @@ export default function WhySection() {
                         style={{
                           background: isSelected 
                             ? 'rgba(255, 255, 255, 0.98)' 
-                            : 'radial-gradient(circle at 30% 30%, #FFFFFF 30%, #F3F5FF 65%, #D6DEFF 100%)', // premium 3D glass sphere gradient
+                            : 'radial-gradient(circle at 30% 30%, rgba(255, 255, 255, 0.96) 0%, rgba(248, 250, 252, 0.94) 65%, rgba(238, 242, 255, 0.8) 100%)', // premium 3D glass sphere gradient
                           backdropFilter: 'blur(10px)',
                           WebkitBackdropFilter: 'blur(10px)',
                           border: isSelected 
                             ? '1.8px solid rgba(124, 92, 255, 0.55)' 
                             : '2px solid rgba(79, 124, 255, 0.16)', // thicker border for visibility
                           boxShadow: isSelected 
-                            ? '0 16px 36px rgba(124, 92, 255, 0.18), 0 0 16px rgba(79, 124, 255, 0.08)' 
-                            : '0 10px 24px rgba(79, 124, 255, 0.16), 0 0 12px rgba(124, 92, 255, 0.08)', // inviting soft glow shadow
+                            ? '0 20px 40px rgba(124, 92, 255, 0.18), inset 0 0 12px rgba(124, 92, 255, 0.05)' 
+                            : '0 8px 24px rgba(79, 124, 255, 0.1), inset 0 0 8px rgba(255, 255, 255, 0.8)', // inviting soft glow shadow
                           display: 'flex',
                           alignItems: isSelected ? 'flex-start' : 'center',
                           justifyContent: isSelected ? 'flex-start' : 'center',
                           padding: isSelected ? '14px' : '0px',
                           boxSizing: 'border-box',
                           cursor: 'pointer',
-                          opacity: isAnySelected ? (isSelected ? 1.0 : 0.45) : 1.0,
+                          opacity: isAnySelected ? (isSelected ? 1.0 : 0.28) : 1.0,
                           transition: 'opacity 0.35s ease, border 0.35s ease',
                           overflow: 'hidden',
                           position: 'relative'
                         }}
                       >
-                        {/* Conspicuous hot pink active indicator dot to make it highly clickable */}
+                        {/* Subtle violet active indicator dot */}
                         {!isSelected && (
-                          <div style={{
-                            position: 'absolute',
-                            top: 4,
-                            right: 4,
-                            width: 8,
-                            height: 8,
-                            borderRadius: '50%',
-                            background: '#EC4899', // hot pink indicator dot
-                            boxShadow: '0 0 8px #EC4899, 0 0 4px #EC4899',
-                            zIndex: 10
-                          }} />
+                          <motion.div 
+                            animate={{ opacity: [0.5, 1, 0.5] }}
+                            transition={{ repeat: Infinity, duration: 2, ease: "easeInOut" }}
+                            style={{
+                              position: 'absolute',
+                              top: 6,
+                              right: 6,
+                              width: 6,
+                              height: 6,
+                              borderRadius: '50%',
+                              background: '#7C5CFF', // brand violet
+                              boxShadow: '0 0 6px #7C5CFF',
+                              zIndex: 10
+                            }} 
+                          />
                         )}
 
                         {/* Inviting breathing halo ring */}
                         {!isSelected && (
                           <motion.div
-                            animate={{ scale: [1, 1.25, 1], opacity: [0.4, 0, 0.4] }}
+                            animate={{ scale: [1, 1.25, 1], opacity: [0.25, 0, 0.25] }}
                             transition={{ repeat: Infinity, duration: 3.5 + mod.id, ease: "easeInOut" }}
                             style={{
                               position: 'absolute',
-                              inset: -8,
+                              inset: -6,
                               borderRadius: '50%',
-                              border: '1.5px solid rgba(124, 92, 255, 0.4)',
+                              border: '1.2px solid rgba(124, 92, 255, 0.22)',
                               pointerEvents: 'none'
                             }}
                           />

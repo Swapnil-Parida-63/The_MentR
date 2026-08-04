@@ -1,4 +1,5 @@
 import { useState, useEffect, useRef } from 'react';
+import { motion } from 'framer-motion';
 import { FadeUp } from '../../hooks/useScrollReveal';
 import BorderGlow from './BorderGlow';
 import { parentAPI, teachersAPI } from '../../services/api';
@@ -24,16 +25,15 @@ function UnderlineField({ label, type = "text", placeholder, value, onChange, re
   }, []);
 
   return (
-    <div style={{ marginBottom: isMobile ? 22 : 40, position: 'relative' }}>
+    <div style={{ marginBottom: isMobile ? 18 : 28, position: 'relative' }}>
       <label 
         style={{ 
           display: 'block', 
-          fontSize: 12, 
-          fontWeight: 600, 
-          color: isFocused ? '#4F7CFF' : '#1D2433', 
-          marginBottom: isMobile ? 6 : 10,
-          letterSpacing: '0.02em',
-          textTransform: 'uppercase',
+          fontSize: 13, 
+          fontWeight: 650, 
+          color: isFocused ? '#4F7CFF' : '#475569', 
+          marginBottom: 8,
+          letterSpacing: '0.01em',
           transition: 'color 0.25s'
         }}
       >
@@ -50,30 +50,20 @@ function UnderlineField({ label, type = "text", placeholder, value, onChange, re
           onBlur={() => setIsFocused(false)}
           style={{
             width: '100%',
-            background: 'none',
-            border: 'none',
+            background: isFocused ? 'rgba(79, 124, 255, 0.01)' : 'rgba(248, 250, 252, 0.8)',
+            border: isFocused ? '1.5px solid #4F7CFF' : '1.5px solid rgba(148, 163, 184, 0.22)',
+            borderRadius: 12,
             outline: 'none',
-            padding: '12px 0',
-            fontSize: 16,
-            color: '#1D2433',
+            padding: '13px 16px',
+            fontSize: 15,
+            color: '#1E293B',
             fontFamily: 'var(--font-sans)',
             caretColor: '#4F7CFF',
-            boxSizing: 'border-box'
+            boxSizing: 'border-box',
+            transition: 'all 0.25s cubic-bezier(0.16, 1, 0.3, 1)',
+            boxShadow: isFocused ? '0 0 0 3.5px rgba(79, 124, 255, 0.12), 0 2px 4px rgba(15, 23, 42, 0.01)' : 'none'
           }}
         />
-        <div style={{ position: 'absolute', bottom: 0, left: 0, right: 0, height: 1, background: 'rgba(29, 36, 51, 0.15)', pointerEvents: 'none' }} />
-        <div style={{
-          position: 'absolute',
-          bottom: 0,
-          left: 0,
-          right: 0,
-          height: 2,
-          background: 'linear-gradient(90deg, #4F7CFF 0%, #7469F8 100%)',
-          transform: isFocused ? 'scaleX(1)' : 'scaleX(0)',
-          transformOrigin: 'left',
-          transition: 'transform 0.25s ease',
-          pointerEvents: 'none'
-        }} />
       </div>
     </div>
   );
@@ -90,16 +80,15 @@ function UnderlineSelect({ label, value, onChange, required = false, children })
   }, []);
 
   return (
-    <div style={{ marginBottom: isMobile ? 22 : 40, position: 'relative' }}>
+    <div style={{ marginBottom: isMobile ? 18 : 28, position: 'relative' }}>
       <label 
         style={{ 
           display: 'block', 
-          fontSize: 12, 
-          fontWeight: 600, 
-          color: isFocused ? '#4F7CFF' : '#1D2433', 
-          marginBottom: isMobile ? 6 : 10,
-          letterSpacing: '0.02em',
-          textTransform: 'uppercase',
+          fontSize: 13, 
+          fontWeight: 650, 
+          color: isFocused ? '#4F7CFF' : '#475569', 
+          marginBottom: 8,
+          letterSpacing: '0.01em',
           transition: 'color 0.25s'
         }}
       >
@@ -114,34 +103,24 @@ function UnderlineSelect({ label, value, onChange, required = false, children })
           onBlur={() => setIsFocused(false)}
           style={{
             width: '100%',
-            background: 'none',
-            border: 'none',
+            background: isFocused ? 'rgba(79, 124, 255, 0.01)' : 'rgba(248, 250, 252, 0.8)',
+            border: isFocused ? '1.5px solid #4F7CFF' : '1.5px solid rgba(148, 163, 184, 0.22)',
+            borderRadius: 12,
             outline: 'none',
-            padding: '12px 0',
-            fontSize: 16,
-            color: '#1D2433',
+            padding: '13px 16px',
+            fontSize: 15,
+            color: '#1E293B',
             fontFamily: 'var(--font-sans)',
             appearance: 'none',
             cursor: 'pointer',
-            boxSizing: 'border-box'
+            boxSizing: 'border-box',
+            transition: 'all 0.25s cubic-bezier(0.16, 1, 0.3, 1)',
+            boxShadow: isFocused ? '0 0 0 3.5px rgba(79, 124, 255, 0.12), 0 2px 4px rgba(15, 23, 42, 0.01)' : 'none'
           }}
         >
           {children}
         </select>
-        <div style={{ position: 'absolute', bottom: 0, left: 0, right: 0, height: 1, background: 'rgba(29, 36, 51, 0.15)', pointerEvents: 'none' }} />
-        <div style={{
-          position: 'absolute',
-          bottom: 0,
-          left: 0,
-          right: 0,
-          height: 2,
-          background: 'linear-gradient(90deg, #4F7CFF 0%, #7469F8 100%)',
-          transform: isFocused ? 'scaleX(1)' : 'scaleX(0)',
-          transformOrigin: 'left',
-          transition: 'transform 0.25s ease',
-          pointerEvents: 'none'
-        }} />
-        <div style={{ position: 'absolute', right: 4, top: '50%', transform: 'translateY(-50%)', pointerEvents: 'none', color: '#5D677A', fontSize: 10 }}>▼</div>
+        <div style={{ position: 'absolute', right: 16, top: '50%', transform: 'translateY(-50%)', pointerEvents: 'none', color: '#64748B', fontSize: 11 }}>▼</div>
       </div>
     </div>
   );
@@ -150,16 +129,15 @@ function UnderlineSelect({ label, value, onChange, required = false, children })
 function UnderlineTextarea({ label, placeholder, value, onChange, required = false }) {
   const [isFocused, setIsFocused] = useState(false);
   return (
-    <div style={{ marginBottom: 40, position: 'relative' }}>
+    <div style={{ marginBottom: 28, position: 'relative' }}>
       <label 
         style={{ 
           display: 'block', 
-          fontSize: 12, 
-          fontWeight: 600, 
-          color: isFocused ? '#4F7CFF' : '#1D2433', 
-          marginBottom: 10,
-          letterSpacing: '0.02em',
-          textTransform: 'uppercase',
+          fontSize: 13, 
+          fontWeight: 650, 
+          color: isFocused ? '#4F7CFF' : '#475569', 
+          marginBottom: 8,
+          letterSpacing: '0.01em',
           transition: 'color 0.25s'
         }}
       >
@@ -175,31 +153,21 @@ function UnderlineTextarea({ label, placeholder, value, onChange, required = fal
           onBlur={() => setIsFocused(false)}
           style={{
             width: '100%',
-            background: 'none',
-            border: 'none',
+            background: isFocused ? 'rgba(79, 124, 255, 0.01)' : 'rgba(248, 250, 252, 0.8)',
+            border: isFocused ? '1.5px solid #4F7CFF' : '1.5px solid rgba(148, 163, 184, 0.22)',
+            borderRadius: 12,
             outline: 'none',
-            padding: '12px 0',
-            fontSize: 16,
-            color: '#1D2433',
+            padding: '13px 16px',
+            fontSize: 15,
+            color: '#1E293B',
             fontFamily: 'var(--font-sans)',
             resize: 'none',
-            height: 64,
-            boxSizing: 'border-box'
+            height: 80,
+            boxSizing: 'border-box',
+            transition: 'all 0.25s cubic-bezier(0.16, 1, 0.3, 1)',
+            boxShadow: isFocused ? '0 0 0 3.5px rgba(79, 124, 255, 0.12), 0 2px 4px rgba(15, 23, 42, 0.01)' : 'none'
           }}
         />
-        <div style={{ position: 'absolute', bottom: 0, left: 0, right: 0, height: 1, background: 'rgba(29, 36, 51, 0.15)', pointerEvents: 'none' }} />
-        <div style={{
-          position: 'absolute',
-          bottom: 0,
-          left: 0,
-          right: 0,
-          height: 2,
-          background: 'linear-gradient(90deg, #4F7CFF 0%, #7469F8 100%)',
-          transform: isFocused ? 'scaleX(1)' : 'scaleX(0)',
-          transformOrigin: 'left',
-          transition: 'transform 0.25s ease',
-          pointerEvents: 'none'
-        }} />
       </div>
     </div>
   );
@@ -238,16 +206,15 @@ function UnderlineMultiSelect({ label, options, selectedValues, onChange }) {
   };
 
   return (
-    <div ref={dropdownRef} style={{ marginBottom: 40, position: 'relative' }}>
+    <div ref={dropdownRef} style={{ marginBottom: 28, position: 'relative' }}>
       <label 
         style={{ 
           display: 'block', 
-          fontSize: 12, 
-          fontWeight: 600, 
-          color: isOpen ? '#4F7CFF' : '#1D2433', 
-          marginBottom: 10,
-          letterSpacing: '0.02em',
-          textTransform: 'uppercase',
+          fontSize: 13, 
+          fontWeight: 650, 
+          color: isOpen ? '#4F7CFF' : '#475569', 
+          marginBottom: 8,
+          letterSpacing: '0.01em',
           transition: 'color 0.25s'
         }}
       >
@@ -257,20 +224,24 @@ function UnderlineMultiSelect({ label, options, selectedValues, onChange }) {
         onClick={() => setIsOpen(!isOpen)}
         style={{
           width: '100%',
-          minHeight: 44,
-          borderBottom: '1px solid rgba(29, 36, 51, 0.15)',
-          padding: '8px 0',
+          minHeight: 48,
+          background: isOpen ? 'rgba(79, 124, 255, 0.01)' : 'rgba(248, 250, 252, 0.8)',
+          border: isOpen ? '1.5px solid #4F7CFF' : '1.5px solid rgba(148, 163, 184, 0.22)',
+          borderRadius: 12,
+          padding: '8px 16px',
           display: 'flex',
           flexWrap: 'wrap',
           gap: 6,
           alignItems: 'center',
           cursor: 'pointer',
           position: 'relative',
-          boxSizing: 'border-box'
+          boxSizing: 'border-box',
+          transition: 'all 0.25s cubic-bezier(0.16, 1, 0.3, 1)',
+          boxShadow: isOpen ? '0 0 0 3.5px rgba(79, 124, 255, 0.12), 0 2px 4px rgba(15, 23, 42, 0.01)' : 'none'
         }}
       >
         {selectedValues.length === 0 ? (
-          <span style={{ color: '#5D677A', opacity: 0.6, fontSize: 16 }}>Select options...</span>
+          <span style={{ color: '#64748B', opacity: 0.6, fontSize: 15 }}>Select options...</span>
         ) : (
           selectedValues.map(v => (
             <span 
@@ -280,7 +251,7 @@ function UnderlineMultiSelect({ label, options, selectedValues, onChange }) {
                 color: '#4F7CFF',
                 fontSize: 12,
                 fontWeight: 600,
-                padding: '3px 10px',
+                padding: '4px 10px',
                 borderRadius: 99,
                 display: 'inline-flex',
                 alignItems: 'center',
@@ -295,21 +266,9 @@ function UnderlineMultiSelect({ label, options, selectedValues, onChange }) {
             </span>
           ))
         )}
-        <div style={{ position: 'absolute', right: 4, top: '50%', transform: 'translateY(-50%)', color: '#5D677A', fontSize: 10 }}>
+        <div style={{ position: 'absolute', right: 16, top: '50%', transform: 'translateY(-50%)', color: '#64748B', fontSize: 11 }}>
           {isOpen ? '▲' : '▼'}
         </div>
-        <div style={{
-          position: 'absolute',
-          bottom: -1,
-          left: 0,
-          right: 0,
-          height: 2,
-          background: 'linear-gradient(90deg, #4F7CFF 0%, #7469F8 100%)',
-          transform: isOpen ? 'scaleX(1)' : 'scaleX(0)',
-          transformOrigin: 'left',
-          transition: 'transform 0.25s ease',
-          pointerEvents: 'none'
-        }} />
       </div>
 
       {isOpen && (
@@ -319,7 +278,7 @@ function UnderlineMultiSelect({ label, options, selectedValues, onChange }) {
           left: 0,
           right: 0,
           background: '#FFFFFF',
-          border: '1px solid rgba(79, 124, 255, 0.12)',
+          border: '1.5px solid rgba(148, 163, 184, 0.15)',
           boxShadow: '0 12px 32px rgba(15, 23, 42, 0.08)',
           borderRadius: 12,
           zIndex: 999,
@@ -337,10 +296,10 @@ function UnderlineMultiSelect({ label, options, selectedValues, onChange }) {
                 style={{
                   padding: '8px 12px',
                   fontSize: 14,
-                  borderRadius: 6,
+                  borderRadius: 8,
                   cursor: 'pointer',
                   background: isSelected ? 'rgba(79, 124, 255, 0.05)' : 'transparent',
-                  color: isSelected ? '#4F7CFF' : '#1D2433',
+                  color: isSelected ? '#4F7CFF' : '#1E293B',
                   fontWeight: isSelected ? 600 : 500,
                   display: 'flex',
                   justifyContent: 'space-between',
@@ -626,87 +585,108 @@ export default function FormsSection() {
   };
 
   return (
-    <section id="contact-forms" className="section" style={{ background: 'transparent', padding: isMobile ? '60px 0' : '120px 0' }}>
+    <section id="contact-forms" className="section" style={{ background: 'transparent', padding: isMobile ? '16px 0 48px' : '120px 0' }}>
       <div className="container">
-        <FadeUp><div className="eyebrow">Get Started</div></FadeUp>
-        <FadeUp delay={0.1} duration={0.8} y={24}>
-          <h2 style={{ fontSize: 'clamp(32px, 3.5vw, 44px)', marginBottom: 20, fontFamily: 'var(--font-display)', fontWeight: 500, color: '#1D2433' }}>
-            Let's build your learning journey
+        {!isMobile && <FadeUp><div className="eyebrow">Get Started</div></FadeUp>}
+        <FadeUp delay={0.1} duration={0.8} y={isMobile ? 8 : 24}>
+          <h2 style={{ fontSize: isMobile ? '24px' : 'clamp(32px, 3.5vw, 44px)', marginBottom: isMobile ? 8 : 20, fontFamily: 'var(--font-display)', fontWeight: 500, color: '#1D2433' }}>
+            {isMobile ? 'Get Started' : "Let's build your learning journey"}
           </h2>
         </FadeUp>
-        <FadeUp delay={0.2} duration={0.7} y={12}>
-          <p style={{ color: 'var(--color-text-secondary)', maxWidth: 500, marginBottom: 60, fontSize: 16, lineHeight: 1.8 }}>
-            Whether you are a parent looking for structured matching, or an educator ready to join, start here.
-          </p>
-        </FadeUp>
+        {!isMobile && (
+          <FadeUp delay={0.2} duration={0.7} y={12}>
+            <p style={{ color: 'var(--color-text-secondary)', maxWidth: 500, marginBottom: 60, fontSize: 16, lineHeight: 1.8 }}>
+              Whether you are a parent looking for structured matching, or an educator ready to join, start here.
+            </p>
+          </FadeUp>
+        )}
 
         <FadeUp delay={0.3} y={16}>
           <div 
             className={highlightForm ? 'form-pulse-highlight' : ''} 
             style={{ 
-              borderRadius: 28, 
+              borderRadius: 36, 
               transition: 'all 0.3s ease',
               padding: highlightForm ? '2px' : '0px',
               background: highlightForm ? '#4F7CFF' : 'transparent' 
             }}
           >
-            <BorderGlow borderRadius={28} backgroundColor="#FFFFFF">
+            <BorderGlow borderRadius={36} backgroundColor="#FFFFFF">
               <div className="editorial-form-grid">
               
               {/* Left Column: Form surface (70%) */}
               <div className="editorial-form-left">
                 {/* Form Tabs Selector */}
-                <div style={{ display: 'flex', gap: 24, borderBottom: '1px solid rgba(79, 124, 255, 0.08)', marginBottom: 44, paddingBottom: 16, flexWrap: 'wrap' }}>
-                  <button
-                    onClick={() => setActiveTab('assessment')}
-                    type="button"
-                    style={{
-                      background: 'none', border: 'none', fontSize: 15, fontWeight: 700,
-                      color: activeTab === 'assessment' ? '#4F7CFF' : '#5D677A', cursor: 'pointer',
-                      position: 'relative', transition: 'color 0.25s', fontFamily: 'var(--font-sans)',
-                      padding: '4px 0'
-                    }}
-                  >
-                    Book Assessment
-                    {activeTab === 'assessment' && <div style={{ position: 'absolute', bottom: -17, left: 0, right: 0, height: 2, background: '#4F7CFF' }} />}
-                  </button>
-                  <button
-                    onClick={() => setActiveTab('parent_registration')}
-                    type="button"
-                    style={{
-                      background: 'none', border: 'none', fontSize: 15, fontWeight: 700,
-                      color: activeTab === 'parent_registration' ? '#4F7CFF' : '#5D677A', cursor: 'pointer',
-                      position: 'relative', transition: 'color 0.25s', fontFamily: 'var(--font-sans)',
-                      padding: '4px 0'
-                    }}
-                  >
-                    Parent Registration
-                    {activeTab === 'parent_registration' && <div style={{ position: 'absolute', bottom: -17, left: 0, right: 0, height: 2, background: '#4F7CFF' }} />}
-                  </button>
-                  <button
-                    onClick={() => setActiveTab('teacher')}
-                    type="button"
-                    style={{
-                      background: 'none', border: 'none', fontSize: 15, fontWeight: 700,
-                      color: activeTab === 'teacher' ? '#4F7CFF' : '#5D677A', cursor: 'pointer',
-                      position: 'relative', transition: 'color 0.25s', fontFamily: 'var(--font-sans)',
-                      padding: '4px 0'
-                    }}
-                  >
-                    Join as a Teacher
-                    {activeTab === 'teacher' && <div style={{ position: 'absolute', bottom: -17, left: 0, right: 0, height: 2, background: '#4F7CFF' }} />}
-                  </button>
+                <div 
+                  className="tabs-container"
+                  style={{ 
+                    display: 'flex', 
+                    background: '#F1F5F9',
+                    padding: isMobile ? 3 : 4,
+                    borderRadius: 99,
+                    border: '1px solid rgba(148, 163, 184, 0.12)',
+                    marginBottom: isMobile ? 20 : 44, 
+                    position: isMobile ? 'sticky' : 'relative',
+                    top: isMobile ? 0 : 'auto',
+                    zIndex: isMobile ? 20 : 'auto',
+                    gap: isMobile ? 2 : 4
+                  }}
+                >
+                  {[
+                    { id: 'assessment', label: 'Book Assessment', mobileLabel: 'Assessment' },
+                    { id: 'parent_registration', label: 'Parent Registration', mobileLabel: 'Register' },
+                    { id: 'teacher', label: 'Join as a Teacher', mobileLabel: 'Teach' }
+                  ].map(tab => {
+                    const isActive = activeTab === tab.id;
+                    return (
+                      <button
+                        key={tab.id}
+                        onClick={() => setActiveTab(tab.id)}
+                        type="button"
+                        style={{
+                          background: 'none', 
+                          border: 'none', 
+                          fontSize: isMobile ? 12.5 : 13.5, 
+                          fontWeight: 700,
+                          color: isActive ? '#4F7CFF' : '#475569', 
+                          cursor: 'pointer',
+                          position: 'relative', 
+                          transition: 'color 0.25s', 
+                          fontFamily: 'var(--font-sans)',
+                          padding: isMobile ? '9px 12px' : '10px 20px',
+                          borderRadius: 99,
+                          flex: 1,
+                          textAlign: 'center',
+                          zIndex: 1,
+                          display: 'inline-flex',
+                          alignItems: 'center',
+                          justifyContent: 'center',
+                          whiteSpace: 'nowrap'
+                        }}
+                      >
+                        {isMobile ? tab.mobileLabel : tab.label}
+                        {isActive && (
+                          <motion.div
+                            layoutId="activeFormTabPill"
+                            style={{
+                              position: 'absolute',
+                              inset: 0,
+                              background: '#FFFFFF',
+                              borderRadius: 99,
+                              boxShadow: '0 4px 12px rgba(15, 23, 42, 0.05), 0 1px 3px rgba(15, 23, 42, 0.03)',
+                              zIndex: -1
+                            }}
+                            transition={{ type: 'spring', stiffness: 380, damping: 30 }}
+                          />
+                        )}
+                      </button>
+                    );
+                  })}
                 </div>
 
                 {activeTab === 'assessment' && (
                   /* Parent Assessment Visit form */
                   <form onSubmit={handleParentSubmit} style={{ display: 'flex', flexDirection: 'column', flex: 1 }}>
-                    {/* 3 Steps Progress Line */}
-                    <div style={{ display: 'flex', gap: 6, marginBottom: 44 }}>
-                      <div style={{ flex: 1, height: 2, borderRadius: 9, background: parentStep >= 1 ? '#4F7CFF' : 'rgba(79, 124, 255, 0.1)' }} />
-                      <div style={{ flex: 1, height: 2, borderRadius: 9, background: parentStep >= 2 ? '#4F7CFF' : 'rgba(79, 124, 255, 0.1)' }} />
-                      <div style={{ flex: 1, height: 2, borderRadius: 9, background: parentStep >= 3 ? '#4F7CFF' : 'rgba(79, 124, 255, 0.1)' }} />
-                    </div>
 
                     {parentStep === 1 && (
                       <div style={{ animation: 'fadeFormStep 0.4s ease' }}>
@@ -781,12 +761,6 @@ export default function FormsSection() {
                 {activeTab === 'parent_registration' && (
                   /* Parent Registration form */
                   <form onSubmit={handleRegistrationSubmit} style={{ display: 'flex', flexDirection: 'column', flex: 1 }}>
-                    {/* 3 Steps Progress Line */}
-                    <div style={{ display: 'flex', gap: 6, marginBottom: 44 }}>
-                      <div style={{ flex: 1, height: 2, borderRadius: 9, background: regStep >= 1 ? '#4F7CFF' : 'rgba(79, 124, 255, 0.1)' }} />
-                      <div style={{ flex: 1, height: 2, borderRadius: 9, background: regStep >= 2 ? '#4F7CFF' : 'rgba(79, 124, 255, 0.1)' }} />
-                      <div style={{ flex: 1, height: 2, borderRadius: 9, background: regStep >= 3 ? '#4F7CFF' : 'rgba(79, 124, 255, 0.1)' }} />
-                    </div>
 
                     {regStep === 1 && (
                       <div style={{ animation: 'fadeFormStep 0.4s ease' }}>
@@ -861,13 +835,6 @@ export default function FormsSection() {
                 {activeTab === 'teacher' && (
                   /* Teacher application form (Comprehensive 4 Steps) */
                   <form onSubmit={handleTeacherSubmit} style={{ display: 'flex', flexDirection: 'column', flex: 1 }}>
-                    {/* 4 Steps Progress Line */}
-                    <div style={{ display: 'flex', gap: 6, marginBottom: 44 }}>
-                      <div style={{ flex: 1, height: 2, borderRadius: 9, background: teacherStep >= 1 ? '#4F7CFF' : 'rgba(79, 124, 255, 0.1)' }} />
-                      <div style={{ flex: 1, height: 2, borderRadius: 9, background: teacherStep >= 2 ? '#4F7CFF' : 'rgba(79, 124, 255, 0.1)' }} />
-                      <div style={{ flex: 1, height: 2, borderRadius: 9, background: teacherStep >= 3 ? '#4F7CFF' : 'rgba(79, 124, 255, 0.1)' }} />
-                      <div style={{ flex: 1, height: 2, borderRadius: 9, background: teacherStep >= 4 ? '#4F7CFF' : 'rgba(79, 124, 255, 0.1)' }} />
-                    </div>
 
                     {/* Step 1: Basic Info */}
                     {teacherStep === 1 && (
@@ -997,27 +964,57 @@ export default function FormsSection() {
                 className="editorial-form-right"
                 style={{
                   background: activeTab === 'assessment'
-                    ? 'linear-gradient(180deg, #4F7CFF 0%, #4667E8 50%, #6366F1 100%)'
+                    ? 'linear-gradient(135deg, #4F6AF5 0%, #5C51E6 100%)'
                     : activeTab === 'parent_registration'
-                    ? 'linear-gradient(180deg, #1E40AF 0%, #3B82F6 100%)'
-                    : 'linear-gradient(180deg, #6366F1 0%, #4F7CFF 100%)',
-                  transition: 'background 0.5s ease'
+                    ? 'linear-gradient(135deg, #3B82F6 0%, #1D4ED8 100%)'
+                    : 'linear-gradient(135deg, #6366F1 0%, #4F6AF5 100%)',
+                  transition: 'background 0.5s ease',
+                  borderLeft: isMobile ? 'none' : '1px solid rgba(255, 255, 255, 0.08)'
                 }}
               >
-                <div style={{
+                {/* Floating ambient particles (Desktop only) */}
+                {!isMobile && [...Array(4)].map((_, i) => (
+                  <motion.div
+                    key={`panel-pt-${i}`}
+                    animate={{
+                      y: [0, -18, 0],
+                      x: [0, 8, 0],
+                      opacity: [0.08, 0.2, 0.08]
+                    }}
+                    transition={{
+                      repeat: Infinity,
+                      duration: 7 + i * 2,
+                      ease: "easeInOut",
+                      delay: i * 1.5
+                    }}
+                    style={{
+                      position: 'absolute',
+                      width: 10 + i * 4,
+                      height: 10 + i * 4,
+                      borderRadius: '50%',
+                      background: 'rgba(255, 255, 255, 0.12)',
+                      top: `${20 + i * 22}%`,
+                      left: `${15 + i * 18}%`,
+                      pointerEvents: 'none',
+                      filter: 'blur(1px)'
+                    }}
+                  />
+                ))}
+
+                {!isMobile && <div style={{
                   position: 'absolute',
                   inset: 0,
                   background: activeTab === 'assessment'
-                    ? 'radial-gradient(circle at 80% 20%, rgba(255, 255, 255, 0.12) 0%, transparent 60%)'
+                    ? 'radial-gradient(circle at 80% 20%, rgba(255, 255, 255, 0.08) 0%, transparent 60%)'
                     : activeTab === 'parent_registration'
-                    ? 'radial-gradient(circle at 50% 50%, rgba(255, 255, 255, 0.12) 0%, transparent 60%)'
-                    : 'radial-gradient(circle at 10% 80%, rgba(255, 255, 255, 0.12) 0%, transparent 60%)',
+                    ? 'radial-gradient(circle at 50% 50%, rgba(255, 255, 255, 0.08) 0%, transparent 60%)'
+                    : 'radial-gradient(circle at 10% 80%, rgba(255, 255, 255, 0.08) 0%, transparent 60%)',
                   pointerEvents: 'none',
                   transition: 'background 0.5s ease'
-                }} />
+                }} />}
                 
-                <svg 
-                  style={{ position: 'absolute', inset: 0, width: '100%', height: '100%', opacity: 0.15, pointerEvents: 'none', transform: activeTab === 'teacher' ? 'rotate(180deg)' : 'none', transition: 'transform 0.5s ease' }}
+                {!isMobile && <svg 
+                  style={{ position: 'absolute', inset: 0, width: '100%', height: '100%', opacity: 0.12, pointerEvents: 'none', transform: activeTab === 'teacher' ? 'rotate(180deg)' : 'none', transition: 'transform 0.5s ease' }}
                   viewBox="0 0 300 500"
                   fill="none"
                 >
@@ -1026,140 +1023,175 @@ export default function FormsSection() {
                   <circle cx="250" cy="150" r="3.5" fill="#FFFFFF" />
                   <circle cx="100" cy="350" r="3.5" fill="#FFFFFF" />
                   <circle cx="200" cy="450" r="3" fill="#FFFFFF" />
-                </svg>
+                </svg>}
 
                 {activeTab === 'assessment' && (
-                  <div key="assessment-info" style={{ position: 'relative', zIndex: 2, display: 'flex', flexDirection: 'column', height: '100%', justifyContent: 'space-between', animation: 'fadeFormStep 0.4s ease' }}>
+                  <div key="assessment-info" style={{ position: 'relative', zIndex: 2, display: 'flex', flexDirection: 'column', height: '100%', justifyContent: isMobile ? 'center' : 'space-between', animation: 'fadeFormStep 0.4s ease' }}>
                     <div>
                       <h3 style={{
                         fontFamily: 'var(--font-display)',
-                        fontSize: 'clamp(24px, 2.2vw, 30px)',
+                        fontSize: isMobile ? '16px' : 'clamp(24px, 2.2vw, 30px)',
                         color: '#FFFFFF',
                         lineHeight: 1.25,
-                        marginBottom: 16,
-                        fontWeight: 500,
+                        marginBottom: isMobile ? 6 : 16,
+                        fontWeight: isMobile ? 600 : 500,
                         letterSpacing: '-0.01em'
                       }}>
-                        Let's build your learning journey.
+                        {isMobile ? 'Structured learning, verified teachers.' : "Let's build your learning journey."}
                       </h3>
-                      <p style={{
-                        fontFamily: 'var(--font-sans)',
-                        fontSize: 14,
-                        color: 'rgba(255, 255, 255, 0.85)',
-                        lineHeight: 1.6,
-                        margin: 0
-                      }}>
-                        TheMentR connects parents, students and verified teachers through structured learning — from assessment to outcome.
-                      </p>
+                      {!isMobile && (
+                        <p style={{
+                          fontFamily: 'var(--font-sans)',
+                          fontSize: 14,
+                          color: 'rgba(255, 255, 255, 0.85)',
+                          lineHeight: 1.6,
+                          margin: 0
+                        }}>
+                          TheMentR connects parents, students and verified teachers through structured learning — from assessment to outcome.
+                        </p>
+                      )}
                     </div>
 
-                    <div style={{ display: 'flex', flexDirection: 'column', gap: 20, marginTop: 48 }}>
-                      {[
-                        { icon: '📝', title: 'Assessment First', desc: 'Detailed 60-90m diagnostic visit' },
-                        { icon: '🛡️', title: 'Verified Teachers', desc: 'Rigorous 5-step background vetting' },
-                        { icon: '📈', title: 'AVSAR Intelligence', desc: 'Consistent tracking of curriculum gaps' }
-                      ].map((item, idx) => (
-                        <div key={idx} style={{ display: 'flex', gap: 12, alignItems: 'flex-start' }}>
-                          <div style={{ fontSize: 16, marginTop: 2 }}>{item.icon}</div>
-                          <div>
-                            <div style={{ fontSize: 13, fontWeight: 700, color: '#FFFFFF' }}>{item.title}</div>
-                            <div style={{ fontSize: 11, color: 'rgba(255, 255, 255, 0.7)', marginTop: 2 }}>{item.desc}</div>
+                    {isMobile ? (
+                      <div style={{ display: 'flex', gap: 12, marginTop: 8, flexWrap: 'wrap' }}>
+                        {['Verified Teachers', 'Assessment', 'Secure'].map((t, i) => (
+                          <span key={i} style={{ fontSize: 11, color: 'rgba(255, 255, 255, 0.9)', fontWeight: 600, display: 'flex', alignItems: 'center', gap: 4 }}>
+                            <span style={{ color: '#A5F3FC', fontSize: 11 }}>✓</span> {t}
+                          </span>
+                        ))}
+                      </div>
+                    ) : (
+                      <div style={{ display: 'flex', flexDirection: 'column', gap: 20, marginTop: 48 }}>
+                        {[
+                          { icon: '📝', title: 'Assessment First', desc: 'Detailed 60-90m diagnostic visit' },
+                          { icon: '🛡️', title: 'Verified Teachers', desc: 'Rigorous 5-step background vetting' },
+                          { icon: '📈', title: 'AVSAR Intelligence', desc: 'Consistent tracking of curriculum gaps' }
+                        ].map((item, idx) => (
+                          <div key={idx} style={{ display: 'flex', gap: 12, alignItems: 'flex-start' }}>
+                            <div style={{ fontSize: 16, marginTop: 2 }}>{item.icon}</div>
+                            <div>
+                              <div style={{ fontSize: 13, fontWeight: 700, color: '#FFFFFF' }}>{item.title}</div>
+                              <div style={{ fontSize: 11, color: 'rgba(255, 255, 255, 0.7)', marginTop: 2 }}>{item.desc}</div>
+                            </div>
                           </div>
-                        </div>
-                      ))}
-                    </div>
+                        ))}
+                      </div>
+                    )}
                   </div>
                 )}
 
                 {activeTab === 'parent_registration' && (
-                  <div key="registration-info" style={{ position: 'relative', zIndex: 2, display: 'flex', flexDirection: 'column', height: '100%', justifyContent: 'space-between', animation: 'fadeFormStep 0.4s ease' }}>
+                  <div key="registration-info" style={{ position: 'relative', zIndex: 2, display: 'flex', flexDirection: 'column', height: '100%', justifyContent: isMobile ? 'center' : 'space-between', animation: 'fadeFormStep 0.4s ease' }}>
                     <div>
                       <h3 style={{
                         fontFamily: 'var(--font-display)',
-                        fontSize: 'clamp(24px, 2.2vw, 30px)',
+                        fontSize: isMobile ? '16px' : 'clamp(24px, 2.2vw, 30px)',
                         color: '#FFFFFF',
                         lineHeight: 1.25,
-                        marginBottom: 16,
-                        fontWeight: 500,
+                        marginBottom: isMobile ? 6 : 16,
+                        fontWeight: isMobile ? 600 : 500,
                         letterSpacing: '-0.01em'
                       }}>
-                        Register for curated mentoring.
+                        {isMobile ? 'Register for curated mentoring.' : 'Register for curated mentoring.'}
                       </h3>
-                      <p style={{
-                        fontFamily: 'var(--font-sans)',
-                        fontSize: 14,
-                        color: 'rgba(255, 255, 255, 0.85)',
-                        lineHeight: 1.6,
-                        margin: 0
-                      }}>
-                        Create your parent profile to align with top tutors, manage homework tasks, and trace progress goals.
-                      </p>
+                      {!isMobile && (
+                        <p style={{
+                          fontFamily: 'var(--font-sans)',
+                          fontSize: 14,
+                          color: 'rgba(255, 255, 255, 0.85)',
+                          lineHeight: 1.6,
+                          margin: 0
+                        }}>
+                          Create your parent profile to align with top tutors, manage homework tasks, and trace progress goals.
+                        </p>
+                      )}
                     </div>
 
-                    <div style={{ display: 'flex', flexDirection: 'column', gap: 20, marginTop: 48 }}>
-                      {[
-                        { icon: '🏫', title: 'School Integration', desc: 'Mapped curriculum for CBSE, ICSE, IGCSE & State' },
-                        { icon: '🎓', title: 'Classes 1 to 12', desc: 'Specialized educators for all year groups' },
-                        { icon: '📍', title: 'Local Mapping', desc: 'Directly linked with nearby verified teachers' }
-                      ].map((item, idx) => (
-                        <div key={idx} style={{ display: 'flex', gap: 12, alignItems: 'flex-start' }}>
-                          <div style={{ fontSize: 16, marginTop: 2 }}>{item.icon}</div>
-                          <div>
-                            <div style={{ fontSize: 13, fontWeight: 700, color: '#FFFFFF' }}>{item.title}</div>
-                            <div style={{ fontSize: 11, color: 'rgba(255, 255, 255, 0.7)', marginTop: 2 }}>{item.desc}</div>
+                    {isMobile ? (
+                      <div style={{ display: 'flex', gap: 12, marginTop: 8, flexWrap: 'wrap' }}>
+                        {['All Boards', 'Classes 1–12', 'Local Match'].map((t, i) => (
+                          <span key={i} style={{ fontSize: 11, color: 'rgba(255, 255, 255, 0.9)', fontWeight: 600, display: 'flex', alignItems: 'center', gap: 4 }}>
+                            <span style={{ color: '#A5F3FC', fontSize: 11 }}>✓</span> {t}
+                          </span>
+                        ))}
+                      </div>
+                    ) : (
+                      <div style={{ display: 'flex', flexDirection: 'column', gap: 20, marginTop: 48 }}>
+                        {[
+                          { icon: '🏫', title: 'School Integration', desc: 'Mapped curriculum for CBSE, ICSE, IGCSE & State' },
+                          { icon: '🎓', title: 'Classes 1 to 12', desc: 'Specialized educators for all year groups' },
+                          { icon: '📍', title: 'Local Mapping', desc: 'Directly linked with nearby verified teachers' }
+                        ].map((item, idx) => (
+                          <div key={idx} style={{ display: 'flex', gap: 12, alignItems: 'flex-start' }}>
+                            <div style={{ fontSize: 16, marginTop: 2 }}>{item.icon}</div>
+                            <div>
+                              <div style={{ fontSize: 13, fontWeight: 700, color: '#FFFFFF' }}>{item.title}</div>
+                              <div style={{ fontSize: 11, color: 'rgba(255, 255, 255, 0.7)', marginTop: 2 }}>{item.desc}</div>
+                            </div>
                           </div>
-                        </div>
-                      ))}
-                    </div>
+                        ))}
+                      </div>
+                    )}
                   </div>
                 )}
 
                 {activeTab === 'teacher' && (
-                  <div key="teacher-info" style={{ position: 'relative', zIndex: 2, display: 'flex', flexDirection: 'column', height: '100%', justifyContent: 'space-between', animation: 'fadeFormStep 0.4s ease' }}>
+                  <div key="teacher-info" style={{ position: 'relative', zIndex: 2, display: 'flex', flexDirection: 'column', height: '100%', justifyContent: isMobile ? 'center' : 'space-between', animation: 'fadeFormStep 0.4s ease' }}>
                     <div>
                       <h3 style={{
                         fontFamily: 'var(--font-display)',
-                        fontSize: 'clamp(24px, 2.2vw, 30px)',
+                        fontSize: isMobile ? '16px' : 'clamp(24px, 2.2vw, 30px)',
                         color: '#FFFFFF',
                         lineHeight: 1.25,
-                        marginBottom: 16,
-                        fontWeight: 500,
+                        marginBottom: isMobile ? 6 : 16,
+                        fontWeight: isMobile ? 600 : 500,
                         letterSpacing: '-0.01em'
                       }}>
-                        Join our verified educator network.
+                        {isMobile ? 'Join our educator network.' : 'Join our verified educator network.'}
                       </h3>
-                      <p style={{
-                        fontFamily: 'var(--font-sans)',
-                        fontSize: 14,
-                        color: 'rgba(255, 255, 255, 0.85)',
-                        lineHeight: 1.6,
-                        margin: 0
-                      }}>
-                        We match top-tier teachers with dedicated students in their local area, empowering your pedagogy with digital tools.
-                      </p>
+                      {!isMobile && (
+                        <p style={{
+                          fontFamily: 'var(--font-sans)',
+                          fontSize: 14,
+                          color: 'rgba(255, 255, 255, 0.85)',
+                          lineHeight: 1.6,
+                          margin: 0
+                        }}>
+                          We match top-tier teachers with dedicated students in their local area, empowering your pedagogy with digital tools.
+                        </p>
+                      )}
                     </div>
 
-                    <div style={{ display: 'flex', flexDirection: 'column', gap: 20, marginTop: 48 }}>
-                      {[
-                        { icon: '🎓', title: 'Curated Community', desc: 'Only top 20% of applicants are approved' },
-                        { icon: '🛡️', title: 'Professional Onboarding', desc: 'Interactive demo audits and teaching tips' },
-                        { icon: '📊', title: 'Direct Outcomes', desc: 'Structured feedback reporting systems' }
-                      ].map((item, idx) => (
-                        <div key={idx} style={{ display: 'flex', gap: 12, alignItems: 'flex-start' }}>
-                          <div style={{ fontSize: 16, marginTop: 2 }}>{item.icon}</div>
-                          <div>
-                            <div style={{ fontSize: 13, fontWeight: 700, color: '#FFFFFF' }}>{item.title}</div>
-                            <div style={{ fontSize: 11, color: 'rgba(255, 255, 255, 0.7)', marginTop: 2 }}>{item.desc}</div>
+                    {isMobile ? (
+                      <div style={{ display: 'flex', gap: 12, marginTop: 8, flexWrap: 'wrap' }}>
+                        {['Top 20%', 'Onboarding', 'Outcomes'].map((t, i) => (
+                          <span key={i} style={{ fontSize: 11, color: 'rgba(255, 255, 255, 0.9)', fontWeight: 600, display: 'flex', alignItems: 'center', gap: 4 }}>
+                            <span style={{ color: '#A5F3FC', fontSize: 11 }}>✓</span> {t}
+                          </span>
+                        ))}
+                      </div>
+                    ) : (
+                      <div style={{ display: 'flex', flexDirection: 'column', gap: 20, marginTop: 48 }}>
+                        {[
+                          { icon: '🎓', title: 'Curated Community', desc: 'Only top 20% of applicants are approved' },
+                          { icon: '🛡️', title: 'Professional Onboarding', desc: 'Interactive demo audits and teaching tips' },
+                          { icon: '📊', title: 'Direct Outcomes', desc: 'Structured feedback reporting systems' }
+                        ].map((item, idx) => (
+                          <div key={idx} style={{ display: 'flex', gap: 12, alignItems: 'flex-start' }}>
+                            <div style={{ fontSize: 16, marginTop: 2 }}>{item.icon}</div>
+                            <div>
+                              <div style={{ fontSize: 13, fontWeight: 700, color: '#FFFFFF' }}>{item.title}</div>
+                              <div style={{ fontSize: 11, color: 'rgba(255, 255, 255, 0.7)', marginTop: 2 }}>{item.desc}</div>
+                            </div>
                           </div>
-                        </div>
-                      ))}
-                    </div>
+                        ))}
+                      </div>
+                    )}
                   </div>
                 )}
-
+              </div>
             </div>
-          </div>
-        </BorderGlow>
+          </BorderGlow>
         </div>
         </FadeUp>
       </div>
@@ -1185,8 +1217,15 @@ export default function FormsSection() {
           position: relative;
           display: flex;
           flex-direction: column;
-          justifyContent: 'space-between';
+          justify-content: space-between;
           overflow: hidden;
+        }
+        .tabs-container::-webkit-scrollbar {
+          display: none;
+        }
+        .tabs-container {
+          -ms-overflow-style: none;
+          scrollbar-width: none;
         }
         .btn-editorial-pill {
           background: linear-gradient(135deg, #4F7CFF 0%, #7469F8 100%) !important;
@@ -1251,7 +1290,7 @@ export default function FormsSection() {
         .form-pulse-highlight {
           animation: formPulse 1.8s infinite ease-in-out;
           border: 2px solid #4F7CFF !important;
-          border-radius: 28px;
+          border-radius: 36px;
           transition: border-color 0.3s ease;
         }
         @keyframes fadeFormStep {
@@ -1264,10 +1303,11 @@ export default function FormsSection() {
           }
           .editorial-form-right {
             order: -1;
-            padding: 40px 24px !important;
+            padding: 16px 20px !important;
+            min-height: auto !important;
           }
           .editorial-form-left {
-            padding: 40px 20px !important;
+            padding: 20px 20px 40px !important;
           }
         }
       `}</style>

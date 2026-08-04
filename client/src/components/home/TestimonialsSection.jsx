@@ -600,28 +600,54 @@ export default function TestimonialsSection() {
 
         @media (max-width: 768px) {
           .testimonial-card-surface {
-            height: auto !important;
-            min-height: auto !important;
+            height: 530px !important;
+            min-height: 530px !important;
+            padding: 24px 20px !important;
+            display: flex !important;
+            flex-direction: column !important;
           }
           .testimonial-split-layout {
+            display: flex !important;
+            flex-direction: column !important;
+            height: 100% !important;
             grid-template-columns: 1fr !important;
-            gap: 28px;
+            gap: 16px !important;
           }
           .testimonial-media-col {
-            max-width: 440px;
+            width: 100% !important;
+            max-width: 100% !important;
+            flex: 0 0 auto !important;
             margin: 0 auto;
+          }
+          .profile-image-viewport {
+            aspect-ratio: 16 / 9 !important;
+            max-height: 130px !important;
           }
           .testimonial-info-col {
             text-align: center;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
+            display: flex !important;
+            flex-direction: column !important;
+            align-items: center !important;
+            flex: 1 !important;
+            min-height: 0 !important;
+            width: 100% !important;
+          }
+          .testimonial-text-container {
+            flex: 1 !important;
+            min-height: 0 !important;
+            max-height: none !important;
+            overflow-y: auto !important;
+            width: 100% !important;
+            margin-bottom: 10px !important;
           }
           .testimonial-quote {
             text-align: center;
+            font-size: 16px !important;
           }
           .reviewer-meta-box {
-            width: 100%;
+            width: 100% !important;
+            padding-top: 12px !important;
+            margin-top: auto !important;
           }
         }
       `}</style>

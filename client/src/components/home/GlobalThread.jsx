@@ -239,6 +239,9 @@ export default function GlobalThread() {
         {/* High Density Left Side Doodles */}
         {leftDoodles.map((doodle, idx) => {
           if (doodle.y > height) return null;
+          // Deterministic pseudo-random horizontal offset to scatter doodles across whitespace
+          const randomOffset = Math.sin(doodle.y) * (isMobile ? 35 : 85);
+          const computedLeft = isMobile ? (15 + Math.abs(randomOffset)) : (doodle.x + randomOffset);
           return (
             <div 
               key={`left-doodle-${idx}`} 
@@ -246,10 +249,10 @@ export default function GlobalThread() {
               style={{ 
                 position: 'absolute', 
                 top: doodle.y, 
-                left: isMobile ? 12 : doodle.x, 
+                left: computedLeft, 
                 transform: 'translate(-50%, -50%)',
                 color: doodle.color,
-                opacity: isMobile ? 0.28 : 0.45,
+                opacity: isMobile ? 0.35 : 0.45,
                 display: 'flex',
                 alignItems: 'center',
                 justifyContent: 'center',
@@ -307,6 +310,10 @@ export default function GlobalThread() {
         {/* High Density Right Side Doodles */}
         {rightDoodles.map((doodle, idx) => {
           if (doodle.y > height) return null;
+          // Deterministic pseudo-random horizontal offset to scatter doodles across whitespace
+          const randomOffset = Math.cos(doodle.y) * (isMobile ? 35 : 85);
+          const computedRight = isMobile ? (15 + Math.abs(randomOffset)) : undefined;
+          const computedLeft = isMobile ? undefined : (doodle.x + randomOffset);
           return (
             <div 
               key={`right-doodle-${idx}`} 
@@ -314,11 +321,11 @@ export default function GlobalThread() {
               style={{ 
                 position: 'absolute', 
                 top: doodle.y, 
-                left: isMobile ? undefined : doodle.x,
-                right: isMobile ? 12 : undefined, 
-                transform: 'translate(50%, -50%)', // Shift rightward for perfect gutter alignment on mobile
+                left: computedLeft,
+                right: computedRight, 
+                transform: 'translate(-50%, -50%)',
                 color: doodle.color,
-                opacity: isMobile ? 0.28 : 0.45,
+                opacity: isMobile ? 0.35 : 0.45,
                 display: 'flex',
                 alignItems: 'center',
                 justifyContent: 'center',

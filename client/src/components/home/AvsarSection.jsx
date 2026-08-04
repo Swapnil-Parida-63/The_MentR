@@ -272,7 +272,7 @@ export default function AvsarSection() {
         >
           <div>
             <div style={{ fontSize: 11, fontWeight: 700, letterSpacing: '0.2em', color: '#6366F1', textTransform: 'uppercase', marginBottom: 12 }}>
-              Trust Through Quality
+              AVSAR (TRUST THROUGH QUALITY)
             </div>
             <h2 style={{
               fontFamily: 'var(--font-hero)',
