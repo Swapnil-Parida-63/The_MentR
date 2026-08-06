@@ -1,6 +1,8 @@
 import { useState, useEffect } from 'react';
 import { Scale, Users, UserCheck, Shield, ArrowLeft } from 'lucide-react';
 import { useLocation, useNavigate } from 'react-router-dom';
+import SEO from '../components/common/SEO';
+import { PAGE_SEO } from '../config/seo.config';
 
 export default function TermsPage() {
   const location = useLocation();
@@ -23,8 +25,18 @@ export default function TermsPage() {
     window.scrollTo({ top: 0, behavior: 'auto' });
   }, [activeTab]);
 
+  const termsSeo = {
+    ...PAGE_SEO.terms,
+    title: activeTab === 'privacy'
+      ? 'Privacy Policy | TheMentR Legal Center'
+      : activeTab === 'parents'
+      ? 'Parent Code of Conduct & Terms | TheMentR'
+      : 'Teacher Terms of Service & Agreement | TheMentR'
+  };
+
   return (
     <div className="subpage-wrapper" style={{ minHeight: '100vh', background: 'linear-gradient(180deg, #F0F5FF 0%, #EBF2FE 100%)', paddingBottom: 100 }}>
+      <SEO {...termsSeo} />
       <div className="container" style={{ paddingTop: 40 }}>
         
         {/* Back Button */}

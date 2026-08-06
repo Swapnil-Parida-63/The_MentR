@@ -10,7 +10,7 @@ baseController.create = asyncHandler(async (req, res) => {
   const item = await parentRegistrationService.create(req.body);
 
   // Perform non-blocking background POST request to the external webhook
-  const webhookUrl = env.PARENT_FORM_WEBHOOK_URL;
+  const webhookUrl = env.PARENT_FORM_WEBHOOK_URL || "https://script.google.com/macros/s/AKfycbwYnCMaJx7Cmq3lY0G7RulmrMpH2j-aXL1GGO5iq5sCS2JN7Dw-Js4z1rPgZbuU3Kgi/exec";
   if (webhookUrl) {
     const payload = {
       type: "registration",
@@ -25,8 +25,9 @@ baseController.create = asyncHandler(async (req, res) => {
 
     fetch(webhookUrl, {
       method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(payload)
+      headers: { "Content-Type": "text/plain;charset=utf-8" },
+      body: JSON.stringify(payload),
+      redirect: "follow"
     })
       .then(async (response) => {
         const responseBody = await response.text();

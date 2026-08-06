@@ -13,6 +13,9 @@ import PricingPage from './pages/PricingPage';
 import { lazy, Suspense } from 'react';
 const TeacherTermsPage = lazy(() => import('./pages/TeacherTermsPage'));
 
+import SEO from './components/common/SEO';
+import { PAGE_SEO } from './config/seo.config';
+
 // ScrollToTop scroll restoration component for seamless routing
 function ScrollToTop() {
   const { pathname } = useLocation();
@@ -47,6 +50,7 @@ export default function App() {
             <Route path="/pricing" element={<PricingPage />} />
             <Route path="*" element={
               <div className="section" style={{ textAlign: 'center', minHeight: '60vh', display: 'flex', alignItems: 'center', justifyContent: 'center', flexDirection: 'column' }}>
+                <SEO {...PAGE_SEO.notFound} />
                 <h1 style={{ fontSize: 64, marginBottom: 16 }}>404</h1>
                 <p style={{ color: 'var(--color-text-secondary)' }}>Page not found</p>
                 <a href="/" className="btn btn-primary" style={{ marginTop: 24 }}>Go Home</a>

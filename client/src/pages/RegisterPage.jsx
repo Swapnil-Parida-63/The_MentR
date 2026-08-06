@@ -3,6 +3,8 @@ import { Link, useNavigate } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
 import { authAPI } from '../services/api';
 import BorderGlow from '../components/home/BorderGlow';
+import SEO from '../components/common/SEO';
+import { PAGE_SEO } from '../config/seo.config';
 
 export default function RegisterPage() {
   const [form, setForm] = useState({ name: '', email: '', password: '', role: 'parent' });
@@ -25,6 +27,7 @@ export default function RegisterPage() {
 
   return (
     <div style={{ minHeight: '100vh', display: 'flex', alignItems: 'center', justifyContent: 'center', background: 'var(--color-neutral)', padding: 24 }}>
+      <SEO {...PAGE_SEO.register} />
       <BorderGlow
         borderRadius={32}
         backgroundColor="#edece7"

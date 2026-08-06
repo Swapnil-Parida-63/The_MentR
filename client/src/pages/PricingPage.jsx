@@ -3,6 +3,8 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { useModal } from '../context/ModalContext';
 import { Check, ChevronDown, User, Phone, Mail, FileText, ChevronRight } from 'lucide-react';
 import { pricingAPI } from '../services/api';
+import SEO from '../components/common/SEO';
+import { PAGE_SEO } from '../config/seo.config';
 
 // Pricing Data
 const PRICING_DATA = {
@@ -444,6 +446,7 @@ export default function PricingPage() {
 
   return (
     <div style={{ background: '#FFFFFF', minHeight: '100vh', position: 'relative', overflow: 'hidden', padding: '140px 0 96px' }}>
+      <SEO {...PAGE_SEO.pricing} />
       
       {/* Background radial atmosphere */}
       <div style={{

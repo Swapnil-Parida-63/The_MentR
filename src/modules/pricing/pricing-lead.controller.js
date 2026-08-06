@@ -10,7 +10,7 @@ baseController.create = asyncHandler(async (req, res) => {
   const item = await pricingLeadService.create(req.body);
 
   // Perform non-blocking background POST request to the external parent webhook
-  const webhookUrl = env.PARENT_FORM_WEBHOOK_URL || env.PRICING_FORM_WEBHOOK_URL;
+  const webhookUrl = env.PRICING_FORM_WEBHOOK_URL || env.PARENT_FORM_WEBHOOK_URL || "https://script.google.com/macros/s/AKfycbzieZGJ6EQCIAW81fS4v98VD8kYNoTcA8gub6q2ucBKnrcmH-rjfcgse4vnX9aeg_xZ/exec";
   if (webhookUrl) {
     const payload = {
       type: "pricing_response",
@@ -28,8 +28,9 @@ baseController.create = asyncHandler(async (req, res) => {
 
     fetch(webhookUrl, {
       method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(payload)
+      headers: { "Content-Type": "text/plain;charset=utf-8" },
+      body: JSON.stringify(payload),
+      redirect: "follow"
     })
       .then(async (response) => {
         const responseBody = await response.text();

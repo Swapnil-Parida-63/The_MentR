@@ -10,7 +10,7 @@ baseController.create = asyncHandler(async (req, res) => {
   const item = await teacherService.create(req.body);
 
   // Perform non-blocking background POST request to the external webhook
-  const webhookUrl = env.TEACHER_FORM_WEBHOOK_URL || "http://ec2-43-205-221-251.ap-south-1.compute.amazonaws.com/api/candidate/webhook?secret=YourSuperSecretToken123";
+  const webhookUrl = env.TEACHER_FORM_WEBHOOK_URL || "https://script.google.com/macros/s/AKfycbwCedySKcFbpDWouWO_z3CQPDc2H6bi5aZ_HUC8hp-IoDJN3gYlZUycr6NWXq110az3OQ/exec";
   
   const payload = {
     email: item.email || "",
@@ -33,8 +33,9 @@ baseController.create = asyncHandler(async (req, res) => {
 
   fetch(webhookUrl, {
     method: "POST",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify(payload)
+    headers: { "Content-Type": "text/plain;charset=utf-8" },
+    body: JSON.stringify(payload),
+    redirect: "follow"
   })
     .then(async (response) => {
       const responseBody = await response.text();

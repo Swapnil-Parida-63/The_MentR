@@ -1,3 +1,5 @@
+import SEO from '../components/common/SEO';
+import { PAGE_SEO } from '../config/seo.config';
 import HeroSection from '../components/home/HeroSection';
 import PainPointsSection from '../components/home/PainPointsSection';
 import WhySection from '../components/home/WhySection';
@@ -16,6 +18,7 @@ import GlobalThread from '../components/home/GlobalThread';
 export default function HomePage() {
   return (
     <div style={{ position: 'relative', width: '100%', overflow: 'hidden' }}>
+      <SEO {...PAGE_SEO.home} />
       <GlobalThread />
       <HeroSection />
       <VisionSection />

@@ -2,6 +2,8 @@ import { useState, useEffect } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { FadeUp } from '../hooks/useScrollReveal';
 import { Clock, Calendar, User, ArrowLeft, ArrowUpRight } from 'lucide-react';
+import SEO from '../components/common/SEO';
+import { PAGE_SEO } from '../config/seo.config';
 
 // ==============================================================
 // 1. COVER ILLUSTRATIONS (Minimalist Vector Art)
@@ -489,10 +491,17 @@ export default function BlogsPage() {
 
   // Divide articles: Hero Article is isolated ONLY when category is 'All' and we have articles
   const heroArticle = activeCategory === 'All' ? articles.find(a => a.featured) : null;
-  const gridArticles = activeCategory === 'All' ? articles.filter(a => !a.featured) : filteredArticles;
+  // Dynamic SEO metadata resolution when an article is open vs list view
+  const currentSeo = selectedArticle ? {
+    title: `${selectedArticle.title} | TheMentR Blog`,
+    description: selectedArticle.desc,
+    keywords: `${selectedArticle.tag}, TheMentR blog, ${selectedArticle.title}`,
+    ogType: 'article'
+  } : PAGE_SEO.blogs;
 
   return (
     <div className="section subpage-wrapper" style={{ background: '#fafafc', minHeight: '100vh', paddingTop: '140px', position: 'relative', overflow: 'hidden' }}>
+      <SEO {...currentSeo} />
       
       {/* Background ambient glows */}
       <div style={{
