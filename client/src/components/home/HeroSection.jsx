@@ -6,13 +6,14 @@ import {
   Star, 
   Clock, 
   Target, 
-  LineChart, 
-  BarChart3, 
-  PieChart, 
   ArrowRight, 
-  ChevronDown, 
-  LayoutDashboard 
+  ChevronDown,
+  Sparkles
 } from 'lucide-react';
+
+/* ========================================================================== */
+/* LIVE COUNT UP ANIMATION COMPONENT                                         */
+/* ========================================================================== */
 
 function CountUp({ end, duration = 1500, decimals = 0, suffix = "" }) {
   const [count, setCount] = useState(0);
@@ -47,15 +48,13 @@ function CountUp({ end, duration = 1500, decimals = 0, suffix = "" }) {
   return <span ref={ref}>{count.toFixed(decimals)}{suffix}</span>;
 }
 
-
-
 /* ========================================================================== */
 /* CONTINUOUS LEARNING PATH AND HAND-DRAWN DOODLES                            */
 /* ========================================================================== */
 
 function HeroJourneyDoodles({ isMobile = false }) {
   if (isMobile) {
-    return null; // Do not display this image/doodles in mobile view
+    return null;
   }
 
   return (
@@ -307,7 +306,7 @@ function HeroEcosystemImage() {
 }
 
 /* ========================================================================== */
-/* LEFT SIDE STATISTICS COMPONENT                                             */
+/* TRUST METRICS COMPONENT                                                    */
 /* ========================================================================== */
 
 function TrustMetrics({ isMobile = false, teacherCount = 639, teachingHours = 1961.5 }) {
@@ -386,20 +385,56 @@ function TrustMetrics({ isMobile = false, teacherCount = 639, teachingHours = 19
 }
 
 /* ========================================================================== */
-/* MAIN HERO SECTION COMPONENT                                                */
+/* MAIN REDESIGNED TWO-SECTION HERO COMPONENT                                 */
 /* ========================================================================== */
 
 export default function HeroSection() {
   const { openModal } = useModal();
   const [isMobile, setIsMobile] = useState(window.innerWidth < 1024);
+  const [activeSlide, setActiveSlide] = useState(0);
+  const [showDescription, setShowDescription] = useState(false);
   const [isMobileContentExpanded, setIsMobileContentExpanded] = useState(false);
 
+  // 5 exact images specified by user
+  const slides = [
+    `${import.meta.env.BASE_URL}hero-slides/slide-1.png`,
+    `${import.meta.env.BASE_URL}hero-slides/slide-2.png`,
+    `${import.meta.env.BASE_URL}hero-slides/slide-3.png`,
+    `${import.meta.env.BASE_URL}hero-slides/slide-4.png`,
+    `${import.meta.env.BASE_URL}hero-slides/slide-5.png`
+  ];
+
+  // Preload all slides for GPU-accelerated zero-flicker crossfade
+  useEffect(() => {
+    slides.forEach((src) => {
+      const img = new Image();
+      img.src = src;
+    });
+  }, []);
+
+  // Responsive listener
   useEffect(() => {
     const handleResize = () => {
       setIsMobile(window.innerWidth < 1024);
     };
     window.addEventListener('resize', handleResize);
     return () => window.removeEventListener('resize', handleResize);
+  }, []);
+
+  // Infinite Slideshow Crossfade Timer (Displays ~2.8s per slide, 800ms transition)
+  useEffect(() => {
+    const timer = setInterval(() => {
+      setActiveSlide((prev) => (prev + 1) % slides.length);
+    }, 2800);
+    return () => clearInterval(timer);
+  }, [slides.length]);
+
+  // Description Fade-Up Animation after ~1s delay
+  useEffect(() => {
+    const descTimer = setTimeout(() => {
+      setShowDescription(true);
+    }, 1000);
+    return () => clearTimeout(descTimer);
   }, []);
 
   const getTeacherCount = () => {
@@ -418,164 +453,571 @@ export default function HeroSection() {
     return 1961.5 + diffDays * 31.5;
   };
 
+  const scrollToStorySection = () => {
+    const el = document.getElementById('hero-storytelling-section');
+    if (el) el.scrollIntoView({ behavior: 'smooth' });
+  };
+
   return (
-    <section 
-      id="hero" 
-      style={{ 
-        minHeight: 'auto', 
-        display: 'flex', 
-        alignItems: 'center', 
-        background: '#FFFFFF', 
-        position: 'relative', 
-        overflow: 'hidden', 
-        padding: isMobile ? '160px 0 40px' : '125px 0 50px' 
-      }}
-    >
-      {/* Background Layer 1: Ambient light glows */}
-      <div style={{
-        position: 'absolute',
-        top: '5%',
-        left: '-5%',
-        width: '40vw',
-        height: '40vw',
-        background: 'radial-gradient(circle, rgba(59, 130, 246, 0.06) 0%, transparent 70%)',
-        filter: 'blur(90px)',
-        zIndex: 1,
-        pointerEvents: 'none'
-      }} />
-
-      <div style={{
-        position: 'absolute',
-        bottom: '5%',
-        right: '-5%',
-        width: '45vw',
-        height: '45vw',
-        background: 'radial-gradient(circle, rgba(124, 58, 237, 0.06) 0%, transparent 70%)',
-        filter: 'blur(100px)',
-        zIndex: 1,
-        pointerEvents: 'none'
-      }} />
-
-      {/* Mobile Top Right Background Graphic */}
-      {isMobile && (
-        <div style={{
-          position: 'absolute',
-          top: 0,
-          right: 0,
-          width: '320px',
-          height: '320px',
-          zIndex: 1,
-          pointerEvents: 'none',
-          overflow: 'hidden'
-        }}>
-          <img 
-            src="/ChatGPT Image Jul 31, 2026, 01_55_40 AM.png" 
-            alt="Ecosystem graphic" 
+    <div id="hero" style={{ position: 'relative', width: '100%' }}>
+      
+      {/* =================================================================== */}
+      {/* SECTION 1 — Fullscreen Cinematic Slideshow Hero (100vh)              */}
+      {/* =================================================================== */}
+      <section 
+        style={{ 
+          height: '100vh', 
+          minHeight: isMobile ? '660px' : '720px', 
+          width: '100%', 
+          position: 'relative', 
+          display: 'flex', 
+          alignItems: 'center', 
+          overflow: 'hidden',
+          background: '#0F172A'
+        }}
+      >
+        {/* Background Fullscreen Slideshow Layers with Smooth 800ms Crossfade */}
+        {slides.map((src, index) => (
+          <div
+            key={src}
             style={{
-              width: '100%',
-              height: '100%',
-              objectFit: 'contain',
-              transform: 'translate(0%, -10%)',
-              opacity: 0.9,
-              imageRendering: 'auto',
-              WebkitBackfaceVisibility: 'hidden',
-              maskImage: 'radial-gradient(circle at top right, black 35%, transparent 75%)',
-              WebkitMaskImage: 'radial-gradient(circle at top right, black 35%, transparent 75%)'
-            }} 
-          />
-        </div>
-      )}
-
-
-
-      {/* Continuous Learning Journey Doodles Layer */}
-      <HeroJourneyDoodles isMobile={isMobile} />
-
-      <div className="container" style={{ position: 'relative', zIndex: 2, width: '100%' }}>
-        
-        {/* DESKTOP COMPOSITION */}
-        {!isMobile && (
-          <div 
-            style={{ 
-              display: 'grid', 
-              gridTemplateColumns: '46% 54%', 
-              gap: '36px',
-              alignItems: 'center'
+              position: 'absolute',
+              inset: 0,
+              opacity: index === activeSlide ? 1 : 0,
+              transition: 'opacity 800ms cubic-bezier(0.4, 0, 0.2, 1)',
+              willChange: 'opacity',
+              zIndex: 1
             }}
           >
-            {/* LEFT COLUMN */}
-            <div style={{ textAlign: 'left', display: 'flex', flexDirection: 'column' }}>
-              
-              {/* Section Label */}
+            <img
+              src={src}
+              alt={`TheMentR Learning Story ${index + 1}`}
+              style={{
+                width: '100%',
+                height: '100%',
+                objectFit: 'cover',
+                objectPosition: 'center',
+                filter: 'brightness(0.92) contrast(1.05)'
+              }}
+            />
+          </div>
+        ))}
+
+        {/* Color Treatment & Vignette Overlays (Soft Blue + Subtle Violet + Text Dark Gradient) */}
+        <div 
+          style={{
+            position: 'absolute',
+            inset: 0,
+            zIndex: 2,
+            pointerEvents: 'none',
+            background: `
+              linear-gradient(to right, rgba(15, 23, 42, 0.88) 0%, rgba(15, 23, 42, 0.55) 45%, rgba(15, 23, 42, 0.2) 100%),
+              linear-gradient(135deg, rgba(30, 58, 138, 0.35) 0%, rgba(124, 58, 237, 0.22) 100%),
+              radial-gradient(circle at center, transparent 35%, rgba(15, 23, 42, 0.5) 100%)
+            `
+          }}
+        />
+
+        {/* Hero Content Container */}
+        <div 
+          className="container" 
+          style={{ 
+            position: 'relative', 
+            zIndex: 10, 
+            width: '100%', 
+            paddingTop: isMobile ? '70px' : '40px',
+            color: '#FFFFFF'
+          }}
+        >
+          <div style={{ maxWidth: isMobile ? '100%' : '640px', textAlign: 'left' }}>
+            
+            {/* Small Eyebrow */}
+            <div 
+              style={{
+                display: 'inline-flex',
+                alignItems: 'center',
+                gap: 8,
+                padding: '6px 14px',
+                borderRadius: 9999,
+                background: 'rgba(255, 255, 255, 0.12)',
+                backdropFilter: 'blur(12px)',
+                WebkitBackdropFilter: 'blur(12px)',
+                border: '1px solid rgba(255, 255, 255, 0.2)',
+                marginBottom: 20
+              }}
+            >
+              <span style={{ color: '#60A5FA', fontSize: 8 }}>●</span>
               <span style={{
-                fontFamily: 'var(--font-body)',
-                fontWeight: 600,
+                fontFamily: 'var(--font-sans, system-ui, sans-serif)',
+                fontWeight: 700,
                 fontSize: 11,
-                color: '#2563EB',
                 letterSpacing: '0.12em',
                 textTransform: 'uppercase',
-                display: 'flex',
-                alignItems: 'center',
-                gap: 6,
-                marginBottom: 16
+                color: '#E0E7FF'
               }}>
-                <span style={{ color: '#2563EB', fontSize: 8 }}>●</span> EDUCATIONAL ECOSYSTEM
+                EDUCATIONAL ECOSYSTEM NEVER BEFORE
               </span>
+            </div>
 
-              {/* Main Heading */}
-              <h1 style={{
+            {/* Large Minimal Heading */}
+            <h1 
+              style={{
                 fontFamily: 'var(--font-hero)',
                 fontWeight: 800,
-                fontSize: 'clamp(42px, 3.8vw, 62px)',
-                lineHeight: 1.1,
+                fontSize: isMobile ? 'clamp(34px, 8.5vw, 46px)' : 'clamp(46px, 4.4vw, 68px)',
+                lineHeight: 1.08,
                 letterSpacing: '-0.035em',
-                color: '#0F172A',
-                margin: '0 0 20px'
+                color: '#FFFFFF',
+                margin: '0 0 24px',
+                textShadow: '0 4px 24px rgba(15, 23, 42, 0.4)'
+              }}
+            >
+              Every child<br />
+              deserves the<br />
+              <span style={{
+                background: 'linear-gradient(135deg, #60A5FA 0%, #C4B5FD 100%)',
+                WebkitBackgroundClip: 'text',
+                WebkitTextFillColor: 'transparent'
               }}>
-                Every child<br />
-                deserves the<br />
-                <span style={{
-                  background: 'linear-gradient(135deg, #2563EB 0%, #7C3AED 100%)',
-                  WebkitBackgroundClip: 'text',
-                  WebkitTextFillColor: 'transparent'
-                }}>
-                  right mentor.
-                </span>
-              </h1>
+                right mentor.
+              </span>
+            </h1>
 
-              {/* Supporting Paragraph */}
-              <p style={{
-                fontFamily: 'var(--font-body)',
-                fontWeight: 450,
-                fontSize: 15.5,
-                color: '#64748B',
-                lineHeight: 1.6,
-                maxWidth: '460px',
-                margin: '0 0 30px'
-              }}>
+            {/* Description Fade-Up Animation (Initially Hidden, Fades Up After 1s) */}
+            <div
+              style={{
+                opacity: showDescription ? 1 : 0,
+                transform: showDescription ? 'translateY(0)' : 'translateY(22px)',
+                transition: 'opacity 500ms ease-out, transform 500ms ease-out',
+                willChange: 'opacity, transform',
+                marginBottom: 32
+              }}
+            >
+              <p 
+                style={{
+                  fontFamily: 'var(--font-body)',
+                  fontWeight: 400,
+                  fontSize: isMobile ? 14.5 : 16.5,
+                  color: 'rgba(241, 245, 249, 0.92)',
+                  lineHeight: 1.65,
+                  maxWidth: '510px',
+                  margin: 0,
+                  textShadow: '0 2px 10px rgba(15, 23, 42, 0.6)'
+                }}
+              >
                 Finding the right teacher shouldn't be guesswork.<br />
                 Assessment-first learning. Verified educators.<br />
                 Personalized guidance. Measurable outcomes.
               </p>
+            </div>
 
-              {/* CTA Buttons */}
-              <div style={{ display: 'flex', gap: 14, marginBottom: 36 }}>
+            {/* Action Buttons */}
+            <div style={{ display: 'flex', gap: 14, flexWrap: 'wrap' }}>
+              {/* Primary: Book a Demo */}
+              <button
+                onClick={() => openModal('parent')}
+                className="btn btn-hero-slideshow-primary"
+                style={{
+                  background: 'linear-gradient(135deg, #2563EB 0%, #7C3AED 100%)',
+                  color: '#FFFFFF',
+                  fontWeight: 700,
+                  fontSize: 15,
+                  padding: '14px 28px',
+                  borderRadius: 9999,
+                  border: 'none',
+                  cursor: 'pointer',
+                  boxShadow: '0 8px 24px -4px rgba(37, 99, 235, 0.45)',
+                  transition: 'all 0.3s cubic-bezier(0.16, 1, 0.3, 1)',
+                  display: 'inline-flex',
+                  alignItems: 'center',
+                  gap: 8
+                }}
+              >
+                Book a Demo <ArrowRight size={16} />
+              </button>
+
+              {/* Secondary: Join as a Teacher */}
+              <button
+                onClick={() => openModal('teacher')}
+                className="btn btn-hero-slideshow-glass"
+                style={{
+                  background: 'rgba(255, 255, 255, 0.12)',
+                  backdropFilter: 'blur(16px)',
+                  WebkitBackdropFilter: 'blur(16px)',
+                  color: '#FFFFFF',
+                  fontWeight: 700,
+                  fontSize: 15,
+                  padding: '14px 28px',
+                  borderRadius: 9999,
+                  border: '1.5px solid rgba(255, 255, 255, 0.3)',
+                  cursor: 'pointer',
+                  boxShadow: '0 4px 16px rgba(0, 0, 0, 0.15)',
+                  transition: 'all 0.3s cubic-bezier(0.16, 1, 0.3, 1)'
+                }}
+              >
+                Join as a Teacher
+              </button>
+            </div>
+
+          </div>
+        </div>
+
+        {/* Subtle Bottom Scroll Cue Indicator */}
+        <div 
+          onClick={scrollToStorySection}
+          style={{
+            position: 'absolute',
+            bottom: 24,
+            left: '50%',
+            transform: 'translateX(-50%)',
+            zIndex: 10,
+            cursor: 'pointer',
+            display: 'flex',
+            flexDirection: 'column',
+            alignItems: 'center',
+            gap: 6,
+            color: 'rgba(255, 255, 255, 0.75)',
+            transition: 'color 0.3s ease'
+          }}
+          className="hero-scroll-indicator"
+        >
+          <span style={{ fontSize: 11, letterSpacing: '0.1em', textTransform: 'uppercase', fontWeight: 600 }}>Explore Story</span>
+          <motion.div
+            animate={{ y: [0, 5, 0] }}
+            transition={{ repeat: Infinity, duration: 1.8, ease: 'easeInOut' }}
+          >
+            <ChevronDown size={18} />
+          </motion.div>
+        </div>
+      </section>
+
+      {/* =================================================================== */}
+      {/* SECTION 2 — Existing Storytelling Hero Content ("The MentR Difference")*/}
+      {/* =================================================================== */}
+      <section 
+        id="hero-storytelling-section" 
+        style={{ 
+          minHeight: 'auto', 
+          display: 'flex', 
+          alignItems: 'center', 
+          background: '#FFFFFF', 
+          position: 'relative', 
+          overflow: 'hidden', 
+          padding: isMobile ? '60px 0 40px' : '90px 0 50px',
+          borderTop: '1px solid rgba(226, 232, 240, 0.6)'
+        }}
+      >
+        {/* Background Layer 1: Ambient light glows */}
+        <div style={{
+          position: 'absolute',
+          top: '5%',
+          left: '-5%',
+          width: '40vw',
+          height: '40vw',
+          background: 'radial-gradient(circle, rgba(59, 130, 246, 0.06) 0%, transparent 70%)',
+          filter: 'blur(90px)',
+          zIndex: 1,
+          pointerEvents: 'none'
+        }} />
+
+        <div style={{
+          position: 'absolute',
+          bottom: '5%',
+          right: '-5%',
+          width: '45vw',
+          height: '45vw',
+          background: 'radial-gradient(circle, rgba(124, 58, 237, 0.06) 0%, transparent 70%)',
+          filter: 'blur(100px)',
+          zIndex: 1,
+          pointerEvents: 'none'
+        }} />
+
+        {/* Mobile Top Right Background Graphic */}
+        {isMobile && (
+          <div style={{
+            position: 'absolute',
+            top: 0,
+            right: 0,
+            width: '320px',
+            height: '320px',
+            zIndex: 1,
+            pointerEvents: 'none',
+            overflow: 'hidden'
+          }}>
+            <img 
+              src="/ChatGPT Image Jul 31, 2026, 01_55_40 AM.png" 
+              alt="Ecosystem graphic" 
+              style={{
+                width: '100%',
+                height: '100%',
+                objectFit: 'contain',
+                transform: 'translate(0%, -10%)',
+                opacity: 0.9,
+                imageRendering: 'auto',
+                WebkitBackfaceVisibility: 'hidden',
+                maskImage: 'radial-gradient(circle at top right, black 35%, transparent 75%)',
+                WebkitMaskImage: 'radial-gradient(circle at top right, black 35%, transparent 75%)'
+              }} 
+            />
+          </div>
+        )}
+
+        {/* Continuous Learning Journey Doodles Layer */}
+        <HeroJourneyDoodles isMobile={isMobile} />
+
+        <div className="container" style={{ position: 'relative', zIndex: 2, width: '100%' }}>
+          
+          {/* Section Header */}
+          <div style={{ textAlign: 'center', marginBottom: isMobile ? 32 : 48, maxWidth: '720px', margin: '0 auto 48px' }}>
+            <span style={{
+              fontFamily: 'var(--font-body)',
+              fontWeight: 700,
+              fontSize: 11,
+              color: '#2563EB',
+              letterSpacing: '0.14em',
+              textTransform: 'uppercase',
+              display: 'inline-flex',
+              alignItems: 'center',
+              gap: 6,
+              marginBottom: 10,
+              padding: '4px 12px',
+              borderRadius: 9999,
+              background: 'rgba(37, 99, 235, 0.06)'
+            }}>
+              <Sparkles size={13} color="#2563EB" /> THE MENTR DIFFERENCE
+            </span>
+            <h2 style={{
+              fontFamily: 'var(--font-hero)',
+              fontWeight: 800,
+              fontSize: isMobile ? 28 : 40,
+              lineHeight: 1.15,
+              color: '#0F172A',
+              margin: '8px 0 12px',
+              letterSpacing: '-0.025em'
+            }}>
+              Why MentR Works
+            </h2>
+            <p style={{
+              fontFamily: 'var(--font-body)',
+              fontSize: isMobile ? 14 : 16,
+              color: '#64748B',
+              lineHeight: 1.6,
+              margin: 0
+            }}>
+              A complete educational ecosystem built around verified educators, diagnostic assessment, and continuous progress.
+            </p>
+          </div>
+
+          {/* DESKTOP COMPOSITION */}
+          {!isMobile && (
+            <div 
+              style={{ 
+                display: 'grid', 
+                gridTemplateColumns: '46% 54%', 
+                gap: '36px',
+                alignItems: 'center'
+              }}
+            >
+              {/* LEFT COLUMN */}
+              <div style={{ textAlign: 'left', display: 'flex', flexDirection: 'column' }}>
+                
+                {/* Section Label */}
+                <span style={{
+                  fontFamily: 'var(--font-body)',
+                  fontWeight: 600,
+                  fontSize: 11,
+                  color: '#2563EB',
+                  letterSpacing: '0.12em',
+                  textTransform: 'uppercase',
+                  display: 'flex',
+                  alignItems: 'center',
+                  gap: 6,
+                  marginBottom: 16
+                }}>
+                  <span style={{ color: '#2563EB', fontSize: 8 }}>●</span> EDUCATIONAL ECOSYSTEM NEVER BEFORE
+                </span>
+
+                {/* Main Heading */}
+                <h3 style={{
+                  fontFamily: 'var(--font-hero)',
+                  fontWeight: 800,
+                  fontSize: 'clamp(36px, 3.2vw, 52px)',
+                  lineHeight: 1.12,
+                  letterSpacing: '-0.035em',
+                  color: '#0F172A',
+                  margin: '0 0 20px'
+                }}>
+                  Every child<br />
+                  deserves the<br />
+                  <span style={{
+                    background: 'linear-gradient(135deg, #2563EB 0%, #7C3AED 100%)',
+                    WebkitBackgroundClip: 'text',
+                    WebkitTextFillColor: 'transparent'
+                  }}>
+                    right mentor.
+                  </span>
+                </h3>
+
+                {/* Supporting Paragraph */}
+                <p style={{
+                  fontFamily: 'var(--font-body)',
+                  fontWeight: 450,
+                  fontSize: 15.5,
+                  color: '#64748B',
+                  lineHeight: 1.6,
+                  maxWidth: '460px',
+                  margin: '0 0 30px'
+                }}>
+                  Finding the right teacher shouldn't be guesswork.<br />
+                  Assessment-first learning. Verified educators.<br />
+                  Personalized guidance. Measurable outcomes.
+                </p>
+
+                {/* CTA Buttons */}
+                <div style={{ display: 'flex', gap: 14, marginBottom: 36 }}>
+                  <button
+                    onClick={() => openModal('parent')}
+                    className="btn btn-hero-primary"
+                    style={{
+                      background: 'linear-gradient(135deg, #2563EB 0%, #4F7CFF 100%)',
+                      color: '#FFFFFF',
+                      fontWeight: 700,
+                      fontSize: 14.5,
+                      padding: '13px 26px',
+                      borderRadius: 9999,
+                      border: 'none',
+                      cursor: 'pointer',
+                      boxShadow: '0 8px 20px -4px rgba(37, 99, 235, 0.35)',
+                      transition: 'all 0.25s ease',
+                      display: 'inline-flex',
+                      alignItems: 'center',
+                      gap: 8
+                    }}
+                  >
+                    Book a Demo <ArrowRight size={15} />
+                  </button>
+                  <button
+                    onClick={() => openModal('teacher')}
+                    className="btn btn-hero-secondary"
+                    style={{
+                      background: '#FFFFFF',
+                      color: '#0F172A',
+                      fontWeight: 700,
+                      fontSize: 14.5,
+                      padding: '13px 26px',
+                      borderRadius: 9999,
+                      border: '1.5px solid #E2E8F0',
+                      cursor: 'pointer',
+                      boxShadow: '0 2px 8px rgba(15, 23, 42, 0.03)',
+                      transition: 'all 0.25s ease'
+                    }}
+                  >
+                    Join as a Teacher
+                  </button>
+                </div>
+
+                {/* Statistics Row */}
+                <TrustMetrics 
+                  isMobile={false} 
+                  teacherCount={getTeacherCount()} 
+                  teachingHours={getTeachingHours()} 
+                />
+              </div>
+
+              {/* RIGHT COLUMN: Desktop Single Integrated Illustration */}
+              <div style={{ 
+                display: 'flex', 
+                justifyContent: 'center',
+                alignItems: 'center',
+                width: '100%'
+              }}>
+                <HeroEcosystemImage />
+              </div>
+
+            </div>
+          )}
+
+          {/* MOBILE COMPOSITION */}
+          {isMobile && (
+            <div style={{ display: 'flex', flexDirection: 'column', gap: 20, textAlign: 'left', position: 'relative', zIndex: 2 }}>
+              
+              {/* 1. Heading */}
+              <div style={{ cursor: 'pointer', userSelect: 'none' }} onClick={() => setIsMobileContentExpanded(!isMobileContentExpanded)}>
+                <span style={{
+                  fontFamily: 'var(--font-body)',
+                  fontWeight: 600,
+                  fontSize: 11,
+                  color: '#2563EB',
+                  letterSpacing: '0.12em',
+                  textTransform: 'uppercase',
+                  display: 'flex',
+                  alignItems: 'center',
+                  gap: 6,
+                  marginBottom: 10
+                }}>
+                  <span style={{ color: '#2563EB', fontSize: 8 }}>●</span> EDUCATIONAL ECOSYSTEM NEVER BEFORE
+                </span>
+                <h3 style={{
+                  fontFamily: 'var(--font-hero)',
+                  fontWeight: 800,
+                  fontSize: 32,
+                  lineHeight: 1.15,
+                  letterSpacing: '-0.03em',
+                  color: '#0F172A',
+                  margin: '0 0 10px'
+                }}>
+                  Every child deserves the{' '}
+                  <span style={{
+                    background: 'linear-gradient(135deg, #2563EB 0%, #7C3AED 100%)',
+                    WebkitBackgroundClip: 'text',
+                    WebkitTextFillColor: 'transparent'
+                  }}>
+                    right mentor.
+                  </span>
+                </h3>
+              </div>
+
+              <AnimatePresence>
+                {isMobileContentExpanded && (
+                  <motion.div
+                    initial={{ opacity: 0, height: 0 }}
+                    animate={{ opacity: 1, height: 'auto' }}
+                    exit={{ opacity: 0, height: 0 }}
+                    transition={{ duration: 0.35, ease: 'easeInOut' }}
+                    style={{ overflow: 'hidden' }}
+                  >
+                    <p style={{
+                      fontFamily: 'var(--font-body)',
+                      fontSize: 14,
+                      color: '#64748B',
+                      lineHeight: 1.55,
+                      margin: '0 0 10px'
+                    }}>
+                      Finding the right teacher shouldn't be guesswork. Assessment-first learning. Verified educators. Personalized guidance. Measurable outcomes.
+                    </p>
+                  </motion.div>
+                )}
+              </AnimatePresence>
+
+              {/* 2. CTA Buttons */}
+              <div style={{ display: 'flex', flexDirection: 'column', gap: 10, width: '100%' }}>
                 <button
                   onClick={() => openModal('parent')}
-                  className="btn btn-hero-primary"
                   style={{
                     background: 'linear-gradient(135deg, #2563EB 0%, #4F7CFF 100%)',
                     color: '#FFFFFF',
                     fontWeight: 700,
                     fontSize: 14.5,
-                    padding: '13px 26px',
+                    padding: '13px 22px',
                     borderRadius: 9999,
                     border: 'none',
                     cursor: 'pointer',
-                    boxShadow: '0 8px 20px -4px rgba(37, 99, 235, 0.35)',
-                    transition: 'all 0.25s ease',
-                    display: 'inline-flex',
+                    width: '100%',
+                    textAlign: 'center',
+                    boxShadow: '0 6px 16px rgba(37, 99, 235, 0.3)',
+                    display: 'flex',
                     alignItems: 'center',
+                    justifyContent: 'center',
                     gap: 8
                   }}
                 >
@@ -583,165 +1025,49 @@ export default function HeroSection() {
                 </button>
                 <button
                   onClick={() => openModal('teacher')}
-                  className="btn btn-hero-secondary"
                   style={{
                     background: '#FFFFFF',
                     color: '#0F172A',
                     fontWeight: 700,
                     fontSize: 14.5,
-                    padding: '13px 26px',
+                    padding: '13px 22px',
                     borderRadius: 9999,
                     border: '1.5px solid #E2E8F0',
                     cursor: 'pointer',
-                    boxShadow: '0 2px 8px rgba(15, 23, 42, 0.03)',
-                    transition: 'all 0.25s ease'
+                    width: '100%',
+                    textAlign: 'center'
                   }}
                 >
                   Join as a Teacher
                 </button>
               </div>
 
-              {/* Statistics Row */}
+              {/* 3. Statistics Grid */}
               <TrustMetrics 
-                isMobile={false} 
+                isMobile={true} 
                 teacherCount={getTeacherCount()} 
                 teachingHours={getTeachingHours()} 
               />
-            </div>
-
-            {/* RIGHT COLUMN: Desktop Single Integrated Illustration */}
-            <div style={{ 
-              display: 'flex', 
-              justifyContent: 'center',
-              alignItems: 'center',
-              width: '100%'
-            }}>
-              
-              <HeroEcosystemImage />
 
             </div>
+          )}
 
-          </div>
-        )}
+        </div>
 
-        {/* MOBILE COMPOSITION */}
-        {isMobile && (
-          <div style={{ display: 'flex', flexDirection: 'column', gap: 20, textAlign: 'left', position: 'relative', zIndex: 2 }}>
-            
-            {/* 1. Heading */}
-            <div style={{ cursor: 'pointer', userSelect: 'none' }} onClick={() => setIsMobileContentExpanded(!isMobileContentExpanded)}>
-              <span style={{
-                fontFamily: 'var(--font-body)',
-                fontWeight: 600,
-                fontSize: 11,
-                color: '#2563EB',
-                letterSpacing: '0.12em',
-                textTransform: 'uppercase',
-                display: 'flex',
-                alignItems: 'center',
-                gap: 6,
-                marginBottom: 10
-              }}>
-                <span style={{ color: '#2563EB', fontSize: 8 }}>●</span> EDUCATIONAL ECOSYSTEM
-              </span>
-              <h1 style={{
-                fontFamily: 'var(--font-hero)',
-                fontWeight: 800,
-                fontSize: 32,
-                lineHeight: 1.15,
-                letterSpacing: '-0.03em',
-                color: '#0F172A',
-                margin: '0 0 10px'
-              }}>
-                Every child deserves the{' '}
-                <span style={{
-                  background: 'linear-gradient(135deg, #2563EB 0%, #7C3AED 100%)',
-                  WebkitBackgroundClip: 'text',
-                  WebkitTextFillColor: 'transparent'
-                }}>
-                  right mentor.
-                </span>
-              </h1>
-            </div>
+      </section>
 
-            <AnimatePresence>
-              {isMobileContentExpanded && (
-                <motion.div
-                  initial={{ opacity: 0, height: 0 }}
-                  animate={{ opacity: 1, height: 'auto' }}
-                  exit={{ opacity: 0, height: 0 }}
-                  transition={{ duration: 0.35, ease: 'easeInOut' }}
-                  style={{ overflow: 'hidden' }}
-                >
-                  <p style={{
-                    fontFamily: 'var(--font-body)',
-                    fontSize: 14,
-                    color: '#64748B',
-                    lineHeight: 1.55,
-                    margin: '0 0 10px'
-                  }}>
-                    Finding the right teacher shouldn't be guesswork. Assessment-first learning. Verified educators. Personalized guidance. Measurable outcomes.
-                  </p>
-                </motion.div>
-              )}
-            </AnimatePresence>
-
-            {/* 2. CTA Buttons (Always Visible) */}
-            <div style={{ display: 'flex', flexDirection: 'column', gap: 10, width: '100%' }}>
-              <button
-                onClick={() => openModal('parent')}
-                style={{
-                  background: 'linear-gradient(135deg, #2563EB 0%, #4F7CFF 100%)',
-                  color: '#FFFFFF',
-                  fontWeight: 700,
-                  fontSize: 14.5,
-                  padding: '13px 22px',
-                  borderRadius: 9999,
-                  border: 'none',
-                  cursor: 'pointer',
-                  width: '100%',
-                  textAlign: 'center',
-                  boxShadow: '0 6px 16px rgba(37, 99, 235, 0.3)',
-                  display: 'flex',
-                  alignItems: 'center',
-                  justifyContent: 'center',
-                  gap: 8
-                }}
-              >
-                Book a Demo <ArrowRight size={15} />
-              </button>
-              <button
-                onClick={() => openModal('teacher')}
-                style={{
-                  background: '#FFFFFF',
-                  color: '#0F172A',
-                  fontWeight: 700,
-                  fontSize: 14.5,
-                  padding: '13px 22px',
-                  borderRadius: 9999,
-                  border: '1.5px solid #E2E8F0',
-                  cursor: 'pointer',
-                  width: '100%',
-                  textAlign: 'center'
-                }}
-              >
-                Join as a Teacher
-              </button>
-            </div>
-
-            {/* 3. Statistics Grid (Always Visible) */}
-            <TrustMetrics 
-              isMobile={true} 
-              teacherCount={getTeacherCount()} 
-              teachingHours={getTeachingHours()} 
-            />
-
-          </div>
-        )}
-
-      </div>
-
+      {/* Scoped Button & Hover Animations */}
       <style>{`
+        .btn-hero-slideshow-primary:hover {
+          transform: translateY(-2px);
+          box-shadow: 0 12px 28px rgba(37, 99, 235, 0.6) !important;
+        }
+        .btn-hero-slideshow-glass:hover {
+          transform: translateY(-2px);
+          background: rgba(255, 255, 255, 0.22) !important;
+          border-color: rgba(255, 255, 255, 0.7) !important;
+          box-shadow: 0 8px 24px rgba(0, 0, 0, 0.25) !important;
+        }
         .btn-hero-primary:hover {
           transform: translateY(-2px);
           box-shadow: 0 10px 24px rgba(37, 99, 235, 0.4) !important;
@@ -751,11 +1077,10 @@ export default function HeroSection() {
           border-color: #2563EB !important;
           box-shadow: 0 4px 12px rgba(37, 99, 235, 0.08) !important;
         }
-        @keyframes pulseScale {
-          0%, 100% { transform: scale(1); opacity: 0.95; }
-          50% { transform: scale(1.04); opacity: 1; }
+        .hero-scroll-indicator:hover {
+          color: #FFFFFF !important;
         }
       `}</style>
-    </section>
+    </div>
   );
 }

@@ -1,6 +1,7 @@
 import { useState, useEffect, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { X, ChevronDown } from 'lucide-react';
+import Logo from '../common/Logo';
 
 export default function Navbar() {
   const navigate = useNavigate();
@@ -64,12 +65,13 @@ export default function Navbar() {
         {/* Sticky Mobile Header with Inline Direct Links & More Button */}
         <div style={{
           position: 'fixed', top: 16, left: 16, right: 16, height: 56,
-          background: 'rgba(255, 255, 255, 0.85)', backdropFilter: 'blur(12px)', WebkitBackdropFilter: 'blur(12px)',
-          border: '1px solid rgba(255, 255, 255, 0.2)', borderRadius: 28, display: 'flex', alignItems: 'center',
-          justifyContent: 'space-between', padding: '0 16px', zIndex: 99999,
-          boxShadow: '0 8px 32px rgba(15, 23, 42, 0.05)'
+          background: 'linear-gradient(135deg, rgba(255, 255, 255, 0.85) 0%, rgba(239, 246, 255, 0.72) 50%, rgba(224, 231, 255, 0.6) 100%)',
+          backdropFilter: 'blur(20px)', WebkitBackdropFilter: 'blur(20px)',
+          border: '1px solid rgba(191, 219, 254, 0.75)', borderRadius: 28, display: 'flex', alignItems: 'center',
+          justifyContent: 'space-between', padding: '0 12px 0 8px', zIndex: 99999,
+          boxShadow: '0 10px 32px rgba(37, 99, 235, 0.12), inset 0 1.5px 2px rgba(255, 255, 255, 0.95), inset 0 -1px 2px rgba(59, 130, 246, 0.12)'
         }}>
-          <img src={`${import.meta.env.BASE_URL}mentR_Logo.png`} alt="TheMentR Logo" style={{ height: 28, objectFit: 'contain', cursor: 'pointer', marginRight: 8, borderRadius: 2 }} onClick={() => navigateAndScroll('/', null)} />
+          <Logo scrolled={true} onClick={() => navigateAndScroll('/', null)} />
           
           <div style={{ display: 'flex', alignItems: 'center', gap: 6 }}>
             <button
@@ -274,7 +276,7 @@ export default function Navbar() {
 
   // Desktop floating premium navigation bar
   return (
-    <header style={{
+    <header className="desktop-header-nav" style={{
       position: 'fixed',
       top: scrolled ? 12 : 24,
       left: '50%',
@@ -287,33 +289,22 @@ export default function Navbar() {
       justifyContent: 'space-between',
       padding: '0 24px',
       zIndex: 9999,
-      background: scrolled ? 'rgba(255, 255, 255, 0.82)' : 'rgba(255, 255, 255, 0.65)',
-      backdropFilter: scrolled ? 'blur(20px)' : 'blur(12px)',
-      WebkitBackdropFilter: scrolled ? 'blur(20px)' : 'blur(12px)',
+      background: scrolled 
+        ? 'linear-gradient(135deg, rgba(255, 255, 255, 0.88) 0%, rgba(239, 246, 255, 0.78) 50%, rgba(224, 231, 255, 0.68) 100%)' 
+        : 'linear-gradient(135deg, rgba(255, 255, 255, 0.75) 0%, rgba(239, 246, 255, 0.6) 50%, rgba(224, 231, 255, 0.48) 100%)',
+      backdropFilter: 'blur(20px)',
+      WebkitBackdropFilter: 'blur(20px)',
       borderRadius: scrolled ? 24 : 30,
-      border: '1px solid rgba(79, 124, 255, 0.08)',
+      border: '1px solid rgba(191, 219, 254, 0.75)',
       boxShadow: scrolled 
-        ? '0 12px 40px rgba(15, 23, 42, 0.08), 0 2px 8px rgba(15, 23, 42, 0.03), inset 0 1px 1px rgba(255, 255, 255, 0.9)'
-        : '0 4px 20px rgba(15, 23, 42, 0.02), inset 0 1px 1px rgba(255, 255, 255, 0.9)',
+        ? '0 16px 48px rgba(37, 99, 235, 0.12), 0 2px 10px rgba(15, 23, 42, 0.04), inset 0 1.5px 2px rgba(255, 255, 255, 0.95), inset 0 -1px 2px rgba(59, 130, 246, 0.15)'
+        : '0 8px 32px rgba(37, 99, 235, 0.08), inset 0 1.5px 2px rgba(255, 255, 255, 0.95), inset 0 -1px 2px rgba(59, 130, 246, 0.12)',
       transition: 'all 0.4s cubic-bezier(0.16, 1, 0.3, 1)'
     }}>
-      {/* Left: Logo Container with Overflow and Entrance Animation */}
-      <div style={{ width: 175, height: '100%', display: 'flex', alignItems: 'center', position: 'relative' }}>
-        <img 
-          src={`${import.meta.env.BASE_URL}mentR_Logo.png`} 
-          alt="TheMentR Logo" 
-          className="logo-nav-emblem"
-          style={{ 
-            position: 'absolute',
-            left: 0,
-            height: scrolled ? 76 : 94, 
-            objectFit: 'contain', 
-            cursor: 'pointer', 
-            borderRadius: 4, 
-            filter: 'drop-shadow(0 6px 16px rgba(79, 124, 255, 0.12))',
-            transition: 'all 0.4s cubic-bezier(0.16, 1, 0.3, 1)',
-            zIndex: 100
-          }} 
+      {/* Left: Logo Container with Glassmorphic Gradient & TM Badge */}
+      <div style={{ display: 'flex', alignItems: 'center', position: 'relative', zIndex: 100 }}>
+        <Logo 
+          scrolled={scrolled} 
           onClick={() => navigateAndScroll('/', null)} 
         />
       </div>
@@ -572,6 +563,49 @@ export default function Navbar() {
         }
         .mega-menu-item:hover h4, .mega-menu-item:hover h5 {
           color: #4F7CFF !important;
+        }
+
+        /* Desktop-Only Hover Effects for Navbar & Logo */
+        @media (min-width: 1024px) and (hover: hover) {
+          .desktop-header-nav {
+            transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1),
+                        box-shadow 0.4s cubic-bezier(0.16, 1, 0.3, 1),
+                        border-color 0.4s cubic-bezier(0.16, 1, 0.3, 1),
+                        background 0.4s cubic-bezier(0.16, 1, 0.3, 1) !important;
+          }
+          .desktop-header-nav:hover {
+            transform: translateX(-50%) translateY(-2px) !important;
+            border-color: rgba(147, 197, 253, 0.9) !important;
+            background: linear-gradient(135deg, rgba(255, 255, 255, 0.95) 0%, rgba(239, 246, 255, 0.85) 50%, rgba(224, 231, 255, 0.75) 100%) !important;
+            box-shadow: 0 20px 60px rgba(37, 99, 235, 0.18), 
+                        0 4px 16px rgba(124, 58, 237, 0.12), 
+                        inset 0 2px 3px rgba(255, 255, 255, 1), 
+                        inset 0 -1.5px 2.5px rgba(59, 130, 246, 0.25) !important;
+          }
+
+          .glass-logo-badge {
+            transition: transform 0.35s cubic-bezier(0.16, 1, 0.3, 1),
+                        box-shadow 0.35s cubic-bezier(0.16, 1, 0.3, 1),
+                        border-color 0.35s cubic-bezier(0.16, 1, 0.3, 1),
+                        background 0.35s cubic-bezier(0.16, 1, 0.3, 1) !important;
+          }
+          .glass-logo-badge:hover {
+            transform: translateY(-2px) scale(1.05) !important;
+            border-color: rgba(147, 197, 253, 0.95) !important;
+            background: linear-gradient(135deg, rgba(255, 255, 255, 0.98) 0%, rgba(239, 246, 255, 0.9) 50%, rgba(224, 231, 255, 0.8) 100%) !important;
+            box-shadow: 0 12px 32px rgba(37, 99, 235, 0.22), 
+                        0 2px 8px rgba(124, 58, 237, 0.12), 
+                        inset 0 2px 3px rgba(255, 255, 255, 1), 
+                        inset 0 -1.5px 2px rgba(59, 130, 246, 0.25) !important;
+          }
+          .glass-logo-badge:hover .logo-emblem-fill {
+            filter: drop-shadow(0 4px 12px rgba(37, 99, 235, 0.4)) !important;
+          }
+          .glass-logo-badge:hover .tm-badge-circle {
+            transform: scale(1.15) rotate(6deg) !important;
+            border-color: #2563EB !important;
+            box-shadow: 0 4px 12px rgba(37, 99, 235, 0.35) !important;
+          }
         }
       `}</style>
     </header>

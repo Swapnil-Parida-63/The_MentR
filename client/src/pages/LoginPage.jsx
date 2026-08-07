@@ -5,6 +5,7 @@ import { authAPI } from '../services/api';
 import BorderGlow from '../components/home/BorderGlow';
 import SEO from '../components/common/SEO';
 import { PAGE_SEO } from '../config/seo.config';
+import Logo from '../components/common/Logo';
 
 export default function LoginPage() {
   const [form, setForm] = useState({ email: '', password: '' });
@@ -34,9 +35,9 @@ export default function LoginPage() {
         style={{ width: '100%', maxWidth: 420 }}
       >
         <div style={{ padding: 48, cursor: 'default' }}>
-          <Link to="/" style={{ display: 'flex', alignItems: 'center', textDecoration: 'none', marginBottom: 32 }}>
-            <img src={`${import.meta.env.BASE_URL}logo.png`} alt="TheMentR Logo" style={{ height: 42, objectFit: 'contain' }} />
-          </Link>
+          <div style={{ display: 'inline-block', marginBottom: 32 }}>
+            <Logo height={32} onClick={() => navigate('/')} />
+          </div>
           <h1 style={{ fontFamily: 'var(--font-display)', fontSize: 28, marginBottom: 8 }}>Welcome back</h1>
           <p style={{ fontSize: 15, color: 'var(--color-text-secondary)', marginBottom: 32 }}>Sign in to your TheMentR account</p>
           {error && <div style={{ background: '#FEE2E2', color: '#991B1B', padding: '10px 14px', borderRadius: 8, fontSize: 14, marginBottom: 20 }}>{error}</div>}
