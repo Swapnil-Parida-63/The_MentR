@@ -197,21 +197,353 @@ const OlympiadScreen = ({ index }) => {
   }
 };
 
+// ONLINE CLASSROOM WEB SCREEN
+const OnlineScreen = () => {
+  return (
+    <div style={{ display: 'flex', flexDirection: 'column', height: '100%', background: '#F8FAFC' }}>
+      {/* Virtual Browser Top Nav */}
+      <div style={{ height: 32, background: '#FFFFFF', borderBottom: '1px solid rgba(15,23,42,0.06)', display: 'flex', alignItems: 'center', padding: '0 16px', justifyContent: 'space-between' }}>
+        <div style={{ display: 'flex', alignItems: 'center', gap: 6 }}>
+          <div style={{ width: 6, height: 6, borderRadius: '50%', background: '#EF4444' }} />
+          <div style={{ width: 6, height: 6, borderRadius: '50%', background: '#F59E0B' }} />
+          <div style={{ width: 6, height: 6, borderRadius: '50%', background: '#10B981' }} />
+          <div style={{ width: 130, height: 14, background: '#F1F5F9', borderRadius: 4, marginLeft: 8, display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 8, color: '#94A3B8' }}>live.thementr.com/class</div>
+        </div>
+        <span style={{ fontSize: 9, color: '#10B981', fontWeight: 700, display: 'flex', alignItems: 'center', gap: 4 }}>
+          <span style={{ width: 6, height: 6, borderRadius: '50%', background: '#10B981', display: 'inline-block' }} /> Live Class
+        </span>
+      </div>
+      
+      <div style={{ display: 'grid', gridTemplateColumns: '1.3fr 1fr', gap: 12, padding: 12, flexGrow: 1 }}>
+        {/* Main Whiteboard Area */}
+        <div style={{ background: '#FFFFFF', border: '1px solid rgba(15,23,42,0.06)', borderRadius: 12, padding: 10, display: 'flex', flexDirection: 'column', justifyContent: 'space-between' }}>
+          <div style={{ borderBottom: '1px solid #F1F5F9', paddingBottom: 6, display: 'flex', gap: 4, overflowX: 'auto' }}>
+            {['✏️ Draw', '🎨 Colors', '📐 Shapes', '🧹 Clear'].map(tool => (
+              <span key={tool} style={{ fontSize: 8, padding: '2px 6px', background: '#F1F5F9', borderRadius: 4, color: '#475569', fontWeight: 600 }}>{tool}</span>
+            ))}
+          </div>
+          <div style={{ flexGrow: 1, display: 'flex', alignItems: 'center', justifyContent: 'center', flexDirection: 'column', padding: 12 }}>
+            <div style={{ border: '1.5px dashed #C7D2FE', borderRadius: 10, padding: 12, background: '#FAF5FF', width: '100%', textAlign: 'center' }}>
+              <span style={{ fontSize: 11, fontWeight: 700, color: '#7C3AED' }}>Quadratic Equations Study</span>
+              <p style={{ fontSize: 9, color: '#64748B', margin: '4px 0 0', fontFamily: 'monospace' }}>ax² + bx + c = 0</p>
+              <div style={{ display: 'flex', justifyContent: 'center', gap: 10, marginTop: 10 }}>
+                <span style={{ fontSize: 8, padding: '2px 6px', background: '#E0F2FE', color: '#0369A1', borderRadius: 4, fontWeight: 600 }}>x = 2</span>
+                <span style={{ fontSize: 8, padding: '2px 6px', background: '#ECFDF5', color: '#047857', borderRadius: 4, fontWeight: 600 }}>x = 3</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        {/* Video Feeds Panel */}
+        <div style={{ display: 'flex', flexDirection: 'column', gap: 10 }}>
+          {/* Teacher Stream */}
+          <div style={{ flexGrow: 1, background: '#1E293B', borderRadius: 12, overflow: 'hidden', position: 'relative', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+            <div style={{ position: 'absolute', bottom: 6, left: 6, background: 'rgba(0,0,0,0.5)', color: '#FFF', padding: '2px 6px', borderRadius: 4, fontSize: 8 }}>Tutor: Amit S.</div>
+            <div style={{ fontSize: 24 }}>👨‍🏫</div>
+          </div>
+          {/* Student Stream */}
+          <div style={{ flexGrow: 1, background: '#334155', borderRadius: 12, overflow: 'hidden', position: 'relative', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+            <div style={{ position: 'absolute', bottom: 6, left: 6, background: 'rgba(0,0,0,0.5)', color: '#FFF', padding: '2px 6px', borderRadius: 4, fontSize: 8 }}>Student: Rohan</div>
+            <div style={{ fontSize: 24 }}>👦</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+};
+
+// OLYMPIAD PUBLIC REGISTRATION INTEREST FORM
+function OlympiadRegisterForm({ onClose }) {
+  const [formData, setFormData] = useState({
+    board: '',
+    class: '',
+    school: '',
+    location: '',
+    email: '',
+    mobile: '',
+    alreadyEnrolled: 'No'
+  });
+  const [loading, setLoading] = useState(false);
+  const [submitted, setSubmitted] = useState(false);
+  const [errorMsg, setErrorMsg] = useState('');
+
+  const handleChange = (e) => {
+    setFormData({ ...formData, [e.target.name]: e.target.value });
+  };
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    setLoading(true);
+    setErrorMsg('');
+    try {
+      const response = await fetch('/api/olympiad/register-interest', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(formData)
+      });
+      const data = await response.json();
+      if (data.success) {
+        setSubmitted(true);
+      } else {
+        setErrorMsg(data.message || 'Something went wrong. Please try again.');
+      }
+    } catch (err) {
+      setErrorMsg('Server connection failed. Please check your network.');
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  if (submitted) {
+    return (
+      <div style={{
+        background: 'rgba(16, 185, 129, 0.05)',
+        border: '1.5px dashed rgba(16, 185, 129, 0.3)',
+        borderRadius: 20,
+        padding: '30px 20px',
+        textAlign: 'center',
+        marginTop: 20,
+        position: 'relative'
+      }}>
+        {onClose && (
+          <button 
+            type="button" 
+            onClick={onClose} 
+            style={{ 
+              position: 'absolute',
+              top: 10,
+              right: 12,
+              background: 'none', 
+              border: 'none', 
+              fontSize: 18, 
+              cursor: 'pointer', 
+              color: '#047857',
+              fontWeight: 'bold',
+              lineHeight: 1
+            }}
+          >
+            ×
+          </button>
+        )}
+        <div style={{ fontSize: 32, marginBottom: 12 }}>🎉</div>
+        <h4 style={{ fontFamily: 'var(--font-hero)', fontSize: 18, fontWeight: 800, color: '#065F46', margin: '0 0 6px' }}>Registration Interest Received!</h4>
+        <p style={{ fontSize: 12, color: '#047857', margin: 0, lineHeight: 1.5 }}>
+          Thank you for showing interest in The MentR Olympiad. Our team will get in touch with you shortly.
+        </p>
+      </div>
+    );
+  }
+
+  return (
+    <form onSubmit={handleSubmit} style={{
+      display: 'flex',
+      flexDirection: 'column',
+      gap: 12,
+      background: 'rgba(255, 255, 255, 0.8)',
+      backdropFilter: 'blur(12px)',
+      WebkitBackdropFilter: 'blur(12px)',
+      border: '1px solid rgba(79, 124, 255, 0.15)',
+      borderRadius: '24px',
+      padding: '24px',
+      marginTop: 24,
+      boxShadow: '0 12px 36px rgba(15, 23, 42, 0.03)',
+      position: 'relative'
+    }}>
+      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 4 }}>
+        <h4 style={{ fontFamily: 'var(--font-hero)', fontSize: 15, fontWeight: 800, color: '#0F172A', margin: 0, textAlign: 'left' }}>
+          Register Your Interest
+        </h4>
+        {onClose && (
+          <button 
+            type="button" 
+            onClick={onClose} 
+            style={{ 
+              background: 'none', 
+              border: 'none', 
+              fontSize: 22, 
+              cursor: 'pointer', 
+              color: '#94A3B8',
+              fontWeight: '300',
+              padding: '0 4px',
+              lineHeight: 1
+            }}
+          >
+            ×
+          </button>
+        )}
+      </div>
+      
+      <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 10 }}>
+        <div>
+          <label style={{ fontSize: 10.5, fontWeight: 700, color: '#475569', display: 'block', marginBottom: 4, textAlign: 'left' }}>Board</label>
+          <select 
+            name="board" 
+            required 
+            value={formData.board} 
+            onChange={handleChange} 
+            style={{ width: '100%', padding: '8px 12px', borderRadius: 10, border: '1px solid #CBD5E1', fontSize: 12 }}
+          >
+            <option value="">Select Board</option>
+            <option value="CBSE">CBSE</option>
+            <option value="ICSE">ICSE</option>
+            <option value="State Board">State Board</option>
+            <option value="Other">Other</option>
+          </select>
+        </div>
+        <div>
+          <label style={{ fontSize: 10.5, fontWeight: 700, color: '#475569', display: 'block', marginBottom: 4, textAlign: 'left' }}>Class</label>
+          <select 
+            name="class" 
+            required 
+            value={formData.class} 
+            onChange={handleChange} 
+            style={{ width: '100%', padding: '8px 12px', borderRadius: 10, border: '1px solid #CBD5E1', fontSize: 12 }}
+          >
+            <option value="">Select Class</option>
+            {Array.from({ length: 12 }, (_, i) => `Class ${i + 1}`).map(cls => (
+              <option key={cls} value={cls}>{cls}</option>
+            ))}
+          </select>
+        </div>
+      </div>
+
+      <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 10 }}>
+        <div>
+          <label style={{ fontSize: 10.5, fontWeight: 700, color: '#475569', display: 'block', marginBottom: 4, textAlign: 'left' }}>School</label>
+          <input 
+            type="text" 
+            name="school" 
+            required 
+            placeholder="School Name" 
+            value={formData.school} 
+            onChange={handleChange} 
+            style={{ width: '100%', padding: '8px 12px', borderRadius: 10, border: '1px solid #CBD5E1', fontSize: 12, boxSizing: 'border-box' }} 
+          />
+        </div>
+        <div>
+          <label style={{ fontSize: 10.5, fontWeight: 700, color: '#475569', display: 'block', marginBottom: 4, textAlign: 'left' }}>Location</label>
+          <input 
+            type="text" 
+            name="location" 
+            required 
+            placeholder="City / Town" 
+            value={formData.location} 
+            onChange={handleChange} 
+            style={{ width: '100%', padding: '8px 12px', borderRadius: 10, border: '1px solid #CBD5E1', fontSize: 12, boxSizing: 'border-box' }} 
+          />
+        </div>
+      </div>
+
+      <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 10 }}>
+        <div>
+          <label style={{ fontSize: 10.5, fontWeight: 700, color: '#475569', display: 'block', marginBottom: 4, textAlign: 'left' }}>Email</label>
+          <input 
+            type="email" 
+            name="email" 
+            required 
+            placeholder="your@email.com" 
+            value={formData.email} 
+            onChange={handleChange} 
+            style={{ width: '100%', padding: '8px 12px', borderRadius: 10, border: '1px solid #CBD5E1', fontSize: 12, boxSizing: 'border-box' }} 
+          />
+        </div>
+        <div>
+          <label style={{ fontSize: 10.5, fontWeight: 700, color: '#475569', display: 'block', marginBottom: 4, textAlign: 'left' }}>Mobile</label>
+          <input 
+            type="tel" 
+            name="mobile" 
+            required 
+            placeholder="Mobile Number" 
+            value={formData.mobile} 
+            onChange={handleChange} 
+            style={{ width: '100%', padding: '8px 12px', borderRadius: 10, border: '1px solid #CBD5E1', fontSize: 12, boxSizing: 'border-box' }} 
+          />
+        </div>
+      </div>
+
+      <div>
+        <label style={{ fontSize: 10.5, fontWeight: 700, color: '#475569', display: 'block', marginBottom: 4, textAlign: 'left' }}>Already Enrolled with MentR?</label>
+        <div style={{ display: 'flex', gap: 16, marginTop: 4 }}>
+          <label style={{ fontSize: 12, display: 'flex', alignItems: 'center', gap: 6, color: '#1E293B' }}>
+            <input 
+              type="radio" 
+              name="alreadyEnrolled" 
+              value="Yes" 
+              checked={formData.alreadyEnrolled === 'Yes'} 
+              onChange={handleChange} 
+            /> Yes
+          </label>
+          <label style={{ fontSize: 12, display: 'flex', alignItems: 'center', gap: 6, color: '#1E293B' }}>
+            <input 
+              type="radio" 
+              name="alreadyEnrolled" 
+              value="No" 
+              checked={formData.alreadyEnrolled === 'No'} 
+              onChange={handleChange} 
+            /> No
+          </label>
+        </div>
+      </div>
+
+      {errorMsg && (
+        <div style={{ fontSize: 11, color: '#EF4444', textAlign: 'left', marginTop: 2 }}>
+          ⚠️ {errorMsg}
+        </div>
+      )}
+
+      <button 
+        type="submit" 
+        disabled={loading}
+        style={{
+          width: '100%',
+          padding: '12px 20px',
+          borderRadius: 12,
+          background: 'linear-gradient(135deg, #4F7CFF 0%, #7469F8 100%)',
+          color: 'white',
+          border: 'none',
+          fontSize: 13,
+          fontWeight: 700,
+          cursor: loading ? 'not-allowed' : 'pointer',
+          boxShadow: '0 4px 12px rgba(79, 124, 255, 0.2)',
+          marginTop: 6
+        }}
+      >
+        {loading ? 'Submitting...' : 'Submit Interest'}
+      </button>
+    </form>
+  );
+}
+
 // ==============================================================
 // 2. MAIN SHOWCASE SECTION COMPONENT
 // ==============================================================
 export default function ShowcaseSection() {
-  const [activeTab, setActiveTab] = useState(0); // 0: Parent, 1: Teacher, 2: Olympiad
+  const [activeTab, setActiveTab] = useState(0); // 0: Parent, 1: Teacher, 2: Online, 3: Olympiad
   const [parentIndex, setParentIndex] = useState(0);
   const [teacherIndex, setTeacherIndex] = useState(0);
   const [olympiadIndex, setOlympiadIndex] = useState(0);
+  const [showOlympiadModal, setShowOlympiadModal] = useState(false);
+
+  // Synchronize activeTab with URL hash changes (#parent, #teacher, #online, #olympiad)
+  useEffect(() => {
+    const handleHashChange = () => {
+      const hash = window.location.hash;
+      if (hash === '#parent') setActiveTab(0);
+      else if (hash === '#teacher') setActiveTab(1);
+      else if (hash === '#online') setActiveTab(2);
+      else if (hash === '#olympiad') setActiveTab(3);
+    };
+    handleHashChange();
+    window.addEventListener('hashchange', handleHashChange);
+    return () => window.removeEventListener('hashchange', handleHashChange);
+  }, []);
 
   // Auto transition parent/teacher/olympiad sub-screens
   useEffect(() => {
     const t = setInterval(() => {
       if (activeTab === 0) setParentIndex(p => (p + 1) % 4);
       else if (activeTab === 1) setTeacherIndex(p => (p + 1) % 3);
-      else setOlympiadIndex(p => (p + 1) % 3);
+      else if (activeTab === 3) setOlympiadIndex(p => (p + 1) % 3);
     }, 4500);
     return () => clearInterval(t);
   }, [activeTab]);
@@ -239,12 +571,12 @@ export default function ShowcaseSection() {
           <FadeUp><div className="showcase-eyebrow">THEMENTR ECOSYSTEM</div></FadeUp>
           <FadeUp delay={0.1}>
             <h2 className="showcase-title">
-              One ecosystem.<br />Three connected experiences.
+              One platform.<br />Four connected experiences.
             </h2>
           </FadeUp>
           <FadeUp delay={0.15}>
             <p className="showcase-subtitle">
-              From learning at home to classroom management and monthly academic benchmarking, every experience is designed to work together.
+              From learning at home to class management and monthly academic benchmarking, every experience is designed to work together.
             </p>
           </FadeUp>
 
@@ -253,7 +585,8 @@ export default function ShowcaseSection() {
             <div className="showcase-tabs">
               <button onClick={() => setActiveTab(0)} className={`showcase-tab ${activeTab === 0 ? 'active' : ''}`}>Parent App</button>
               <button onClick={() => setActiveTab(1)} className={`showcase-tab ${activeTab === 1 ? 'active' : ''}`}>Teacher App</button>
-              <button onClick={() => setActiveTab(2)} className={`showcase-tab ${activeTab === 2 ? 'active' : ''}`}>Olympiad</button>
+              <button onClick={() => setActiveTab(2)} className={`showcase-tab ${activeTab === 2 ? 'active' : ''}`}>Online App</button>
+              <button onClick={() => setActiveTab(3)} className={`showcase-tab ${activeTab === 3 ? 'active' : ''}`}>Olympiad</button>
             </div>
           </FadeUp>
         </div>
@@ -272,7 +605,7 @@ export default function ShowcaseSection() {
               </p>
               
               <div className="chips-container">
-                {['Live Attendance', 'Weekly Reports', 'Teacher Chat', 'Homework', 'Learning Timeline', 'Payments'].map(chip => (
+                {['Assignment', 'Exams', 'Study Material', 'Expert Assistance', 'Reports'].map(chip => (
                   <span key={chip} className="feature-chip">{chip}</span>
                 ))}
               </div>
@@ -322,13 +655,13 @@ export default function ShowcaseSection() {
             
             {/* Storytelling details */}
             <div className="showcase-details-col">
-              <h3 className="details-title" style={{ color: '#1E293B' }}>Everything a modern educator needs.</h3>
+              <h3 className="details-title" style={{ color: '#1E293B' }}>Everything that a tutor desires and deserves.</h3>
               <p className="details-desc">
                 Manage students, schedule classes, track attendance, assign homework and monitor progress from one powerful application.
               </p>
               
               <div className="chips-container">
-                {['Attendance', 'Scheduling', 'Student Notes', 'Homework', 'Reports', 'Earnings'].map(chip => (
+                {['SOS Support System', 'In-app Attendance', 'Insurance', 'Flexibility', 'Verified Badge', 'Experience Certificate', 'Timely Payment'].map(chip => (
                   <span key={chip} className="feature-chip">{chip}</span>
                 ))}
               </div>
@@ -371,68 +704,96 @@ export default function ShowcaseSection() {
         )}
 
         {/* ============================================================== */}
-        {/* TAB 2: THEMENTR OLYMPIAD SHOWCASE */}
+        {/* TAB 2: THEMENTR ONLINE APP SHOWCASE */}
         {/* ============================================================== */}
         {activeTab === 2 && (
-          <div className="showcase-content-grid animate-crossfade" style={{ gridTemplateColumns: '1fr 1.3fr' }}>
+          <div className="showcase-content-grid animate-crossfade" style={{ gridTemplateColumns: '1.2fr 1fr' }}>
             
             {/* Storytelling details */}
             <div className="showcase-details-col">
-              <h3 className="details-title">Compete. Measure. Improve.</h3>
+              <h3 className="details-title">Connecting with you, no matter the location.</h3>
               <p className="details-desc">
-                TheMentR Olympiad is a monthly assessment platform that helps students benchmark their academic progress, discover learning gaps and earn recognition for consistent improvement.
+                Interactive live 1-on-1 virtual classrooms, real-time shared whiteboard, customized schedules, and instant academic assistance.
               </p>
               
               <div className="chips-container">
-                {['Monthly Olympiads', 'Performance Analytics', 'National Rankings', 'Certificates', 'Rewards', 'Progress Tracking', 'Leaderboards', 'Subject-wise Reports'].map(chip => (
+                {['Live 1-on-1 Classes', 'Interactive Whiteboard', 'Customized Schedules', 'Doubt Solving', 'Session Recordings'].map(chip => (
                   <span key={chip} className="feature-chip">{chip}</span>
                 ))}
               </div>
 
               <div className="download-ctas">
                 <button onClick={() => window.location.href = '/contact'} className="btn-olympiad-primary">
-                  Register for Olympiad
+                  Start Online Classes
                 </button>
-                <button onClick={() => window.location.href = '/blogs'} className="btn-olympiad-secondary">
-                  Explore Platform
+                <button onClick={() => window.location.href = '/pricing'} className="btn-olympiad-secondary">
+                  View Online Pricing
                 </button>
               </div>
             </div>
             
-            {/* Coming Soon Column */}
-            <div className="showcase-mockup-col" style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', minHeight: 360 }}>
-              <div style={{
-                background: 'rgba(79, 124, 255, 0.03)',
-                border: '1.5px dashed rgba(79, 124, 255, 0.25)',
-                borderRadius: 24,
-                padding: '60px 40px',
-                textAlign: 'center',
-                display: 'flex',
-                flexDirection: 'column',
-                alignItems: 'center',
-                justifyContent: 'center',
-                gap: 16,
-                maxWidth: 440,
-                width: '100%',
-                boxShadow: '0 10px 30px rgba(79, 124, 255, 0.02)',
-                animation: 'deviceFloat 6s ease-in-out infinite'
-              }}>
-                <div style={{
-                  width: 64,
-                  height: 64,
-                  borderRadius: '50%',
-                  background: 'rgba(79, 124, 255, 0.08)',
-                  display: 'flex',
-                  alignItems: 'center',
-                  justifyContent: 'center',
-                  fontSize: 28,
-                  color: '#4F7CFF',
-                  marginBottom: 8
-                }}>🚀</div>
-                <h4 style={{ fontFamily: 'var(--font-hero)', fontSize: 24, fontWeight: 800, color: '#0F172A', margin: 0 }}>Coming Soon</h4>
-                <p style={{ fontFamily: 'var(--font-sans)', fontSize: 14, color: '#64748B', lineHeight: 1.6, margin: 0 }}>
-                  We are finalizing the Olympiad testing platform to deliver national benchmarking, rewards, and deep analytics. Stay tuned!
-                </p>
+            {/* Laptop Mockup Column */}
+            <div className="showcase-mockup-col">
+              <div className="laptop-mockup-frame">
+                <div className="laptop-screen-bezel">
+                  <div className="laptop-screen-content">
+                    <OnlineScreen />
+                  </div>
+                </div>
+                <div className="laptop-keyboard-base" />
+              </div>
+            </div>
+
+          </div>
+        )}
+
+        {/* ============================================================== */}
+        {/* TAB 3: THEMENTR OLYMPIAD SHOWCASE */}
+        {/* ============================================================== */}
+        {activeTab === 3 && (
+          <div className="showcase-content-grid animate-crossfade" style={{ gridTemplateColumns: '1fr 1.2fr' }}>
+            
+            {/* Storytelling details */}
+            <div className="showcase-details-col">
+              <h3 className="details-title" style={{ lineHeight: 1.25 }}>
+                Compete,<br />
+                Measure,<br />
+                Improve.
+              </h3>
+              <p className="details-desc">
+                Apart from the syllabus, apart from curriculum there is also something called general studies. The MentR Olympiad is a monthly assessment platform that helps benchmark not only their academic progress but also discover the importance of general studies.
+              </p>
+              
+              <div className="chips-container" style={{ marginBottom: 12 }}>
+                {['Monthly Olympiads', 'Performance Analytics', 'National Rankings', 'Certificates', 'Rewards', 'Subject-wise Reports'].map(chip => (
+                  <span key={chip} className="feature-chip">{chip}</span>
+                ))}
+              </div>
+
+              {/* Registration lead button */}
+              <div className="download-ctas" style={{ marginTop: 24 }}>
+                <button onClick={() => setShowOlympiadModal(true)} className="btn-olympiad-primary">
+                  Register for Olympiad
+                </button>
+              </div>
+            </div>
+            
+            {/* Laptop Mockup Column */}
+            <div className="showcase-mockup-col" style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center' }}>
+              <div className="laptop-mockup-frame">
+                <div className="laptop-screen-bezel">
+                  <div className="laptop-screen-content">
+                    <div key={olympiadIndex} className="animate-screen">
+                      <OlympiadScreen index={olympiadIndex} />
+                    </div>
+                  </div>
+                </div>
+                <div className="laptop-keyboard-base" />
+              </div>
+              <div className="mockup-nav-dots" style={{ marginTop: 16 }}>
+                {[0, 1, 2].map(i => (
+                  <button key={i} onClick={() => setOlympiadIndex(i)} className={`mockup-dot ${olympiadIndex === i ? 'active' : ''}`} />
+                ))}
               </div>
             </div>
 
@@ -450,6 +811,7 @@ export default function ShowcaseSection() {
               {[
                 { label: 'Parent App', desc: 'Track & Monitor' },
                 { label: 'Teacher App', desc: 'Manage & Plan' },
+                { label: 'Online App', desc: 'Connect & Learn' },
                 { label: 'TheMentR Olympiad', desc: 'Measure & Compete' },
                 { label: 'AVSAR Intelligence', desc: 'Analyze & Predict', highlighted: true },
                 { label: 'Better Learning Outcomes', desc: 'The Ultimate Goal', success: true }
@@ -457,7 +819,7 @@ export default function ShowcaseSection() {
                 <div key={node.label} className="connector-node-wrapper">
                   {i > 0 && (
                     <div className="connector-arrow-line">
-                      <svg viewBox="0 0 40 40" fill="none" style={{ width: '40px', height: '40px' }} className="connector-arrow-svg">
+                      <svg viewBox="0 0 40 40" fill="none" style={{ width: '24px', height: '24px' }} className="connector-arrow-svg">
                         <path d="M10 20 H30 M22 12 L30 20 L22 28" stroke="#4F7CFF" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" />
                       </svg>
                     </div>
@@ -473,6 +835,33 @@ export default function ShowcaseSection() {
         </FadeUp>
 
       </div>
+
+      {/* Floating Olympiad Registration Modal Overlay */}
+      {showOlympiadModal && (
+        <div style={{
+          position: 'fixed',
+          top: 0,
+          left: 0,
+          right: 0,
+          bottom: 0,
+          backgroundColor: 'rgba(15, 23, 42, 0.45)',
+          backdropFilter: 'blur(8px)',
+          WebkitBackdropFilter: 'blur(8px)',
+          zIndex: 99999,
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'center',
+          padding: 16
+        }} onClick={() => setShowOlympiadModal(false)}>
+          <div style={{
+            width: '100%',
+            maxWidth: 480,
+            position: 'relative'
+          }} onClick={e => e.stopPropagation()}>
+            <OlympiadRegisterForm onClose={() => setShowOlympiadModal(false)} />
+          </div>
+        </div>
+      )}
 
       {/* Premium Showcase Stylesheet */}
       <style>{`
@@ -809,21 +1198,32 @@ export default function ShowcaseSection() {
           display: flex;
           align-items: center;
           justify-content: center;
-          gap: 16px;
-          flex-wrap: wrap;
+          gap: 8px;
+          flex-wrap: nowrap;
+          width: 100%;
+          max-width: 100%;
+          overflow-x: auto;
+          padding-bottom: 12px;
+          scrollbar-width: none;
+        }
+        .connector-flow-responsive::-webkit-scrollbar {
+          display: none;
         }
         .connector-node-wrapper {
           display: flex;
           align-items: center;
-          gap: 16px;
+          gap: 8px;
+          flex-shrink: 0;
         }
         .connector-node {
           background: #FFFFFF;
           border: 1px solid rgba(15, 23, 42, 0.06);
-          padding: 16px 24px;
-          border-radius: 16px;
+          padding: 12px 14px;
+          border-radius: 14px;
           box-shadow: 0 4px 12px rgba(15, 23, 42, 0.015);
           text-align: left;
+          flex-shrink: 0;
+          white-space: nowrap;
         }
         .node-highlight {
           border-color: #6366F1;
@@ -837,16 +1237,16 @@ export default function ShowcaseSection() {
         }
         .node-title {
           font-family: var(--font-sans);
-          font-size: 14px;
+          font-size: 13px;
           font-weight: 700;
           color: #0F172A;
           margin: 0;
         }
         .node-desc {
           font-family: var(--font-sans);
-          font-size: 11px;
+          font-size: 10.5px;
           color: #64748B;
-          margin: 4px 0 0;
+          margin: 2px 0 0;
         }
         .connector-arrow-line {
           display: flex;

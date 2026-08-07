@@ -1,4 +1,4 @@
-import { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useModal } from '../../context/ModalContext';
 import { 
@@ -306,80 +306,113 @@ function HeroEcosystemImage() {
 }
 
 /* ========================================================================== */
-/* TRUST METRICS COMPONENT                                                    */
+/* ECOSYSTEM PREMIUM ANALYTICS GRID                                           */
 /* ========================================================================== */
 
-function TrustMetrics({ isMobile = false, teacherCount = 639, teachingHours = 1961.5 }) {
+function EcosystemAnalyticsGrid({ teacherCount, teachingHours, isMobile = false }) {
+  const cards = [
+    {
+      icon: <ShieldCheck size={26} />,
+      bgColor: 'rgba(37, 99, 235, 0.06)',
+      iconColor: '#2563EB',
+      value: `${teacherCount}+`,
+      label: 'Verified Teachers',
+      desc: 'Top 1% vetted expert educators paired with your child.'
+    },
+    {
+      icon: <Star size={26} fill="#F59E0B" color="#F59E0B" />,
+      bgColor: 'rgba(245, 158, 11, 0.08)',
+      iconColor: '#D97706',
+      value: '4.9★',
+      label: 'Parent Rating',
+      desc: 'Highly recommended for consistent learning outcomes.'
+    },
+    {
+      icon: <Clock size={26} />,
+      bgColor: 'rgba(124, 58, 237, 0.06)',
+      iconColor: '#7C3AED',
+      value: `${teachingHours.toFixed(1)}+`,
+      label: 'Teaching Hours',
+      desc: 'Active hours of personalized 1-on-1 tutoring sessions.'
+    },
+    {
+      icon: <Target size={26} />,
+      bgColor: 'rgba(16, 185, 129, 0.06)',
+      iconColor: '#059669',
+      value: 'Diagnostic',
+      label: 'Assessment First',
+      desc: 'Custom framework mapping individual child progress.'
+    }
+  ];
+
   return (
-    <div style={{ 
+    <div style={{
       display: 'grid',
-      gridTemplateColumns: isMobile ? '1fr 1fr' : 'repeat(4, 1fr)',
-      gap: isMobile ? '16px 12px' : '16px',
-      alignItems: 'center',
-      borderTop: '1px solid #E2E8F0',
-      paddingTop: 20,
+      gridTemplateColumns: isMobile ? '1fr 1fr' : '1fr 1fr',
+      gap: isMobile ? '12px' : '20px',
       width: '100%',
-      marginTop: isMobile ? 20 : 0
+      marginTop: isMobile ? 12 : 0
     }}>
-      {/* 639+ Verified Teachers */}
-      <motion.div whileHover={{ y: -2 }} style={{ cursor: 'pointer', display: 'flex', gap: 8, alignItems: 'center' }}>
-        <div style={{ width: 32, height: 32, borderRadius: 8, background: 'rgba(37, 99, 235, 0.08)', color: '#2563EB', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}>
-          <ShieldCheck size={18} />
-        </div>
-        <div>
-          <div style={{ fontFamily: 'Space Grotesk, var(--font-hero)', fontSize: isMobile ? 15 : 17, fontWeight: 800, color: '#0F172A', lineHeight: 1.1 }}>
-            <CountUp end={teacherCount} suffix="+" />
+      {cards.map((card, idx) => (
+        <motion.div
+          key={idx}
+          whileHover={isMobile ? {} : { y: -5, boxShadow: '0 12px 30px rgba(79, 124, 255, 0.08)' }}
+          style={{
+            background: 'rgba(255, 255, 255, 0.72)',
+            backdropFilter: 'blur(16px)',
+            WebkitBackdropFilter: 'blur(16px)',
+            border: '1px solid rgba(79, 124, 255, 0.12)',
+            borderRadius: '20px',
+            padding: isMobile ? '16px' : '24px',
+            boxSizing: 'border-box',
+            textAlign: 'left',
+            transition: 'all 0.3s ease',
+            boxShadow: '0 4px 16px rgba(15, 23, 42, 0.015)'
+          }}
+        >
+          <div style={{
+            width: isMobile ? 38 : 48,
+            height: isMobile ? 38 : 48,
+            borderRadius: 12,
+            background: card.bgColor,
+            color: card.iconColor,
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+            marginBottom: isMobile ? 12 : 16
+          }}>
+            {React.cloneElement(card.icon, { size: isMobile ? 20 : 26 })}
           </div>
-          <div style={{ fontSize: 11, color: '#64748B', fontWeight: 500, marginTop: 1 }}>
-            Verified Teachers
+          <h4 style={{
+            fontFamily: 'Space Grotesk, var(--font-hero)',
+            fontSize: isMobile ? '20px' : '24px',
+            fontWeight: 800,
+            color: '#0F172A',
+            margin: '0 0 4px',
+            lineHeight: 1.1
+          }}>
+            {card.value}
+          </h4>
+          <div style={{
+            fontSize: isMobile ? '12px' : '13.5px',
+            fontWeight: 750,
+            color: '#334155',
+            marginBottom: 6
+          }}>
+            {card.label}
           </div>
-        </div>
-      </motion.div>
-
-      {/* 4.9★ Parent Satisfaction */}
-      <motion.div whileHover={{ y: -2 }} style={{ cursor: 'pointer', display: 'flex', gap: 8, alignItems: 'center' }}>
-        <div style={{ width: 32, height: 32, borderRadius: 8, background: 'rgba(245, 158, 11, 0.1)', color: '#D97706', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}>
-          <Star size={18} fill="#F59E0B" color="#F59E0B" />
-        </div>
-        <div>
-          <div style={{ fontFamily: 'Space Grotesk, var(--font-hero)', fontSize: isMobile ? 15 : 17, fontWeight: 800, color: '#0F172A', lineHeight: 1.1 }}>
-            <CountUp end={4.9} decimals={1} suffix="★" />
-          </div>
-          <div style={{ fontSize: 11, color: '#64748B', fontWeight: 500, marginTop: 1 }}>
-            Parent Satisfaction
-          </div>
-        </div>
-      </motion.div>
-
-      {/* 1961.5+ Teaching Hours */}
-      <motion.div whileHover={{ y: -2 }} style={{ cursor: 'pointer', display: 'flex', gap: 8, alignItems: 'center' }}>
-        <div style={{ width: 32, height: 32, borderRadius: 8, background: 'rgba(124, 58, 237, 0.08)', color: '#7C3AED', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}>
-          <Clock size={18} />
-        </div>
-        <div>
-          <div style={{ fontFamily: 'Space Grotesk, var(--font-hero)', fontSize: isMobile ? 15 : 17, fontWeight: 800, color: '#0F172A', lineHeight: 1.1 }}>
-            <CountUp end={teachingHours} decimals={1} suffix="+" />
-          </div>
-          <div style={{ fontSize: 11, color: '#64748B', fontWeight: 500, marginTop: 1 }}>
-            Teaching Hours
-          </div>
-        </div>
-      </motion.div>
-
-      {/* Assessment First Diagnostic Framework */}
-      <motion.div whileHover={{ y: -2 }} style={{ cursor: 'pointer', display: 'flex', gap: 8, alignItems: 'center' }}>
-        <div style={{ width: 32, height: 32, borderRadius: 8, background: 'rgba(16, 185, 129, 0.08)', color: '#059669', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}>
-          <Target size={18} />
-        </div>
-        <div>
-          <div style={{ fontFamily: 'Space Grotesk, var(--font-hero)', fontSize: isMobile ? 13 : 14, fontWeight: 800, color: '#0F172A', lineHeight: 1.1 }}>
-            Assessment First
-          </div>
-          <div style={{ fontSize: 11, color: '#64748B', fontWeight: 500, marginTop: 1 }}>
-            Diagnostic Framework
-          </div>
-        </div>
-      </motion.div>
+          {!isMobile && (
+            <p style={{
+              fontSize: '11.5px',
+              color: '#64748B',
+              lineHeight: 1.5,
+              margin: 0
+            }}>
+              {card.desc}
+            </p>
+          )}
+        </motion.div>
+      ))}
     </div>
   );
 }
@@ -775,7 +808,6 @@ export default function HeroSection() {
               fontSize: 11,
               color: '#2563EB',
               letterSpacing: '0.14em',
-              textTransform: 'uppercase',
               display: 'inline-flex',
               alignItems: 'center',
               gap: 6,
@@ -784,7 +816,7 @@ export default function HeroSection() {
               borderRadius: 9999,
               background: 'rgba(37, 99, 235, 0.06)'
             }}>
-              <Sparkles size={13} color="#2563EB" /> THE MENTR DIFFERENCE
+              <Sparkles size={13} color="#2563EB" /> The MentR
             </span>
             <h2 style={{
               fontFamily: 'var(--font-hero)',
@@ -818,106 +850,9 @@ export default function HeroSection() {
                 alignItems: 'center'
               }}
             >
-              {/* LEFT COLUMN */}
+              {/* LEFT COLUMN: Premium Analytics Grid */}
               <div style={{ textAlign: 'left', display: 'flex', flexDirection: 'column' }}>
-                
-                {/* Section Label */}
-                <span style={{
-                  fontFamily: 'var(--font-body)',
-                  fontWeight: 600,
-                  fontSize: 11,
-                  color: '#2563EB',
-                  letterSpacing: '0.12em',
-                  textTransform: 'uppercase',
-                  display: 'flex',
-                  alignItems: 'center',
-                  gap: 6,
-                  marginBottom: 16
-                }}>
-                  <span style={{ color: '#2563EB', fontSize: 8 }}>●</span> EDUCATIONAL ECOSYSTEM NEVER BEFORE
-                </span>
-
-                {/* Main Heading */}
-                <h3 style={{
-                  fontFamily: 'var(--font-hero)',
-                  fontWeight: 800,
-                  fontSize: 'clamp(36px, 3.2vw, 52px)',
-                  lineHeight: 1.12,
-                  letterSpacing: '-0.035em',
-                  color: '#0F172A',
-                  margin: '0 0 20px'
-                }}>
-                  Every child<br />
-                  deserves the<br />
-                  <span style={{
-                    background: 'linear-gradient(135deg, #2563EB 0%, #7C3AED 100%)',
-                    WebkitBackgroundClip: 'text',
-                    WebkitTextFillColor: 'transparent'
-                  }}>
-                    right mentor.
-                  </span>
-                </h3>
-
-                {/* Supporting Paragraph */}
-                <p style={{
-                  fontFamily: 'var(--font-body)',
-                  fontWeight: 450,
-                  fontSize: 15.5,
-                  color: '#64748B',
-                  lineHeight: 1.6,
-                  maxWidth: '460px',
-                  margin: '0 0 30px'
-                }}>
-                  Finding the right teacher shouldn't be guesswork.<br />
-                  Assessment-first learning. Verified educators.<br />
-                  Personalized guidance. Measurable outcomes.
-                </p>
-
-                {/* CTA Buttons */}
-                <div style={{ display: 'flex', gap: 14, marginBottom: 36 }}>
-                  <button
-                    onClick={() => openModal('parent')}
-                    className="btn btn-hero-primary"
-                    style={{
-                      background: 'linear-gradient(135deg, #2563EB 0%, #4F7CFF 100%)',
-                      color: '#FFFFFF',
-                      fontWeight: 700,
-                      fontSize: 14.5,
-                      padding: '13px 26px',
-                      borderRadius: 9999,
-                      border: 'none',
-                      cursor: 'pointer',
-                      boxShadow: '0 8px 20px -4px rgba(37, 99, 235, 0.35)',
-                      transition: 'all 0.25s ease',
-                      display: 'inline-flex',
-                      alignItems: 'center',
-                      gap: 8
-                    }}
-                  >
-                    Book a Demo <ArrowRight size={15} />
-                  </button>
-                  <button
-                    onClick={() => openModal('teacher')}
-                    className="btn btn-hero-secondary"
-                    style={{
-                      background: '#FFFFFF',
-                      color: '#0F172A',
-                      fontWeight: 700,
-                      fontSize: 14.5,
-                      padding: '13px 26px',
-                      borderRadius: 9999,
-                      border: '1.5px solid #E2E8F0',
-                      cursor: 'pointer',
-                      boxShadow: '0 2px 8px rgba(15, 23, 42, 0.03)',
-                      transition: 'all 0.25s ease'
-                    }}
-                  >
-                    Join as a Teacher
-                  </button>
-                </div>
-
-                {/* Statistics Row */}
-                <TrustMetrics 
+                <EcosystemAnalyticsGrid 
                   isMobile={false} 
                   teacherCount={getTeacherCount()} 
                   teachingHours={getTeachingHours()} 
@@ -939,115 +874,19 @@ export default function HeroSection() {
 
           {/* MOBILE COMPOSITION */}
           {isMobile && (
-            <div style={{ display: 'flex', flexDirection: 'column', gap: 20, textAlign: 'left', position: 'relative', zIndex: 2 }}>
+            <div style={{ display: 'flex', flexDirection: 'column', gap: 24, textAlign: 'left', position: 'relative', zIndex: 2 }}>
               
-              {/* 1. Heading */}
-              <div style={{ cursor: 'pointer', userSelect: 'none' }} onClick={() => setIsMobileContentExpanded(!isMobileContentExpanded)}>
-                <span style={{
-                  fontFamily: 'var(--font-body)',
-                  fontWeight: 600,
-                  fontSize: 11,
-                  color: '#2563EB',
-                  letterSpacing: '0.12em',
-                  textTransform: 'uppercase',
-                  display: 'flex',
-                  alignItems: 'center',
-                  gap: 6,
-                  marginBottom: 10
-                }}>
-                  <span style={{ color: '#2563EB', fontSize: 8 }}>●</span> EDUCATIONAL ECOSYSTEM NEVER BEFORE
-                </span>
-                <h3 style={{
-                  fontFamily: 'var(--font-hero)',
-                  fontWeight: 800,
-                  fontSize: 32,
-                  lineHeight: 1.15,
-                  letterSpacing: '-0.03em',
-                  color: '#0F172A',
-                  margin: '0 0 10px'
-                }}>
-                  Every child deserves the{' '}
-                  <span style={{
-                    background: 'linear-gradient(135deg, #2563EB 0%, #7C3AED 100%)',
-                    WebkitBackgroundClip: 'text',
-                    WebkitTextFillColor: 'transparent'
-                  }}>
-                    right mentor.
-                  </span>
-                </h3>
-              </div>
-
-              <AnimatePresence>
-                {isMobileContentExpanded && (
-                  <motion.div
-                    initial={{ opacity: 0, height: 0 }}
-                    animate={{ opacity: 1, height: 'auto' }}
-                    exit={{ opacity: 0, height: 0 }}
-                    transition={{ duration: 0.35, ease: 'easeInOut' }}
-                    style={{ overflow: 'hidden' }}
-                  >
-                    <p style={{
-                      fontFamily: 'var(--font-body)',
-                      fontSize: 14,
-                      color: '#64748B',
-                      lineHeight: 1.55,
-                      margin: '0 0 10px'
-                    }}>
-                      Finding the right teacher shouldn't be guesswork. Assessment-first learning. Verified educators. Personalized guidance. Measurable outcomes.
-                    </p>
-                  </motion.div>
-                )}
-              </AnimatePresence>
-
-              {/* 2. CTA Buttons */}
-              <div style={{ display: 'flex', flexDirection: 'column', gap: 10, width: '100%' }}>
-                <button
-                  onClick={() => openModal('parent')}
-                  style={{
-                    background: 'linear-gradient(135deg, #2563EB 0%, #4F7CFF 100%)',
-                    color: '#FFFFFF',
-                    fontWeight: 700,
-                    fontSize: 14.5,
-                    padding: '13px 22px',
-                    borderRadius: 9999,
-                    border: 'none',
-                    cursor: 'pointer',
-                    width: '100%',
-                    textAlign: 'center',
-                    boxShadow: '0 6px 16px rgba(37, 99, 235, 0.3)',
-                    display: 'flex',
-                    alignItems: 'center',
-                    justifyContent: 'center',
-                    gap: 8
-                  }}
-                >
-                  Book a Demo <ArrowRight size={15} />
-                </button>
-                <button
-                  onClick={() => openModal('teacher')}
-                  style={{
-                    background: '#FFFFFF',
-                    color: '#0F172A',
-                    fontWeight: 700,
-                    fontSize: 14.5,
-                    padding: '13px 22px',
-                    borderRadius: 9999,
-                    border: '1.5px solid #E2E8F0',
-                    cursor: 'pointer',
-                    width: '100%',
-                    textAlign: 'center'
-                  }}
-                >
-                  Join as a Teacher
-                </button>
-              </div>
-
-              {/* 3. Statistics Grid */}
-              <TrustMetrics 
+              {/* Premium Analytics Grid */}
+              <EcosystemAnalyticsGrid 
                 isMobile={true} 
                 teacherCount={getTeacherCount()} 
                 teachingHours={getTeachingHours()} 
               />
+
+              {/* Illustration centered underneath */}
+              <div style={{ display: 'flex', justifyContent: 'center', width: '100%' }}>
+                <HeroEcosystemImage />
+              </div>
 
             </div>
           )}

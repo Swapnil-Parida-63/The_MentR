@@ -37,7 +37,9 @@ export default function Navbar() {
         if (el) el.scrollIntoView({ behavior: 'smooth' });
       }, 100);
     } else {
-      window.scrollTo({ top: 0, behavior: 'smooth' });
+      if (!path.includes('#')) {
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+      }
     }
   };
 
@@ -176,15 +178,15 @@ export default function Navbar() {
                                 Platform & Intelligence
                               </span>
                               <button
-                                onClick={() => navigateAndScroll('/', 'avsar')}
+                                onClick={() => navigateAndScroll('/avsar', null)}
                                 style={{
                                   background: 'none', border: 'none', color: '#1D2433', fontSize: 13.5,
                                   fontWeight: 600, cursor: 'pointer', textAlign: 'left', width: '100%',
                                   padding: '4px 0 4px 8px', display: 'flex', flexDirection: 'column'
                                 }}
                               >
-                                <span>AVSAR Intelligence</span>
-                                <span style={{ fontSize: 11, fontWeight: 400, color: '#64748B', marginTop: 1 }}>AI syllabus tracking & evaluations</span>
+                                <span>AVSAR (Assessment Visits & Student Assessment Reports)</span>
+                                <span style={{ fontSize: 11, fontWeight: 400, color: '#64748B', marginTop: 4, lineHeight: 1.4 }}>Education must start with an assessment. We evaluate the students, understand the requirements and personalize the approach with AVSAR.</span>
                               </button>
                             </div>
 
@@ -195,14 +197,14 @@ export default function Navbar() {
                               </span>
                               <div style={{ display: 'flex', flexDirection: 'column', gap: 6, paddingLeft: 8 }}>
                                 {[
-                                  { title: 'The MentR Parent', desc: 'KG to PG tuitions', id: 'showcase' },
-                                  { title: 'The MentR Teacher', desc: 'Verified educators', id: 'showcase' },
-                                  { title: 'The MentR Online', desc: 'Live virtual classrooms', id: 'showcase' },
-                                  { title: 'The MentR Olympiad', desc: 'Competitive exam prep', id: 'showcase' }
+                                  { title: 'The MentR parent app', desc: "Education doesn't feel like a burden, only when the parents stay informed.", path: '/ecosystem#parent' },
+                                  { title: 'The MentR teacher app', desc: 'Search for the verified home tutor ends here.', path: '/ecosystem#teacher' },
+                                  { title: 'The MentR online app', desc: 'Connecting with you, no matter the location.', path: '/ecosystem#online' },
+                                  { title: 'The MentR Olympiad', desc: 'Growth can be felt only when evaluated', path: '/ecosystem#olympiad' }
                                 ].map(subItem => (
                                   <button
                                     key={subItem.title}
-                                    onClick={() => navigateAndScroll('/', subItem.id)}
+                                    onClick={() => navigateAndScroll(subItem.path, null)}
                                     style={{
                                       background: 'none', border: 'none', color: '#1D2433', fontSize: 13.5,
                                       fontWeight: 500, cursor: 'pointer', textAlign: 'left', padding: '3px 0'
@@ -374,15 +376,15 @@ export default function Navbar() {
                     <div style={{ borderRight: '1px solid rgba(79, 124, 255, 0.08)', paddingRight: 16 }}>
                       <span style={{ fontSize: 10, fontWeight: 700, textTransform: 'uppercase', color: '#7469F8', letterSpacing: '0.08em', display: 'block', marginBottom: 12 }}>Intelligence</span>
                       <div 
-                        onClick={() => { setServicesHovered(false); navigateAndScroll('/', 'avsar'); }}
+                        onClick={() => { setServicesHovered(false); navigateAndScroll('/avsar', null); }}
                         style={{ cursor: 'pointer', transition: 'all 0.2s' }}
                         className="mega-menu-item"
                       >
-                        <h4 style={{ margin: 0, fontSize: 14.5, fontWeight: 600, color: '#1D2433', display: 'flex', alignItems: 'center', gap: 6 }}>
-                          AVSAR Intelligence
+                        <h4 style={{ margin: 0, fontSize: 14, fontWeight: 700, color: '#1D2433', lineHeight: 1.3 }}>
+                          AVSAR (Assessment Visits & Student Assessment Reports)
                         </h4>
-                        <p style={{ margin: '6px 0 0', fontSize: 12, color: '#5C667A', lineHeight: 1.45 }}>
-                          AI-driven real-time syllabus tracking, progress reports, and automated diagnostic evaluation tracks.
+                        <p style={{ margin: '8px 0 0', fontSize: 11.5, color: '#5C667A', lineHeight: 1.45 }}>
+                          Education must start with an assessment. We evaluate the students, understand the requirements and personalize the approach with AVSAR.
                         </p>
                       </div>
                     </div>
@@ -390,7 +392,7 @@ export default function Navbar() {
                     {/* Right Column: Platform Services */}
                     <div style={{ display: 'flex', flexDirection: 'column', gap: 14 }}>
                       <button
-                        onClick={() => { setServicesHovered(false); navigateAndScroll('/', 'showcase'); }}
+                        onClick={() => { setServicesHovered(false); navigateAndScroll('/ecosystem', null); }}
                         style={{
                           background: 'none',
                           border: 'none',
@@ -409,14 +411,14 @@ export default function Navbar() {
                         Platform & Sourcing
                       </button>
                       {[
-                        { title: 'The MentR Teacher', desc: 'Verified educators with contractual agreements and social benefits.', id: 'showcase' },
-                        { title: 'The MentR Parent', desc: 'Personalized KG to PG tuitions starting at ₹1,499/mo.', id: 'showcase' },
-                        { title: 'The MentR Online', desc: 'Interactive live one-to-one virtual classrooms.', id: 'showcase' },
-                        { title: 'The MentR Olympiad', desc: 'Expert competitive exam prep for IMO, NSO, SOF.', id: 'showcase' }
+                        { title: 'The MentR parent app', desc: "Education doesn't feel like a burden, only when the parents stay informed.", path: '/ecosystem#parent' },
+                        { title: 'The MentR teacher app', desc: 'Search for the verified home tutor ends here.', path: '/ecosystem#teacher' },
+                        { title: 'The MentR online app', desc: 'Connecting with you, no matter the location.', path: '/ecosystem#online' },
+                        { title: 'The MentR Olympiad', desc: 'Growth can be felt only when evaluated', path: '/ecosystem#olympiad' }
                       ].map(srv => (
                         <div 
                           key={srv.title} 
-                          onClick={() => { setServicesHovered(false); navigateAndScroll('/', srv.id); }}
+                          onClick={() => { setServicesHovered(false); navigateAndScroll(srv.path, null); }}
                           style={{ cursor: 'pointer', transition: 'all 0.2s' }}
                           className="mega-menu-item"
                         >

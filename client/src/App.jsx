@@ -10,6 +10,8 @@ import BlogsPage from './pages/BlogsPage';
 import ContactPage from './pages/ContactPage';
 import GalleryPage from './pages/GalleryPage';
 import PricingPage from './pages/PricingPage';
+import AvsarPage from './pages/AvsarPage';
+import EcosystemPage from './pages/EcosystemPage';
 import { lazy, Suspense } from 'react';
 const TeacherTermsPage = lazy(() => import('./pages/TeacherTermsPage'));
 
@@ -48,6 +50,8 @@ export default function App() {
             <Route path="/gallery" element={<GalleryPage />} />
             <Route path="/contact" element={<ContactPage />} />
             <Route path="/pricing" element={<PricingPage />} />
+            <Route path="/avsar" element={<AvsarPage />} />
+            <Route path="/ecosystem" element={<EcosystemPage />} />
             <Route path="*" element={
               <div className="section" style={{ textAlign: 'center', minHeight: '60vh', display: 'flex', alignItems: 'center', justifyContent: 'center', flexDirection: 'column' }}>
                 <SEO {...PAGE_SEO.notFound} />

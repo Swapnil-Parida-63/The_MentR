@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { FileText, ShieldCheck, Target, TrendingUp, Award, Plus, Sparkles, Cpu } from 'lucide-react';
+import Logo from '../common/Logo';
 
 export default function WhySection() {
   const [isMobile, setIsMobile] = useState(window.innerWidth < 1024);
@@ -35,7 +36,7 @@ export default function WhySection() {
     {
       id: 1,
       title: 'Assessment First',
-      description: 'Every learning journey begins by understanding the student.',
+      description: 'Every learning journey begins by understanding the requirements.',
       icon: FileText,
       emoji: '📝',
       x: 90,
@@ -46,7 +47,7 @@ export default function WhySection() {
     {
       id: 2,
       title: 'Verified Educators',
-      description: 'Every mentor is carefully screened, evaluated and continuously supported.',
+      description: 'Every teacher is carefully screened, evaluated and continuously supported.',
       icon: ShieldCheck,
       emoji: '✅',
       x: 410,
@@ -57,7 +58,7 @@ export default function WhySection() {
     {
       id: 3,
       title: 'Intelligent Matching',
-      description: 'Students are matched based on learning needs, goals and teaching style.',
+      description: 'Students are supported based on their learning needs, goals and with flexibility.',
       icon: Target,
       emoji: '🎯',
       x: 390,
@@ -68,7 +69,7 @@ export default function WhySection() {
     {
       id: 4,
       title: 'Built-in Accountability',
-      description: 'Track progress, receive insights and focus on measurable outcomes.',
+      description: 'From progress to outcome, we take every accountability, which no one else dares to.',
       icon: TrendingUp,
       emoji: '📈',
       x: 110,
@@ -174,17 +175,16 @@ export default function WhySection() {
           {/* LEFT SIDE: Heading block (Exactly Unchanged)                   */}
           {/* ============================================================== */}
           <div style={{ textAlign: 'left', maxWidth: 480 }}>
-            <span style={{ 
-              fontFamily: 'var(--font-sans)', 
-              fontWeight: 650, 
+            <span style={{
+              fontFamily: 'var(--font-body)',
+              fontWeight: 700,
               fontSize: 12, 
               color: '#4F7CFF', 
               letterSpacing: '0.15em', 
-              textTransform: 'uppercase',
               display: 'block',
               marginBottom: 16
             }}>
-              The MentR
+              We are The MentR
             </span>
             
             <h2 style={{
@@ -196,7 +196,7 @@ export default function WhySection() {
               color: '#1E293B',
               margin: 0
             }}>
-              We didn't<br />
+              We didn't just<br />
               build another<br />
               marketplace.
             </h2>
@@ -210,7 +210,7 @@ export default function WhySection() {
               marginTop: 24,
               maxWidth: 420
             }}>
-              We built a coordinated learning ecosystem. Every component works in unison to guide, verify, match, and sustain accountability for a complete learning journey.
+              We built a coordinated learning ecosystem. Every component works in unison to guide, verify, match, and sustain accountability for a personal learning journey.
             </p>
           </div>
 
@@ -676,21 +676,28 @@ export default function WhySection() {
 
                            {/* Central "MentR Core" Live Engine Node */}
                 <motion.div 
+                  whileHover={{ 
+                    scale: 1.1, 
+                    boxShadow: '0 25px 60px rgba(124, 92, 255, 0.3), 0 0 20px rgba(79, 124, 255, 0.2), inset 0 0 20px rgba(255, 255, 255, 0.6)',
+                    borderColor: 'rgba(124, 92, 255, 0.65)'
+                  }}
                   animate={{
                     scale: hoveredModuleId ? 1.05 : [1, 1.02, 1],
-                    borderColor: hoveredModuleId ? 'rgba(124, 92, 255, 0.45)' : 'rgba(124, 92, 255, 0.22)'
+                    borderColor: hoveredModuleId ? 'rgba(124, 92, 255, 0.45)' : 'rgba(124, 92, 255, 0.35)'
                   }}
                   transition={{
                     scale: hoveredModuleId ? { type: 'spring', stiffness: 300, damping: 20 } : { repeat: Infinity, duration: 6, ease: "easeInOut" }
                   }}
                   style={{
+                    cursor: 'pointer',
+                    transition: 'box-shadow 0.3s ease, border-color 0.3s ease',
                     position: 'absolute',
                     width: 120,
                     height: 120,
                     borderRadius: '50%',
-                    background: 'radial-gradient(circle at 35% 35%, rgba(255, 255, 255, 0.98) 0%, rgba(248, 250, 252, 0.94) 60%, rgba(238, 242, 255, 0.88) 100%)',
-                    border: '1.5px solid rgba(124, 92, 255, 0.22)',
-                    boxShadow: '0 20px 50px rgba(124, 92, 255, 0.14), 0 4px 16px rgba(15, 23, 42, 0.04), inset 0 0 20px rgba(255, 255, 255, 0.6)',
+                    background: 'radial-gradient(circle at 35% 35%, #BAE6FD 0%, #C7D2FE 55%, #DDD6FE 100%)',
+                    border: '1.5px solid rgba(124, 92, 255, 0.35)',
+                    boxShadow: '0 20px 50px rgba(124, 92, 255, 0.18), 0 4px 16px rgba(15, 23, 42, 0.04), inset 0 0 20px rgba(255, 255, 255, 0.45)',
                     backdropFilter: 'blur(16px)',
                     WebkitBackdropFilter: 'blur(16px)',
                     display: 'flex',
@@ -800,8 +807,7 @@ export default function WhySection() {
                     />
                   ))}
                   
-                  <span style={{ fontSize: 11, fontWeight: 750, color: '#4F7CFF', textTransform: 'uppercase', letterSpacing: '0.08em' }}>MentR</span>
-                  <span style={{ fontSize: 13, fontWeight: 800, color: '#1E293B' }}>Core</span>
+                  <Logo height={52} showTm={true} style={{ pointerEvents: 'none' }} />
                 </motion.div>
 
                 {/* Secondary Decorative Nodes (Pill badges, low opacity, connected off-screen) */}

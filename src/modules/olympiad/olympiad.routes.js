@@ -19,4 +19,7 @@ router.use('/study-materials', crudRoutes(controller.studyMaterials, studyMateri
 router.use('/participants', crudRoutes(controller.participants, participantSchemas));
 router.use('/results', crudRoutes(controller.results, resultSchemas));
 
+// Public endpoint to register interest in the Olympiad
+router.post('/register-interest', controller.registerInterest);
+
 module.exports = router;

@@ -48,9 +48,23 @@ const resultSchema = new mongoose.Schema(
   { timestamps: true }
 );
 
+const olympiadInterestSchema = new mongoose.Schema(
+  {
+    board: { type: String, required: true, trim: true },
+    class: { type: String, required: true, trim: true },
+    school: { type: String, required: true, trim: true },
+    location: { type: String, required: true, trim: true },
+    email: { type: String, required: true, lowercase: true, trim: true },
+    mobile: { type: String, required: true, trim: true },
+    alreadyEnrolled: { type: String, required: true, enum: ['Yes', 'No'] }
+  },
+  { timestamps: true }
+);
+
 const Olympiad = mongoose.model('Olympiad', olympiadSchema);
 const StudyMaterial = mongoose.model('StudyMaterial', studyMaterialSchema);
 const OlympiadParticipant = mongoose.model('OlympiadParticipant', participantSchema);
 const OlympiadResult = mongoose.model('OlympiadResult', resultSchema);
+const OlympiadInterest = mongoose.model('OlympiadInterest', olympiadInterestSchema);
 
-module.exports = { Olympiad, OlympiadParticipant, OlympiadResult, StudyMaterial };
+module.exports = { Olympiad, OlympiadParticipant, OlympiadResult, StudyMaterial, OlympiadInterest };
