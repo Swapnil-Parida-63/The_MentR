@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
 import { FadeUp } from '../../hooks/useScrollReveal';
 import { ArrowRight, X, ChevronLeft, ChevronRight, Maximize2 } from 'lucide-react';
+import { motion } from 'framer-motion';
 
 const hallOfFameItems = [
   {
@@ -74,6 +75,7 @@ export default function GalleryPreview({ background = 'var(--color-neutral)' }) 
   const [archiveOpen, setArchiveOpen] = useState(false);
   const [selectedCategory, setSelectedCategory] = useState('All');
   const [focusedIndex, setFocusedIndex] = useState(null);
+  const [isDescExpanded, setIsDescExpanded] = useState(false);
 
   useEffect(() => {
     const handleResize = () => setIsMobile(window.innerWidth < 1024);
@@ -115,7 +117,7 @@ export default function GalleryPreview({ background = 'var(--color-neutral)' }) 
   const currentFocusedItem = focusedIndex !== null ? activeFocusedList[focusedIndex] : null;
 
   return (
-    <section id="gallery" className="section" style={{ background: finalBg, overflow: 'hidden', padding: isMobile ? '50px 0' : '90px 0' }}>
+    <section id="gallery" className="section" style={{ background: finalBg === 'transparent' ? 'linear-gradient(180deg, #FFFFFF 0%, #E3E8FF 50%, rgba(143, 149, 246, 0.42) 100%)' : finalBg, overflow: 'hidden', padding: isMobile ? '50px 0' : '90px 0' }}>
       <div className="container" style={{ maxWidth: '1200px', margin: '0 auto' }}>
         
         {/* EDITORIAL SECTION HEADER */}
@@ -135,19 +137,29 @@ export default function GalleryPreview({ background = 'var(--color-neutral)' }) 
             </span>
           </FadeUp>
           <FadeUp delay={0.1}>
-            <h2 style={{
-              fontFamily: 'var(--font-hero)',
-              fontSize: isMobile ? '28px' : 'clamp(32px, 3.5vw, 44px)',
-              fontWeight: 800,
-              color: '#0F172A',
-              lineHeight: 1.15,
-              margin: '0 0 12px',
-              letterSpacing: '-0.02em'
-            }}>
+            <h2 
+              onClick={() => isMobile && setIsDescExpanded(!isDescExpanded)}
+              style={{
+                fontFamily: 'var(--font-hero)',
+                fontSize: isMobile ? '28px' : 'clamp(32px, 3.5vw, 44px)',
+                fontWeight: 800,
+                color: '#0F172A',
+                lineHeight: 1.15,
+                margin: '0 0 12px',
+                letterSpacing: '-0.02em',
+                cursor: isMobile ? 'pointer' : 'default',
+                userSelect: 'none'
+              }}
+            >
               Moments worth celebrating.
             </h2>
           </FadeUp>
-          <FadeUp delay={0.2}>
+          <motion.div
+            initial={isMobile ? { opacity: 0, height: 0, marginTop: 0 } : { opacity: 1, height: 'auto' }}
+            animate={!isMobile || isDescExpanded ? { opacity: 1, height: 'auto' } : { opacity: 0, height: 0 }}
+            transition={{ duration: 0.3, ease: 'easeOut' }}
+            style={{ overflow: 'hidden' }}
+          >
             <p style={{
               fontFamily: 'var(--font-body)',
               fontSize: isMobile ? '14px' : '16px',
@@ -157,7 +169,7 @@ export default function GalleryPreview({ background = 'var(--color-neutral)' }) 
             }}>
               From student achievements and Olympiad milestones to mentor moments and community events, explore the people and moments that make The MentR special.
             </p>
-          </FadeUp>
+          </motion.div>
         </div>
 
         {/* CURATED PHOTOGRAPH COMPOSITION */}

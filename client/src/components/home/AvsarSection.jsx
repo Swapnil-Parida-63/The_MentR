@@ -111,6 +111,8 @@ const HeroIllustration = () => (
 export default function AvsarSection() {
   const [isMobile, setIsMobile] = useState(window.innerWidth < 1024);
   const [hoveredCard, setHoveredCard] = useState(null);
+  const [isAvsarDescExpanded, setIsAvsarDescExpanded] = useState(false);
+  const [activeStep, setActiveStep] = useState(0);
 
   useEffect(() => {
     const handleResize = () => setIsMobile(window.innerWidth < 1024);
@@ -142,7 +144,7 @@ export default function AvsarSection() {
     <section 
       id="avsar" 
       style={{ 
-        background: 'transparent', 
+        background: 'linear-gradient(180deg, #FFFFFF 0%, #E3E8FF 50%, rgba(143, 149, 246, 0.42) 100%)', 
         padding: isMobile ? '80px 0 100px' : '140px 0 160px', 
         position: 'relative', 
         overflow: 'hidden',
@@ -274,25 +276,29 @@ export default function AvsarSection() {
             <div style={{ fontSize: 11, fontWeight: 700, letterSpacing: '0.2em', color: '#6366F1', textTransform: 'uppercase', marginBottom: 12 }}>
               AVSAR (TRUST THROUGH QUALITY)
             </div>
-            <h2 style={{
-              fontFamily: 'var(--font-hero)',
-              fontWeight: 800,
-              fontSize: 'clamp(36px, 4vw, 52px)',
-              lineHeight: 1.1,
-              letterSpacing: '-0.03em',
-              color: '#1E293B',
-              margin: '0 0 4px',
-              cursor: 'default'
-            }}>
+            <h2 
+              onClick={() => isMobile && setIsAvsarDescExpanded(!isAvsarDescExpanded)}
+              style={{
+                fontFamily: 'var(--font-hero)',
+                fontWeight: 800,
+                fontSize: 'clamp(36px, 4vw, 52px)',
+                lineHeight: 1.1,
+                letterSpacing: '-0.03em',
+                color: '#1E293B',
+                margin: '0 0 4px',
+                cursor: isMobile ? 'pointer' : 'default',
+                userSelect: 'none'
+              }}
+            >
               Quality isn't claimed.<br />It's measured.
             </h2>
             
             {/* Collapsible Hero Description */}
             <motion.div
-              initial={isMobile ? { opacity: 1, height: 'auto', marginTop: 16 } : { opacity: 0, height: 0, marginTop: 0 }}
-              animate={isMobile || hoveredCard === 'hero'
-                ? { opacity: 1, height: 'auto', marginTop: 20 }
-                : { opacity: 0, height: 0, marginTop: 0 }
+              initial={isMobile ? { opacity: 0, height: 0, marginTop: 0 } : { opacity: 0, height: 0, marginTop: 0 }}
+              animate={isMobile 
+                ? (isAvsarDescExpanded ? { opacity: 1, height: 'auto', marginTop: 20 } : { opacity: 0, height: 0, marginTop: 0 })
+                : (hoveredCard === 'hero' ? { opacity: 1, height: 'auto', marginTop: 20 } : { opacity: 0, height: 0, marginTop: 0 })
               }
               transition={{ duration: 0.45, ease: [0.16, 1, 0.3, 1] }}
               style={{ overflow: 'hidden' }}
@@ -326,167 +332,181 @@ export default function AvsarSection() {
           /* ========================================== */
           <div style={{ display: 'flex', flexDirection: 'column', gap: '40px' }}>
             
-            {/* 1. Swipeable Verification Timeline */}
+            {/* 1. Interactive Verification Timeline */}
             <div>
-              <h3 style={{ fontSize: 18, fontWeight: 800, color: '#1E293B', margin: '0 0 16px', paddingLeft: 4 }}>
+              <h3 style={{ fontSize: 18, fontWeight: 800, color: '#1E293B', margin: '0 0 24px', paddingLeft: 4 }}>
                 Teacher Verification Process
               </h3>
-              <div className="mobile-snap-carousel">
-                {steps.map((s, idx) => (
-                  <div key={idx} className="mobile-snap-card" style={{
-                    background: '#FFFFFF',
-                    borderRadius: '20px',
-                    padding: '24px',
-                    border: '1px solid rgba(99, 102, 241, 0.08)',
-                    boxShadow: '0 8px 20px rgba(99, 102, 241, 0.02)',
-                    display: 'flex',
-                    flexDirection: 'column',
-                    gap: '12px'
-                  }}>
-                    <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-                      <div style={{
-                        width: 44,
-                        height: 44,
-                        borderRadius: '50%',
-                        background: 'rgba(99, 102, 241, 0.06)',
-                        display: 'flex',
-                        alignItems: 'center',
-                        justifyContent: 'center',
-                        color: '#6366F1'
-                      }}>
-                        <s.icon size={20} strokeWidth={2} />
+              <div style={{ display: 'flex', flexDirection: 'column', padding: '0 8px' }}>
+                {steps.map((s, idx) => {
+                  const isActive = activeStep === idx;
+                  const StepIcon = s.icon;
+                  return (
+                    <div key={idx} style={{ display: 'flex', gap: '16px', position: 'relative' }}>
+                      {/* Left Column: Number Node & Connector Line */}
+                      <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', width: '28px' }}>
+                        {/* Circle node with number */}
+                        <div 
+                          onClick={() => setActiveStep(isActive ? null : idx)}
+                          style={{
+                            width: '28px',
+                            height: '28px',
+                            borderRadius: '50%',
+                            background: isActive ? '#6366F1' : '#FFFFFF',
+                            border: `2px solid ${isActive ? '#6366F1' : 'rgba(99, 102, 241, 0.22)'}`,
+                            color: isActive ? '#FFFFFF' : '#6366F1',
+                            display: 'flex',
+                            alignItems: 'center',
+                            justifyContent: 'center',
+                            fontSize: '11px',
+                            fontWeight: 'bold',
+                            cursor: 'pointer',
+                            zIndex: 2,
+                            boxShadow: isActive ? '0 4px 10px rgba(99, 102, 241, 0.2)' : 'none',
+                            transition: 'all 0.3s ease'
+                          }}
+                        >
+                          {idx + 1}
+                        </div>
+                        {/* Line */}
+                        {idx < steps.length - 1 && (
+                          <div style={{
+                            width: '2px',
+                            flex: 1,
+                            background: activeStep > idx ? '#6366F1' : 'rgba(99, 102, 241, 0.15)',
+                            margin: '4px 0',
+                            minHeight: '28px',
+                            zIndex: 1,
+                            transition: 'background 0.3s ease'
+                          }} />
+                        )}
                       </div>
-                      <span style={{ fontSize: '11px', fontWeight: 'bold', color: '#6366F1', background: 'rgba(99, 102, 241, 0.08)', padding: '4px 10px', borderRadius: '12px' }}>
-                        Step {idx + 1} of 7
-                      </span>
+
+                      {/* Right Column: Title & Description */}
+                      <div style={{ flex: 1, paddingBottom: idx < steps.length - 1 ? '24px' : '0' }}>
+                        <div 
+                          onClick={() => setActiveStep(isActive ? null : idx)}
+                          style={{ 
+                            display: 'flex', 
+                            alignItems: 'center', 
+                            gap: '8px', 
+                            cursor: 'pointer',
+                            userSelect: 'none'
+                          }}
+                        >
+                          <span style={{ 
+                            fontSize: '15px', 
+                            fontWeight: 800, 
+                            color: isActive ? '#6366F1' : '#1E293B',
+                            transition: 'color 0.3s ease'
+                          }}>
+                            {s.label}
+                          </span>
+                          <span style={{ 
+                            fontSize: '11px', 
+                            color: isActive ? '#6366F1' : 'rgba(99, 102, 241, 0.4)',
+                            transition: 'color 0.3s ease'
+                          }}>
+                            {isActive ? '−' : '+'}
+                          </span>
+                        </div>
+
+                        {/* Collapsible content */}
+                        <AnimatePresence initial={false}>
+                          {isActive && (
+                            <motion.div
+                              initial={{ height: 0, opacity: 0, marginTop: 0 }}
+                              animate={{ height: 'auto', opacity: 1, marginTop: 8 }}
+                              exit={{ height: 0, opacity: 0, marginTop: 0 }}
+                              transition={{ duration: 0.3, ease: 'easeInOut' }}
+                              style={{ overflow: 'hidden' }}
+                            >
+                              <div style={{ display: 'flex', alignItems: 'center', gap: 8, color: '#6366F1', marginBottom: 6 }}>
+                                <StepIcon size={14} />
+                                <span style={{ fontSize: 11, fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.05em' }}>Verification Stage</span>
+                              </div>
+                              <p style={{ 
+                                fontSize: '13px', 
+                                color: '#64748B', 
+                                lineHeight: '1.5', 
+                                margin: 0 
+                              }}>
+                                {s.desc}
+                              </p>
+                            </motion.div>
+                          )}
+                        </AnimatePresence>
+                      </div>
                     </div>
-                    <div>
-                      <h4 style={{ fontSize: '15px', fontWeight: 800, color: '#1E293B', margin: '0 0 4px' }}>{s.label}</h4>
-                      <p style={{ fontSize: '12.5px', color: '#64748B', lineHeight: '1.45', margin: 0 }}>{s.desc}</p>
-                    </div>
-                  </div>
-                ))}
+                  );
+                })}
               </div>
             </div>
 
-            {/* 2. Dynamic carousel cards (Satisfaction, Rating, Testimonial, Board expertise) */}
-            <div>
-              <h3 style={{ fontSize: 18, fontWeight: 800, color: '#1E293B', margin: '0 0 16px', paddingLeft: 4 }}>
+            {/* 2. Supporting Metrics - 2-Column Editorial Grid Layout */}
+            <div style={{ marginTop: '24px' }}>
+              <h3 style={{ fontSize: 18, fontWeight: 800, color: '#1E293B', margin: '0 0 24px', paddingLeft: 4 }}>
                 Supporting Metrics
               </h3>
-              <div className="mobile-snap-carousel">
-                {/* Parents recommend */}
-                <div className="mobile-snap-card" style={{
-                  background: '#FFFFFF',
-                  borderRadius: '20px',
-                  padding: '24px',
-                  border: '1px solid rgba(99, 102, 241, 0.08)',
-                  boxShadow: '0 8px 20px rgba(99, 102, 241, 0.02)',
-                  display: 'flex',
-                  flexDirection: 'column',
-                  gap: '16px'
-                }}>
-                  <div style={{ display: 'flex', alignItems: 'center', gap: '16px' }}>
-                    <svg width="56" height="56" viewBox="0 0 36 36" style={{ overflow: 'visible' }}>
-                      <circle cx="18" cy="18" r="15.915" fill="none" stroke="rgba(16, 185, 129, 0.08)" strokeWidth="3" />
-                      <circle cx="18" cy="18" r="15.915" fill="none" stroke="#10B981" strokeWidth="3" strokeDasharray="96 4" strokeDashoffset="25" strokeLinecap="round" />
-                      <text x="18" y="21.5" fill="#1E293B" fontSize="9" fontWeight="bold" textAnchor="middle">96%</text>
-                    </svg>
-                    <div>
-                      <h4 style={{ fontSize: '14px', fontWeight: 800, color: '#1E293B', margin: 0 }}>Parent Recommendation</h4>
-                      <span style={{ fontSize: '11px', color: '#64748B' }}>Real outcomes</span>
-                    </div>
+              <div style={{ 
+                display: 'grid', 
+                gridTemplateColumns: 'repeat(2, 1fr)', 
+                gap: '32px 16px', 
+                padding: '0 4px'
+              }}>
+                
+                {/* Metric 1 */}
+                <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', textAlign: 'center' }}>
+                  <div style={{ fontSize: '42px', fontWeight: 900, color: '#6366F1', lineHeight: '1', marginBottom: '8px', fontFamily: 'var(--font-display)', letterSpacing: '-0.02em' }}>
+                    96%
                   </div>
-                  <p style={{ fontSize: '13px', color: '#64748B', lineHeight: '1.5', margin: 0 }}>
-                    96% of parents say they would confidently recommend TheMentR to another family.
-                  </p>
+                  <div style={{ fontSize: '13.5px', fontWeight: 800, color: '#1E293B', marginBottom: '4px', lineHeight: '1.2' }}>
+                    Parent Recommendation
+                  </div>
+                  <div style={{ fontSize: '11px', color: '#64748B', lineHeight: '1.4' }}>
+                    Real outcomes from onboarding
+                  </div>
                 </div>
 
-                {/* Rating Card */}
-                <div className="mobile-snap-card" style={{
-                  background: '#FFFFFF',
-                  borderRadius: '20px',
-                  padding: '24px',
-                  border: '1px solid rgba(99, 102, 241, 0.08)',
-                  boxShadow: '0 8px 20px rgba(99, 102, 241, 0.02)',
-                  display: 'flex',
-                  flexDirection: 'column',
-                  gap: '16px'
-                }}>
-                  <div style={{ display: 'flex', alignItems: 'center', gap: '16px' }}>
-                    <div style={{
-                      width: 56,
-                      height: 56,
-                      borderRadius: '50%',
-                      background: 'rgba(251, 191, 36, 0.08)',
-                      display: 'flex',
-                      alignItems: 'center',
-                      justifyContent: 'center',
-                      color: '#FBBF24'
-                    }}>
-                      <Star size={26} fill="#FBBF24" />
-                    </div>
-                    <div>
-                      <h4 style={{ fontSize: '14px', fontWeight: 800, color: '#1E293B', margin: 0 }}>4.9★ Average Rating</h4>
-                      <span style={{ fontSize: '11px', color: '#64748B' }}>Continuous monitoring</span>
-                    </div>
+                {/* Metric 2 */}
+                <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', textAlign: 'center' }}>
+                  <div style={{ fontSize: '42px', fontWeight: 900, color: '#6366F1', lineHeight: '1', marginBottom: '8px', fontFamily: 'var(--font-display)', letterSpacing: '-0.02em' }}>
+                    4.9★
                   </div>
-                  <p style={{ fontSize: '13px', color: '#64748B', lineHeight: '1.5', margin: 0 }}>
-                    Maintained through continuous parent reviews and quality monitoring.
-                  </p>
+                  <div style={{ fontSize: '13.5px', fontWeight: 800, color: '#1E293B', marginBottom: '4px', lineHeight: '1.2' }}>
+                    Parent Satisfaction
+                  </div>
+                  <div style={{ fontSize: '11px', color: '#64748B', lineHeight: '1.4' }}>
+                    Continuous review score
+                  </div>
                 </div>
 
-                {/* Testimonial Card */}
-                <div className="mobile-snap-card" style={{
-                  background: 'radial-gradient(circle at 10% 20%, rgba(99, 102, 241, 0.03) 0%, rgba(255, 255, 255, 0.98) 100%)',
-                  borderRadius: '24px',
-                  padding: '24px',
-                  border: '1px solid rgba(99, 102, 241, 0.12)',
-                  boxShadow: '0 8px 20px rgba(99, 102, 241, 0.03)',
-                  display: 'flex',
-                  flexDirection: 'column',
-                  gap: '12px'
-                }}>
-                  <div style={{ display: 'flex', gap: '3px' }}>
-                    {[...Array(5)].map((_, i) => <Star key={i} size={13} fill="#FBBF24" color="#FBBF24" />)}
+                {/* Metric 3 */}
+                <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', textAlign: 'center' }}>
+                  <div style={{ fontSize: '42px', fontWeight: 900, color: '#6366F1', lineHeight: '1', marginBottom: '8px', fontFamily: 'var(--font-display)', letterSpacing: '-0.02em' }}>
+                    <Counter target={finalTeacherCount} suffix="+" />
                   </div>
-                  <p style={{ fontSize: '13.5px', fontStyle: 'italic', color: '#1E293B', lineHeight: '1.6', margin: 0 }}>
-                    "Our daughter found the perfect mentor within days. The structured onboarding gave us complete confidence."
-                  </p>
-                  <span style={{ fontSize: '11.5px', fontWeight: 'bold', color: '#6366F1' }}>— Parent, Class VIII</span>
+                  <div style={{ fontSize: '13.5px', fontWeight: 800, color: '#1E293B', marginBottom: '4px', lineHeight: '1.2' }}>
+                    Verified Teachers
+                  </div>
+                  <div style={{ fontSize: '11px', color: '#64748B', lineHeight: '1.4' }}>
+                    Rigorous 7-stage vetting
+                  </div>
                 </div>
 
-                {/* Selection rates card */}
-                <div className="mobile-snap-card" style={{
-                  background: '#FFFFFF',
-                  borderRadius: '20px',
-                  padding: '24px',
-                  border: '1px solid rgba(99, 102, 241, 0.08)',
-                  boxShadow: '0 8px 20px rgba(99, 102, 241, 0.02)',
-                  display: 'flex',
-                  flexDirection: 'column',
-                  gap: '16px'
-                }}>
-                  <h4 style={{ fontSize: '14px', fontWeight: 800, color: '#1E293B', margin: 0 }}>Selection Rate by Board</h4>
-                  <div style={{ display: 'flex', flexDirection: 'column', gap: '10px' }}>
-                    {[
-                      { label: 'CBSE', val: 95, color: '#6366F1' },
-                      { label: 'ICSE', val: 83, color: '#7C5CFF' },
-                      { label: 'State Board', val: 96, color: '#64748B' },
-                      { label: 'IGCSE', val: 80, color: '#10B981' }
-                    ].map(b => (
-                      <div key={b.label} style={{ display: 'flex', flexDirection: 'column', gap: '4px' }}>
-                        <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: '11px', fontWeight: 'bold' }}>
-                          <span style={{ color: '#1E293B' }}>{b.label}</span>
-                          <span style={{ color: b.color }}>{b.val}% Selection</span>
-                        </div>
-                        <div style={{ height: '6px', borderRadius: '3px', background: 'rgba(15, 23, 42, 0.04)', overflow: 'hidden' }}>
-                          <div style={{ width: `${b.val}%`, height: '100%', borderRadius: '3px', background: b.color }} />
-                        </div>
-                      </div>
-                    ))}
+                {/* Metric 4 */}
+                <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', textAlign: 'center' }}>
+                  <div style={{ fontSize: '42px', fontWeight: 900, color: '#6366F1', lineHeight: '1', marginBottom: '8px', fontFamily: 'var(--font-display)', letterSpacing: '-0.02em' }}>
+                    2,465+
+                  </div>
+                  <div style={{ fontSize: '13.5px', fontWeight: 800, color: '#1E293B', marginBottom: '4px', lineHeight: '1.2' }}>
+                    Teaching Hours
+                  </div>
+                  <div style={{ fontSize: '11px', color: '#64748B', lineHeight: '1.4' }}>
+                    Structured progress mapped
                   </div>
                 </div>
+
               </div>
             </div>
 

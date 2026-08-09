@@ -92,7 +92,7 @@ export default function ContactSection({ background = 'white' }) {
   };
 
   return (
-    <section id="contact-section" className="section" style={{ background: finalBg, padding: isMobile ? '60px 0' : '120px 0' }}>
+    <section id="contact-section" className="section" style={{ background: finalBg === 'transparent' ? 'linear-gradient(180deg, rgba(143, 149, 246, 0.42) 0%, #E3E8FF 50%, #FFFFFF 100%)' : finalBg, padding: isMobile ? '60px 0' : '120px 0' }}>
       <div className="container">
         <div style={{ display: 'grid', gridTemplateColumns: isMobile ? '1fr' : '1fr 1fr', gap: isMobile ? 32 : 80 }} className="contact-grid-responsive">
           <FadeUp>

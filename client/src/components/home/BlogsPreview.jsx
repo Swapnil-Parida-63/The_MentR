@@ -13,7 +13,7 @@ export default function BlogsPreview() {
   }, []);
 
   return (
-    <section id="blogs" className="section journal-section-wrapper" style={{ background: 'transparent', position: 'relative', overflow: 'hidden' }}>
+    <section id="blogs" className="section journal-section-wrapper" style={{ background: 'linear-gradient(180deg, rgba(143, 149, 246, 0.42) 0%, #E3E8FF 50%, #FFFFFF 100%)', position: 'relative', overflow: 'hidden' }}>
       <div className="container" style={{ position: 'relative', zIndex: 1 }}>
         
         {/* Header Block */}

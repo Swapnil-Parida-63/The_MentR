@@ -142,7 +142,23 @@ const teams = ['academic', 'research', 'product', 'operations', 'support'];
 export default function OrganogramSection() {
   const [hoveredKey, setHoveredKey] = useState('leadership');
   const [isMobile, setIsMobile] = useState(window.innerWidth < 1024);
-  const [activeMobileModalKey, setActiveMobileModalKey] = useState(null);
+  const [isDescExpanded, setIsDescExpanded] = useState(false);
+
+  const nodeStyle = {
+    padding: '8px 12px',
+    background: '#FFFFFF',
+    border: '1.5px solid rgba(99, 102, 241, 0.15)',
+    borderRadius: '10px',
+    fontSize: '12px',
+    fontWeight: 700,
+    color: '#1E293B',
+    cursor: 'pointer',
+    textAlign: 'center',
+    display: 'inline-block',
+    userSelect: 'none',
+    boxShadow: '0 2px 6px rgba(15, 23, 42, 0.01)',
+    transition: 'all 0.3s ease'
+  };
 
   useEffect(() => {
     const handleResize = () => {
@@ -158,12 +174,9 @@ export default function OrganogramSection() {
   // Active path index for line animation
   const teamIndex = teams.indexOf(hoveredKey);
 
-  // Get active modal node details (for Card 2 tapping)
-  const modalDetails = activeMobileModalKey ? nodeDetails[activeMobileModalKey] : null;
-  const ModalIconComp = modalDetails ? modalDetails.icon : null;
 
   return (
-    <section id="organogram" className="section" style={{ background: 'transparent', padding: isMobile ? '60px 0' : '40px 0', minHeight: isMobile ? 'auto' : 'calc(100vh - 90px)', display: 'flex', flexDirection: 'column', justifyContent: 'center', position: 'relative', overflow: 'hidden' }}>
+    <section id="organogram" className="section" style={{ background: 'linear-gradient(180deg, rgba(143, 149, 246, 0.42) 0%, #E3E8FF 50%, #FFFFFF 100%)', padding: isMobile ? '60px 0' : '40px 0', minHeight: isMobile ? 'auto' : 'calc(100vh - 90px)', display: 'flex', flexDirection: 'column', justifyContent: 'center', position: 'relative', overflow: 'hidden' }}>
       
       {/* Background ambient radial glow */}
       <div style={{
@@ -188,246 +201,335 @@ export default function OrganogramSection() {
             
             {/* Mobile Header */}
             <div style={{ textAlign: 'center', marginBottom: 12 }}>
-              <FadeUp><div className="eyebrow" style={{ display: 'inline-block', marginBottom: 4 }}>BEHIND EVERY SUCCESSFUL LEARNING JOURNEY</div></FadeUp>
               <FadeUp delay={0.1} duration={0.8}>
-                <h2 style={{ fontSize: '26px', lineHeight: 1.25, marginBottom: 12, fontFamily: 'var(--font-display)', fontWeight: 750, color: '#0F172A', letterSpacing: '-0.02em' }}>
+                <h2 
+                  onClick={() => setIsDescExpanded(!isDescExpanded)}
+                  style={{ 
+                    fontSize: '26px', 
+                    lineHeight: 1.25, 
+                    marginBottom: 12, 
+                    fontFamily: 'var(--font-display)', 
+                    fontWeight: 750, 
+                    color: '#0F172A', 
+                    letterSpacing: '-0.02em',
+                    cursor: 'pointer',
+                    userSelect: 'none'
+                  }}
+                >
                   Behind Every Successful Learning Journey
                 </h2>
               </FadeUp>
-              <FadeUp delay={0.2} duration={0.7}>
-                <p style={{ color: 'var(--color-text-secondary)', fontSize: 14, lineHeight: 1.6 }}>
+              <motion.div
+                initial={{ opacity: 0, height: 0, marginTop: 0 }}
+                animate={isDescExpanded ? { opacity: 1, height: 'auto', marginTop: 12 } : { opacity: 0, height: 0, marginTop: 0 }}
+                transition={{ duration: 0.3, ease: 'easeOut' }}
+                style={{ overflow: 'hidden' }}
+              >
+                <p style={{ color: 'var(--color-text-secondary)', fontSize: 14, lineHeight: 1.6, margin: 0 }}>
                   See how MentR brings together leadership, expert teams, technology and educators to create a seamless learning experience.
                 </p>
-              </FadeUp>
+              </motion.div>
             </div>
 
-            {/* CARD 1: Leadership */}
-            <motion.div
-              initial={{ opacity: 0, y: 24 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true, margin: '-40px' }}
-              transition={{ duration: 0.5 }}
-              style={{
-                background: '#FFFFFF',
-                borderRadius: '24px',
-                padding: '24px',
-                border: '1px solid rgba(15, 23, 42, 0.05)',
-                boxShadow: '0 8px 30px rgba(15, 23, 42, 0.02)',
-                textAlign: 'center'
-              }}
-            >
-              <div style={{ fontSize: 32, marginBottom: 12 }}>👑</div>
-              <h4 style={{ fontSize: 16, fontWeight: 900, color: '#0F172A', margin: '0 0 8px' }}>Leadership</h4>
-              <p style={{ fontSize: 14, color: '#475569', fontStyle: 'italic', lineHeight: 1.5, margin: 0 }}>
-                &ldquo;We define the vision, strategy and direction for every learning experience.&rdquo;
-              </p>
-            </motion.div>
+            {/* Real Vertical Organogram Tree */}
+            <div style={{
+              display: 'flex',
+              flexDirection: 'column',
+              alignItems: 'center',
+              width: '100%',
+              margin: '24px auto 0',
+              fontFamily: 'var(--font-sans)',
+              padding: '0 8px'
+            }}>
+              {/* Row 1: Leadership Node */}
+              <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', width: '100%' }}>
+                <div 
+                  onClick={() => setHoveredKey('leadership')}
+                  style={{
+                    ...nodeStyle,
+                    borderColor: hoveredKey === 'leadership' ? '#6366F1' : 'rgba(99, 102, 241, 0.15)',
+                    background: hoveredKey === 'leadership' ? 'rgba(99, 102, 241, 0.05)' : '#FFFFFF',
+                    color: hoveredKey === 'leadership' ? '#6366F1' : '#1E293B'
+                  }}
+                >
+                  Leadership
+                </div>
+                <div style={{ width: '2px', height: '24px', background: 'rgba(99, 102, 241, 0.2)' }} />
+              </div>
 
-            {/* CARD 2: Our Expert Teams */}
-            <motion.div
-              initial={{ opacity: 0, y: 24 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true, margin: '-40px' }}
-              transition={{ duration: 0.5 }}
-              style={{
-                background: '#FFFFFF',
-                borderRadius: '24px',
-                padding: '24px 20px',
-                border: '1px solid rgba(15, 23, 42, 0.05)',
-                boxShadow: '0 8px 30px rgba(15, 23, 42, 0.02)',
-                textAlign: 'center'
-              }}
-            >
-              <h4 style={{ fontSize: 16, fontWeight: 900, color: '#0F172A', margin: '0 0 12px' }}>Our Expert Teams</h4>
-              
-              {/* 2x3 Grid */}
-              <div style={{
-                display: 'grid',
-                gridTemplateColumns: 'repeat(3, 1fr)',
-                gap: '12px',
-                marginBottom: 16
-              }}>
-                {[
-                  { key: 'academic', label: 'Academic', icon: BookOpen, color: '#6366F1', bg: '#EEF2FF' },
-                  { key: 'research', label: 'Research', icon: Search, color: '#10B981', bg: '#ECFDF5' },
-                  { key: 'product', label: 'Product', icon: Cpu, color: '#3B82F6', bg: '#F0F4FF' },
-                  { key: 'operations', label: 'Operations', icon: Settings, color: '#F59E0B', bg: '#FFF7ED' },
-                  { key: 'support', label: 'Support', icon: Headphones, color: '#06B6D4', bg: '#ECFEFF' }
-                ].map((item) => {
-                  const Icon = item.icon;
-                  return (
-                    <div
-                      key={item.key}
-                      onClick={() => setActiveMobileModalKey(item.key)}
+              {/* Row 2: Academic | Research | Product Branches */}
+              <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', width: '100%', position: 'relative' }}>
+                {/* Horizontal Bridge Line */}
+                <div style={{ 
+                  position: 'absolute', 
+                  top: 0, 
+                  left: '16.6%', 
+                  right: '16.6%', 
+                  height: '2px', 
+                  background: 'rgba(99, 102, 241, 0.2)' 
+                }} />
+                
+                {/* 3 Columns */}
+                <div style={{ display: 'flex', width: '100%', justifyContent: 'space-around' }}>
+                  {/* Academic Node */}
+                  <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', width: '30%' }}>
+                    <div style={{ width: '2px', height: '16px', background: 'rgba(99, 102, 241, 0.2)' }} />
+                    <div 
+                      onClick={() => setHoveredKey('academic')}
                       style={{
-                        padding: '12px 6px',
-                        background: '#FAFAFC',
-                        borderRadius: '14px',
-                        border: '1px solid rgba(15, 23, 42, 0.03)',
-                        display: 'flex',
-                        flexDirection: 'column',
-                        alignItems: 'center',
-                        justifyContent: 'center',
-                        gap: 6,
-                        cursor: 'pointer'
+                        ...nodeStyle,
+                        borderColor: hoveredKey === 'academic' ? '#6366F1' : 'rgba(99, 102, 241, 0.15)',
+                        background: hoveredKey === 'academic' ? 'rgba(99, 102, 241, 0.05)' : '#FFFFFF',
+                        color: hoveredKey === 'academic' ? '#6366F1' : '#1E293B',
+                        fontSize: '11px',
+                        padding: '6px 8px',
+                        width: '100%'
                       }}
                     >
-                      <div style={{ color: item.color, background: item.bg, padding: 6, borderRadius: '50%', display: 'flex' }}>
-                        <Icon size={16} />
-                      </div>
-                      <span style={{ fontSize: 11, fontWeight: 800, color: '#1E293B' }}>{item.label}</span>
+                      Academic
                     </div>
-                  );
-                })}
-              </div>
-
-              <p style={{ fontSize: 13, color: '#64748B', lineHeight: 1.5, margin: 0 }}>
-                Every team works together to deliver a seamless experience for parents and teachers. <span style={{ color: '#3B82F6', fontWeight: 600 }}>Tap to see roles.</span>
-              </p>
-            </motion.div>
-
-            {/* CARD 3: The MentR Platform */}
-            <motion.div
-              initial={{ opacity: 0, y: 24 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true, margin: '-40px' }}
-              transition={{ duration: 0.5 }}
-              style={{
-                background: 'linear-gradient(135deg, #FFFFFF 0%, #FAFAFC 100%)',
-                borderRadius: '24px',
-                padding: '24px',
-                border: '1px solid rgba(59, 130, 246, 0.08)',
-                boxShadow: '0 8px 30px rgba(59, 130, 246, 0.02)',
-                textAlign: 'center'
-              }}
-            >
-              <div style={{ display: 'inline-flex', padding: 8, borderRadius: 10, background: '#F0F4FF', color: '#3B82F6', marginBottom: 12 }}>
-                <AppWindow size={20} />
-              </div>
-              <h4 style={{ fontSize: 16, fontWeight: 900, color: '#0F172A', margin: '0 0 6px' }}>TheMentR Platform</h4>
-              <p style={{ fontSize: 13.5, color: '#475569', lineHeight: 1.5, margin: '0 0 16px' }}>
-                &ldquo;Our technology connects every part of the ecosystem.&rdquo;
-              </p>
-              
-              {/* Capability Chips */}
-              <div style={{ display: 'flex', flexWrap: 'wrap', gap: 6, justifyContent: 'center' }}>
-                {['AI Matching', 'Scheduling', 'Analytics', 'Payments', 'Communication'].map(chip => (
-                  <span
-                    key={chip}
-                    style={{
-                      fontSize: 11,
-                      fontWeight: 700,
-                      color: '#2563EB',
-                      background: 'rgba(59, 130, 246, 0.05)',
-                      padding: '4px 10px',
-                      borderRadius: '99px',
-                      border: '1px solid rgba(59, 130, 246, 0.08)'
-                    }}
-                  >
-                    {chip}
-                  </span>
-                ))}
-              </div>
-            </motion.div>
-
-            {/* CARD 4: Connecting Everyone */}
-            <motion.div
-              initial={{ opacity: 0, y: 24 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true, margin: '-40px' }}
-              transition={{ duration: 0.5 }}
-              style={{
-                background: '#FFFFFF',
-                borderRadius: '24px',
-                padding: '24px',
-                border: '1px solid rgba(15, 23, 42, 0.05)',
-                boxShadow: '0 8px 30px rgba(15, 23, 42, 0.02)',
-                textAlign: 'center'
-              }}
-            >
-              <h4 style={{ fontSize: 16, fontWeight: 900, color: '#0F172A', margin: '0 0 16px' }}>Connecting Everyone</h4>
-              
-              {/* Flow Visualization */}
-              <div style={{
-                display: 'flex',
-                flexDirection: 'column',
-                alignItems: 'center',
-                gap: 8,
-                marginBottom: 16
-              }}>
-                <div style={{ padding: '8px 16px', background: '#ECFDF5', border: '1px solid #A7F3D0', borderRadius: '12px', color: '#047857', fontSize: 12.5, fontWeight: 700, width: 140 }}>
-                  Teacher
-                </div>
-                <div style={{ height: 20, width: 1.5, background: '#E2E8F0' }} />
-                <div style={{ padding: '8px 16px', background: '#F0F4FF', border: '1px solid #BFDBFE', borderRadius: '12px', color: '#1D4ED8', fontSize: 12.5, fontWeight: 800, width: 160 }}>
-                  MentR Platform
-                </div>
-                <div style={{ height: 20, width: 1.5, background: '#E2E8F0' }} />
-                <div style={{ padding: '8px 16px', background: '#FEF2F2', border: '1px solid #FEE2E2', borderRadius: '12px', color: '#B91C1C', fontSize: 12.5, fontWeight: 700, width: 140 }}>
-                  Parent
-                </div>
-              </div>
-
-              <p style={{ fontSize: 13.5, color: '#475569', lineHeight: 1.5, margin: 0 }}>
-                &ldquo;The platform connects verified teachers with families while every internal team works behind the scenes.&rdquo;
-              </p>
-            </motion.div>
-
-            {/* CARD 5: Why It Matters */}
-            <motion.div
-              initial={{ opacity: 0, y: 24 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true, margin: '-40px' }}
-              transition={{ duration: 0.5 }}
-              style={{
-                background: '#FFFFFF',
-                borderRadius: '24px',
-                padding: '24px',
-                border: '1px solid rgba(15, 23, 42, 0.05)',
-                boxShadow: '0 8px 30px rgba(15, 23, 42, 0.02)',
-                textAlign: 'center'
-              }}
-            >
-              <h4 style={{ fontSize: 16, fontWeight: 900, color: '#0F172A', margin: '0 0 16px' }}>Why It Matters</h4>
-              
-              {/* Vertical Chips */}
-              <div style={{
-                display: 'flex',
-                flexDirection: 'column',
-                gap: 8,
-                maxWidth: 240,
-                margin: '0 auto'
-              }}>
-                {[
-                  'Verified Teachers',
-                  'Personalized Learning',
-                  'Progress Tracking',
-                  'Secure Payments',
-                  'Dedicated Support'
-                ].map(chip => (
-                  <div
-                    key={chip}
-                    style={{
-                      display: 'flex',
-                      alignItems: 'center',
-                      gap: 8,
-                      padding: '8px 14px',
-                      background: 'rgba(59, 130, 246, 0.04)',
-                      borderRadius: '12px',
-                      border: '1px solid rgba(59, 130, 246, 0.06)',
-                      fontSize: 12,
-                      fontWeight: 700,
-                      color: '#1E293B',
-                      textAlign: 'left'
-                    }}
-                  >
-                    <span style={{ color: '#10B981', display: 'flex' }}>✓</span>
-                    <span>{chip}</span>
+                    <div style={{ width: '2px', height: '16px', background: 'rgba(99, 102, 241, 0.2)' }} />
                   </div>
-                ))}
-              </div>
-            </motion.div>
 
+                  {/* Research Node */}
+                  <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', width: '30%' }}>
+                    <div style={{ width: '2px', height: '16px', background: 'rgba(99, 102, 241, 0.2)' }} />
+                    <div 
+                      onClick={() => setHoveredKey('research')}
+                      style={{
+                        ...nodeStyle,
+                        borderColor: hoveredKey === 'research' ? '#6366F1' : 'rgba(99, 102, 241, 0.15)',
+                        background: hoveredKey === 'research' ? 'rgba(99, 102, 241, 0.05)' : '#FFFFFF',
+                        color: hoveredKey === 'research' ? '#6366F1' : '#1E293B',
+                        fontSize: '11px',
+                        padding: '6px 8px',
+                        width: '100%'
+                      }}
+                    >
+                      Research
+                    </div>
+                    <div style={{ width: '2px', height: '16px', background: 'rgba(99, 102, 241, 0.2)' }} />
+                  </div>
+
+                  {/* Product Node */}
+                  <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', width: '30%' }}>
+                    <div style={{ width: '2px', height: '16px', background: 'rgba(99, 102, 241, 0.2)' }} />
+                    <div 
+                      onClick={() => setHoveredKey('product')}
+                      style={{
+                        ...nodeStyle,
+                        borderColor: hoveredKey === 'product' ? '#6366F1' : 'rgba(99, 102, 241, 0.15)',
+                        background: hoveredKey === 'product' ? 'rgba(99, 102, 241, 0.05)' : '#FFFFFF',
+                        color: hoveredKey === 'product' ? '#6366F1' : '#1E293B',
+                        fontSize: '11px',
+                        padding: '6px 8px',
+                        width: '100%'
+                      }}
+                    >
+                      Product
+                    </div>
+                    <div style={{ width: '2px', height: '16px', background: 'rgba(99, 102, 241, 0.2)' }} />
+                  </div>
+                </div>
+
+                {/* Lower Horizontal Bridge connecting Academic and Product back to center vertical line */}
+                <div style={{ 
+                  position: 'absolute', 
+                  bottom: 0, 
+                  left: '16.6%', 
+                  right: '16.6%', 
+                  height: '2px', 
+                  background: 'rgba(99, 102, 241, 0.2)' 
+                }} />
+              </div>
+
+              {/* Center connector line below Row 2 */}
+              <div style={{ width: '2px', height: '24px', background: 'rgba(99, 102, 241, 0.2)' }} />
+
+              {/* Row 3: Operations Node */}
+              <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', width: '100%' }}>
+                <div 
+                  onClick={() => setHoveredKey('operations')}
+                  style={{
+                    ...nodeStyle,
+                    borderColor: hoveredKey === 'operations' ? '#6366F1' : 'rgba(99, 102, 241, 0.15)',
+                    background: hoveredKey === 'operations' ? 'rgba(99, 102, 241, 0.05)' : '#FFFFFF',
+                    color: hoveredKey === 'operations' ? '#6366F1' : '#1E293B'
+                  }}
+                >
+                  Operations
+                </div>
+                <div style={{ width: '2px', height: '24px', background: 'rgba(99, 102, 241, 0.2)' }} />
+              </div>
+
+              {/* Row 4: Support Node */}
+              <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', width: '100%' }}>
+                <div 
+                  onClick={() => setHoveredKey('support')}
+                  style={{
+                    ...nodeStyle,
+                    borderColor: hoveredKey === 'support' ? '#6366F1' : 'rgba(99, 102, 241, 0.15)',
+                    background: hoveredKey === 'support' ? 'rgba(99, 102, 241, 0.05)' : '#FFFFFF',
+                    color: hoveredKey === 'support' ? '#6366F1' : '#1E293B'
+                  }}
+                >
+                  Support
+                </div>
+                <div style={{ width: '2px', height: '28px', background: 'rgba(99, 102, 241, 0.2)' }} />
+              </div>
+
+              {/* Row 5: MENTR ECOSYSTEM label */}
+              <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
+                <span style={{ 
+                  fontSize: '10px', 
+                  fontWeight: 800, 
+                  color: '#6366F1', 
+                  letterSpacing: '0.12em', 
+                  background: '#F8FAFC', 
+                  padding: '4px 12px', 
+                  borderRadius: '12px', 
+                  border: '1.2px dashed rgba(99, 102, 241, 0.25)',
+                  textTransform: 'uppercase'
+                }}>
+                  MENTR ECOSYSTEM
+                </span>
+                <div style={{ width: '2px', height: '28px', background: 'rgba(99, 102, 241, 0.2)' }} />
+              </div>
+
+              {/* Row 6: Teachers | Platform | Parents Branches */}
+              <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', width: '100%', position: 'relative' }}>
+                {/* Horizontal Bridge Line */}
+                <div style={{ 
+                  position: 'absolute', 
+                  top: 0, 
+                  left: '16.6%', 
+                  right: '16.6%', 
+                  height: '2px', 
+                  background: 'rgba(99, 102, 241, 0.2)' 
+                }} />
+                
+                {/* 3 Columns */}
+                <div style={{ display: 'flex', width: '100%', justifyContent: 'space-around' }}>
+                  {/* Teachers Node */}
+                  <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', width: '30%' }}>
+                    <div style={{ width: '2px', height: '16px', background: 'rgba(99, 102, 241, 0.2)' }} />
+                    <div 
+                      onClick={() => setHoveredKey('teachers')}
+                      style={{
+                        ...nodeStyle,
+                        borderColor: hoveredKey === 'teachers' ? '#6366F1' : 'rgba(99, 102, 241, 0.15)',
+                        background: hoveredKey === 'teachers' ? 'rgba(99, 102, 241, 0.05)' : '#FFFFFF',
+                        color: hoveredKey === 'teachers' ? '#6366F1' : '#1E293B',
+                        fontSize: '11px',
+                        padding: '6px 8px',
+                        width: '100%'
+                      }}
+                    >
+                      Teachers
+                    </div>
+                  </div>
+
+                  {/* Platform Node */}
+                  <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', width: '30%' }}>
+                    <div style={{ width: '2px', height: '16px', background: 'rgba(99, 102, 241, 0.2)' }} />
+                    <div 
+                      onClick={() => setHoveredKey('platform')}
+                      style={{
+                        ...nodeStyle,
+                        borderColor: hoveredKey === 'platform' ? '#6366F1' : 'rgba(99, 102, 241, 0.15)',
+                        background: hoveredKey === 'platform' ? 'rgba(99, 102, 241, 0.05)' : '#FFFFFF',
+                        color: hoveredKey === 'platform' ? '#6366F1' : '#1E293B',
+                        fontSize: '11px',
+                        padding: '6px 8px',
+                        width: '100%'
+                      }}
+                    >
+                      Platform
+                    </div>
+                  </div>
+
+                  {/* Parents Node */}
+                  <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', width: '30%' }}>
+                    <div style={{ width: '2px', height: '16px', background: 'rgba(99, 102, 241, 0.2)' }} />
+                    <div 
+                      onClick={() => setHoveredKey('parents')}
+                      style={{
+                        ...nodeStyle,
+                        borderColor: hoveredKey === 'parents' ? '#6366F1' : 'rgba(99, 102, 241, 0.15)',
+                        background: hoveredKey === 'parents' ? 'rgba(99, 102, 241, 0.05)' : '#FFFFFF',
+                        color: hoveredKey === 'parents' ? '#6366F1' : '#1E293B',
+                        fontSize: '11px',
+                        padding: '6px 8px',
+                        width: '100%'
+                      }}
+                    >
+                      Parents
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              {/* Node Detail Area */}
+              {activeDetails && (
+                <div style={{
+                  width: '100%',
+                  marginTop: '36px',
+                  padding: '24px 16px 12px',
+                  borderTop: '1px dashed rgba(99, 102, 241, 0.18)',
+                  textAlign: 'left'
+                }}>
+                  <div style={{ display: 'flex', alignItems: 'center', gap: 10, marginBottom: 6 }}>
+                    <div style={{
+                      color: activeDetails.iconColor || '#6366F1',
+                      background: activeDetails.bgColor || 'rgba(99, 102, 241, 0.06)',
+                      padding: 6,
+                      borderRadius: '50%',
+                      display: 'flex'
+                    }}>
+                      <ActiveIcon size={16} />
+                    </div>
+                    <div>
+                      <h4 style={{ fontSize: '15px', fontWeight: 800, color: '#0F172A', margin: 0 }}>
+                        {activeDetails.title}
+                      </h4>
+                      <span style={{ fontSize: '11px', color: '#6366F1', fontWeight: 600 }}>
+                        {activeDetails.subtitle}
+                      </span>
+                    </div>
+                  </div>
+
+                  <p style={{ fontSize: '13px', color: '#475569', lineHeight: 1.5, margin: '12px 0 16px' }}>
+                    {activeDetails.desc}
+                  </p>
+
+                  {activeDetails.sections && activeDetails.sections.map(section => (
+                    <div key={section.title} style={{ marginBottom: 14 }}>
+                      <h5 style={{ fontSize: '10px', fontWeight: 800, color: '#64748B', textTransform: 'uppercase', letterSpacing: '0.04em', margin: '0 0 6px' }}>
+                        {section.title}
+                      </h5>
+                      <div style={{ display: 'flex', flexWrap: 'wrap', gap: 6 }}>
+                        {section.chips.map(chip => (
+                          <span
+                            key={chip}
+                            style={{
+                              fontSize: '11px',
+                              fontWeight: 700,
+                              color: '#6366F1',
+                              background: 'rgba(99, 102, 241, 0.04)',
+                              padding: '3px 8px',
+                              borderRadius: '6px',
+                              border: '1px solid rgba(99, 102, 241, 0.06)'
+                            }}
+                          >
+                            {chip}
+                          </span>
+                        ))}
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              )}
+            </div>
           </div>
         ) : (
           /* ============================================================ */
@@ -805,132 +907,7 @@ export default function OrganogramSection() {
 
       </div>
 
-      {/* MOBILE TEAM DETAILS LIGHTWEIGHT MODAL */}
-      <AnimatePresence>
-        {isMobile && activeMobileModalKey && (
-          <motion.div
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-            onClick={() => setActiveMobileModalKey(null)}
-            style={{
-              position: 'fixed',
-              top: 0,
-              left: 0,
-              width: '100vw',
-              height: '100vh',
-              background: 'rgba(15, 23, 42, 0.45)',
-              backdropFilter: 'blur(5px)',
-              zIndex: 9999,
-              display: 'flex',
-              alignItems: 'center',
-              justifyContent: 'center',
-              padding: 20
-            }}
-          >
-            <motion.div
-              initial={{ opacity: 0, scale: 0.95, y: 12 }}
-              animate={{ opacity: 1, scale: 1, y: 0 }}
-              exit={{ opacity: 0, scale: 0.95, y: 12 }}
-              transition={{ type: 'spring', damping: 25, stiffness: 280 }}
-              onClick={(e) => e.stopPropagation()}
-              style={{
-                width: '100%',
-                maxWidth: 360,
-                background: '#FFFFFF',
-                borderRadius: '24px',
-                padding: '24px',
-                boxShadow: '0 20px 40px rgba(0, 0, 0, 0.15)',
-                position: 'relative'
-              }}
-            >
-              {/* Close Button */}
-              <button
-                onClick={() => setActiveMobileModalKey(null)}
-                style={{
-                  position: 'absolute',
-                  top: 16,
-                  right: 16,
-                  width: 32,
-                  height: 32,
-                  borderRadius: '50%',
-                  background: '#F1F5F9',
-                  border: 'none',
-                  display: 'flex',
-                  alignItems: 'center',
-                  justifyContent: 'center',
-                  color: '#64748B',
-                  cursor: 'pointer'
-                }}
-              >
-                <X size={16} />
-              </button>
 
-              {/* Modal Header */}
-              <div style={{ display: 'flex', gap: 12, alignItems: 'center', marginBottom: 14 }}>
-                {modalDetails && ModalIconComp && (
-                  <div style={{
-                    width: 38,
-                    height: 38,
-                    borderRadius: '10px',
-                    background: modalDetails.bgColor,
-                    color: modalDetails.iconColor,
-                    display: 'flex',
-                    alignItems: 'center',
-                    justifyContent: 'center'
-                  }}>
-                    <ModalIconComp size={18} />
-                  </div>
-                )}
-                <div>
-                  <h3 style={{ fontSize: 16, fontWeight: 900, color: '#0F172A', margin: 0 }}>
-                    {modalDetails?.title}
-                  </h3>
-                  <span style={{ fontSize: 11, fontWeight: 700, color: modalDetails?.iconColor, textTransform: 'uppercase', letterSpacing: '0.05em' }}>
-                    {modalDetails?.subtitle}
-                  </span>
-                </div>
-              </div>
-
-              {/* Modal Description */}
-              <p style={{ fontSize: 13, color: '#475569', lineHeight: 1.5, margin: '0 0 16px' }}>
-                {modalDetails?.desc}
-              </p>
-
-              {/* Modal Sections with Chips */}
-              <div style={{ display: 'flex', flexDirection: 'column', gap: 12 }}>
-                {modalDetails?.sections?.map((sect, sIdx) => (
-                  <div key={sIdx}>
-                    <h5 style={{ fontSize: 10.5, fontWeight: 800, color: '#1E293B', textTransform: 'uppercase', letterSpacing: '0.05em', marginBottom: 6 }}>
-                      {sect.title}
-                    </h5>
-                    <div style={{ display: 'flex', flexWrap: 'wrap', gap: '6px' }}>
-                      {sect.chips.map(chip => (
-                        <span 
-                          key={chip}
-                          style={{
-                            fontSize: 10,
-                            fontWeight: 650,
-                            color: '#2563EB',
-                            background: 'rgba(59, 130, 246, 0.05)',
-                            border: '1px solid rgba(59, 130, 246, 0.1)',
-                            padding: '3px 8px',
-                            borderRadius: '99px',
-                            display: 'inline-block'
-                          }}
-                        >
-                          {chip}
-                        </span>
-                      ))}
-                    </div>
-                  </div>
-                ))}
-              </div>
-
-            </motion.div>
-          </motion.div>
-        )}
-      </AnimatePresence>
 
       <style>{`
         .flowing-path {

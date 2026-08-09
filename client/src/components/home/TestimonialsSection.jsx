@@ -1,6 +1,7 @@
 import { useState, useEffect, useRef } from 'react';
 import { FadeUp } from '../../hooks/useScrollReveal';
 import { ArrowLeft, ArrowRight, Play, CheckCircle } from 'lucide-react';
+import { motion } from 'framer-motion';
 
 // ==============================================================
 // 1. ORIGINAL TESTIMONIAL DATA WITH DUMMY AVATARS
@@ -126,6 +127,14 @@ export default function TestimonialsSection() {
   const [readMore, setReadMore] = useState(false);
   const [touchStart, setTouchStart] = useState(null);
   const [touchEnd, setTouchEnd] = useState(null);
+  const [isMobile, setIsMobile] = useState(window.innerWidth < 1024);
+  const [isDescExpanded, setIsDescExpanded] = useState(false);
+
+  useEffect(() => {
+    const handleResize = () => setIsMobile(window.innerWidth < 1024);
+    window.addEventListener('resize', handleResize);
+    return () => window.removeEventListener('resize', handleResize);
+  }, []);
 
   // Filter testimonials based on selected controls
   const filteredTestimonials = testimonialsData.filter(item => {
@@ -190,7 +199,7 @@ export default function TestimonialsSection() {
   };
 
   return (
-    <section id="testimonials" className="section" style={{ background: 'transparent', padding: '140px 0', position: 'relative', overflow: 'hidden' }}>
+    <section id="testimonials" className="section" style={{ background: 'linear-gradient(180deg, rgba(143, 149, 246, 0.42) 0%, #E3E8FF 50%, #FFFFFF 100%)', padding: '140px 0', position: 'relative', overflow: 'hidden' }}>
       
       {/* Background layer */}
       <div style={{
@@ -210,15 +219,32 @@ export default function TestimonialsSection() {
         <div style={{ textAlign: 'center', maxWidth: 600, margin: '0 auto 48px' }}>
           <FadeUp><div className="testimonial-eyebrow">TESTIMONIALS</div></FadeUp>
           <FadeUp delay={0.1}>
-            <h2 style={{ fontSize: 'clamp(32px, 3.5vw, 44px)', fontWeight: 800, color: '#0F172A', letterSpacing: '-0.02em', marginBottom: 16, fontFamily: 'var(--font-hero)' }}>
+            <h2 
+              onClick={() => isMobile && setIsDescExpanded(!isDescExpanded)}
+              style={{ 
+                fontSize: 'clamp(32px, 3.5vw, 44px)', 
+                fontWeight: 800, 
+                color: '#0F172A', 
+                letterSpacing: '-0.02em', 
+                marginBottom: 16, 
+                fontFamily: 'var(--font-hero)',
+                cursor: isMobile ? 'pointer' : 'default',
+                userSelect: 'none'
+              }}
+            >
               Teaching and Learning growing with The MentR
             </h2>
           </FadeUp>
-          <FadeUp delay={0.15}>
+          <motion.div
+            initial={isMobile ? { opacity: 0, height: 0, marginTop: 0 } : { opacity: 1, height: 'auto' }}
+            animate={!isMobile || isDescExpanded ? { opacity: 1, height: 'auto' } : { opacity: 0, height: 0 }}
+            transition={{ duration: 0.3, ease: 'easeOut' }}
+            style={{ overflow: 'hidden' }}
+          >
             <p style={{ fontSize: 16, color: '#64748B', lineHeight: 1.6, margin: 0 }}>
               Hear directly from parents and teachers who have experienced the MentR journey and trusted us with learning.
             </p>
-          </FadeUp>
+          </motion.div>
         </div>
 
         {/* Testimonial Segmented Controls Filter Bar */}

@@ -130,11 +130,10 @@ export default function PainPointsSection() {
       onMouseMove={handleMouseMove}
       onMouseLeave={handleMouseLeave}
       style={{ 
-        background: 'linear-gradient(180deg, #F8FAFC 0%, #F1F5F9 50%, #E2E8F0 100%)', 
-        padding: isMobile ? '80px 0 100px' : '140px 0 160px', 
         position: 'relative', 
         overflow: 'hidden',
-        fontFamily: 'var(--font-sans)'
+        fontFamily: 'var(--font-sans)',
+        background: 'transparent'
       }}
     >
       {/* Decorative ambient subtle glows */}
@@ -162,10 +161,10 @@ export default function PainPointsSection() {
       }} />
 
       {/* Parallax Scattered Background Doodles */}
-      {!isMobile && _painPointsDoodles.map((doodle, idx) => (
+      {_painPointsDoodles.map((doodle, idx) => (
         <motion.div
           key={`pain-doodle-${idx}`}
-          animate={{ 
+          animate={isMobile ? { rotate: [doodle.rotate, doodle.rotate + 3, doodle.rotate] } : { 
             x: mousePos.x * doodle.factor, 
             y: mousePos.y * doodle.factor,
             rotate: [doodle.rotate, doodle.rotate + 3, doodle.rotate] 
@@ -179,34 +178,38 @@ export default function PainPointsSection() {
             position: 'absolute', 
             pointerEvents: 'none', 
             zIndex: 0, 
-            opacity: 0.35, 
+            opacity: 0.75, 
             color: doodle.color,
             ...doodle.position 
           }}
         >
-          <svg viewBox="0 0 70 70" width={doodle.size} height={doodle.size}>
+          <svg viewBox="0 0 70 70" width={isMobile ? doodle.size * 0.65 : doodle.size} height={isMobile ? doodle.size * 0.65 : doodle.size}>
             {doodlesMap[doodle.type]}
           </svg>
         </motion.div>
       ))}
 
-      <div className="container" style={{ position: 'relative', zIndex: 1 }}>
-        
-        {/* ============================================================== */}
-        {/* SECTION 1 — PARENTS (Families)                                  */}
-        {/* ============================================================== */}
-        <div 
-          onMouseEnter={() => setHoveredPanel('parents')}
-          onMouseLeave={() => setHoveredPanel(null)}
-          style={{
-            display: 'grid',
-            gridTemplateColumns: isMobile ? '1fr' : '1fr 1.1fr',
-            gap: isMobile ? '32px' : '80px',
-            alignItems: 'center',
-            marginBottom: isMobile ? '100px' : '160px',
-            position: 'relative'
-          }}
-        >
+      {/* ============================================================== */}
+      {/* SECTION 1 — PARENTS (Families)                                  */}
+      {/* ============================================================== */}
+      <div style={{
+        background: 'linear-gradient(180deg, #FFFFFF 0%, #E3E8FF 50%, rgba(143, 149, 246, 0.42) 100%)',
+        padding: isMobile ? '80px 0 60px' : '120px 0 100px',
+        position: 'relative',
+        zIndex: 1
+      }}>
+        <div className="container">
+          <div 
+            onMouseEnter={() => setHoveredPanel('parents')}
+            onMouseLeave={() => setHoveredPanel(null)}
+            style={{
+              display: 'grid',
+              gridTemplateColumns: isMobile ? '1fr' : '1fr 1.1fr',
+              gap: isMobile ? '32px' : '80px',
+              alignItems: 'center',
+              position: 'relative'
+            }}
+          >
           {/* Animated Connecting Dotted Path */}
           {!isMobile && (
             <svg viewBox="0 0 1000 500" style={{ position: 'absolute', inset: 0, width: '100%', height: '100%', pointerEvents: 'none', zIndex: 1 }}>
@@ -540,37 +543,19 @@ export default function PainPointsSection() {
           )}
 
         </div>
+      </div>
+    </div>
 
-        {/* ============================================================== */}
-        {/* SEAMLESS TRANSITION DIVIDER WITH VERTICAL JOURNEY PATH         */}
-        {/* ============================================================== */}
-        <div style={{ position: 'relative', width: '100%', height: isMobile ? 60 : 100, zIndex: 2 }}>
-          {!isMobile && (
-            <div style={{ position: 'absolute', top: 0, left: '50%', transform: 'translateX(-50%)', height: 100, width: 40, pointerEvents: 'none' }}>
-              <svg height="100" width="40" viewBox="0 0 40 100" style={{ overflow: 'visible' }}>
-                <motion.path
-                  d="M 20 0 Q 40 50, 20 100"
-                  stroke="url(#pain-vertical-glow)"
-                  strokeWidth="2"
-                  strokeDasharray="4 5"
-                  fill="none"
-                  animate={{ strokeDashoffset: [0, -18] }}
-                  transition={{ duration: 2.5, repeat: Infinity, ease: "linear" }}
-                />
-                <defs>
-                  <linearGradient id="pain-vertical-glow" x1="0%" y1="0%" x2="0%" y2="100%">
-                    <stop offset="0%" stopColor="#4F7CFF" />
-                    <stop offset="100%" stopColor="#7B61FF" />
-                  </linearGradient>
-                </defs>
-              </svg>
-            </div>
-          )}
-        </div>
-
-        {/* ============================================================== */}
-        {/* SECTION 2 — TEACHERS (Educators)                                */}
-        {/* ============================================================== */}
+    {/* ============================================================== */}
+    {/* SECTION 2 — TEACHERS (Educators)                                */}
+    {/* ============================================================== */}
+    <div style={{
+      background: 'linear-gradient(180deg, rgba(143, 149, 246, 0.42) 0%, #E3E8FF 50%, #FFFFFF 100%)',
+      padding: isMobile ? '80px 0 100px' : '120px 0 140px',
+      position: 'relative',
+      zIndex: 1
+    }}>
+      <div className="container">
         <div 
           onMouseEnter={() => setHoveredPanel('educators')}
           onMouseLeave={() => setHoveredPanel(null)}
@@ -744,7 +729,6 @@ export default function PainPointsSection() {
             </motion.div>
           )}
 
-          {/* Content Block */}
           <div style={{ textAlign: isMobile ? 'right' : 'left', maxWidth: 480, justifySelf: isMobile ? 'stretch' : 'end' }}>
             <motion.h3
               initial={{ opacity: 0, y: 15 }}
@@ -915,8 +899,8 @@ export default function PainPointsSection() {
           </div>
 
         </div>
-
       </div>
-    </section>
-  );
+    </div>
+  </section>
+);
 }

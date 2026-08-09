@@ -1,5 +1,5 @@
 import { useState, useEffect, useRef } from 'react';
-import { motion } from 'framer-motion';
+import { motion, AnimatePresence } from 'framer-motion';
 import { 
   Check, 
   ArrowRight,
@@ -175,8 +175,8 @@ const illustrations = {
 export default function ServicesSection() {
   const [isMobile, setIsMobile] = useState(window.innerWidth < 1024);
   const [hoveredCard, setHoveredCard] = useState(null);
-  const [carouselIndex, setCarouselIndex] = useState(0);
-  const carouselRef = useRef(null);
+  const [expandedOfferIdx, setExpandedOfferIdx] = useState(0);
+  const [isHeaderDescExpanded, setIsHeaderDescExpanded] = useState(false);
 
   useEffect(() => {
     const handleResize = () => setIsMobile(window.innerWidth < 1024);
@@ -184,32 +184,134 @@ export default function ServicesSection() {
     return () => window.removeEventListener('resize', handleResize);
   }, []);
 
-  const handleCarouselScroll = () => {
-    if (carouselRef.current) {
-      const container = carouselRef.current;
-      const cardWidth = container.clientWidth * 0.85 + 16;
-      const index = Math.round(container.scrollLeft / cardWidth);
-      setCarouselIndex(index);
+  const offers = [
+    {
+      id: 0,
+      num: '01',
+      sym: '✓',
+      title: 'Verified Teachers',
+      subtitle: 'Every educator passes our screening process.',
+      details: (
+        <div style={{ display: 'flex', flexDirection: 'column', gap: 8, marginTop: 12 }}>
+          {['Identity Verification', 'Demo Class & Subject Test', 'Continuous Reviews'].map(check => (
+            <div key={check} style={{ display: 'flex', alignItems: 'center', gap: 8, fontSize: 13, fontWeight: 550, color: '#334155' }}>
+              <span style={{ color: '#10B981', display: 'flex' }}>✓</span>
+              <span>{check}</span>
+            </div>
+          ))}
+        </div>
+      )
+    },
+    {
+      id: 1,
+      num: '02',
+      sym: '◉',
+      title: 'Assessment First',
+      subtitle: 'We analyze learning gaps before matching starts.',
+      details: (
+        <div style={{ display: 'flex', flexDirection: 'column', gap: 10, marginTop: 12, position: 'relative', paddingLeft: 8 }}>
+          <div style={{ position: 'absolute', left: 8, top: 4, bottom: 4, width: 1.2, background: 'rgba(124, 92, 255, 0.15)' }} />
+          {[
+            { step: '1', text: 'Home evaluation visit' },
+            { step: '2', text: 'Diagnostic analysis report' }
+          ].map(item => (
+            <div key={item.step} style={{ display: 'flex', alignItems: 'center', gap: 10, fontSize: 13, fontWeight: 550, color: '#334155', zIndex: 1 }}>
+              <span style={{ width: 17, height: 17, borderRadius: '50%', background: '#7C5CFF', color: 'white', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 10 }}>{item.step}</span>
+              <span>{item.text}</span>
+            </div>
+          ))}
+        </div>
+      )
+    },
+    {
+      id: 2,
+      num: '03',
+      sym: '✦',
+      title: 'Intelligent Matching',
+      subtitle: 'Aligned by syllabus board, personality, and pace.',
+      details: (
+        <div style={{ display: 'flex', flexDirection: 'column', gap: 8, marginTop: 12 }}>
+          <span style={{ fontSize: 9, fontWeight: 750, color: '#4F7CFF', letterSpacing: '0.05em', textTransform: 'uppercase', display: 'block', marginBottom: 2 }}>Featured Priority</span>
+          <div style={{ display: 'flex', flexWrap: 'wrap', gap: 5 }}>
+            {['Board Alignment', 'Synergy Index 98%'].map(tag => (
+              <span key={tag} style={{ fontSize: 11, fontWeight: 600, color: '#4F7CFF', background: 'rgba(79, 124, 255, 0.06)', padding: '3px 8px', borderRadius: 6 }}>
+                {tag}
+              </span>
+            ))}
+          </div>
+        </div>
+      )
+    },
+    {
+      id: 3,
+      num: '04',
+      sym: '🛡',
+      title: 'Safe Learning',
+      subtitle: 'Complete transparency and peace of mind.',
+      details: (
+        <div style={{ display: 'flex', flexDirection: 'column', gap: 8, marginTop: 12 }}>
+          {['Background Vetted', 'Lesson Log Transparency'].map(item => (
+            <div key={item} style={{ display: 'flex', alignItems: 'center', gap: 8, fontSize: 13, fontWeight: 550, color: '#334155' }}>
+              <span style={{ color: '#10B981', display: 'flex' }}>✓</span>
+              <span>{item}</span>
+            </div>
+          ))}
+        </div>
+      )
+    },
+    {
+      id: 4,
+      num: '05',
+      sym: '☷',
+      title: 'Board Flexibility',
+      subtitle: 'Curriculums matching major Indian school boards.',
+      details: (
+        <div style={{ display: 'flex', flexWrap: 'wrap', gap: 5, marginTop: 12 }}>
+          {['CBSE', 'ICSE', 'IB', 'State Board'].map(board => (
+            <span key={board} style={{ fontSize: 11, fontWeight: 600, color: '#334155', background: '#F1F5F9', padding: '3px 8px', borderRadius: 6 }}>
+              {board}
+            </span>
+          ))}
+        </div>
+      )
+    },
+    {
+      id: 5,
+      num: '06',
+      sym: '★',
+      title: 'One-to-One Learning',
+      subtitle: "Designed around your child's exact learning pace.",
+      details: (
+        <div style={{ display: 'flex', gap: 10, marginTop: 12 }}>
+          <div style={{ borderLeft: '2.5px solid #7C5CFF', paddingLeft: 6 }}>
+            <div style={{ fontSize: 16, fontWeight: 800, color: '#1E293B' }}>100%</div>
+            <div style={{ fontSize: 10, color: '#64748B', fontWeight: 650 }}>Student Focus</div>
+          </div>
+        </div>
+      )
+    },
+    {
+      id: 6,
+      num: '07',
+      sym: '⇄',
+      title: 'Online + Offline',
+      subtitle: 'Seamlessly switch modes under the same mentor.',
+      details: (
+        <div style={{ display: 'flex', flexDirection: 'column', gap: 4, fontSize: 13, fontWeight: 550, marginTop: 12 }}>
+          <div style={{ display: 'flex', alignItems: 'center', gap: 8, color: '#334155' }}>
+            <span style={{ color: '#4F7CFF', fontSize: '14px' }}>⌂</span>
+            <span>In-person home visits</span>
+          </div>
+        </div>
+      )
     }
-  };
-
-  const scrollToCarouselIndex = (idx) => {
-    if (carouselRef.current) {
-      const container = carouselRef.current;
-      const cardWidth = container.clientWidth * 0.85 + 16;
-      container.scrollTo({
-        left: idx * cardWidth,
-        behavior: 'smooth'
-      });
-      setCarouselIndex(idx);
-    }
-  };
+  ];
 
   return (
     <section 
       id="services" 
       style={{ 
-        background: 'transparent', 
+        background: 'linear-gradient(180deg, rgba(143, 149, 246, 0.42) 0%, #E3E8FF 50%, #FFFFFF 100%)', 
         padding: isMobile ? '60px 0' : '110px 0',
         position: 'relative',
         overflow: 'hidden'
@@ -273,331 +375,135 @@ export default function ServicesSection() {
           }}>
             What We Offer
           </span>
-          <h2 style={{
-            fontFamily: 'var(--font-display)',
-            fontWeight: 800,
-            fontSize: isMobile ? 'clamp(28px, 7vw, 36px)' : 'clamp(38px, 3vw, 46px)',
-            lineHeight: 1.15,
-            letterSpacing: '-0.03em',
-            color: '#1E293B',
-            margin: '0 0 12px'
-          }}>
+          <h2 
+            onClick={() => isMobile && setIsHeaderDescExpanded(!isHeaderDescExpanded)}
+            style={{
+              fontFamily: 'var(--font-display)',
+              fontWeight: 800,
+              fontSize: isMobile ? 'clamp(28px, 7vw, 36px)' : 'clamp(38px, 3vw, 46px)',
+              lineHeight: 1.15,
+              letterSpacing: '-0.03em',
+              color: '#1E293B',
+              margin: '0 0 12px',
+              cursor: isMobile ? 'pointer' : 'default',
+              userSelect: 'none'
+            }}
+          >
             Every advantage, built in.<br />
             So we don't leave matching to guesswork.
           </h2>
-          <p style={{
-            fontFamily: 'var(--font-sans)',
-            fontWeight: 400,
-            fontSize: 14.5,
-            color: '#64748B',
-            lineHeight: 1.55,
-            maxWidth: '560px',
-            margin: 0
-          }}>
-            Every component of our learning ecosystem works in unison to guide, verify, match, and sustain accountability for a complete learning journey.
-          </p>
+          <motion.div
+            initial={isMobile ? { opacity: 0, height: 0, marginTop: 0 } : { opacity: 1, height: 'auto' }}
+            animate={!isMobile || isHeaderDescExpanded ? { opacity: 1, height: 'auto' } : { opacity: 0, height: 0 }}
+            transition={{ duration: 0.3, ease: 'easeOut' }}
+            style={{ overflow: 'hidden' }}
+          >
+            <p style={{
+              fontFamily: 'var(--font-sans)',
+              fontWeight: 400,
+              fontSize: 14.5,
+              color: '#64748B',
+              lineHeight: 1.55,
+              maxWidth: '560px',
+              margin: 0
+            }}>
+              Every component of our learning ecosystem works in unison to guide, verify, match, and sustain accountability for a complete learning journey.
+            </p>
+          </motion.div>
         </div>
 
         {/* ------------------------------------------------------------- */}
         {/* MOBILE LAYOUT: SNAP CAROUSEL WITH SWIPE INDICATORS           */}
         {/* ------------------------------------------------------------- */}
         {isMobile ? (
-          <div>
-            <div 
-              ref={carouselRef}
-              onScroll={handleCarouselScroll}
-              className="mobile-swipe-carousel"
-              style={{
-                display: 'flex',
-                overflowX: 'auto',
-                scrollSnapType: 'x mandatory',
-                gap: 16,
-                paddingBottom: 20,
-                WebkitOverflowScrolling: 'touch',
-                scrollbarWidth: 'none',
-                msOverflowStyle: 'none'
-              }}
-            >
-              {/* Card 1: Verified Teachers */}
-              <div className="mobile-swipe-card" style={{ flex: '0 0 85%', scrollSnapAlign: 'center' }}>
-                <div className="card-hover" style={{
-                  background: '#FFFFFF',
-                  borderRadius: 20,
-                  border: '1.2px solid rgba(79, 124, 255, 0.14)',
-                  padding: 20,
-                  height: 330,
-                  display: 'flex',
-                  flexDirection: 'column',
-                  justifyContent: 'space-between',
-                  position: 'relative',
-                  overflow: 'hidden',
-                  boxShadow: '0 6px 20px rgba(15, 23, 42, 0.02)'
-                }}>
-                  {/* SaaS Dot Grid Fill */}
-                  <div className="saas-grid-fill" />
-                  
-                  <div style={{ zIndex: 1 }}>
-                    <h4 style={{ fontSize: 17, fontWeight: 750, color: '#1E293B', margin: '0 0 4px' }}>Verified Teachers</h4>
-                    <p style={{ fontSize: 13, color: '#64748B', margin: '0 0 16px', lineHeight: 1.4 }}>Every educator passes our screening process.</p>
-                    <div style={{ display: 'flex', flexDirection: 'column', gap: 6 }}>
-                      {['Identity Verification', 'Demo Class & Subject Test', 'Continuous Reviews'].map(check => (
-                        <div key={check} style={{ display: 'flex', alignItems: 'center', gap: 6, fontSize: 12, fontWeight: 600, color: '#1E293B' }}>
-                          <Check size={13} style={{ color: '#10B981' }} />
-                          <span>{check}</span>
-                        </div>
-                      ))}
-                    </div>
-                  </div>
-                  <div style={{ display: 'flex', justifyContent: 'center', height: 110, position: 'relative', zIndex: 1 }}>
-                    <div style={{ position: 'absolute', inset: 0, background: 'radial-gradient(circle, rgba(79, 124, 255, 0.08) 0%, transparent 70%)', filter: 'blur(6px)' }} />
-                    {illustrations.teachers}
-                  </div>
-                </div>
-              </div>
-
-              {/* Card 2: Assessment */}
-              <div className="mobile-swipe-card" style={{ flex: '0 0 85%', scrollSnapAlign: 'center' }}>
-                <div className="card-hover" style={{
-                  background: '#FFFFFF',
-                  borderRadius: 20,
-                  border: '1.2px solid rgba(124, 92, 255, 0.14)',
-                  padding: 20,
-                  height: 330,
-                  display: 'flex',
-                  flexDirection: 'column',
-                  justifyContent: 'space-between',
-                  position: 'relative',
-                  overflow: 'hidden',
-                  boxShadow: '0 6px 20px rgba(15, 23, 42, 0.02)'
-                }}>
-                  {/* SaaS Dot Grid Fill */}
-                  <div className="saas-grid-fill" />
-                  
-                  <div style={{ zIndex: 1 }}>
-                    <h4 style={{ fontSize: 17, fontWeight: 750, color: '#1E293B', margin: '0 0 4px' }}>Assessment First</h4>
-                    <p style={{ fontSize: 13, color: '#64748B', margin: '0 0 16px', lineHeight: 1.4 }}>We analyze learning gaps before matching starts.</p>
-                    
-                    <div style={{ display: 'flex', flexDirection: 'column', gap: 8, position: 'relative' }}>
-                      <div style={{ position: 'absolute', left: 8, top: 4, bottom: 4, width: 1.2, background: 'rgba(124, 92, 255, 0.15)' }} />
-                      {[
-                        { step: '1', text: 'Home evaluation visit' },
-                        { step: '2', text: 'Diagnostic analysis report' }
-                      ].map(item => (
-                        <div key={item.step} style={{ display: 'flex', alignItems: 'center', gap: 10, fontSize: 12, fontWeight: 650, color: '#1E293B', zIndex: 1 }}>
-                          <span style={{ width: 17, height: 17, borderRadius: '50%', background: '#7C5CFF', color: 'white', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 10 }}>{item.step}</span>
-                          <span>{item.text}</span>
-                        </div>
-                      ))}
-                    </div>
-                  </div>
-                  <div style={{ display: 'flex', justifyContent: 'center', height: 105, position: 'relative', zIndex: 1 }}>
-                    <div style={{ position: 'absolute', inset: 0, background: 'radial-gradient(circle, rgba(124, 92, 255, 0.08) 0%, transparent 70%)', filter: 'blur(6px)' }} />
-                    {illustrations.assessment}
-                  </div>
-                </div>
-              </div>
-
-              {/* Card 3: Intelligent Matching (Featured) */}
-              <div className="mobile-swipe-card" style={{ flex: '0 0 85%', scrollSnapAlign: 'center' }}>
-                <div className="card-hover" style={{
-                  background: '#FFFFFF',
-                  borderRadius: 20,
-                  border: '1.2px solid rgba(79, 124, 255, 0.16)',
-                  padding: 20,
-                  height: 330,
-                  display: 'flex',
-                  flexDirection: 'column',
-                  justifyContent: 'space-between',
-                  position: 'relative',
-                  overflow: 'hidden',
-                  boxShadow: '0 6px 20px rgba(15, 23, 42, 0.03)'
-                }}>
-                  {/* SaaS Dot Grid Fill */}
-                  <div className="saas-grid-fill" />
-                  
-                  <div style={{ zIndex: 1 }}>
-                    <span style={{ fontSize: 9, fontWeight: 750, color: '#4F7CFF', letterSpacing: '0.05em', textTransform: 'uppercase', display: 'block', marginBottom: 2 }}>Featured Priority</span>
-                    <h4 style={{ fontSize: 17, fontWeight: 750, color: '#1E293B', margin: '0 0 4px' }}>Intelligent Matching</h4>
-                    <p style={{ fontSize: 13, color: '#64748B', margin: '0 0 12px', lineHeight: 1.4 }}>Aligned by syllabus board, personality, and pace.</p>
-                    <div style={{ display: 'flex', flexWrap: 'wrap', gap: 5 }}>
-                      {['Board Alignment', 'Synergy Index 98%'].map(tag => (
-                        <span key={tag} style={{ fontSize: 10.5, fontWeight: 650, color: '#4F7CFF', background: 'rgba(79, 124, 255, 0.06)', padding: '3px 8px', borderRadius: 6 }}>
-                          {tag}
-                        </span>
-                      ))}
-                    </div>
-                  </div>
-                  <div style={{ display: 'flex', justifyContent: 'center', height: 110, position: 'relative', zIndex: 1 }}>
-                    <div style={{ position: 'absolute', inset: 0, background: 'radial-gradient(circle, rgba(79, 124, 255, 0.1) 0%, transparent 70%)', filter: 'blur(6px)' }} />
-                    {illustrations.matching}
-                  </div>
-                </div>
-              </div>
-
-              {/* Card 4: Safe Learning */}
-              <div className="mobile-swipe-card" style={{ flex: '0 0 85%', scrollSnapAlign: 'center' }}>
-                <div className="card-hover" style={{
-                  background: '#FFFFFF',
-                  borderRadius: 20,
-                  border: '1.2px solid rgba(16, 185, 129, 0.14)',
-                  padding: 20,
-                  height: 330,
-                  display: 'flex',
-                  flexDirection: 'column',
-                  justifyContent: 'space-between',
-                  position: 'relative',
-                  overflow: 'hidden',
-                  boxShadow: '0 6px 20px rgba(15, 23, 42, 0.02)'
-                }}>
-                  {/* SaaS Dot Grid Fill */}
-                  <div className="saas-grid-fill" />
-                  
-                  <div style={{ zIndex: 1 }}>
-                    <h4 style={{ fontSize: 17, fontWeight: 750, color: '#1E293B', margin: '0 0 4px' }}>Safe Learning</h4>
-                    <p style={{ fontSize: 13, color: '#64748B', margin: '0 0 16px', lineHeight: 1.4 }}>Complete transparency and peace of mind.</p>
-                    <div style={{ display: 'flex', flexDirection: 'column', gap: 6 }}>
-                      {['Background Vetted', 'Lesson Log Transparency'].map(item => (
-                        <div key={item} style={{ display: 'flex', alignItems: 'center', gap: 6, fontSize: 12, fontWeight: 600, color: '#1E293B' }}>
-                          <Check size={13} style={{ color: '#10B981' }} />
-                          <span>{item}</span>
-                        </div>
-                      ))}
-                    </div>
-                  </div>
-                  <div style={{ display: 'flex', justifyContent: 'center', height: 105, position: 'relative', zIndex: 1 }}>
-                    <div style={{ position: 'absolute', inset: 0, background: 'radial-gradient(circle, rgba(16, 185, 129, 0.08) 0%, transparent 70%)', filter: 'blur(6px)' }} />
-                    {illustrations.safe}
-                  </div>
-                </div>
-              </div>
-
-              {/* Card 5: Board Flexibility */}
-              <div className="mobile-swipe-card" style={{ flex: '0 0 85%', scrollSnapAlign: 'center' }}>
-                <div className="card-hover" style={{
-                  background: '#FFFFFF',
-                  borderRadius: 20,
-                  border: '1.2px solid rgba(79, 124, 255, 0.14)',
-                  padding: 20,
-                  height: 330,
-                  display: 'flex',
-                  flexDirection: 'column',
-                  justifyContent: 'space-between',
-                  position: 'relative',
-                  overflow: 'hidden',
-                  boxShadow: '0 6px 20px rgba(15, 23, 42, 0.02)'
-                }}>
-                  {/* SaaS Dot Grid Fill */}
-                  <div className="saas-grid-fill" />
-                  
-                  <div style={{ zIndex: 1 }}>
-                    <h4 style={{ fontSize: 17, fontWeight: 750, color: '#1E293B', margin: '0 0 4px' }}>Board Flexibility</h4>
-                    <p style={{ fontSize: 13, color: '#64748B', margin: '0 0 16px', lineHeight: 1.4 }}>Curriculums matching major Indian school boards.</p>
-                    <div style={{ display: 'flex', flexWrap: 'wrap', gap: 5 }}>
-                      {['CBSE', 'ICSE', 'IB', 'State Board'].map(board => (
-                        <span key={board} style={{ fontSize: 11, fontWeight: 650, color: '#334155', background: '#F1F5F9', padding: '3px 8px', borderRadius: 6 }}>
-                          {board}
-                        </span>
-                      ))}
-                    </div>
-                  </div>
-                  <div style={{ display: 'flex', justifyContent: 'center', height: 105, position: 'relative', zIndex: 1 }}>
-                    <div style={{ position: 'absolute', inset: 0, background: 'radial-gradient(circle, rgba(79, 124, 255, 0.08) 0%, transparent 70%)', filter: 'blur(6px)' }} />
-                    {illustrations.board}
-                  </div>
-                </div>
-              </div>
-
-              {/* Card 6: One-to-One Learning (Featured) */}
-              <div className="mobile-swipe-card" style={{ flex: '0 0 85%', scrollSnapAlign: 'center' }}>
-                <div className="card-hover" style={{
-                  background: '#FFFFFF',
-                  borderRadius: 20,
-                  border: '1.2px solid rgba(124, 92, 255, 0.16)',
-                  padding: 20,
-                  height: 330,
-                  display: 'flex',
-                  flexDirection: 'column',
-                  justifyContent: 'space-between',
-                  position: 'relative',
-                  overflow: 'hidden',
-                  boxShadow: '0 6px 20px rgba(15, 23, 42, 0.03)'
-                }}>
-                  {/* SaaS Dot Grid Fill */}
-                  <div className="saas-grid-fill" />
-                  
-                  <div style={{ zIndex: 1 }}>
-                    <span style={{ fontSize: 9, fontWeight: 750, color: '#7C5CFF', letterSpacing: '0.05em', textTransform: 'uppercase', display: 'block', marginBottom: 2 }}>Featured Priority</span>
-                    <h4 style={{ fontSize: 17, fontWeight: 750, color: '#1E293B', margin: '0 0 4px' }}>One-to-One Learning</h4>
-                    <p style={{ fontSize: 13, color: '#64748B', margin: '0 0 12px', lineHeight: 1.4 }}>Designed around your child's exact learning pace.</p>
-                    <div style={{ display: 'flex', gap: 10 }}>
-                      <div style={{ borderLeft: '2.5px solid #7C5CFF', paddingLeft: 6 }}>
-                        <div style={{ fontSize: 16, fontWeight: 800, color: '#1E293B' }}>100%</div>
-                        <div style={{ fontSize: 10, color: '#64748B', fontWeight: 650 }}>Student Focus</div>
-                      </div>
-                    </div>
-                  </div>
-                  <div style={{ display: 'flex', justifyContent: 'center', height: 110, position: 'relative', zIndex: 1 }}>
-                    <div style={{ position: 'absolute', inset: 0, background: 'radial-gradient(circle, rgba(124, 92, 255, 0.1) 0%, transparent 70%)', filter: 'blur(6px)' }} />
-                    {illustrations.onetoone}
-                  </div>
-                </div>
-              </div>
-
-              {/* Card 7: Online + Offline */}
-              <div className="mobile-swipe-card" style={{ flex: '0 0 85%', scrollSnapAlign: 'center' }}>
-                <div className="card-hover" style={{
-                  background: '#FFFFFF',
-                  borderRadius: 20,
-                  border: '1.2px solid rgba(79, 124, 255, 0.14)',
-                  padding: 20,
-                  height: 330,
-                  display: 'flex',
-                  flexDirection: 'column',
-                  justifyContent: 'space-between',
-                  position: 'relative',
-                  overflow: 'hidden',
-                  boxShadow: '0 6px 20px rgba(15, 23, 42, 0.02)'
-                }}>
-                  {/* SaaS Dot Grid Fill */}
-                  <div className="saas-grid-fill" />
-                  
-                  <div style={{ zIndex: 1 }}>
-                    <h4 style={{ fontSize: 17, fontWeight: 750, color: '#1E293B', margin: '0 0 4px' }}>Online + Offline</h4>
-                    <p style={{ fontSize: 13, color: '#64748B', margin: '0 0 16px', lineHeight: 1.4 }}>Seamlessly switch modes under the same mentor.</p>
-                    <div style={{ display: 'flex', flexDirection: 'column', gap: 4, fontSize: 12, fontWeight: 600 }}>
-                      <div style={{ display: 'flex', alignItems: 'center', gap: 6, color: '#1E293B' }}>
-                        <Home size={13} style={{ color: '#4F7CFF' }} />
-                        <span>In-person home visits</span>
-                      </div>
-                    </div>
-                  </div>
-                  <div style={{ display: 'flex', justifyContent: 'center', height: 105, position: 'relative', zIndex: 1 }}>
-                    <div style={{ position: 'absolute', inset: 0, background: 'radial-gradient(circle, rgba(79, 124, 255, 0.08) 0%, transparent 70%)', filter: 'blur(6px)' }} />
-                    {illustrations.online}
-                  </div>
-                </div>
-              </div>
-            </div>
-
-            {/* Subtle Carousel Pagination Indicators */}
-            <div style={{ display: 'flex', justifyContent: 'center', gap: 8, marginTop: 8 }}>
-              {[0, 1, 2, 3, 4, 5, 6].map(idx => (
-                <button
-                  key={idx}
-                  onClick={() => scrollToCarouselIndex(idx)}
-                  style={{
-                    width: carouselIndex === idx ? 16 : 5,
-                    height: 5,
-                    borderRadius: 2.5,
-                    background: carouselIndex === idx ? '#4F7CFF' : 'rgba(79, 124, 255, 0.2)',
-                    border: 'none',
-                    padding: 0,
-                    cursor: 'pointer',
-                    transition: 'all 0.3s ease'
+          <div style={{ display: 'flex', flexDirection: 'column', gap: '8px', padding: '0 4px', marginTop: '24px' }}>
+            {offers.map(offer => {
+              const isExpanded = expandedOfferIdx === offer.id;
+              return (
+                <div 
+                  key={offer.id} 
+                  style={{ 
+                    borderBottom: '1px solid rgba(79, 124, 255, 0.1)', 
+                    paddingBottom: '16px', 
+                    paddingTop: '16px' 
                   }}
-                />
-              ))}
-            </div>
+                >
+                  {/* List Item Row Header */}
+                  <div 
+                    onClick={() => setExpandedOfferIdx(isExpanded ? null : offer.id)}
+                    style={{ 
+                      display: 'flex', 
+                      alignItems: 'center', 
+                      justifyContent: 'space-between',
+                      cursor: 'pointer',
+                      userSelect: 'none'
+                    }}
+                  >
+                    <div style={{ display: 'flex', alignItems: 'center', gap: '16px' }}>
+                      {/* Number */}
+                      <span style={{ 
+                        fontSize: '13px', 
+                        fontFamily: 'var(--font-mono)', 
+                        color: 'rgba(79, 124, 255, 0.5)', 
+                        fontWeight: 'bold' 
+                      }}>
+                        {offer.num}
+                      </span>
+                      {/* Accent symbol */}
+                      <span style={{ 
+                        fontSize: '15px', 
+                        color: isExpanded ? '#4F7CFF' : 'rgba(79, 124, 255, 0.6)', 
+                        fontWeight: 'bold',
+                        transition: 'color 0.3s'
+                      }}>
+                        {offer.sym}
+                      </span>
+                      {/* Title */}
+                      <span style={{ 
+                        fontSize: '16px', 
+                        fontWeight: 750, 
+                        color: isExpanded ? '#4F7CFF' : '#1E293B',
+                        transition: 'color 0.3s'
+                      }}>
+                        {offer.title}
+                      </span>
+                    </div>
+                    {/* Expand/collapse icon indicator */}
+                    <span style={{ 
+                      fontSize: '18px', 
+                      fontWeight: 'bold', 
+                      color: isExpanded ? '#4F7CFF' : '#64748B',
+                      transition: 'color 0.3s'
+                    }}>
+                      {isExpanded ? '−' : '+'}
+                    </span>
+                  </div>
+
+                  {/* Expanded Body Content */}
+                  <AnimatePresence initial={false}>
+                    {isExpanded && (
+                      <motion.div
+                        initial={{ height: 0, opacity: 0, marginTop: 0 }}
+                        animate={{ height: 'auto', opacity: 1, marginTop: 12 }}
+                        exit={{ height: 0, opacity: 0, marginTop: 0 }}
+                        transition={{ duration: 0.35, ease: 'easeInOut' }}
+                        style={{ overflow: 'hidden', paddingLeft: '48px' }}
+                      >
+                        <p style={{ 
+                          fontSize: '14px', 
+                          color: '#64748B', 
+                          lineHeight: '1.5', 
+                          margin: 0 
+                        }}>
+                          {offer.subtitle}
+                        </p>
+                        {offer.details}
+                      </motion.div>
+                    )}
+                  </AnimatePresence>
+                </div>
+              );
+            })}
           </div>
         ) : (
           /* ------------------------------------------------------------- */

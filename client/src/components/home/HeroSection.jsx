@@ -358,16 +358,14 @@ function EcosystemAnalyticsGrid({ teacherCount, teachingHours, isMobile = false 
           key={idx}
           whileHover={isMobile ? {} : { y: -5, boxShadow: '0 12px 30px rgba(79, 124, 255, 0.08)' }}
           style={{
-            background: 'rgba(255, 255, 255, 0.72)',
-            backdropFilter: 'blur(16px)',
-            WebkitBackdropFilter: 'blur(16px)',
-            border: '1px solid rgba(79, 124, 255, 0.12)',
+            background: '#FFFFFF',
             borderRadius: '20px',
             padding: isMobile ? '16px' : '24px',
             boxSizing: 'border-box',
             textAlign: 'left',
             transition: 'all 0.3s ease',
-            boxShadow: '0 4px 16px rgba(15, 23, 42, 0.015)'
+            border: '1px solid rgba(79, 124, 255, 0.15)',
+            boxShadow: '0 8px 30px rgba(15, 23, 42, 0.04)'
           }}
         >
           <div style={{
@@ -427,6 +425,7 @@ export default function HeroSection() {
   const [activeSlide, setActiveSlide] = useState(0);
   const [showDescription, setShowDescription] = useState(false);
   const [isMobileContentExpanded, setIsMobileContentExpanded] = useState(false);
+  const [whyDescOpen, setWhyDescOpen] = useState(false);
 
   // 5 exact desktop slides
   const desktopSlides = [
@@ -752,7 +751,7 @@ export default function HeroSection() {
           minHeight: 'auto', 
           display: 'flex', 
           alignItems: 'center', 
-          background: '#FFFFFF', 
+          background: 'linear-gradient(180deg, #FFFFFF 0%, #E3E8FF 50%, rgba(143, 149, 246, 0.42) 100%)', 
           position: 'relative', 
           overflow: 'hidden', 
           padding: isMobile ? '60px 0 40px' : '90px 0 50px',
@@ -804,7 +803,7 @@ export default function HeroSection() {
                 height: '100%',
                 objectFit: 'contain',
                 transform: 'translate(0%, -10%)',
-                opacity: 0.9,
+                opacity: 0.5,
                 imageRendering: 'auto',
                 WebkitBackfaceVisibility: 'hidden',
                 maskImage: 'radial-gradient(circle at top right, black 35%, transparent 75%)',
@@ -833,30 +832,43 @@ export default function HeroSection() {
               marginBottom: 10,
               padding: '4px 12px',
               borderRadius: 9999,
-              background: 'rgba(37, 99, 235, 0.06)'
+              background: 'rgba(37, 99, 235, 0.10)'
             }}>
               <Sparkles size={13} color="#2563EB" /> The MentR
             </span>
-            <h2 style={{
-              fontFamily: 'var(--font-hero)',
-              fontWeight: 800,
-              fontSize: isMobile ? 28 : 40,
-              lineHeight: 1.15,
-              color: '#0F172A',
-              margin: '8px 0 12px',
-              letterSpacing: '-0.025em'
-            }}>
+            <h2
+              onClick={() => isMobile && setWhyDescOpen(o => !o)}
+              style={{
+                fontFamily: 'var(--font-hero)',
+                fontWeight: 900,
+                fontSize: isMobile ? 30 : 40,
+                lineHeight: 1.15,
+                color: '#0A0F1E',
+                margin: '8px 0 12px',
+                letterSpacing: '-0.025em',
+                cursor: isMobile ? 'pointer' : 'default',
+                userSelect: 'none',
+                textShadow: isMobile ? '0 1px 8px rgba(255,255,255,0.7)' : 'none'
+              }}
+            >
               Why MentR Works
             </h2>
-            <p style={{
-              fontFamily: 'var(--font-body)',
-              fontSize: isMobile ? 14 : 16,
-              color: '#64748B',
-              lineHeight: 1.6,
-              margin: 0
-            }}>
-              A complete educational ecosystem built around verified educators, diagnostic assessment, and continuous progress.
-            </p>
+            {(!isMobile || whyDescOpen) && (
+              <p style={{
+                fontFamily: 'var(--font-body)',
+                fontSize: isMobile ? 14 : 16,
+                color: '#1E293B',
+                fontWeight: 600,
+                lineHeight: 1.65,
+                margin: 0,
+                background: isMobile ? 'rgba(255,255,255,0.85)' : 'transparent',
+                borderRadius: isMobile ? 10 : 0,
+                padding: isMobile ? '8px 14px' : 0,
+                transition: 'all 0.3s ease'
+              }}>
+                A complete educational ecosystem built around verified educators, diagnostic assessment, and continuous progress.
+              </p>
+            )}
           </div>
 
           {/* DESKTOP COMPOSITION */}
@@ -901,11 +913,6 @@ export default function HeroSection() {
                 teacherCount={getTeacherCount()} 
                 teachingHours={getTeachingHours()} 
               />
-
-              {/* Illustration centered underneath */}
-              <div style={{ display: 'flex', justifyContent: 'center', width: '100%' }}>
-                <HeroEcosystemImage />
-              </div>
 
             </div>
           )}

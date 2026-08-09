@@ -525,6 +525,21 @@ export default function ShowcaseSection() {
   const [teacherIndex, setTeacherIndex] = useState(0);
   const [olympiadIndex, setOlympiadIndex] = useState(0);
   const [showOlympiadModal, setShowOlympiadModal] = useState(false);
+  const [isMobile, setIsMobile] = useState(window.innerWidth < 1024);
+  const [showcaseHeaderOpen, setShowcaseHeaderOpen] = useState(false);
+  const [isShowcaseDescExpanded, setIsShowcaseDescExpanded] = useState(false);
+
+  // Responsive listener
+  useEffect(() => {
+    const handleResize = () => setIsMobile(window.innerWidth < 1024);
+    window.addEventListener('resize', handleResize);
+    return () => window.removeEventListener('resize', handleResize);
+  }, []);
+
+  // Reset tab description expansion on tab change
+  useEffect(() => {
+    setIsShowcaseDescExpanded(false);
+  }, [activeTab]);
 
   // Synchronize activeTab with URL hash changes (#parent, #teacher, #online, #olympiad)
   useEffect(() => {
@@ -546,7 +561,7 @@ export default function ShowcaseSection() {
   }, [activeTab]);
 
   return (
-    <section id="showcase" className="section" style={{ background: 'transparent', position: 'relative', overflow: 'hidden', padding: '140px 0' }}>
+    <section id="showcase" className="section" style={{ background: 'linear-gradient(180deg, #FFFFFF 0%, #E3E8FF 50%, rgba(143, 149, 246, 0.42) 100%)', position: 'relative', overflow: 'hidden', padding: '140px 0' }}>
       
       {/* Background layer: Subtle warm glow */}
       <div style={{
@@ -567,15 +582,21 @@ export default function ShowcaseSection() {
         <div className="showcase-header">
           <FadeUp><div className="showcase-eyebrow">THEMENTR ECOSYSTEM</div></FadeUp>
           <FadeUp delay={0.1}>
-            <h2 className="showcase-title">
+            <h2 
+              onClick={() => isMobile && setShowcaseHeaderOpen(!showcaseHeaderOpen)}
+              className="showcase-title"
+              style={{ cursor: isMobile ? 'pointer' : 'default', userSelect: 'none' }}
+            >
               One platform.<br />Four connected experiences.
             </h2>
           </FadeUp>
-          <FadeUp delay={0.15}>
-            <p className="showcase-subtitle">
-              From learning at home to class management and monthly academic benchmarking, every experience is designed to work together.
-            </p>
-          </FadeUp>
+          {(!isMobile || showcaseHeaderOpen) && (
+            <FadeUp delay={0.15}>
+              <p className="showcase-subtitle">
+                From learning at home to class management and monthly academic benchmarking, every experience is designed to work together.
+              </p>
+            </FadeUp>
+          )}
 
           {/* Premium Segmented Controls Tabs */}
           <FadeUp delay={0.2}>
@@ -596,10 +617,18 @@ export default function ShowcaseSection() {
             
             {/* Storytelling details */}
             <div className="showcase-details-col">
-              <h3 className="details-title">Know exactly how your child is learning.</h3>
-              <p className="details-desc">
-                Track attendance, monitor progress, communicate with teachers and stay informed throughout your child's learning journey.
-              </p>
+              <h3 
+                onClick={() => isMobile && setIsShowcaseDescExpanded(!isShowcaseDescExpanded)}
+                className="details-title"
+                style={{ cursor: isMobile ? 'pointer' : 'default', userSelect: 'none' }}
+              >
+                Know exactly how your child is learning.
+              </h3>
+              {(!isMobile || isShowcaseDescExpanded) && (
+                <p className="details-desc">
+                  Track attendance, monitor progress, communicate with teachers and stay informed throughout your child's learning journey.
+                </p>
+              )}
               
               <div className="chips-container">
                 {['Assignment', 'Exams', 'Study Material', 'Expert Assistance', 'Reports'].map(chip => (
@@ -652,10 +681,18 @@ export default function ShowcaseSection() {
             
             {/* Storytelling details */}
             <div className="showcase-details-col">
-              <h3 className="details-title" style={{ color: '#1E293B' }}>Everything that a tutor desires and deserves.</h3>
-              <p className="details-desc">
-                Manage students, schedule classes, track attendance, assign homework and monitor progress from one powerful application.
-              </p>
+              <h3 
+                onClick={() => isMobile && setIsShowcaseDescExpanded(!isShowcaseDescExpanded)}
+                className="details-title"
+                style={{ color: '#1E293B', cursor: isMobile ? 'pointer' : 'default', userSelect: 'none' }}
+              >
+                Everything that a tutor desires and deserves.
+              </h3>
+              {(!isMobile || isShowcaseDescExpanded) && (
+                <p className="details-desc">
+                  Manage students, schedule classes, track attendance, assign homework and monitor progress from one powerful application.
+                </p>
+              )}
               
               <div className="chips-container">
                 {['SOS Support System', 'In-app Attendance', 'Insurance', 'Flexibility', 'Verified Badge', 'Experience Certificate', 'Timely Payment'].map(chip => (
@@ -708,10 +745,18 @@ export default function ShowcaseSection() {
             
             {/* Storytelling details */}
             <div className="showcase-details-col">
-              <h3 className="details-title">Connecting with you, no matter the location.</h3>
-              <p className="details-desc">
-                Interactive live 1-on-1 virtual classrooms, real-time shared whiteboard, customized schedules, and instant academic assistance.
-              </p>
+              <h3 
+                onClick={() => isMobile && setIsShowcaseDescExpanded(!isShowcaseDescExpanded)}
+                className="details-title"
+                style={{ cursor: isMobile ? 'pointer' : 'default', userSelect: 'none' }}
+              >
+                Connecting with you, no matter the location.
+              </h3>
+              {(!isMobile || isShowcaseDescExpanded) && (
+                <p className="details-desc">
+                  Interactive live 1-on-1 virtual classrooms, real-time shared whiteboard, customized schedules, and instant academic assistance.
+                </p>
+              )}
               
               <div className="chips-container">
                 {['Live 1-on-1 Classes', 'Interactive Whiteboard', 'Customized Schedules', 'Doubt Solving', 'Session Recordings'].map(chip => (
@@ -752,14 +797,20 @@ export default function ShowcaseSection() {
             
             {/* Storytelling details */}
             <div className="showcase-details-col">
-              <h3 className="details-title" style={{ lineHeight: 1.25 }}>
+              <h3 
+                onClick={() => isMobile && setIsShowcaseDescExpanded(!isShowcaseDescExpanded)}
+                className="details-title"
+                style={{ lineHeight: 1.25, cursor: isMobile ? 'pointer' : 'default', userSelect: 'none' }}
+              >
                 Compete,<br />
                 Measure,<br />
                 Improve.
               </h3>
-              <p className="details-desc">
-                Apart from the syllabus, apart from curriculum there is also something called general studies. The MentR Olympiad is a monthly assessment platform that helps benchmark not only their academic progress but also discover the importance of general studies.
-              </p>
+              {(!isMobile || isShowcaseDescExpanded) && (
+                <p className="details-desc">
+                  Apart from the syllabus, apart from curriculum there is also something called general studies. The MentR Olympiad is a monthly assessment platform that helps benchmark not only their academic progress but also discover the importance of general studies.
+                </p>
+              )}
               
               <div className="chips-container" style={{ marginBottom: 12 }}>
                 {['Monthly Olympiads', 'Performance Analytics', 'National Rankings', 'Certificates', 'Rewards', 'Subject-wise Reports'].map(chip => (
@@ -1277,12 +1328,14 @@ export default function ShowcaseSection() {
             margin-bottom: 24px !important;
           }
           .showcase-tabs {
+            display: flex;
             flex-wrap: nowrap;
             overflow-x: auto;
             padding: 4px;
             margin-bottom: 24px;
             width: 100%;
             max-width: 100%;
+            box-sizing: border-box;
             scrollbar-width: none;
           }
           .showcase-tabs::-webkit-scrollbar {
@@ -1363,29 +1416,39 @@ export default function ShowcaseSection() {
             margin-bottom: 24px !important;
           }
           .connector-flow-responsive {
-            flex-direction: column;
-            gap: 16px;
+            flex-direction: row;
+            justify-content: flex-start;
+            overflow-x: auto;
+            gap: 4px;
+            padding: 8px 16px;
+            scrollbar-width: none;
+            -webkit-overflow-scrolling: touch;
+          }
+          .connector-flow-responsive::-webkit-scrollbar {
+            display: none;
           }
           .connector-node-wrapper {
-            flex-direction: column;
-            width: 100%;
+            flex-direction: row;
             align-items: center;
+            flex-shrink: 0;
           }
           .connector-arrow-line {
-            transform: rotate(90deg);
-            margin: 4px 0;
+            transform: none;
+            margin: 0 4px;
           }
           .connector-node {
-            width: 100%;
-            max-width: 250px;
-            padding: 12px 18px !important;
-            text-align: center;
+            width: auto;
+            max-width: 180px;
+            padding: 8px 12px !important;
+            text-align: left;
           }
           .node-title {
-            font-size: 13px !important;
+            font-size: 12px !important;
+            margin: 0 !important;
           }
           .node-desc {
-            font-size: 10.5px !important;
+            font-size: 10px !important;
+            margin: 2px 0 0 0 !important;
           }
         }
       `}</style>

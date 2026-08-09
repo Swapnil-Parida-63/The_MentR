@@ -7,6 +7,7 @@ export default function WhySection() {
   const [isMobile, setIsMobile] = useState(window.innerWidth < 1024);
   const [hoveredModuleId, setHoveredModuleId] = useState(null);
   const [expandedMobileId, setExpandedMobileId] = useState(1);
+  const [isDescExpanded, setIsDescExpanded] = useState(false);
 
   // Orbiting decorative icons
   const decorativeIcons = [
@@ -106,7 +107,7 @@ export default function WhySection() {
     <section 
       id="why" 
       style={{ 
-        background: 'transparent', 
+        background: 'linear-gradient(180deg, #FFFFFF 0%, #E3E8FF 50%, rgba(143, 149, 246, 0.42) 100%)', 
         padding: isMobile ? '140px 0 100px' : '150px 0', 
         position: 'relative', 
         overflow: 'hidden',
@@ -187,31 +188,38 @@ export default function WhySection() {
               We are The MentR
             </span>
             
-            <h2 style={{
-              fontFamily: 'var(--font-hero)',
-              fontWeight: 800,
-              fontSize: isMobile ? 'clamp(32px, 8vw, 44px)' : 'clamp(44px, 3.8vw, 56px)',
-              lineHeight: 1.15,
-              letterSpacing: '-0.03em',
-              color: '#1E293B',
-              margin: 0
-            }}>
+            <h2 
+              onClick={() => isMobile && setIsDescExpanded(!isDescExpanded)}
+              style={{
+                fontFamily: 'var(--font-hero)',
+                fontWeight: 800,
+                fontSize: isMobile ? 'clamp(32px, 8vw, 44px)' : 'clamp(44px, 3.8vw, 56px)',
+                lineHeight: 1.15,
+                letterSpacing: '-0.03em',
+                color: '#1E293B',
+                margin: 0,
+                cursor: isMobile ? 'pointer' : 'default',
+                userSelect: 'none'
+              }}
+            >
               We didn't just<br />
               build another<br />
               marketplace.
             </h2>
             
-            <p style={{
-              fontFamily: 'var(--font-body)',
-              fontWeight: 400,
-              fontSize: 16,
-              color: '#64748B',
-              lineHeight: 1.7,
-              marginTop: 24,
-              maxWidth: 420
-            }}>
-              We built a coordinated learning ecosystem. Every component works in unison to guide, verify, match, and sustain accountability for a personal learning journey.
-            </p>
+            {(!isMobile || isDescExpanded) && (
+              <p style={{
+                fontFamily: 'var(--font-body)',
+                fontWeight: 400,
+                fontSize: 16,
+                color: '#64748B',
+                lineHeight: 1.7,
+                marginTop: 24,
+                maxWidth: 420
+              }}>
+                We built a coordinated learning ecosystem. Every component works in unison to guide, verify, match, and sustain accountability for a personal learning journey.
+              </p>
+            )}
           </div>
 
           {/* ============================================================== */}

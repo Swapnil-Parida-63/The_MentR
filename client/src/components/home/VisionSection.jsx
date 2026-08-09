@@ -161,7 +161,7 @@ export default function VisionSection() {
         onMouseLeave={handleVisionMouseLeave}
         style={{
           ...sectionBase,
-          background: 'linear-gradient(180deg, #FFFFFF 0%, #F8F9FD 50%, #F5F7FF 100%)',
+          background: 'linear-gradient(180deg, rgba(143, 149, 246, 0.42) 0%, #E3E8FF 50%, #FFFFFF 100%)',
           padding: isMobile ? '80px 0 60px' : '120px 0 100px',
         }}
       >
@@ -180,10 +180,10 @@ export default function VisionSection() {
         }} />
 
         {/* Parallax Scattered Background Doodles */}
-        {!isMobile && _visionDoodles.map((doodle, idx) => (
+        {_visionDoodles.map((doodle, idx) => (
           <motion.div
             key={`vis-doodle-${idx}`}
-            animate={{ 
+            animate={isMobile ? { rotate: [doodle.rotate, doodle.rotate + 3, doodle.rotate] } : { 
               x: visionMouse.x * doodle.factor, 
               y: visionMouse.y * doodle.factor,
               rotate: [doodle.rotate, doodle.rotate + 3, doodle.rotate] 
@@ -197,12 +197,12 @@ export default function VisionSection() {
               position: 'absolute', 
               pointerEvents: 'none', 
               zIndex: 0, 
-              opacity: 0.35, 
+              opacity: 0.75, 
               color: doodle.color,
               ...doodle.position 
             }}
           >
-            <svg viewBox="0 0 70 70" width={doodle.size} height={doodle.size}>
+            <svg viewBox="0 0 70 70" width={isMobile ? doodle.size * 0.65 : doodle.size} height={isMobile ? doodle.size * 0.65 : doodle.size}>
               {doodlesMap[doodle.type]}
             </svg>
           </motion.div>
@@ -329,7 +329,7 @@ export default function VisionSection() {
         onMouseLeave={handleMissionMouseLeave}
         style={{
           ...sectionBase,
-          background: 'linear-gradient(180deg, #FAFAFC 0%, #F6F4FB 50%, #F3F1F9 100%)',
+          background: 'linear-gradient(180deg, #FFFFFF 0%, #E3E8FF 50%, rgba(143, 149, 246, 0.42) 100%)',
           padding: isMobile ? '60px 0 80px' : '100px 0 120px',
         }}
       >
@@ -348,10 +348,10 @@ export default function VisionSection() {
         }} />
 
         {/* Parallax Scattered Background Doodles */}
-        {!isMobile && _missionDoodles.map((doodle, idx) => (
+        {_missionDoodles.map((doodle, idx) => (
           <motion.div
             key={`miss-doodle-${idx}`}
-            animate={{ 
+            animate={isMobile ? { rotate: [doodle.rotate, doodle.rotate + 3, doodle.rotate] } : { 
               x: missionMouse.x * doodle.factor, 
               y: missionMouse.y * doodle.factor,
               rotate: [doodle.rotate, doodle.rotate + 3, doodle.rotate] 
@@ -365,12 +365,12 @@ export default function VisionSection() {
               position: 'absolute', 
               pointerEvents: 'none', 
               zIndex: 0, 
-              opacity: 0.35, 
+              opacity: 0.75, 
               color: doodle.color,
               ...doodle.position 
             }}
           >
-            <svg viewBox="0 0 70 70" width={doodle.size} height={doodle.size}>
+            <svg viewBox="0 0 70 70" width={isMobile ? doodle.size * 0.65 : doodle.size} height={isMobile ? doodle.size * 0.65 : doodle.size}>
               {doodlesMap[doodle.type]}
             </svg>
           </motion.div>
@@ -473,7 +473,7 @@ export default function VisionSection() {
       <div
         ref={timelineRef}
         style={{
-          background: '#FFFFFF',
+          background: 'linear-gradient(180deg, rgba(143, 149, 246, 0.42) 0%, #E3E8FF 50%, #FFFFFF 100%)',
           padding: isMobile ? '60px 0 70px' : '80px 0 100px',
           position: 'relative',
           overflow: 'hidden',
@@ -552,50 +552,54 @@ export default function VisionSection() {
                   style={{
                     display: 'flex',
                     flexDirection: 'column',
-                    alignItems: isMobile ? 'flex-start' : 'center',
-                    textAlign: isMobile ? 'left' : 'center',
-                    gap: 20,
-                    background: isMobile ? '#FFFFFF' : 'transparent',
-                    border: isMobile ? '1px solid rgba(15,23,42,0.05)' : 'none',
-                    borderRadius: isMobile ? 20 : 0,
-                    padding: isMobile ? 24 : 0,
-                    boxShadow: isMobile ? '0 4px 12px rgba(10,22,40,0.01)' : 'none',
+                    alignItems: 'flex-start',
+                    textAlign: 'left',
+                    gap: 16,
+                    background: i % 2 === 0
+                      ? 'linear-gradient(135deg, #4F7CFF 0%, #2563EB 100%)' 
+                      : 'linear-gradient(135deg, #8F95F6 0%, #6366F1 100%)',
+                    border: '1.5px solid rgba(255, 255, 255, 0.25)',
+                    borderRadius: 24,
+                    padding: isMobile ? '24px 20px' : '28px 24px',
+                    boxShadow: '0 12px 32px rgba(37, 99, 235, 0.12)',
                     opacity: timelineInView ? 1 : 0,
                     transform: timelineInView ? 'translateY(0)' : 'translateY(24px)',
                     transition: `opacity 0.8s ease ${0.3 + node.delay * 0.001}s, transform 0.8s ease ${0.3 + node.delay * 0.001}s`,
+                    minHeight: isMobile ? 'none' : '240px',
+                    boxSizing: 'border-box'
                   }}
                 >
                   {/* Node dot */}
                   <div style={{
                     width: 32, height: 32, borderRadius: '50%', flexShrink: 0,
-                    background: node.active ? 'linear-gradient(135deg, #6366F1 0%, #8B5CF6 100%)' : '#FFFFFF',
-                    border: `2px solid ${node.active ? 'transparent' : '#E2E8F0'}`,
+                    background: '#FFFFFF',
+                    border: 'none',
                     display: 'flex', alignItems: 'center', justifyContent: 'center',
-                    color: node.active ? '#FFFFFF' : '#8B5CF6',
-                    fontSize: 12, fontWeight: 800,
-                    boxShadow: node.active ? '0 4px 12px rgba(99,102,241,0.28)' : 'none',
+                    color: i % 2 === 0 ? '#2563EB' : '#6366F1',
+                    fontSize: 13, fontWeight: 900,
+                    boxShadow: '0 4px 12px rgba(0, 0, 0, 0.08)',
                     transition: 'transform 0.4s ease',
                   }}>
                     {node.active ? '✓' : '→'}
                   </div>
-                  <div style={{ display: 'flex', flexDirection: 'column', gap: 6 }}>
+                  <div style={{ display: 'flex', flexDirection: 'column', gap: 6, textAlign: 'left' }}>
                     <span style={{
-                      fontSize: 10, fontWeight: 700, letterSpacing: '0.06em',
+                      fontSize: 11, fontWeight: 800, letterSpacing: '0.08em',
                       textTransform: 'uppercase',
-                      color: node.active ? '#6366F1' : '#94A3B8',
+                      color: 'rgba(255, 255, 255, 0.9)',
                     }}>
                       {node.year}
                     </span>
                     <h4 style={{
-                      fontFamily: 'var(--font-hero)', fontSize: 15, fontWeight: 700,
-                      color: '#1E293B', margin: 0,
+                      fontFamily: 'var(--font-hero)', fontSize: 16, fontWeight: 800,
+                      color: '#FFFFFF', margin: 0,
                     }}>
                       {node.title}
                     </h4>
                     <p style={{
-                      fontFamily: 'var(--font-body)', fontSize: 12.5,
-                      color: '#64748B', lineHeight: 1.55, margin: 0,
-                      maxWidth: isMobile ? 'none' : 220,
+                      fontFamily: 'var(--font-body)', fontSize: 13,
+                      color: 'rgba(255, 255, 255, 0.95)', lineHeight: 1.6, margin: 0,
+                      maxWidth: 'none',
                     }}>
                       {node.desc}
                     </p>
@@ -875,20 +879,49 @@ function EditorialImage({ src, alt, inView, delay = 0, isMobile, accent = '#6366
         </motion.div>
       ))}
 
-      <img
-        src={src}
-        alt={alt}
-        loading="lazy"
-        style={{
-          position: 'relative',
-          zIndex: 1,
-          width: '100%',
-          height: 'auto',
-          display: 'block',
-          mixBlendMode: 'multiply',
-          transition: 'all 0.3s ease'
-        }}
-      />
+      <div style={{
+        position: 'relative',
+        background: 'rgba(255, 255, 255, 0.45)',
+        backdropFilter: 'blur(20px)',
+        WebkitBackdropFilter: 'blur(20px)',
+        borderRadius: '28px',
+        border: '1.5px solid rgba(255, 255, 255, 0.7)',
+        boxShadow: '0 20px 50px rgba(15, 23, 42, 0.05), inset 0 0 0 1.5px rgba(255, 255, 255, 0.25)',
+        padding: isMobile ? '12px' : '24px',
+        width: isMobile ? '90%' : '85%',
+        maxWidth: '480px',
+        margin: '0 auto',
+        overflow: 'hidden',
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'center',
+        zIndex: 1
+      }}>
+        {/* Soft edge blend overlay to blur/blend the image boundaries inside the glass frame */}
+        <div style={{
+          position: 'absolute',
+          inset: 0,
+          boxShadow: 'inset 0 0 24px 12px rgba(255,255,255,1)',
+          pointerEvents: 'none',
+          zIndex: 2,
+          borderRadius: '28px'
+        }} />
+        <img
+          src={src}
+          alt={alt}
+          loading="lazy"
+          style={{
+            position: 'relative',
+            zIndex: 1,
+            width: '100%',
+            height: 'auto',
+            display: 'block',
+            mixBlendMode: 'multiply',
+            borderRadius: '16px',
+            transition: 'all 0.3s ease'
+          }}
+        />
+      </div>
     </motion.div>
   );
 }
