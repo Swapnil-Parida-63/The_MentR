@@ -47,7 +47,7 @@ export default function Footer() {
         { label: 'Our Vision', onClick: () => navigateAndScroll('/', 'vision') },
         { label: 'Team', onClick: () => navigateAndScroll('/', 'organogram') },
         { label: 'Blog', to: '/blogs' },
-        { label: 'Gallery', onClick: () => navigateAndScroll('/', 'gallery') },
+        { label: 'Hall of Fame', onClick: () => navigateAndScroll('/', 'gallery') },
         { label: 'Contact', to: '/contact' }
       ]
     },
@@ -150,10 +150,8 @@ export default function Footer() {
 
         {/* Bottom */}
         <div style={{ borderTop: '1px solid rgba(255,255,255,0.08)', paddingTop: 28, display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: 16 }}>
-          <p style={{ fontSize: 13, color: 'rgba(255,255,255,0.35)' }}>© 2025 TheMentR Education Pvt. Ltd. All rights reserved.</p>
+          <p style={{ fontSize: 13, color: 'rgba(255,255,255,0.35)' }}>© 2026 Budin Candor Pvt. Ltd. All rights reserved.</p>
           <div style={{ display: 'flex', gap: 24 }}>
-            <Link to="/privacy" target="_blank" rel="noopener noreferrer" style={{ fontSize: 13, color: 'rgba(255,255,255,0.35)', textDecoration: 'none' }}>Privacy</Link>
-            <Link to="/terms-parents" target="_blank" rel="noopener noreferrer" style={{ fontSize: 13, color: 'rgba(255,255,255,0.35)', textDecoration: 'none' }}>Terms & Conditions</Link>
             <Link to="/contact" style={{ fontSize: 13, color: 'rgba(255,255,255,0.35)', textDecoration: 'none' }}>Cookies</Link>
           </div>
         </div>

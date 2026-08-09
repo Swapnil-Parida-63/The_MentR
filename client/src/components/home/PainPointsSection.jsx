@@ -264,11 +264,11 @@ export default function PainPointsSection() {
             >
               <p
                 style={{
-                  fontSize: '15px',
-                  color: '#64748B',
+                  fontSize: '15.5px',
+                  color: '#334155',
                   lineHeight: 1.7,
                   margin: 0,
-                  fontWeight: 400
+                  fontWeight: 500
                 }}
               >
                 Searching through endless profiles shouldn't be the path to understanding your child's needs. The current process is filled with uncertainty.
@@ -779,11 +779,11 @@ export default function PainPointsSection() {
             >
               <p
                 style={{
-                  fontSize: '15px',
-                  color: '#64748B',
+                  fontSize: '15.5px',
+                  color: '#334155',
                   lineHeight: 1.7,
                   margin: 0,
-                  fontWeight: 400
+                  fontWeight: 500
                 }}
               >
                 Brilliant teachers shouldn't have to compete for visibility or spend hours managing logistics. They deserve to focus on what they do best: teaching.

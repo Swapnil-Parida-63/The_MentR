@@ -211,7 +211,7 @@ export default function TestimonialsSection() {
           <FadeUp><div className="testimonial-eyebrow">TESTIMONIALS</div></FadeUp>
           <FadeUp delay={0.1}>
             <h2 style={{ fontSize: 'clamp(32px, 3.5vw, 44px)', fontWeight: 800, color: '#0F172A', letterSpacing: '-0.02em', marginBottom: 16, fontFamily: 'var(--font-hero)' }}>
-              Families Growing with MentR
+              Teaching and Learning growing with The MentR
             </h2>
           </FadeUp>
           <FadeUp delay={0.15}>

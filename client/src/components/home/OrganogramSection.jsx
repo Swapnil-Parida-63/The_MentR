@@ -7,7 +7,6 @@ import {
   Search, 
   Cpu, 
   Settings, 
-  Megaphone, 
   Headphones, 
   UserCheck, 
   AppWindow, 
@@ -83,19 +82,7 @@ const nodeDetails = {
       { title: 'Logistics', chips: ['Class Allocation', 'Scheduling', 'Payments & Payouts'] }
     ]
   },
-  sales: {
-    title: 'Sales & Marketing',
-    subtitle: 'Brand & Growth Outreach',
-    desc: 'Connecting with parents and schools to scale localized outcomes-based learning.',
-    icon: Megaphone,
-    iconColor: '#8B5CF6',
-    bgColor: '#FDF4FF',
-    borderColor: '#E9D5FF',
-    sections: [
-      { title: 'Outreach', chips: ['Lead Generation', 'School Partnerships', 'Parent Acquisition'] },
-      { title: 'Branding', chips: ['SEO', 'Meta Ads', 'Social Media', 'Outcomes Campaign'] }
-    ]
-  },
+
   support: {
     title: 'Support & Success',
     subtitle: 'Parent-Teacher Care',
@@ -150,7 +137,7 @@ const nodeDetails = {
   }
 };
 
-const teams = ['academic', 'research', 'product', 'operations', 'sales', 'support'];
+const teams = ['academic', 'research', 'product', 'operations', 'support'];
 
 export default function OrganogramSection() {
   const [hoveredKey, setHoveredKey] = useState('leadership');
@@ -265,7 +252,6 @@ export default function OrganogramSection() {
                   { key: 'research', label: 'Research', icon: Search, color: '#10B981', bg: '#ECFDF5' },
                   { key: 'product', label: 'Product', icon: Cpu, color: '#3B82F6', bg: '#F0F4FF' },
                   { key: 'operations', label: 'Operations', icon: Settings, color: '#F59E0B', bg: '#FFF7ED' },
-                  { key: 'sales', label: 'Sales', icon: Megaphone, color: '#8B5CF6', bg: '#FDF4FF' },
                   { key: 'support', label: 'Support', icon: Headphones, color: '#06B6D4', bg: '#ECFEFF' }
                 ].map((item) => {
                   const Icon = item.icon;
@@ -482,18 +468,18 @@ export default function OrganogramSection() {
                 {/* STATIC BASE CONNECTIONS */}
                 {/* Leadership to Top branching point */}
                 <line x1="300" y1="58" x2="300" y2="100" stroke="#F1F5F9" strokeWidth="2.5" />
-                <line x1="50" y1="100" x2="550" y2="100" stroke="#F1F5F9" strokeWidth="2.5" />
+                <line x1="60" y1="100" x2="540" y2="100" stroke="#F1F5F9" strokeWidth="2.5" />
                 
-                {/* Branch drops to team cards */}
-                {[50, 150, 250, 350, 450, 550].map((x) => (
+                {/* Branch drops to team cards (5 columns: 60,180,300,420,540) */}
+                {[60, 180, 300, 420, 540].map((x) => (
                   <line key={x} x1={x} y1="100" x2={x} y2="135" stroke="#F1F5F9" strokeWidth="2.5" />
                 ))}
 
                 {/* Team cards to platform convergence */}
-                {[50, 150, 250, 350, 450, 550].map((x) => (
+                {[60, 180, 300, 420, 540].map((x) => (
                   <line key={x} x1={x} y1="210" x2={x} y2="245" stroke="#F1F5F9" strokeWidth="2.5" />
                 ))}
-                <line x1="50" y1="245" x2="550" y2="245" stroke="#F1F5F9" strokeWidth="2.5" />
+                <line x1="60" y1="245" x2="540" y2="245" stroke="#F1F5F9" strokeWidth="2.5" />
                 
                 {/* Vertical drops to Teachers, Platform, Parents */}
                 <line x1="100" y1="245" x2="100" y2="290" stroke="#F1F5F9" strokeWidth="2.5" />
@@ -508,7 +494,7 @@ export default function OrganogramSection() {
                 {/* Path 1: Leadership -> Branch -> Card */}
                 {teamIndex !== -1 && (
                   <path 
-                    d={`M 300,58 L 300,100 L ${50 + teamIndex * 100},100 L ${50 + teamIndex * 100},135`}
+                    d={`M 300,58 L 300,100 L ${60 + teamIndex * 120},100 L ${60 + teamIndex * 120},135`}
                     stroke={activeDetails.iconColor}
                     strokeWidth="3.5"
                     strokeLinecap="round"
@@ -519,7 +505,7 @@ export default function OrganogramSection() {
                 {/* Path 2: Card -> Platform */}
                 {teamIndex !== -1 && (
                   <path 
-                    d={`M ${50 + teamIndex * 100},210 L ${50 + teamIndex * 100},245 L 300,245 L 300,280`}
+                    d={`M ${60 + teamIndex * 120},210 L ${60 + teamIndex * 120},245 L 300,245 L 300,280`}
                     stroke={activeDetails.iconColor}
                     strokeWidth="3"
                     strokeLinecap="round"
@@ -594,7 +580,7 @@ export default function OrganogramSection() {
                     style={{
                       position: 'absolute',
                       top: '47.3%',
-                      left: `${8.33 + idx * 16.66}%`,
+                      left: `${10 + idx * 20}%`,
                       transform: 'translate(-50%, -50%)',
                       background: '#FFFFFF',
                       borderRadius: '14px',

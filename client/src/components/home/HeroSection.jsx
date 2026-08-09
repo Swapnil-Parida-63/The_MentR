@@ -428,8 +428,8 @@ export default function HeroSection() {
   const [showDescription, setShowDescription] = useState(false);
   const [isMobileContentExpanded, setIsMobileContentExpanded] = useState(false);
 
-  // 5 exact images specified by user
-  const slides = [
+  // 5 exact desktop slides
+  const desktopSlides = [
     `${import.meta.env.BASE_URL}hero-slides/slide-1.png`,
     `${import.meta.env.BASE_URL}hero-slides/slide-2.png`,
     `${import.meta.env.BASE_URL}hero-slides/slide-3.png`,
@@ -437,9 +437,20 @@ export default function HeroSection() {
     `${import.meta.env.BASE_URL}hero-slides/slide-5.png`
   ];
 
+  // 5 exact mobile vertical custom slides
+  const mobileSlides = [
+    `${import.meta.env.BASE_URL}hero-slides-mobile/mobile-slide-1.png`,
+    `${import.meta.env.BASE_URL}hero-slides-mobile/mobile-slide-2.png`,
+    `${import.meta.env.BASE_URL}hero-slides-mobile/mobile-slide-3.png`,
+    `${import.meta.env.BASE_URL}hero-slides-mobile/mobile-slide-4.png`,
+    `${import.meta.env.BASE_URL}hero-slides-mobile/mobile-slide-5.png`
+  ];
+
+  const slides = isMobile ? mobileSlides : desktopSlides;
+
   // Preload all slides for GPU-accelerated zero-flicker crossfade
   useEffect(() => {
-    slides.forEach((src) => {
+    [...desktopSlides, ...mobileSlides].forEach((src) => {
       const img = new Image();
       img.src = src;
     });
@@ -462,13 +473,8 @@ export default function HeroSection() {
     return () => clearInterval(timer);
   }, [slides.length]);
 
-  // Description Fade-Up Animation after ~1s delay
-  useEffect(() => {
-    const descTimer = setTimeout(() => {
-      setShowDescription(true);
-    }, 1000);
-    return () => clearTimeout(descTimer);
-  }, []);
+  // Description initially hidden until hover (desktop) or tap (mobile)
+  // (Timer removed per user request)
 
   const getTeacherCount = () => {
     const baseDate = new Date('2026-07-01T00:00:00');
@@ -500,7 +506,7 @@ export default function HeroSection() {
       <section 
         style={{ 
           height: '100vh', 
-          minHeight: isMobile ? '660px' : '720px', 
+          minHeight: isMobile ? '640px' : '720px', 
           width: '100%', 
           position: 'relative', 
           display: 'flex', 
@@ -530,7 +536,7 @@ export default function HeroSection() {
                 height: '100%',
                 objectFit: 'cover',
                 objectPosition: 'center',
-                filter: 'brightness(0.92) contrast(1.05)'
+                filter: isMobile ? 'brightness(0.96) contrast(1.05)' : 'brightness(0.92) contrast(1.05)'
               }}
             />
           </div>
@@ -543,7 +549,10 @@ export default function HeroSection() {
             inset: 0,
             zIndex: 2,
             pointerEvents: 'none',
-            background: `
+            background: isMobile ? `
+              linear-gradient(to right, rgba(15, 23, 42, 0.82) 0%, rgba(15, 23, 42, 0.5) 55%, rgba(15, 23, 42, 0.2) 100%),
+              linear-gradient(135deg, rgba(30, 58, 138, 0.25) 0%, rgba(124, 58, 237, 0.15) 100%)
+            ` : `
               linear-gradient(to right, rgba(15, 23, 42, 0.88) 0%, rgba(15, 23, 42, 0.55) 45%, rgba(15, 23, 42, 0.2) 100%),
               linear-gradient(135deg, rgba(30, 58, 138, 0.35) 0%, rgba(124, 58, 237, 0.22) 100%),
               radial-gradient(circle at center, transparent 35%, rgba(15, 23, 42, 0.5) 100%)
@@ -592,56 +601,66 @@ export default function HeroSection() {
               </span>
             </div>
 
-            {/* Large Minimal Heading */}
-            <h1 
-              style={{
-                fontFamily: 'var(--font-hero)',
-                fontWeight: 800,
-                fontSize: isMobile ? 'clamp(34px, 8.5vw, 46px)' : 'clamp(46px, 4.4vw, 68px)',
-                lineHeight: 1.08,
-                letterSpacing: '-0.035em',
-                color: '#FFFFFF',
-                margin: '0 0 24px',
-                textShadow: '0 4px 24px rgba(15, 23, 42, 0.4)'
-              }}
+            {/* Interactive Hero Content Block (Hover on Desktop / Tap on Mobile to reveal details) */}
+            <div 
+              onMouseEnter={() => !isMobile && setShowDescription(true)}
+              onMouseLeave={() => !isMobile && setShowDescription(false)}
+              onClick={() => isMobile && setShowDescription(prev => !prev)}
+              style={{ cursor: 'pointer', userSelect: 'none', display: 'inline-block' }}
             >
-              Every child<br />
-              deserves the<br />
-              <span style={{
-                background: 'linear-gradient(135deg, #60A5FA 0%, #C4B5FD 100%)',
-                WebkitBackgroundClip: 'text',
-                WebkitTextFillColor: 'transparent'
-              }}>
-                right mentor.
-              </span>
-            </h1>
-
-            {/* Description Fade-Up Animation (Initially Hidden, Fades Up After 1s) */}
-            <div
-              style={{
-                opacity: showDescription ? 1 : 0,
-                transform: showDescription ? 'translateY(0)' : 'translateY(22px)',
-                transition: 'opacity 500ms ease-out, transform 500ms ease-out',
-                willChange: 'opacity, transform',
-                marginBottom: 32
-              }}
-            >
-              <p 
+              {/* Large Minimal Heading */}
+              <h1 
                 style={{
-                  fontFamily: 'var(--font-body)',
-                  fontWeight: 400,
-                  fontSize: isMobile ? 14.5 : 16.5,
-                  color: 'rgba(241, 245, 249, 0.92)',
-                  lineHeight: 1.65,
-                  maxWidth: '510px',
-                  margin: 0,
-                  textShadow: '0 2px 10px rgba(15, 23, 42, 0.6)'
+                  fontFamily: 'var(--font-hero)',
+                  fontWeight: 800,
+                  fontSize: isMobile ? 'clamp(34px, 8.5vw, 46px)' : 'clamp(46px, 4.4vw, 68px)',
+                  lineHeight: 1.08,
+                  letterSpacing: '-0.035em',
+                  color: '#FFFFFF',
+                  margin: '0 0 14px',
+                  textShadow: '0 4px 24px rgba(15, 23, 42, 0.4)'
                 }}
               >
-                Finding the right teacher shouldn't be guesswork.<br />
-                Assessment-first learning. Verified educators.<br />
-                Personalized guidance. Measurable outcomes.
-              </p>
+                Every child<br />
+                deserves the<br />
+                <span style={{
+                  background: 'linear-gradient(135deg, #60A5FA 0%, #C4B5FD 100%)',
+                  WebkitBackgroundClip: 'text',
+                  WebkitTextFillColor: 'transparent'
+                }}>
+                  right mentor.
+                </span>
+              </h1>
+
+              {/* Description Expandable Container */}
+              <div
+                style={{
+                  maxHeight: showDescription ? '200px' : '0px',
+                  opacity: showDescription ? 1 : 0,
+                  transform: showDescription ? 'translateY(0)' : 'translateY(-6px)',
+                  overflow: 'hidden',
+                  transition: 'max-height 400ms cubic-bezier(0.16, 1, 0.3, 1), opacity 350ms ease, transform 350ms ease, margin-bottom 400ms ease',
+                  willChange: 'max-height, opacity, transform',
+                  marginBottom: showDescription ? 28 : 16
+                }}
+              >
+                <p 
+                  style={{
+                    fontFamily: 'var(--font-body)',
+                    fontWeight: 400,
+                    fontSize: isMobile ? 14.5 : 16.5,
+                    color: 'rgba(241, 245, 249, 0.92)',
+                    lineHeight: 1.65,
+                    maxWidth: '510px',
+                    margin: 0,
+                    textShadow: '0 2px 10px rgba(15, 23, 42, 0.6)'
+                  }}
+                >
+                  Finding the right teacher shouldn't be guesswork.<br />
+                  Assessment-first learning. Verified educators.<br />
+                  Personalized guidance. Measurable outcomes.
+                </p>
+              </div>
             </div>
 
             {/* Action Buttons */}

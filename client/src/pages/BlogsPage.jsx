@@ -500,7 +500,7 @@ export default function BlogsPage() {
   } : PAGE_SEO.blogs;
 
   return (
-    <div className="section subpage-wrapper" style={{ background: '#fafafc', minHeight: '100vh', paddingTop: '140px', position: 'relative', overflow: 'hidden' }}>
+    <div className="section subpage-wrapper" style={{ background: 'transparent', minHeight: '100vh', paddingTop: '140px', position: 'relative', overflow: 'hidden' }}>
       <SEO {...currentSeo} />
       
       {/* Background ambient glows */}

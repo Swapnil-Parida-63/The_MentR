@@ -1,7 +1,8 @@
 import { useState, useEffect, useRef } from 'react';
+import { Link } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useModal } from '../context/ModalContext';
-import { Check, ChevronDown, User, Phone, Mail, FileText, ChevronRight } from 'lucide-react';
+import { Check, ChevronDown, User, Phone, Mail, FileText, ChevronRight, ArrowLeft } from 'lucide-react';
 import { pricingAPI } from '../services/api';
 import SEO from '../components/common/SEO';
 import { PAGE_SEO } from '../config/seo.config';
@@ -347,8 +348,8 @@ export default function PricingPage() {
     e.preventDefault();
     setErrorMsg("");
 
-    if (selectedBoards.length === 0 || selectedClasses.length === 0 || selectedSubjects.length === 0) {
-      setErrorMsg("⚠️ Please select at least one option for Board, Class, and Subject.");
+    if (selectedBoards.length === 0 || selectedClasses.length === 0) {
+      setErrorMsg("⚠️ Please select at least one option for Board and Class.");
       return;
     }
 
@@ -445,7 +446,7 @@ export default function PricingPage() {
   };
 
   return (
-    <div style={{ background: '#FFFFFF', minHeight: '100vh', position: 'relative', overflow: 'hidden', padding: '140px 0 96px' }}>
+    <div style={{ background: 'transparent', minHeight: '100vh', position: 'relative', overflow: 'hidden', padding: '140px 0 96px' }}>
       <SEO {...PAGE_SEO.pricing} />
       
       {/* Background radial atmosphere */}
@@ -475,6 +476,41 @@ export default function PricingPage() {
 
       <div className="container" style={{ position: 'relative', zIndex: 1, maxWidth: '680px', margin: '0 auto' }}>
         
+        {/* Sleek Floating Back to Home button */}
+        <div style={{ marginBottom: 28 }}>
+          <Link to="/" style={{
+            display: 'inline-flex',
+            alignItems: 'center',
+            gap: '8px',
+            padding: '8px 18px',
+            borderRadius: '99px',
+            background: 'rgba(255, 255, 255, 0.85)',
+            border: '1px solid rgba(79, 124, 255, 0.2)',
+            color: '#1E293B',
+            fontSize: '13px',
+            fontWeight: 600,
+            textDecoration: 'none',
+            boxShadow: '0 4px 14px rgba(37, 99, 235, 0.08)',
+            backdropFilter: 'blur(12px)',
+            WebkitBackdropFilter: 'blur(12px)',
+            transition: 'all 0.25s cubic-bezier(0.16, 1, 0.3, 1)'
+          }}
+          onMouseEnter={e => {
+            e.currentTarget.style.transform = 'translateX(-3px)';
+            e.currentTarget.style.borderColor = 'rgba(79, 124, 255, 0.4)';
+            e.currentTarget.style.color = '#2563EB';
+          }}
+          onMouseLeave={e => {
+            e.currentTarget.style.transform = 'translateX(0)';
+            e.currentTarget.style.borderColor = 'rgba(79, 124, 255, 0.2)';
+            e.currentTarget.style.color = '#1E293B';
+          }}
+          >
+            <ArrowLeft size={16} color="#2563EB" />
+            <span>Back to Home</span>
+          </Link>
+        </div>
+
         {/* Step Progress Indicators */}
         <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 44, padding: '0 8px' }}>
           {[
@@ -559,7 +595,7 @@ export default function PricingPage() {
               style={{ background: '#FFFFFF', borderRadius: 28, padding: '40px 32px', textAlign: 'center' }}
             >
               <h2 style={{ fontFamily: 'var(--font-hero)', fontWeight: 800, fontSize: 26, color: '#1D2433', margin: '0 0 8px' }}>
-                View Tuition Fee Plans
+                View our fee plan
               </h2>
               <p style={{ fontFamily: 'var(--font-body)', fontSize: 14.5, color: '#5C667A', margin: '0 0 32px' }}>
                 Enter your details to view the available tuition fee packages.
@@ -687,7 +723,7 @@ export default function PricingPage() {
                 Tell us what you're looking for
               </h2>
               <p style={{ fontFamily: 'var(--font-body)', fontSize: 14.5, color: '#5C667A', margin: '0 0 32px' }}>
-                Select your board, classes, and subjects to build your package.
+                Select your board and classes to build your package.
               </p>
 
               <form onSubmit={handleStep2Submit} style={{ display: 'flex', flexDirection: 'column' }}>
@@ -703,13 +739,6 @@ export default function PricingPage() {
                   groups={CLASS_GROUPS}
                   selectedValues={selectedClasses}
                   onChange={setSelectedClasses}
-                />
-
-                <MultiSelectDropdown 
-                  label="Subject"
-                  options={SUBJECTS}
-                  selectedValues={selectedSubjects}
-                  onChange={setSelectedSubjects}
                 />
 
                 {/* Navigation Buttons */}

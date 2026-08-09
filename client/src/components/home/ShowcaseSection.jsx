@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react';
+import { useLocation } from 'react-router-dom';
 import { FadeUp } from '../../hooks/useScrollReveal';
 import { Clock, CheckCircle, Calendar, MessageSquare, TrendingUp, Award, Laptop, Smartphone } from 'lucide-react';
 
@@ -518,6 +519,7 @@ function OlympiadRegisterForm({ onClose }) {
 // 2. MAIN SHOWCASE SECTION COMPONENT
 // ==============================================================
 export default function ShowcaseSection() {
+  const location = useLocation();
   const [activeTab, setActiveTab] = useState(0); // 0: Parent, 1: Teacher, 2: Online, 3: Olympiad
   const [parentIndex, setParentIndex] = useState(0);
   const [teacherIndex, setTeacherIndex] = useState(0);
@@ -526,17 +528,12 @@ export default function ShowcaseSection() {
 
   // Synchronize activeTab with URL hash changes (#parent, #teacher, #online, #olympiad)
   useEffect(() => {
-    const handleHashChange = () => {
-      const hash = window.location.hash;
-      if (hash === '#parent') setActiveTab(0);
-      else if (hash === '#teacher') setActiveTab(1);
-      else if (hash === '#online') setActiveTab(2);
-      else if (hash === '#olympiad') setActiveTab(3);
-    };
-    handleHashChange();
-    window.addEventListener('hashchange', handleHashChange);
-    return () => window.removeEventListener('hashchange', handleHashChange);
-  }, []);
+    const hash = location.hash || window.location.hash;
+    if (hash === '#parent') setActiveTab(0);
+    else if (hash === '#teacher') setActiveTab(1);
+    else if (hash === '#online') setActiveTab(2);
+    else if (hash === '#olympiad') setActiveTab(3);
+  }, [location.hash, location.pathname]);
 
   // Auto transition parent/teacher/olympiad sub-screens
   useEffect(() => {

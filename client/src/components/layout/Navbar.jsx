@@ -47,7 +47,7 @@ export default function Navbar() {
     { label: 'Why TheMentR', id: 'why' },
     { label: 'Services', isAccordion: true, id: 'services' },
     { label: 'Pricing', path: '/pricing' },
-    { label: 'Gallery', id: 'gallery' },
+    { label: 'Hall of Fame', id: 'gallery' },
     { label: 'Journal', id: 'blogs' }
   ];
 
@@ -55,7 +55,7 @@ export default function Navbar() {
     { label: 'Why TheMentR', id: 'why' },
     { label: 'Services', isAccordion: true, id: 'services' },
     { label: 'Pricing', path: '/pricing' },
-    { label: 'Gallery', id: 'gallery' },
+    { label: 'Hall of Fame', id: 'gallery' },
     { label: 'Journal', id: 'blogs' },
     { label: 'Contact', id: 'contact-section' },
     { label: 'Join as a Teacher', id: 'contact-forms' }
@@ -456,14 +456,14 @@ export default function Navbar() {
       </nav>
 
       {/* Right: Actions */}
-      <div style={{ display: 'flex', alignItems: 'center', gap: 20 }}>
+      <div style={{ display: 'flex', alignItems: 'center', gap: 12 }}>
         <button
           onClick={() => navigateAndScroll('/', 'contact-section')}
           className="nav-link-btn"
           style={{
             background: 'none',
             border: 'none',
-            fontSize: 13.5,
+            fontSize: 13,
             fontWeight: 500,
             color: 'var(--color-text-secondary)',
             cursor: 'pointer',
@@ -476,9 +476,9 @@ export default function Navbar() {
         <button
           onClick={() => navigateAndScroll('/', 'contact-forms')}
           style={{
-            fontSize: 13,
-            padding: '9px 20px',
-            borderRadius: 16,
+            fontSize: 12,
+            padding: '7px 14px',
+            borderRadius: 14,
             background: '#FFFFFF',
             color: 'var(--color-text-primary)',
             border: '1px solid rgba(79, 124, 255, 0.15)',
@@ -494,9 +494,9 @@ export default function Navbar() {
         <button
           onClick={() => navigateAndScroll('/', 'contact-forms')}
           style={{
-            fontSize: 13,
-            padding: '9px 20px',
-            borderRadius: 16,
+            fontSize: 12,
+            padding: '7px 14px',
+            borderRadius: 14,
             background: 'linear-gradient(135deg, #4F7CFF 0%, #7469F8 100%)',
             color: 'white',
             border: 'none',

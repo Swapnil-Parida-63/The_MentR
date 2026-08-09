@@ -29,6 +29,8 @@ export default function VisionSection() {
 
   const [visionMouse, setVisionMouse] = useState({ x: 0, y: 0 });
   const [missionMouse, setMissionMouse] = useState({ x: 0, y: 0 });
+  const [visionImageHovered, setVisionImageHovered] = useState(false);
+  const [missionImageHovered, setMissionImageHovered] = useState(false);
 
   useEffect(() => {
     const onResize = () => setIsMobile(window.innerWidth < 1024);
@@ -271,6 +273,7 @@ export default function VisionSection() {
                 inView={visionInView}
                 delay={0}
                 metadata={['1-on-1 Dedicated Guidance', 'Custom Diagnostics']}
+                externalHovered={visionImageHovered}
               />
               <EditorialImage
                 src={`${import.meta.env.BASE_URL}ChatGPT Image Jul 30, 2026, 11_28_11 PM.png`}
@@ -279,6 +282,7 @@ export default function VisionSection() {
                 delay={200}
                 isMobile={isMobile}
                 floatingItems={visionFloatingItems}
+                onHoverChange={setVisionImageHovered}
               />
             </div>
           )}
@@ -435,6 +439,7 @@ export default function VisionSection() {
                 isMobile={isMobile}
                 accent="#8B5CF6"
                 floatingItems={missionFloatingItems}
+                onHoverChange={setMissionImageHovered}
               />
               <EditorialTextBlock
                 eyebrow="Our Mission"
@@ -447,6 +452,7 @@ export default function VisionSection() {
                 inView={missionInView}
                 delay={200}
                 metadata={['Verified Educators', 'Sustained Accountability']}
+                externalHovered={missionImageHovered}
               />
             </div>
           )}
@@ -535,10 +541,10 @@ export default function VisionSection() {
               }}
             >
               {[
-                { year: '2022 — Founded', title: 'Assessment Visits', desc: 'First in India to offer structured home-based student evaluations before teacher placement.', active: true, delay: 0 },
-                { year: '2023 — Expanded', title: 'Online Platform', desc: 'TheMentR Online launches alongside a dedicated Olympiad preparation track.', active: true, delay: 100 },
-                { year: '2024 — AVSAR', title: 'Data Intelligence', desc: 'Proprietary analytics begin tracking selection rates, performance, and ecosystem health.', active: true, delay: 200 },
-                { year: '2025–26 — Roadmap', title: 'National Expansion', desc: '50 cities. 10,000+ verified teachers. AI-assisted matching powered by learning outcome data.', active: false, delay: 300 },
+                { year: '2012 — Founded', title: 'Planning & Research', desc: 'TheMentR was conceived with deep research into the gaps in India\'s home tutoring ecosystem, laying the foundation for a structured approach to education.', active: true, delay: 0 },
+                { year: '2012–2022 — R&D', title: 'Development Phase', desc: 'A decade of research, curriculum development, mentor training frameworks, and ground-level testing across Bhubaneswar\'s education ecosystem.', active: true, delay: 100 },
+                { year: '2023–2025 — Launch', title: 'Platform Development', desc: 'TheMentR goes live — launching structured home assessments, the AVSAR programme, and an Olympiad preparation track on our online platform.', active: true, delay: 200 },
+                { year: '2025–2030 — Roadmap', title: 'National Expansion', desc: '50 cities. 10,000+ verified teachers. AI-assisted matching, data-driven learning outcomes, and a full national mentorship network.', active: false, delay: 300 },
               ].map((node, i) => (
                 <div
                   key={i}
@@ -624,7 +630,7 @@ export default function VisionSection() {
 /* ========================================================================== */
 /* EDITORIAL TEXT BLOCK COMPONENT                                             */
 /* ========================================================================== */
-function EditorialTextBlock({ eyebrow, eyebrowColor, heading, headingGradient, body, pullQuote, inView, delay = 0, chipText, metadata = [] }) {
+function EditorialTextBlock({ eyebrow, eyebrowColor, heading, headingGradient, body, pullQuote, inView, delay = 0, chipText, metadata = [], externalHovered = false }) {
   const [isMobile, setIsMobile] = useState(window.innerWidth < 1024);
   const [isHovered, setIsHovered] = useState(false);
   const [isMobileExpanded, setIsMobileExpanded] = useState(false);
@@ -635,7 +641,7 @@ function EditorialTextBlock({ eyebrow, eyebrowColor, heading, headingGradient, b
     return () => window.removeEventListener('resize', handleResize);
   }, []);
 
-  const showContent = isMobile ? isMobileExpanded : isHovered;
+  const showContent = isMobile ? isMobileExpanded : (isHovered || externalHovered);
   const baseTransition = `opacity 0.9s cubic-bezier(0.16,1,0.3,1) ${delay}ms, transform 0.9s cubic-bezier(0.16,1,0.3,1) ${delay}ms`;
 
   const handleBlockClick = () => {
@@ -735,8 +741,8 @@ function EditorialTextBlock({ eyebrow, eyebrowColor, heading, headingGradient, b
           <p style={{
             fontFamily: 'var(--font-hero)',
             fontSize: 'clamp(15px, 1.4vw, 18px)',
-            fontWeight: 600,
-            color: '#334155',
+            fontWeight: 700,
+            color: '#1E293B',
             lineHeight: 1.5,
             margin: 0,
             fontStyle: 'italic',
@@ -748,9 +754,9 @@ function EditorialTextBlock({ eyebrow, eyebrowColor, heading, headingGradient, b
         {/* Body */}
         <p style={{
           fontFamily: 'var(--font-body)',
-          fontSize: 'clamp(14px, 1.1vw, 16px)',
-          fontWeight: 400,
-          color: '#64748B',
+          fontSize: 'clamp(15px, 1.15vw, 17px)',
+          fontWeight: 500,
+          color: '#1E293B',
           lineHeight: 1.75,
           margin: 0,
           maxWidth: 480,
@@ -770,9 +776,9 @@ function EditorialTextBlock({ eyebrow, eyebrowColor, heading, headingGradient, b
           }}>
             {metadata.map((item, idx) => (
               <span key={idx} style={{
-                fontSize: '12px',
+                fontSize: '13px',
                 fontWeight: 600,
-                color: '#64748B',
+                color: '#334155',
                 display: 'flex',
                 alignItems: 'center',
                 gap: 6
@@ -791,7 +797,7 @@ function EditorialTextBlock({ eyebrow, eyebrowColor, heading, headingGradient, b
 /* ========================================================================== */
 /* EDITORIAL IMAGE COMPONENT                                                  */
 /* ========================================================================== */
-function EditorialImage({ src, alt, inView, delay = 0, isMobile, accent = '#6366F1', floatingItems = [] }) {
+function EditorialImage({ src, alt, inView, delay = 0, isMobile, accent = '#6366F1', floatingItems = [], onHoverChange }) {
   const [hovered, setHovered] = useState(false);
 
   return (
@@ -809,8 +815,14 @@ function EditorialImage({ src, alt, inView, delay = 0, isMobile, accent = '#6366
         y: { type: "spring", stiffness: 450, damping: 20 },
         rotate: { type: "spring", stiffness: 450, damping: 20 }
       }}
-      onMouseEnter={() => setHovered(true)}
-      onMouseLeave={() => setHovered(false)}
+      onMouseEnter={() => {
+        setHovered(true);
+        if (onHoverChange) onHoverChange(true);
+      }}
+      onMouseLeave={() => {
+        setHovered(false);
+        if (onHoverChange) onHoverChange(false);
+      }}
       style={{
         position: 'relative',
         display: 'flex',
