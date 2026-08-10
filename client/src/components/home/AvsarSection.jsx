@@ -332,114 +332,150 @@ export default function AvsarSection() {
           /* ========================================== */
           <div style={{ display: 'flex', flexDirection: 'column', gap: '40px' }}>
             
-            {/* 1. Interactive Verification Timeline */}
-            <div>
-              <h3 style={{ fontSize: 18, fontWeight: 800, color: '#1E293B', margin: '0 0 24px', paddingLeft: 4 }}>
-                Teacher Verification Process
-              </h3>
-              <div style={{ display: 'flex', flexDirection: 'column', padding: '0 8px' }}>
-                {steps.map((s, idx) => {
-                  const isActive = activeStep === idx;
-                  const StepIcon = s.icon;
-                  return (
-                    <div key={idx} style={{ display: 'flex', gap: '16px', position: 'relative' }}>
-                      {/* Left Column: Number Node & Connector Line */}
-                      <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', width: '28px' }}>
-                        {/* Circle node with number */}
-                        <div 
-                          onClick={() => setActiveStep(isActive ? null : idx)}
-                          style={{
-                            width: '28px',
-                            height: '28px',
-                            borderRadius: '50%',
-                            background: isActive ? '#6366F1' : '#FFFFFF',
-                            border: `2px solid ${isActive ? '#6366F1' : 'rgba(99, 102, 241, 0.22)'}`,
-                            color: isActive ? '#FFFFFF' : '#6366F1',
-                            display: 'flex',
-                            alignItems: 'center',
-                            justifyContent: 'center',
-                            fontSize: '11px',
-                            fontWeight: 'bold',
-                            cursor: 'pointer',
-                            zIndex: 2,
-                            boxShadow: isActive ? '0 4px 10px rgba(99, 102, 241, 0.2)' : 'none',
-                            transition: 'all 0.3s ease'
-                          }}
-                        >
-                          {idx + 1}
-                        </div>
-                        {/* Line */}
-                        {idx < steps.length - 1 && (
-                          <div style={{
-                            width: '2px',
-                            flex: 1,
-                            background: activeStep > idx ? '#6366F1' : 'rgba(99, 102, 241, 0.15)',
-                            margin: '4px 0',
-                            minHeight: '28px',
-                            zIndex: 1,
-                            transition: 'background 0.3s ease'
-                          }} />
-                        )}
-                      </div>
+            {/* 1. Interactive Verification Timeline with Mobile Background Image */}
+            <div style={{
+              position: 'relative',
+              background: '#FFFFFF',
+              borderRadius: '24px',
+              padding: '24px 18px',
+              border: '1.2px solid rgba(99, 102, 241, 0.12)',
+              boxShadow: '0 8px 30px rgba(99, 102, 241, 0.06)',
+              overflow: 'hidden'
+            }}>
+              {/* Mobile Background Image */}
+              <div
+                style={{
+                  position: 'absolute',
+                  inset: 0,
+                  pointerEvents: 'none',
+                  zIndex: 0,
+                  borderRadius: '24px',
+                  overflow: 'hidden'
+                }}
+              >
+                <img
+                  src={`${import.meta.env.BASE_URL}ChatGPT Image Aug 10, 2026, 05_09_40 AM.png`}
+                  alt=""
+                  style={{
+                    width: '100%',
+                    height: '100%',
+                    objectFit: 'cover',
+                    opacity: 0.65,
+                    mixBlendMode: 'multiply',
+                    WebkitMaskImage: 'radial-gradient(ellipse at center, rgba(0,0,0,1) 60%, rgba(0,0,0,0.2) 100%)',
+                    maskImage: 'radial-gradient(ellipse at center, rgba(0,0,0,1) 60%, rgba(0,0,0,0.2) 100%)'
+                  }}
+                />
+              </div>
 
-                      {/* Right Column: Title & Description */}
-                      <div style={{ flex: 1, paddingBottom: idx < steps.length - 1 ? '24px' : '0' }}>
-                        <div 
-                          onClick={() => setActiveStep(isActive ? null : idx)}
-                          style={{ 
-                            display: 'flex', 
-                            alignItems: 'center', 
-                            gap: '8px', 
-                            cursor: 'pointer',
-                            userSelect: 'none'
-                          }}
-                        >
-                          <span style={{ 
-                            fontSize: '15px', 
-                            fontWeight: 800, 
-                            color: isActive ? '#6366F1' : '#1E293B',
-                            transition: 'color 0.3s ease'
-                          }}>
-                            {s.label}
-                          </span>
-                          <span style={{ 
-                            fontSize: '11px', 
-                            color: isActive ? '#6366F1' : 'rgba(99, 102, 241, 0.4)',
-                            transition: 'color 0.3s ease'
-                          }}>
-                            {isActive ? '−' : '+'}
-                          </span>
-                        </div>
-
-                        {/* Collapsible content */}
-                        <AnimatePresence initial={false}>
-                          {isActive && (
-                            <motion.div
-                              initial={{ height: 0, opacity: 0, marginTop: 0 }}
-                              animate={{ height: 'auto', opacity: 1, marginTop: 8 }}
-                              exit={{ height: 0, opacity: 0, marginTop: 0 }}
-                              transition={{ duration: 0.3, ease: 'easeInOut' }}
-                              style={{ overflow: 'hidden' }}
-                            >
-                              <div style={{ display: 'flex', alignItems: 'center', gap: 8, color: '#6366F1', marginBottom: 6 }}>
-                                <StepIcon size={14} />
-                                <span style={{ fontSize: 11, fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.05em' }}>Verification Stage</span>
-                              </div>
-                              <p style={{ 
-                                fontSize: '13px', 
-                                color: '#64748B', 
-                                lineHeight: '1.5', 
-                                margin: 0 
-                              }}>
-                                {s.desc}
-                              </p>
-                            </motion.div>
+              <div style={{ position: 'relative', zIndex: 1 }}>
+                <h3 style={{ fontSize: 18, fontWeight: 800, color: '#1E293B', margin: '0 0 24px', paddingLeft: 4 }}>
+                  Teacher Verification Process
+                </h3>
+                <div style={{ display: 'flex', flexDirection: 'column', padding: '0 4px' }}>
+                  {steps.map((s, idx) => {
+                    const isActive = activeStep === idx;
+                    const StepIcon = s.icon;
+                    return (
+                      <div key={idx} style={{ display: 'flex', gap: '16px', position: 'relative' }}>
+                        {/* Left Column: Number Node & Connector Line */}
+                        <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', width: '28px' }}>
+                          {/* Circle node with number */}
+                          <div 
+                            onClick={() => setActiveStep(isActive ? null : idx)}
+                            style={{
+                              width: '28px',
+                              height: '28px',
+                              borderRadius: '50%',
+                              background: isActive ? '#6366F1' : '#FFFFFF',
+                              border: `2px solid ${isActive ? '#6366F1' : 'rgba(99, 102, 241, 0.22)'}`,
+                              color: isActive ? '#FFFFFF' : '#6366F1',
+                              display: 'flex',
+                              alignItems: 'center',
+                              justifyContent: 'center',
+                              fontSize: '11px',
+                              fontWeight: 'bold',
+                              cursor: 'pointer',
+                              zIndex: 2,
+                              boxShadow: isActive ? '0 4px 10px rgba(99, 102, 241, 0.2)' : 'none',
+                              transition: 'all 0.3s ease'
+                            }}
+                          >
+                            {idx + 1}
+                          </div>
+                          {/* Line */}
+                          {idx < steps.length - 1 && (
+                            <div style={{
+                              width: '2px',
+                              flex: 1,
+                              background: activeStep > idx ? '#6366F1' : 'rgba(99, 102, 241, 0.15)',
+                              margin: '4px 0',
+                              minHeight: '28px',
+                              zIndex: 1,
+                              transition: 'background 0.3s ease'
+                            }} />
                           )}
-                        </AnimatePresence>
+                        </div>
+
+                        {/* Right Column: Title & Description */}
+                        <div style={{ flex: 1, paddingBottom: idx < steps.length - 1 ? '24px' : '0' }}>
+                          <div 
+                            onClick={() => setActiveStep(isActive ? null : idx)}
+                            style={{ 
+                              display: 'flex', 
+                              alignItems: 'center', 
+                              gap: '8px', 
+                              cursor: 'pointer',
+                              userSelect: 'none'
+                            }}
+                          >
+                            <span style={{ 
+                              fontSize: '15px', 
+                              fontWeight: 800, 
+                              color: isActive ? '#6366F1' : '#1E293B',
+                              transition: 'color 0.3s ease'
+                            }}>
+                              {s.label}
+                            </span>
+                            <span style={{ 
+                              fontSize: '11px', 
+                              color: isActive ? '#6366F1' : 'rgba(99, 102, 241, 0.4)',
+                              transition: 'color 0.3s ease'
+                            }}>
+                              {isActive ? '−' : '+'}
+                            </span>
+                          </div>
+
+                          {/* Collapsible content */}
+                          <AnimatePresence initial={false}>
+                            {isActive && (
+                              <motion.div
+                                initial={{ height: 0, opacity: 0, marginTop: 0 }}
+                                animate={{ height: 'auto', opacity: 1, marginTop: 8 }}
+                                exit={{ height: 0, opacity: 0, marginTop: 0 }}
+                                transition={{ duration: 0.3, ease: 'easeInOut' }}
+                                style={{ overflow: 'hidden' }}
+                              >
+                                <div style={{ display: 'flex', alignItems: 'center', gap: 8, color: '#6366F1', marginBottom: 6 }}>
+                                  <StepIcon size={14} />
+                                  <span style={{ fontSize: 11, fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.05em' }}>Verification Stage</span>
+                                </div>
+                                <p style={{ 
+                                  fontSize: '13px', 
+                                  color: '#64748B', 
+                                  lineHeight: '1.5', 
+                                  margin: 0 
+                                }}>
+                                  {s.desc}
+                                </p>
+                              </motion.div>
+                            )}
+                          </AnimatePresence>
+                        </div>
                       </div>
-                    </div>
-                  );
-                })}
+                    );
+                  })}
+                </div>
               </div>
             </div>
 

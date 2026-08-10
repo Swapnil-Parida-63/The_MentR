@@ -52,6 +52,14 @@ export default function Footer() {
       ]
     },
     {
+      title: 'Careers',
+      links: [
+        { label: 'Open Roles', to: '/careers' },
+        { label: 'Life at TheMentR', to: '/careers' },
+        { label: 'Internships', to: '/careers' }
+      ]
+    },
+    {
       title: 'Support',
       links: [
         { label: 'FAQ', onClick: () => navigateAndScroll('/', 'contact-section') },
@@ -65,7 +73,7 @@ export default function Footer() {
   return (
     <footer style={{ background: 'var(--color-navy)', color: 'white', padding: '80px 0 32px' }}>
       <div className="container">
-        <div style={{ display: 'grid', gridTemplateColumns: '1.6fr 1fr 1fr 1fr 1fr', gap: 40, marginBottom: 60 }} className="footer-grid-responsive">
+        <div style={{ display: 'grid', gridTemplateColumns: '1.6fr 1fr 1fr 1fr 1fr 1fr', gap: 40, marginBottom: 60 }} className="footer-grid-responsive">
           {/* Brand */}
           <div>
             <div style={{ display: 'inline-block', marginBottom: 16 }}>
@@ -75,7 +83,7 @@ export default function Footer() {
               />
             </div>
             <p style={{ fontSize: 15, color: 'rgba(255,255,255,0.55)', lineHeight: 1.8, margin: '16px 0 24px', maxWidth: 280 }}>
-              Building the educational infrastructure India deserves — one verified teacher, one matched student, one family at a time.
+              Building the educational infrastructure India deserves, one verified teacher, one matched student, one family at a time.
             </p>
             <div style={{ display: 'flex', gap: 10, flexWrap: 'wrap' }}>
               {socialLinks.map(s => (

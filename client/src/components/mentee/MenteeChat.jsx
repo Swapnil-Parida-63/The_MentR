@@ -115,8 +115,36 @@ export default function MenteeChat() {
     }
   };
 
+  // Handle ESC key to close chat window
+  useEffect(() => {
+    const handleKeyDown = (e) => {
+      if (e.key === 'Escape' && isOpen) {
+        setIsOpen(false);
+      }
+    };
+    window.addEventListener('keydown', handleKeyDown);
+    return () => window.removeEventListener('keydown', handleKeyDown);
+  }, [isOpen]);
+
   return (
     <div className="mentee-chat-root">
+      {/* Dimmed Backdrop for focused chat view */}
+      {isOpen && (
+        <div
+          className="mentee-chat-backdrop"
+          onClick={() => setIsOpen(false)}
+          style={{
+            position: 'fixed',
+            inset: 0,
+            background: 'rgba(15, 23, 42, 0.28)',
+            backdropFilter: 'blur(3px)',
+            WebkitBackdropFilter: 'blur(3px)',
+            zIndex: 100001,
+            animation: 'menteeFadeIn 0.25s ease-out'
+          }}
+        />
+      )}
+
       {/* Floating Launcher Button */}
       <ChatLauncher isOpen={isOpen} onClick={() => setIsOpen(!isOpen)} />
 
@@ -133,6 +161,13 @@ export default function MenteeChat() {
           onRetry={handleRetry}
         />
       )}
+
+      <style>{`
+        @keyframes menteeFadeIn {
+          from { opacity: 0; }
+          to { opacity: 1; }
+        }
+      `}</style>
     </div>
   );
 }

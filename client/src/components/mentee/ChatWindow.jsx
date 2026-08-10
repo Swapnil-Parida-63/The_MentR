@@ -34,7 +34,7 @@ export default function ChatWindow({
         border: '1px solid rgba(79, 124, 255, 0.16)',
         borderRadius: 24,
         boxShadow: '0 20px 60px rgba(15, 23, 42, 0.2), 0 4px 16px rgba(79, 124, 255, 0.08)',
-        zIndex: 99991,
+        zIndex: 100005,
         display: 'flex',
         flexDirection: 'column',
         overflow: 'hidden',
@@ -67,7 +67,7 @@ export default function ChatWindow({
         @keyframes menteePopIn {
           from {
             opacity: 0;
-            transform: scale(0.92) translateY(20px);
+            transform: scale(0.94) translateY(16px);
           }
           to {
             opacity: 1;
@@ -76,10 +76,25 @@ export default function ChatWindow({
         }
         @media (max-width: 768px) {
           .mentee-chat-window {
-            bottom: 84px !important;
+            position: fixed !important;
+            top: 16px !important;
+            bottom: 86px !important;
             right: 16px !important;
-            width: calc(100vw - 32px) !important;
-            height: calc(100vh - 110px) !important;
+            left: 16px !important;
+            width: auto !important;
+            height: auto !important;
+            max-height: calc(100vh - 102px) !important;
+            border-radius: 20px !important;
+          }
+        }
+        @media (max-width: 480px) {
+          .mentee-chat-window {
+            top: 12px !important;
+            bottom: 80px !important;
+            right: 12px !important;
+            left: 12px !important;
+            max-height: calc(100vh - 92px) !important;
+            border-radius: 18px !important;
           }
         }
       `}</style>

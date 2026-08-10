@@ -25,7 +25,7 @@ export default function ChatLauncher({ isOpen, onClick, unreadCount = 0 }) {
         display: 'flex',
         alignItems: 'center',
         justifyContent: 'center',
-        zIndex: 99990,
+        zIndex: 100004,
         transition: 'all 0.3s cubic-bezier(0.16, 1, 0.3, 1)',
         outline: 'none',
         padding: 0

@@ -193,7 +193,7 @@ export default function PainPointsSection() {
       {/* SECTION 1 — PARENTS (Families)                                  */}
       {/* ============================================================== */}
       <div style={{
-        background: 'linear-gradient(180deg, #FFFFFF 0%, #E3E8FF 50%, rgba(143, 149, 246, 0.42) 100%)',
+        background: 'linear-gradient(180deg, #FFFFFF 0%, #E3E8FF 60%, #FFFFFF 100%)',
         padding: isMobile ? '80px 0 60px' : '120px 0 100px',
         position: 'relative',
         zIndex: 1
@@ -233,173 +233,215 @@ export default function PainPointsSection() {
           )}
           
           {/* Content Block */}
-          <div style={{ textAlign: 'left', maxWidth: 480 }}>
-            <motion.h3
-              initial={{ opacity: 0, y: 15 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.7 }}
-              onClick={() => isMobile && setIsParentIntroExpanded(!isParentIntroExpanded)}
-              style={{
-                fontFamily: 'var(--font-hero)',
-                fontWeight: 800,
-                fontSize: isMobile ? '38px' : 'clamp(32px, 3vw, 44px)',
-                lineHeight: 1.2,
-                letterSpacing: '-0.03em',
-                color: '#1E293B',
-                margin: 0,
-                cursor: isMobile ? 'pointer' : 'default',
-                userSelect: 'none'
-              }}
-            >
-              Finding the right mentor shouldn't feel like luck.
-            </motion.h3>
-
-            {/* Collapsible paragraph - revealed on hover */}
-            <motion.div
-              initial={{ opacity: 0, height: 0 }}
-              animate={isMobile 
-                ? (isParentIntroExpanded ? { opacity: 1, height: 'auto', marginTop: 16, marginBottom: 24 } : { opacity: 0, height: 0, marginTop: 0, marginBottom: 0 })
-                : (hoveredPanel === 'parents' ? { opacity: 1, height: 'auto', marginTop: 16, marginBottom: 24 } : { opacity: 0, height: 0, marginTop: 0, marginBottom: 0 })
-              }
-              transition={{ duration: 0.4, ease: [0.16, 1, 0.3, 1] }}
-              style={{ overflow: 'hidden' }}
-            >
-              <p
+          <div style={{
+            textAlign: 'left',
+            maxWidth: 480,
+            position: 'relative',
+            ...(isMobile ? {
+              background: '#FFFFFF',
+              borderRadius: '28px',
+              padding: '28px 20px',
+              border: '1.2px solid rgba(79, 124, 255, 0.12)',
+              boxShadow: '0 8px 30px rgba(79, 124, 255, 0.06)',
+              overflow: 'hidden'
+            } : {})
+          }}>
+            {/* Mobile Background Image - Parent Pain Points */}
+            {isMobile && (
+              <div
                 style={{
-                  fontSize: '15.5px',
-                  color: '#334155',
-                  lineHeight: 1.7,
-                  margin: 0,
-                  fontWeight: 500
+                  position: 'absolute',
+                  inset: 0,
+                  pointerEvents: 'none',
+                  zIndex: 0,
+                  borderRadius: '28px',
+                  overflow: 'hidden'
                 }}
               >
-                Searching through endless profiles shouldn't be the path to understanding your child's needs. The current process is filled with uncertainty.
-              </p>
-            </motion.div>
-
-            {/* Parent Hotspots / Mobile list */}
-            {isMobile ? (
-              /* Mobile Zig-zag list (Left aligned) */
-              <div style={{ display: 'flex', flexDirection: 'column', gap: '28px', marginTop: '48px' }}>
-                {parentPoints.map(point => (
-                  <div key={point.id} style={{ display: 'flex', gap: '16px', alignItems: 'flex-start', textAlign: 'left' }}>
-                    <div style={{
-                      width: 44, height: 44, borderRadius: '50%',
-                      background: '#FFFFFF', border: '1px solid rgba(79, 124, 255, 0.1)',
-                      display: 'flex', alignItems: 'center', justifyContent: 'center',
-                      color: '#4F7CFF', flexShrink: 0,
-                      boxShadow: '0 4px 12px rgba(79, 124, 255, 0.05)'
-                    }}>
-                      <point.icon size={20} strokeWidth={2.2} />
-                    </div>
-                    <div 
-                      onClick={() => setExpandedParentPoint(expandedParentPoint === point.id ? null : point.id)}
-                      style={{ cursor: 'pointer', userSelect: 'none', flex: 1 }}
-                    >
-                      <h4 style={{ margin: '0 0 4px', fontSize: 18, fontWeight: 700, color: '#1E293B' }}>{point.title}</h4>
-                      <AnimatePresence>
-                        {expandedParentPoint === point.id && (
-                          <motion.p 
-                            initial={{ opacity: 0, height: 0 }}
-                            animate={{ opacity: 1, height: 'auto', marginTop: 4 }}
-                            exit={{ opacity: 0, height: 0, marginTop: 0 }}
-                            transition={{ duration: 0.25 }}
-                            style={{ margin: 0, fontSize: 13.5, lineHeight: 1.5, color: '#64748B', overflow: 'hidden' }}
-                          >
-                            {point.description}
-                          </motion.p>
-                        )}
-                      </AnimatePresence>
-                    </div>
-                  </div>
-                ))}
-              </div>
-            ) : (
-              /* Desktop Hotspots Row - always visible */
-              <div style={{ display: 'flex', gap: '24px', position: 'relative', marginTop: hoveredPanel === 'parents' ? 0 : 24, transition: 'margin-top 0.4s ease' }}>
-                {parentPoints.map(point => {
-                  const IconComponent = point.icon;
-                  return (
-                    <div 
-                      key={point.id}
-                      style={{ position: 'relative', display: 'inline-block', width: 64, height: 64 }}
-                      onMouseEnter={() => setActiveParentId(point.id)}
-                      onMouseLeave={() => setActiveParentId(null)}
-                    >
-                      <motion.div
-                        whileHover={{ scale: 1.03 }}
-                        transition={{ type: "spring", stiffness: 450, damping: 20 }}
-                        style={{
-                          width: 64,
-                          height: 64,
-                          borderRadius: '50%',
-                          background: 'rgba(255, 255, 255, 0.85)',
-                          backdropFilter: 'blur(8px)',
-                          WebkitBackdropFilter: 'blur(8px)',
-                          border: '1px solid rgba(79, 124, 255, 0.1)',
-                          boxShadow: activeParentId === point.id 
-                            ? '0 12px 30px rgba(79, 124, 255, 0.15), 0 0 0 2px rgba(79, 124, 255, 0.2)' 
-                            : '0 8px 24px rgba(15, 23, 42, 0.03)',
-                          display: 'flex',
-                          alignItems: 'center',
-                          justifyContent: 'center',
-                          color: '#4F7CFF',
-                          cursor: 'pointer',
-                          position: 'relative',
-                          zIndex: 2,
-                          transition: 'box-shadow 0.2s'
-                        }}
-                      >
-                        <IconComponent size={24} strokeWidth={2} />
-                      </motion.div>
-
-                      {/* Tooltip Overlay */}
-                      <AnimatePresence>
-                        {activeParentId === point.id && (
-                          <motion.div
-                            initial={{ opacity: 0, y: 8, x: '-50%', scale: 0.96 }}
-                            animate={{ opacity: 1, y: 0, x: '-50%', scale: 1 }}
-                            exit={{ opacity: 0, y: 8, x: '-50%', scale: 0.96 }}
-                            transition={{ duration: 0.18, ease: "easeOut" }}
-                            style={{
-                              position: 'absolute',
-                              bottom: 'calc(100% + 14px)',
-                              left: '50%',
-                              width: 260,
-                              padding: '16px',
-                              background: 'rgba(255, 255, 255, 0.98)',
-                              backdropFilter: 'blur(12px)',
-                              WebkitBackdropFilter: 'blur(12px)',
-                              border: '1px solid rgba(79, 124, 255, 0.12)',
-                              borderRadius: 14,
-                              boxShadow: '0 12px 32px rgba(15, 23, 42, 0.08)',
-                              zIndex: 100,
-                              pointerEvents: 'none',
-                              textAlign: 'left'
-                            }}
-                          >
-                            <div style={{
-                              position: 'absolute',
-                              top: '100%',
-                              left: '50%',
-                              transform: 'translateX(-50%)',
-                              width: 0,
-                              height: 0,
-                              borderLeft: '7px solid transparent',
-                              borderRight: '7px solid transparent',
-                              borderTop: '7px solid rgba(255, 255, 255, 0.98)',
-                            }} />
-                            <h5 style={{ margin: '0 0 6px', fontSize: 13, fontWeight: 700, color: '#1E293B' }}>{point.title}</h5>
-                            <p style={{ margin: 0, fontSize: 12, lineHeight: 1.55, color: '#64748B', fontWeight: 400 }}>{point.description}</p>
-                          </motion.div>
-                        )}
-                      </AnimatePresence>
-                    </div>
-                  );
-                })}
+                <img
+                  src={`${import.meta.env.BASE_URL}ChatGPT Image Aug 10, 2026, 05_05_57 AM.png`}
+                  alt=""
+                  style={{
+                    width: '100%',
+                    height: '100%',
+                    objectFit: 'cover',
+                    opacity: 0.65,
+                    mixBlendMode: 'multiply',
+                    WebkitMaskImage: 'radial-gradient(ellipse at center, rgba(0,0,0,1) 60%, rgba(0,0,0,0.2) 100%)',
+                    maskImage: 'radial-gradient(ellipse at center, rgba(0,0,0,1) 60%, rgba(0,0,0,0.2) 100%)'
+                  }}
+                />
               </div>
             )}
+
+            <div style={{ position: 'relative', zIndex: 1 }}>
+              <motion.h3
+                initial={{ opacity: 0, y: 15 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.7 }}
+                onClick={() => isMobile && setIsParentIntroExpanded(!isParentIntroExpanded)}
+                style={{
+                  fontFamily: 'var(--font-hero)',
+                  fontWeight: 800,
+                  fontSize: isMobile ? '38px' : 'clamp(32px, 3vw, 44px)',
+                  lineHeight: 1.2,
+                  letterSpacing: '-0.03em',
+                  color: '#1E293B',
+                  margin: 0,
+                  cursor: isMobile ? 'pointer' : 'default',
+                  userSelect: 'none'
+                }}
+              >
+                Finding the right mentor shouldn't feel like luck.
+              </motion.h3>
+
+              {/* Collapsible paragraph - revealed on hover */}
+              <motion.div
+                initial={{ opacity: 0, height: 0 }}
+                animate={isMobile 
+                  ? (isParentIntroExpanded ? { opacity: 1, height: 'auto', marginTop: 16, marginBottom: 24 } : { opacity: 0, height: 0, marginTop: 0, marginBottom: 0 })
+                  : (hoveredPanel === 'parents' ? { opacity: 1, height: 'auto', marginTop: 16, marginBottom: 24 } : { opacity: 0, height: 0, marginTop: 0, marginBottom: 0 })
+                }
+                transition={{ duration: 0.4, ease: [0.16, 1, 0.3, 1] }}
+                style={{ overflow: 'hidden' }}
+              >
+                <p
+                  style={{
+                    fontSize: '15.5px',
+                    color: '#334155',
+                    lineHeight: 1.7,
+                    margin: 0,
+                    fontWeight: 500
+                  }}
+                >
+                  Searching through endless profiles shouldn't be the path to understanding your child's needs. The current process is filled with uncertainty.
+                </p>
+              </motion.div>
+
+              {/* Parent Hotspots / Mobile list */}
+              {isMobile ? (
+                /* Mobile Zig-zag list (Left aligned) */
+                <div style={{ display: 'flex', flexDirection: 'column', gap: '28px', marginTop: '36px' }}>
+                  {parentPoints.map(point => (
+                    <div key={point.id} style={{ display: 'flex', gap: '16px', alignItems: 'flex-start', textAlign: 'left' }}>
+                      <div style={{
+                        width: 44, height: 44, borderRadius: '50%',
+                        background: '#FFFFFF', border: '1px solid rgba(79, 124, 255, 0.1)',
+                        display: 'flex', alignItems: 'center', justifyContent: 'center',
+                        color: '#4F7CFF', flexShrink: 0,
+                        boxShadow: '0 4px 12px rgba(79, 124, 255, 0.05)'
+                      }}>
+                        <point.icon size={20} strokeWidth={2.2} />
+                      </div>
+                      <div 
+                        onClick={() => setExpandedParentPoint(expandedParentPoint === point.id ? null : point.id)}
+                        style={{ cursor: 'pointer', userSelect: 'none', flex: 1 }}
+                      >
+                        <h4 style={{ margin: '0 0 4px', fontSize: 18, fontWeight: 700, color: '#1E293B' }}>{point.title}</h4>
+                        <AnimatePresence>
+                          {expandedParentPoint === point.id && (
+                            <motion.p 
+                              initial={{ opacity: 0, height: 0 }}
+                              animate={{ opacity: 1, height: 'auto', marginTop: 4 }}
+                              exit={{ opacity: 0, height: 0, marginTop: 0 }}
+                              transition={{ duration: 0.25 }}
+                              style={{ margin: 0, fontSize: 13.5, lineHeight: 1.5, color: '#64748B', overflow: 'hidden' }}
+                            >
+                              {point.description}
+                            </motion.p>
+                          )}
+                        </AnimatePresence>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              ) : (
+                /* Desktop Hotspots Row - always visible */
+                <div style={{ display: 'flex', gap: '24px', position: 'relative', marginTop: hoveredPanel === 'parents' ? 0 : 24, transition: 'margin-top 0.4s ease' }}>
+                  {parentPoints.map(point => {
+                    const IconComponent = point.icon;
+                    return (
+                      <div 
+                        key={point.id}
+                        style={{ position: 'relative', display: 'inline-block', width: 64, height: 64 }}
+                        onMouseEnter={() => setActiveParentId(point.id)}
+                        onMouseLeave={() => setActiveParentId(null)}
+                      >
+                        <motion.div
+                          whileHover={{ scale: 1.03 }}
+                          transition={{ type: "spring", stiffness: 450, damping: 20 }}
+                          style={{
+                            width: 64,
+                            height: 64,
+                            borderRadius: '50%',
+                            background: 'rgba(255, 255, 255, 0.85)',
+                            backdropFilter: 'blur(8px)',
+                            WebkitBackdropFilter: 'blur(8px)',
+                            border: '1px solid rgba(79, 124, 255, 0.1)',
+                            boxShadow: activeParentId === point.id 
+                              ? '0 12px 30px rgba(79, 124, 255, 0.15), 0 0 0 2px rgba(79, 124, 255, 0.2)' 
+                              : '0 8px 24px rgba(15, 23, 42, 0.03)',
+                            display: 'flex',
+                            alignItems: 'center',
+                            justifyContent: 'center',
+                            color: '#4F7CFF',
+                            cursor: 'pointer',
+                            position: 'relative',
+                            zIndex: 2,
+                            transition: 'box-shadow 0.2s'
+                          }}
+                        >
+                          <IconComponent size={24} strokeWidth={2} />
+                        </motion.div>
+
+                        {/* Tooltip Overlay */}
+                        <AnimatePresence>
+                          {activeParentId === point.id && (
+                            <motion.div
+                              initial={{ opacity: 0, y: 8, x: '-50%', scale: 0.96 }}
+                              animate={{ opacity: 1, y: 0, x: '-50%', scale: 1 }}
+                              exit={{ opacity: 0, y: 8, x: '-50%', scale: 0.96 }}
+                              transition={{ duration: 0.18, ease: "easeOut" }}
+                              style={{
+                                position: 'absolute',
+                                bottom: 'calc(100% + 14px)',
+                                left: '50%',
+                                width: 260,
+                                padding: '16px',
+                                background: 'rgba(255, 255, 255, 0.98)',
+                                backdropFilter: 'blur(12px)',
+                                WebkitBackdropFilter: 'blur(12px)',
+                                border: '1px solid rgba(79, 124, 255, 0.12)',
+                                borderRadius: 14,
+                                boxShadow: '0 12px 32px rgba(15, 23, 42, 0.08)',
+                                zIndex: 100,
+                                pointerEvents: 'none',
+                                textAlign: 'left'
+                              }}
+                            >
+                              <div style={{
+                                position: 'absolute',
+                                top: '100%',
+                                left: '50%',
+                                transform: 'translateX(-50%)',
+                                width: 0,
+                                height: 0,
+                                borderLeft: '7px solid transparent',
+                                borderRight: '7px solid transparent',
+                                borderTop: '7px solid rgba(255, 255, 255, 0.98)',
+                              }} />
+                              <h5 style={{ margin: '0 0 6px', fontSize: 13, fontWeight: 700, color: '#1E293B' }}>{point.title}</h5>
+                              <p style={{ margin: 0, fontSize: 12, lineHeight: 1.55, color: '#64748B', fontWeight: 400 }}>{point.description}</p>
+                            </motion.div>
+                          )}
+                        </AnimatePresence>
+                      </div>
+                    );
+                  })}
+                </div>
+              )}
+            </div>
           </div>
 
           {/* Illustration Side */}
@@ -550,7 +592,7 @@ export default function PainPointsSection() {
     {/* SECTION 2 — TEACHERS (Educators)                                */}
     {/* ============================================================== */}
     <div style={{
-      background: 'linear-gradient(180deg, rgba(143, 149, 246, 0.42) 0%, #E3E8FF 50%, #FFFFFF 100%)',
+      background: 'linear-gradient(180deg, #FFFFFF 0%, #E3E8FF 40%, #FFFFFF 100%)',
       padding: isMobile ? '80px 0 100px' : '120px 0 140px',
       position: 'relative',
       zIndex: 1
@@ -729,178 +771,221 @@ export default function PainPointsSection() {
             </motion.div>
           )}
 
-          <div style={{ textAlign: isMobile ? 'right' : 'left', maxWidth: 480, justifySelf: isMobile ? 'stretch' : 'end' }}>
-            <motion.h3
-              initial={{ opacity: 0, y: 15 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.7 }}
-              onClick={() => isMobile && setIsTeacherIntroExpanded(!isTeacherIntroExpanded)}
-              style={{
-                fontFamily: 'var(--font-hero)',
-                fontWeight: 800,
-                fontSize: isMobile ? '38px' : 'clamp(32px, 3vw, 44px)',
-                lineHeight: 1.2,
-                letterSpacing: '-0.03em',
-                color: '#1E293B',
-                margin: 0,
-                cursor: isMobile ? 'pointer' : 'default',
-                userSelect: 'none'
-              }}
-            >
-              Great educators deserve to be discovered.
-            </motion.h3>
-
-            {/* Collapsible paragraph - revealed on hover */}
-            <motion.div
-              initial={{ opacity: 0, height: 0 }}
-              animate={isMobile 
-                ? (isTeacherIntroExpanded ? { opacity: 1, height: 'auto', marginTop: 16, marginBottom: 24 } : { opacity: 0, height: 0, marginTop: 0, marginBottom: 0 })
-                : (hoveredPanel === 'educators' ? { opacity: 1, height: 'auto', marginTop: 16, marginBottom: 24 } : { opacity: 0, height: 0, marginTop: 0, marginBottom: 0 })
-              }
-              transition={{ duration: 0.4, ease: [0.16, 1, 0.3, 1] }}
-              style={{ overflow: 'hidden' }}
-            >
-              <p
+          <div style={{
+            textAlign: isMobile ? 'right' : 'left',
+            maxWidth: 480,
+            justifySelf: isMobile ? 'stretch' : 'end',
+            position: 'relative',
+            ...(isMobile ? {
+              background: '#FFFFFF',
+              borderRadius: '28px',
+              padding: '28px 20px',
+              border: '1.2px solid rgba(123, 97, 255, 0.12)',
+              boxShadow: '0 8px 30px rgba(123, 97, 255, 0.06)',
+              overflow: 'hidden'
+            } : {})
+          }}>
+            {/* Mobile Background Image - Teacher Pain Points */}
+            {isMobile && (
+              <div
                 style={{
-                  fontSize: '15.5px',
-                  color: '#334155',
-                  lineHeight: 1.7,
-                  margin: 0,
-                  fontWeight: 500
+                  position: 'absolute',
+                  inset: 0,
+                  pointerEvents: 'none',
+                  zIndex: 0,
+                  borderRadius: '28px',
+                  overflow: 'hidden'
                 }}
               >
-                Brilliant teachers shouldn't have to compete for visibility or spend hours managing logistics. They deserve to focus on what they do best: teaching.
-              </p>
-            </motion.div>
-
-            {/* Educator Hotspots / Mobile list */}
-            {isMobile ? (
-              /* Mobile Zig-zag list (Right aligned) */
-              <div style={{ display: 'flex', flexDirection: 'column', gap: '28px', marginTop: '48px' }}>
-                {educatorPoints.map(point => (
-                  <div key={point.id} style={{ display: 'flex', gap: '16px', alignItems: 'flex-start', flexDirection: 'row-reverse', textAlign: 'right' }}>
-                    <div style={{
-                      width: 44, height: 44, borderRadius: '50%',
-                      background: '#FFFFFF', border: '1px solid rgba(123, 97, 255, 0.1)',
-                      display: 'flex', alignItems: 'center', justifyContent: 'center',
-                      color: '#7B61FF', flexShrink: 0,
-                      boxShadow: '0 4px 12px rgba(123, 97, 255, 0.05)'
-                    }}>
-                      <point.icon size={20} strokeWidth={2.2} />
-                    </div>
-                    <div 
-                      onClick={() => setExpandedTeacherPoint(expandedTeacherPoint === point.id ? null : point.id)}
-                      style={{ cursor: 'pointer', userSelect: 'none', flex: 1 }}
-                    >
-                      <h4 style={{ margin: '0 0 4px', fontSize: 18, fontWeight: 700, color: '#1E293B' }}>{point.title}</h4>
-                      <AnimatePresence>
-                        {expandedTeacherPoint === point.id && (
-                          <motion.p 
-                            initial={{ opacity: 0, height: 0 }}
-                            animate={{ opacity: 1, height: 'auto', marginTop: 4 }}
-                            exit={{ opacity: 0, height: 0, marginTop: 0 }}
-                            transition={{ duration: 0.25 }}
-                            style={{ margin: 0, fontSize: 13.5, lineHeight: 1.5, color: '#64748B', overflow: 'hidden' }}
-                          >
-                            {point.description}
-                          </motion.p>
-                        )}
-                      </AnimatePresence>
-                    </div>
-                  </div>
-                ))}
-              </div>
-            ) : (
-              /* Desktop Hotspots Row - always visible */
-              <div style={{ display: 'flex', gap: '24px', position: 'relative', marginTop: hoveredPanel === 'educators' ? 0 : 24, transition: 'margin-top 0.4s ease' }}>
-                {educatorPoints.map(point => {
-                  const IconComponent = point.icon;
-                  return (
-                    <div 
-                      key={point.id}
-                      style={{ position: 'relative', display: 'inline-block', width: 64, height: 64 }}
-                      onMouseEnter={() => setActiveTeacherId(point.id)}
-                      onMouseLeave={() => setActiveTeacherId(null)}
-                    >
-                      <motion.div
-                        whileHover={{ scale: 1.03 }}
-                        transition={{ type: "spring", stiffness: 450, damping: 20 }}
-                        style={{
-                          width: 64,
-                          height: 64,
-                          borderRadius: '50%',
-                          background: 'rgba(255, 255, 255, 0.85)',
-                          backdropFilter: 'blur(8px)',
-                          WebkitBackdropFilter: 'blur(8px)',
-                          border: '1px solid rgba(123, 97, 255, 0.1)',
-                          boxShadow: activeTeacherId === point.id 
-                            ? '0 12px 30px rgba(123, 97, 255, 0.15), 0 0 0 2px rgba(123, 97, 255, 0.2)' 
-                            : '0 8px 24px rgba(15, 23, 42, 0.03)',
-                          display: 'flex',
-                          alignItems: 'center',
-                          justifyContent: 'center',
-                          color: '#7B61FF',
-                          cursor: 'pointer',
-                          position: 'relative',
-                          zIndex: 2,
-                          transition: 'box-shadow 0.2s'
-                        }}
-                      >
-                        <IconComponent size={24} strokeWidth={2} />
-                      </motion.div>
-
-                      {/* Tooltip Overlay */}
-                      <AnimatePresence>
-                        {activeTeacherId === point.id && (
-                          <motion.div
-                            initial={{ opacity: 0, y: 8, x: '-50%', scale: 0.96 }}
-                            animate={{ opacity: 1, y: 0, x: '-50%', scale: 1 }}
-                            exit={{ opacity: 0, y: 8, x: '-50%', scale: 0.96 }}
-                            transition={{ duration: 0.18, ease: "easeOut" }}
-                            style={{
-                              position: 'absolute',
-                              bottom: 'calc(100% + 14px)',
-                              left: '50%',
-                              width: 260,
-                              padding: '16px',
-                              background: 'rgba(255, 255, 255, 0.98)',
-                              backdropFilter: 'blur(12px)',
-                              WebkitBackdropFilter: 'blur(12px)',
-                              border: '1px solid rgba(123, 97, 255, 0.12)',
-                              borderRadius: 14,
-                              boxShadow: '0 12px 32px rgba(15, 23, 42, 0.08)',
-                              zIndex: 100,
-                              pointerEvents: 'none',
-                              textAlign: 'left'
-                            }}
-                          >
-                            <div style={{
-                              position: 'absolute',
-                              top: '100%',
-                              left: '50%',
-                              transform: 'translateX(-50%)',
-                              width: 0,
-                              height: 0,
-                              borderLeft: '7px solid transparent',
-                              borderRight: '7px solid transparent',
-                              borderTop: '7px solid rgba(255, 255, 255, 0.98)',
-                            }} />
-                            <h5 style={{ margin: '0 0 6px', fontSize: 13, fontWeight: 700, color: '#1E293B' }}>{point.title}</h5>
-                            <p style={{ margin: 0, fontSize: 12, lineHeight: 1.55, color: '#64748B', fontWeight: 400 }}>{point.description}</p>
-                          </motion.div>
-                        )}
-                      </AnimatePresence>
-                    </div>
-                  );
-                })}
+                <img
+                  src={`${import.meta.env.BASE_URL}ChatGPT Image Aug 10, 2026, 05_02_57 AM.png`}
+                  alt=""
+                  style={{
+                    width: '100%',
+                    height: '100%',
+                    objectFit: 'cover',
+                    opacity: 0.65,
+                    mixBlendMode: 'multiply',
+                    WebkitMaskImage: 'radial-gradient(ellipse at center, rgba(0,0,0,1) 60%, rgba(0,0,0,0.2) 100%)',
+                    maskImage: 'radial-gradient(ellipse at center, rgba(0,0,0,1) 60%, rgba(0,0,0,0.2) 100%)'
+                  }}
+                />
               </div>
             )}
+
+            <div style={{ position: 'relative', zIndex: 1 }}>
+              <motion.h3
+                initial={{ opacity: 0, y: 15 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.7 }}
+                onClick={() => isMobile && setIsTeacherIntroExpanded(!isTeacherIntroExpanded)}
+                style={{
+                  fontFamily: 'var(--font-hero)',
+                  fontWeight: 800,
+                  fontSize: isMobile ? '38px' : 'clamp(32px, 3vw, 44px)',
+                  lineHeight: 1.2,
+                  letterSpacing: '-0.03em',
+                  color: '#1E293B',
+                  margin: 0,
+                  cursor: isMobile ? 'pointer' : 'default',
+                  userSelect: 'none'
+                }}
+              >
+                Great educators deserve to be discovered.
+              </motion.h3>
+
+              {/* Collapsible paragraph - revealed on hover */}
+              <motion.div
+                initial={{ opacity: 0, height: 0 }}
+                animate={isMobile 
+                  ? (isTeacherIntroExpanded ? { opacity: 1, height: 'auto', marginTop: 16, marginBottom: 24 } : { opacity: 0, height: 0, marginTop: 0, marginBottom: 0 })
+                  : (hoveredPanel === 'educators' ? { opacity: 1, height: 'auto', marginTop: 16, marginBottom: 24 } : { opacity: 0, height: 0, marginTop: 0, marginBottom: 0 })
+                }
+                transition={{ duration: 0.4, ease: [0.16, 1, 0.3, 1] }}
+                style={{ overflow: 'hidden' }}
+              >
+                <p
+                  style={{
+                    fontSize: '15.5px',
+                    color: '#334155',
+                    lineHeight: 1.7,
+                    margin: 0,
+                    fontWeight: 500
+                  }}
+                >
+                  Brilliant teachers shouldn't have to compete for visibility or spend hours managing logistics. They deserve to focus on what they do best: teaching.
+                </p>
+              </motion.div>
+
+              {/* Educator Hotspots / Mobile list */}
+              {isMobile ? (
+                /* Mobile Zig-zag list (Right aligned) */
+                <div style={{ display: 'flex', flexDirection: 'column', gap: '28px', marginTop: '36px' }}>
+                  {educatorPoints.map(point => (
+                    <div key={point.id} style={{ display: 'flex', gap: '16px', alignItems: 'flex-start', flexDirection: 'row-reverse', textAlign: 'right' }}>
+                      <div style={{
+                        width: 44, height: 44, borderRadius: '50%',
+                        background: '#FFFFFF', border: '1px solid rgba(123, 97, 255, 0.1)',
+                        display: 'flex', alignItems: 'center', justifyContent: 'center',
+                        color: '#7B61FF', flexShrink: 0,
+                        boxShadow: '0 4px 12px rgba(123, 97, 255, 0.05)'
+                      }}>
+                        <point.icon size={20} strokeWidth={2.2} />
+                      </div>
+                      <div 
+                        onClick={() => setExpandedTeacherPoint(expandedTeacherPoint === point.id ? null : point.id)}
+                        style={{ cursor: 'pointer', userSelect: 'none', flex: 1 }}
+                      >
+                        <h4 style={{ margin: '0 0 4px', fontSize: 18, fontWeight: 700, color: '#1E293B' }}>{point.title}</h4>
+                        <AnimatePresence>
+                          {expandedTeacherPoint === point.id && (
+                            <motion.p 
+                              initial={{ opacity: 0, height: 0 }}
+                              animate={{ opacity: 1, height: 'auto', marginTop: 4 }}
+                              exit={{ opacity: 0, height: 0, marginTop: 0 }}
+                              transition={{ duration: 0.25 }}
+                              style={{ margin: 0, fontSize: 13.5, lineHeight: 1.5, color: '#64748B', overflow: 'hidden' }}
+                            >
+                              {point.description}
+                            </motion.p>
+                          )}
+                        </AnimatePresence>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              ) : (
+                /* Desktop Hotspots Row - always visible */
+                <div style={{ display: 'flex', gap: '24px', position: 'relative', marginTop: hoveredPanel === 'educators' ? 0 : 24, transition: 'margin-top 0.4s ease' }}>
+                  {educatorPoints.map(point => {
+                    const IconComponent = point.icon;
+                    return (
+                      <div 
+                        key={point.id}
+                        style={{ position: 'relative', display: 'inline-block', width: 64, height: 64 }}
+                        onMouseEnter={() => setActiveTeacherId(point.id)}
+                        onMouseLeave={() => setActiveTeacherId(null)}
+                      >
+                        <motion.div
+                          whileHover={{ scale: 1.03 }}
+                          transition={{ type: "spring", stiffness: 450, damping: 20 }}
+                          style={{
+                            width: 64,
+                            height: 64,
+                            borderRadius: '50%',
+                            background: 'rgba(255, 255, 255, 0.85)',
+                            backdropFilter: 'blur(8px)',
+                            WebkitBackdropFilter: 'blur(8px)',
+                            border: '1px solid rgba(123, 97, 255, 0.1)',
+                            boxShadow: activeTeacherId === point.id 
+                              ? '0 12px 30px rgba(123, 97, 255, 0.15), 0 0 0 2px rgba(123, 97, 255, 0.2)' 
+                              : '0 8px 24px rgba(15, 23, 42, 0.03)',
+                            display: 'flex',
+                            alignItems: 'center',
+                            justifyContent: 'center',
+                            color: '#7B61FF',
+                            cursor: 'pointer',
+                            position: 'relative',
+                            zIndex: 2,
+                            transition: 'box-shadow 0.2s'
+                          }}
+                        >
+                          <IconComponent size={24} strokeWidth={2} />
+                        </motion.div>
+
+                        {/* Tooltip Overlay */}
+                        <AnimatePresence>
+                          {activeTeacherId === point.id && (
+                            <motion.div
+                              initial={{ opacity: 0, y: 8, x: '-50%', scale: 0.96 }}
+                              animate={{ opacity: 1, y: 0, x: '-50%', scale: 1 }}
+                              exit={{ opacity: 0, y: 8, x: '-50%', scale: 0.96 }}
+                              transition={{ duration: 0.18, ease: "easeOut" }}
+                              style={{
+                                position: 'absolute',
+                                bottom: 'calc(100% + 14px)',
+                                left: '50%',
+                                width: 260,
+                                padding: '16px',
+                                background: 'rgba(255, 255, 255, 0.98)',
+                                backdropFilter: 'blur(12px)',
+                                WebkitBackdropFilter: 'blur(12px)',
+                                border: '1px solid rgba(123, 97, 255, 0.12)',
+                                borderRadius: 14,
+                                boxShadow: '0 12px 32px rgba(15, 23, 42, 0.08)',
+                                zIndex: 100,
+                                pointerEvents: 'none',
+                                textAlign: 'left'
+                              }}
+                            >
+                              <div style={{
+                                position: 'absolute',
+                                top: '100%',
+                                left: '50%',
+                                transform: 'translateX(-50%)',
+                                width: 0,
+                                height: 0,
+                                borderLeft: '7px solid transparent',
+                                borderRight: '7px solid transparent',
+                                borderTop: '7px solid rgba(255, 255, 255, 0.98)',
+                              }} />
+                              <h5 style={{ margin: '0 0 6px', fontSize: 13, fontWeight: 700, color: '#1E293B' }}>{point.title}</h5>
+                              <p style={{ margin: 0, fontSize: 12, lineHeight: 1.55, color: '#64748B', fontWeight: 400 }}>{point.description}</p>
+                            </motion.div>
+                          )}
+                        </AnimatePresence>
+                      </div>
+                    );
+                  })}
+                </div>
+              )}
+            </div>
           </div>
 
         </div>
       </div>
     </div>
-  </section>
+</section>
 );
 }
