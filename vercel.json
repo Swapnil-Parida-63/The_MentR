@@ -19,6 +19,18 @@
       "dest": "api/index.js"
     },
     {
+      "src": "/assets/(.*)",
+      "dest": "client/assets/$1"
+    },
+    {
+      "src": "/(hero-slides|hero-slides-mobile)/(.*)",
+      "dest": "client/$1/$2"
+    },
+    {
+      "src": "/(.*\\.(webp|png|jpg|jpeg|svg|ico|woff2|woff|ttf))$",
+      "dest": "client/$1"
+    },
+    {
       "src": "/mentR_Logo.png",
       "dest": "client/mentR_Logo.png"
     },
