@@ -1,5 +1,4 @@
 import { useEffect, useState } from 'react';
-import { motion } from 'framer-motion';
 import { 
   BookOpen, 
   Shield, 
@@ -52,28 +51,48 @@ const doodleTypes = ['book', 'cap', 'bulb', 'connect', 'shield', 'plus', 'heart'
 
 export default function GlobalThread() {
   const [height, setHeight] = useState(12000);
-  const [isMobile, setIsMobile] = useState(window.innerWidth < 1024);
+  const [isMobile, setIsMobile] = useState(typeof window !== 'undefined' ? window.innerWidth < 1024 : false);
+  const [scrollTop, setScrollTop] = useState(0);
+  const [viewportHeight, setViewportHeight] = useState(typeof window !== 'undefined' ? window.innerHeight : 1000);
 
   useEffect(() => {
-    const handleResize = () => {
+    let ticking = false;
+
+    const updateDimensions = () => {
       setIsMobile(window.innerWidth < 1024);
       setHeight(document.body.scrollHeight || 12000);
+      setViewportHeight(window.innerHeight);
     };
-    
-    handleResize();
-    window.addEventListener('load', handleResize);
-    window.addEventListener('resize', handleResize);
-    
-    const interval = setInterval(handleResize, 2000);
+
+    const handleScroll = () => {
+      if (!ticking) {
+        requestAnimationFrame(() => {
+          setScrollTop(window.scrollY);
+          ticking = false;
+        });
+        ticking = true;
+      }
+    };
+
+    updateDimensions();
+
+    window.addEventListener('resize', updateDimensions);
+    window.addEventListener('scroll', handleScroll, { passive: true });
+
+    let ro = null;
+    if (typeof ResizeObserver !== 'undefined' && document.body) {
+      ro = new ResizeObserver(() => {
+        updateDimensions();
+      });
+      ro.observe(document.body);
+    }
 
     return () => {
-      window.removeEventListener('load', handleResize);
-      window.removeEventListener('resize', handleResize);
-      clearInterval(interval);
+      window.removeEventListener('resize', updateDimensions);
+      window.removeEventListener('scroll', handleScroll);
+      if (ro) ro.disconnect();
     };
   }, []);
-
-
 
   const step = 600;
   const leftAmplitudes = [90, 130, 70, 110, 80, 120, 70, 100, 80, 130, 90, 110, 75, 115, 85, 125, 70, 105, 90, 120];
@@ -94,21 +113,9 @@ export default function GlobalThread() {
     return term0 + term1 + term2 + term3;
   };
 
-  const generatePath = (side, h) => {
-    const amplitudes = side === 'left' ? leftAmplitudes : rightAmplitudes;
-    let d = 'M 90 0';
-    let idx = 0;
-    for (let y = step; y < h + step; y += step) {
-      const targetX = amplitudes[idx % amplitudes.length];
-      const prevY = y - step;
-      d += ` C ${targetX} ${prevY + step / 3}, ${targetX} ${prevY + (2 * step) / 3}, 90 ${y}`;
-      idx++;
-    }
-    return d;
-  };
-
-  const leftPathD = generatePath('left', height);
-  const rightPathD = generatePath('right', height);
+  // Generous viewport window lookahead buffer (1600px above and below viewport)
+  const minVisibleY = scrollTop - 1600;
+  const maxVisibleY = scrollTop + viewportHeight + 1600;
 
   // Left Thread Badges (Y: 400, 1600, 2800, etc.)
   const leftNodes = [
@@ -148,21 +155,18 @@ export default function GlobalThread() {
     return { ...node, x, y };
   });
 
-  // High Density Doodles: spaced every 115px Y-height (Approx 7-10 doodles per 1000px page)
+  // High Density Doodles: spaced every 115px Y-height
   const leftDoodles = [];
   const rightDoodles = [];
   const doodleInterval = 115;
 
   let leftIdx = 0;
   for (let y = 150; y < height; y += doodleInterval) {
-    // Avoid overlaps with badges
     const isNearBadge = leftNodes.some(node => Math.abs(y - node.y) < 65);
     if (!isNearBadge) {
       const x = getXForY(y, 'left');
       const type = doodleTypes[leftIdx % doodleTypes.length];
-      // Alternate left/right offset from thread line to look zipper-like
       const offset = (leftIdx % 2 === 0) ? -28 : 28;
-      // Alternate colors
       const color = (leftIdx % 3 === 0) ? '#4F7CFF' : (leftIdx % 3 === 1) ? '#7C5CFF' : '#10B981';
       leftDoodles.push({ type, x: x + offset, y, color });
       leftIdx++;
@@ -199,14 +203,13 @@ export default function GlobalThread() {
 
       {/* LEFT SIDE MARGIN CONTENT */}
       <div style={{ position: 'absolute', top: 0, left: 0, width: isMobile ? 40 : 240, height: '100%' }}>
-        {/* Left Side Badges */}
+        {/* Left Side Badges (Persisted statically) */}
         {!isMobile && leftNodes.map((node, idx) => {
           const IconComp = node.icon;
           if (node.y > height) return null;
 
           return (
             <div key={`left-node-${idx}`} style={{ position: 'absolute', top: node.y, left: node.x, pointerEvents: 'none' }}>
-              {/* Glassmorphic Badge offset right */}
               <div style={{
                 position: 'absolute',
                 left: 0,
@@ -236,10 +239,9 @@ export default function GlobalThread() {
           );
         })}
 
-        {/* High Density Left Side Doodles */}
+        {/* High Density Left Side Doodles (Windowed) */}
         {leftDoodles.map((doodle, idx) => {
-          if (doodle.y > height) return null;
-          // Deterministic pseudo-random horizontal offset to scatter doodles across whitespace
+          if (doodle.y > height || doodle.y < minVisibleY || doodle.y > maxVisibleY) return null;
           const randomOffset = Math.sin(doodle.y) * (isMobile ? 35 : 85);
           const computedLeft = isMobile ? (15 + Math.abs(randomOffset)) : (doodle.x + randomOffset);
           return (
@@ -270,14 +272,13 @@ export default function GlobalThread() {
 
       {/* RIGHT SIDE MARGIN CONTENT */}
       <div style={{ position: 'absolute', top: 0, right: 0, width: isMobile ? 40 : 240, height: '100%' }}>
-        {/* Right Side Badges */}
+        {/* Right Side Badges (Persisted statically) */}
         {!isMobile && rightNodes.map((node, idx) => {
           const IconComp = node.icon;
           if (node.y > height) return null;
 
           return (
             <div key={`right-node-${idx}`} style={{ position: 'absolute', top: node.y, left: node.x, pointerEvents: 'none' }}>
-              {/* Glassmorphic Badge offset left */}
               <div style={{
                 position: 'absolute',
                 left: 0,
@@ -307,10 +308,9 @@ export default function GlobalThread() {
           );
         })}
 
-        {/* High Density Right Side Doodles */}
+        {/* High Density Right Side Doodles (Windowed) */}
         {rightDoodles.map((doodle, idx) => {
-          if (doodle.y > height) return null;
-          // Deterministic pseudo-random horizontal offset to scatter doodles across whitespace
+          if (doodle.y > height || doodle.y < minVisibleY || doodle.y > maxVisibleY) return null;
           const randomOffset = Math.cos(doodle.y) * (isMobile ? 35 : 85);
           const computedRight = isMobile ? (15 + Math.abs(randomOffset)) : undefined;
           const computedLeft = isMobile ? undefined : (doodle.x + randomOffset);

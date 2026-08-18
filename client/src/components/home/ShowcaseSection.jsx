@@ -10,16 +10,19 @@ import { Clock, CheckCircle, Calendar, MessageSquare, TrendingUp, Award, Laptop,
 // PARENT APP SCREENS
 const ParentScreen = ({ index }) => {
   const images = [
-    `${import.meta.env.BASE_URL}parent_app_real_1.jpg`,
-    `${import.meta.env.BASE_URL}parent_app_real_2.jpg`,
-    `${import.meta.env.BASE_URL}parent_app_real_3.jpg`,
-    `${import.meta.env.BASE_URL}parent_app_real_4.jpg`
+    `${import.meta.env.BASE_URL}parent_app_real_1.webp`,
+    `${import.meta.env.BASE_URL}parent_app_real_2.webp`,
+    `${import.meta.env.BASE_URL}parent_app_real_3.webp`,
+    `${import.meta.env.BASE_URL}parent_app_real_4.webp`
   ];
   return (
     <div style={{ width: '100%', height: '100%', overflow: 'hidden', background: '#0F172A', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
       <img 
         src={images[index]} 
         alt={`Parent App Screen ${index + 1}`} 
+        loading="lazy"
+        width="575"
+        height="1280"
         style={{ width: '100%', height: '100%', objectFit: 'cover', display: 'block' }} 
       />
     </div>

@@ -17,7 +17,7 @@ export default function Logo({
   // Larger logo height so emblem fills the card without increasing outer card size
   const logoHeight = height || (scrolled ? 36 : 48);
   const logoWidth = Math.round(logoHeight * 1.05);
-  const logoUrl = `${import.meta.env.BASE_URL}mentR_Logo.png`;
+  const logoUrl = `${import.meta.env.BASE_URL}mentR_Logo.webp`;
 
   return (
     <div

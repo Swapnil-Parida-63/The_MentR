@@ -354,8 +354,9 @@ export default function AvsarSection() {
                 }}
               >
                 <img
-                  src={`${import.meta.env.BASE_URL}ChatGPT Image Aug 10, 2026, 05_09_40 AM.png`}
+                  src={`${import.meta.env.BASE_URL}ChatGPT Image Aug 10, 2026, 05_09_40 AM.webp`}
                   alt=""
+                  loading="lazy"
                   style={{
                     width: '100%',
                     height: '100%',

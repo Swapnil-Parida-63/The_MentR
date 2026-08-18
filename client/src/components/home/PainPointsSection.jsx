@@ -259,8 +259,9 @@ export default function PainPointsSection() {
                 }}
               >
                 <img
-                  src={`${import.meta.env.BASE_URL}ChatGPT Image Aug 10, 2026, 05_05_57 AM.png`}
+                  src={`${import.meta.env.BASE_URL}ChatGPT Image Aug 10, 2026, 05_05_57 AM.webp`}
                   alt=""
+                  loading="lazy"
                   style={{
                     width: '100%',
                     height: '100%',
@@ -461,8 +462,9 @@ export default function PainPointsSection() {
             >
               <div style={{ position: 'relative', width: '100%', display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
                 <motion.img 
-                  src={`${import.meta.env.BASE_URL}ChatGPT Image Jul 31, 2026, 01_55_40 AM.png`}
+                  src={`${import.meta.env.BASE_URL}ChatGPT Image Jul 31, 2026, 01_55_40 AM.webp`}
                   alt="Families searching and lost in educational choices"
+                  loading="lazy"
                   whileHover={{ 
                     scale: 1.02,
                     y: -5
@@ -648,8 +650,9 @@ export default function PainPointsSection() {
             >
               <div style={{ position: 'relative', width: '100%', display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
                 <motion.img 
-                  src={`${import.meta.env.BASE_URL}ChatGPT Image Jul 31, 2026, 01_57_32 AM.png`}
+                  src={`${import.meta.env.BASE_URL}ChatGPT Image Jul 31, 2026, 01_57_32 AM.webp`}
                   alt="Brilliant educators waiting to be discovered"
+                  loading="lazy"
                   whileHover={{ 
                     scale: 1.02,
                     y: -5
@@ -798,8 +801,9 @@ export default function PainPointsSection() {
                 }}
               >
                 <img
-                  src={`${import.meta.env.BASE_URL}ChatGPT Image Aug 10, 2026, 05_02_57 AM.png`}
+                  src={`${import.meta.env.BASE_URL}ChatGPT Image Aug 10, 2026, 05_02_57 AM.webp`}
                   alt=""
+                  loading="lazy"
                   style={{
                     width: '100%',
                     height: '100%',

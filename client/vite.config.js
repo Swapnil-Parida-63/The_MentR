@@ -28,8 +28,8 @@ if (fs.existsSync(srcImg)) {
   }
 }
 
-export default defineConfig(({ command }) => ({
-  base: command === 'build' ? '/client/' : '/',
+export default defineConfig(() => ({
+  base: '/',
   plugins: [react(), tailwindcss()],
   resolve: {
     alias: {

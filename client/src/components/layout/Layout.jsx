@@ -1,9 +1,11 @@
+import { lazy, Suspense } from 'react';
 import { Outlet, useLocation } from 'react-router-dom';
 import Navbar from './Navbar';
 import Footer from './Footer';
 import Chatbot from '../Chatbot';
-import FormModal from '../home/FormModal';
 import ClickSpark from './ClickSpark';
+
+const FormModal = lazy(() => import('../home/FormModal'));
 
 export default function Layout() {
   const location = useLocation();
@@ -38,7 +40,9 @@ export default function Layout() {
         </main>
         <Footer style={{ position: 'relative', zIndex: 1 }} />
         <Chatbot />
-        <FormModal />
+        <Suspense fallback={null}>
+          <FormModal />
+        </Suspense>
       </div>
     </ClickSpark>
   );

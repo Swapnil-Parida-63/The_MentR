@@ -225,7 +225,7 @@ export default function VisionSection() {
                 metadata={['1-on-1 Dedicated Guidance', 'Custom Diagnostics']}
               />
               <EditorialImage
-                src={`${import.meta.env.BASE_URL}ChatGPT Image Jul 30, 2026, 11_28_11 PM.png`}
+                src={`${import.meta.env.BASE_URL}ChatGPT Image Jul 30, 2026, 11_28_11 PM.webp`}
                 alt="A luminous architectural portal representing boundless opportunity in education"
                 inView={visionInView}
                 delay={200}
@@ -276,7 +276,7 @@ export default function VisionSection() {
                 externalHovered={visionImageHovered}
               />
               <EditorialImage
-                src={`${import.meta.env.BASE_URL}ChatGPT Image Jul 30, 2026, 11_28_11 PM.png`}
+                src={`${import.meta.env.BASE_URL}ChatGPT Image Jul 30, 2026, 11_28_11 PM.webp`}
                 alt="A luminous architectural portal representing boundless opportunity in education"
                 inView={visionInView}
                 delay={200}
@@ -393,7 +393,7 @@ export default function VisionSection() {
                 metadata={['Verified Educators', 'Sustained Accountability']}
               />
               <EditorialImage
-                src={`${import.meta.env.BASE_URL}ChatGPT Image Jul 30, 2026, 11_34_55 PM.png`}
+                src={`${import.meta.env.BASE_URL}ChatGPT Image Jul 30, 2026, 11_34_55 PM.webp`}
                 alt="An elegant winding pathway representing purposeful guidance in education"
                 inView={missionInView}
                 delay={200}
@@ -432,7 +432,7 @@ export default function VisionSection() {
               </svg>
 
               <EditorialImage
-                src={`${import.meta.env.BASE_URL}ChatGPT Image Jul 30, 2026, 11_34_55 PM.png`}
+                src={`${import.meta.env.BASE_URL}ChatGPT Image Jul 30, 2026, 11_34_55 PM.webp`}
                 alt="An elegant winding pathway representing purposeful guidance in education"
                 inView={missionInView}
                 delay={0}

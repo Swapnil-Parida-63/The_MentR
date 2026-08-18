@@ -53,7 +53,17 @@ function CountUp({ end, duration = 1500, decimals = 0, suffix = "" }) {
 /* ========================================================================== */
 
 function HeroJourneyDoodles({ isMobile = false }) {
-  if (isMobile) {
+  const [shouldRender, setShouldRender] = useState(false);
+
+  useEffect(() => {
+    if (isMobile) return;
+    const timer = setTimeout(() => {
+      setShouldRender(true);
+    }, 150);
+    return () => clearTimeout(timer);
+  }, [isMobile]);
+
+  if (isMobile || !shouldRender) {
     return null;
   }
 
@@ -289,8 +299,11 @@ function HeroEcosystemImage() {
       overflow: 'visible'
     }}>
       <img
-        src={`${import.meta.env.BASE_URL}Gemini_Generated_Image_lmg5iglmg5iglmg5.png`}
+        src={`${import.meta.env.BASE_URL}Gemini_Generated_Image_lmg5iglmg5iglmg5.webp`}
         alt="MentR Educational Ecosystem"
+        loading="lazy"
+        width="1600"
+        height="1066"
         style={{
           width: '100%',
           maxWidth: '1570px',
@@ -427,33 +440,35 @@ export default function HeroSection() {
   const [isMobileContentExpanded, setIsMobileContentExpanded] = useState(false);
   const [whyDescOpen, setWhyDescOpen] = useState(false);
 
-  // 5 exact desktop slides
+  // 5 exact desktop slides (WebP optimized)
   const desktopSlides = [
-    `${import.meta.env.BASE_URL}hero-slides/slide-1.png`,
-    `${import.meta.env.BASE_URL}hero-slides/slide-2.png`,
-    `${import.meta.env.BASE_URL}hero-slides/slide-3.png`,
-    `${import.meta.env.BASE_URL}hero-slides/slide-4.png`,
-    `${import.meta.env.BASE_URL}hero-slides/slide-5.png`
+    `${import.meta.env.BASE_URL}hero-slides/slide-1.webp`,
+    `${import.meta.env.BASE_URL}hero-slides/slide-2.webp`,
+    `${import.meta.env.BASE_URL}hero-slides/slide-3.webp`,
+    `${import.meta.env.BASE_URL}hero-slides/slide-4.webp`,
+    `${import.meta.env.BASE_URL}hero-slides/slide-5.webp`
   ];
 
-  // 5 exact mobile vertical custom slides
+  // 5 exact mobile vertical custom slides (WebP optimized)
   const mobileSlides = [
-    `${import.meta.env.BASE_URL}hero-slides-mobile/mobile-slide-1.png`,
-    `${import.meta.env.BASE_URL}hero-slides-mobile/mobile-slide-2.png`,
-    `${import.meta.env.BASE_URL}hero-slides-mobile/mobile-slide-3.png`,
-    `${import.meta.env.BASE_URL}hero-slides-mobile/mobile-slide-4.png`,
-    `${import.meta.env.BASE_URL}hero-slides-mobile/mobile-slide-5.png`
+    `${import.meta.env.BASE_URL}hero-slides-mobile/mobile-slide-1.webp`,
+    `${import.meta.env.BASE_URL}hero-slides-mobile/mobile-slide-2.webp`,
+    `${import.meta.env.BASE_URL}hero-slides-mobile/mobile-slide-3.webp`,
+    `${import.meta.env.BASE_URL}hero-slides-mobile/mobile-slide-4.webp`,
+    `${import.meta.env.BASE_URL}hero-slides-mobile/mobile-slide-5.webp`
   ];
 
   const slides = isMobile ? mobileSlides : desktopSlides;
 
-  // Preload all slides for GPU-accelerated zero-flicker crossfade
+  // Intelligent progressive slide preloader: preloads ONLY the next upcoming slide for the current device mode
   useEffect(() => {
-    [...desktopSlides, ...mobileSlides].forEach((src) => {
+    const nextIndex = (activeSlide + 1) % slides.length;
+    const nextSrc = slides[nextIndex];
+    if (nextSrc) {
       const img = new Image();
-      img.src = src;
-    });
-  }, []);
+      img.src = nextSrc;
+    }
+  }, [activeSlide, slides]);
 
   // Responsive listener
   useEffect(() => {
@@ -530,6 +545,8 @@ export default function HeroSection() {
             <img
               src={src}
               alt={`TheMentR Learning Story ${index + 1}`}
+              loading={index === 0 ? 'eager' : 'lazy'}
+              fetchPriority={index === 0 ? 'high' : 'auto'}
               style={{
                 width: '100%',
                 height: '100%',
@@ -796,8 +813,11 @@ export default function HeroSection() {
             overflow: 'hidden'
           }}>
             <img 
-              src="/ChatGPT Image Jul 31, 2026, 01_55_40 AM.png" 
+              src={`${import.meta.env.BASE_URL}ChatGPT Image Jul 31, 2026, 01_55_40 AM.webp`} 
               alt="Ecosystem graphic" 
+              loading="lazy"
+              width="800"
+              height="533"
               style={{
                 width: '100%',
                 height: '100%',

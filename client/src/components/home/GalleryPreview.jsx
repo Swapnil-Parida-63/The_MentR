@@ -272,8 +272,10 @@ export default function GalleryPreview({ background = 'var(--color-neutral)' }) 
                   <img 
                     src={featuredItem.image} 
                     alt={featuredItem.title} 
-                    loading="eager"
+                    loading="lazy"
                     decoding="async"
+                    width="700"
+                    height="437"
                     className="hall-of-fame-img-zoom"
                     style={{
                       width: '100%',

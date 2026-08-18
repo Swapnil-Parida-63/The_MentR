@@ -1,6 +1,6 @@
-import { useState, useRef, useEffect } from 'react';
+import { useState, useRef, useEffect, lazy, Suspense } from 'react';
 import ChatLauncher from './ChatLauncher';
-import ChatWindow from './ChatWindow';
+const ChatWindow = lazy(() => import('./ChatWindow'));
 import { aiAPI } from '../../services/api';
 
 const INITIAL_GREETING = `Hi 👋
@@ -150,16 +150,18 @@ export default function MenteeChat() {
 
       {/* Main Chat Window */}
       {isOpen && (
-        <ChatWindow
-          messages={messages}
-          isLoading={isLoading}
-          error={error}
-          onClose={() => setIsOpen(false)}
-          onReset={handleResetChat}
-          onSend={handleSendMessage}
-          onActionClick={handleActionClick}
-          onRetry={handleRetry}
-        />
+        <Suspense fallback={null}>
+          <ChatWindow
+            messages={messages}
+            isLoading={isLoading}
+            error={error}
+            onClose={() => setIsOpen(false)}
+            onReset={handleResetChat}
+            onSend={handleSendMessage}
+            onActionClick={handleActionClick}
+            onRetry={handleRetry}
+          />
+        </Suspense>
       )}
 
       <style>{`
