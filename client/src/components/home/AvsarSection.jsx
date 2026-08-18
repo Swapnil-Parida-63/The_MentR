@@ -128,6 +128,14 @@ export default function AvsarSection() {
     return Math.min(639 + Math.floor(diffDays * 1.5), 5000);
   };
 
+  const getTeachingHours = () => {
+    const baseDate = new Date('2026-07-22T00:00:00');
+    const currentDate = new Date();
+    const diffTime = Math.max(0, currentDate - baseDate);
+    const diffDays = Math.floor(diffTime / (1000 * 60 * 60 * 24));
+    return 1961.5 + diffDays * 31.5;
+  };
+
   const finalTeacherCount = getTeacherCount();
 
   const steps = [
@@ -534,7 +542,7 @@ export default function AvsarSection() {
                 {/* Metric 4 */}
                 <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', textAlign: 'center' }}>
                   <div style={{ fontSize: '42px', fontWeight: 900, color: '#6366F1', lineHeight: '1', marginBottom: '8px', fontFamily: 'var(--font-display)', letterSpacing: '-0.02em' }}>
-                    2,465+
+                    <Counter target={getTeachingHours()} decimals={1} suffix="+" />
                   </div>
                   <div style={{ fontSize: '13.5px', fontWeight: 800, color: '#1E293B', marginBottom: '4px', lineHeight: '1.2' }}>
                     Teaching Hours
