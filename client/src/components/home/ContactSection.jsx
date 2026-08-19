@@ -104,7 +104,7 @@ export default function ContactSection({ background = 'white' }) {
                 {[
                   { icon: '📧', label: 'Email', value: 'contact@thementr.com' },
                   { icon: '📞', label: 'Phone', value: '+91 96685 62631 (Available 24/7)' },
-                  { icon: '📞', label: 'Toll Free', value: '1800 889 2388 (9:30 AM to 5:30 PM)' },
+                  { icon: '📞', label: 'Toll Free', value: '1800 889 2388 (9:30 AM to 5:30 PM, All days)' },
                   { icon: '📍', label: 'Headquartered in', value: 'Plot no. 2937/6463, Saptasati Vihar, Palasuni, Bhubaneswar, Odisha 751025' },
                 ].map(c => (
                   <div key={c.label} style={{ display: 'flex', alignItems: 'flex-start', gap: 16 }}>

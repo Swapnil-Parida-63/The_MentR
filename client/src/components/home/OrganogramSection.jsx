@@ -20,7 +20,7 @@ const nodeDetails = {
   leadership: {
     title: 'Founders & Leadership',
     subtitle: 'Vision • Strategy • Growth',
-    desc: 'Steering the continuous expansion, overall direction, and long-term vision of TheMentR.',
+    desc: 'Steering the continuous expansion, overall direction and long-term vision of TheMentR.',
     icon: Award,
     iconColor: '#3B82F6',
     bgColor: '#EFF6FF',
@@ -72,7 +72,7 @@ const nodeDetails = {
   operations: {
     title: 'Operations Team',
     subtitle: 'Logistics & Hub Onboarding',
-    desc: 'Managing logistics, teacher onboarding vetting, and matching operations.',
+    desc: 'Managing logistics, teacher onboarding vetting and matching operations.',
     icon: Settings,
     iconColor: '#F59E0B',
     bgColor: '#FFF7ED',
@@ -86,7 +86,7 @@ const nodeDetails = {
   support: {
     title: 'Support & Success',
     subtitle: 'Parent-Teacher Care',
-    desc: 'Resolving questions, supporting tutors, and ensuring maximum program satisfaction.',
+    desc: 'Resolving questions, supporting tutors and ensuring maximum program satisfaction.',
     icon: Headphones,
     iconColor: '#06B6D4',
     bgColor: '#ECFEFF',
@@ -99,7 +99,7 @@ const nodeDetails = {
   teachers: {
     title: 'Verified Teachers',
     subtitle: 'Service Providers',
-    desc: 'Educators vetted through background checks, demos, and subject-matter evaluations.',
+    desc: 'Educators vetted through background checks, demos and subject-matter evaluations.',
     icon: UserCheck,
     iconColor: '#10B981',
     bgColor: '#ECFDF5',
@@ -112,7 +112,7 @@ const nodeDetails = {
   platform: {
     title: 'TheMentR Platform',
     subtitle: 'Technology Core',
-    desc: 'The central software backbone connecting scheduling, payments, and progress metrics.',
+    desc: 'The central software backbone connecting scheduling, payments and progress metrics.',
     icon: AppWindow,
     iconColor: '#3B82F6',
     bgColor: '#F0F4FF',
@@ -125,7 +125,7 @@ const nodeDetails = {
   parents: {
     title: 'Parents (Clients)',
     subtitle: 'Trusted Guardians',
-    desc: 'Enabling real-time monitoring of class schedules, milestones, and diagnostic outcomes.',
+    desc: 'Enabling real-time monitoring of class schedules, milestones and diagnostic outcomes.',
     icon: Heart,
     iconColor: '#EF4444',
     bgColor: '#FEF2F2',
@@ -378,20 +378,20 @@ export default function OrganogramSection() {
                 <div style={{ width: '2px', height: '28px', background: 'rgba(99, 102, 241, 0.2)' }} />
               </div>
 
-              {/* Row 5: MENTR ECOSYSTEM label */}
+              {/* Row 5: The MentR Ecosystem label */}
               <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
                 <span style={{ 
-                  fontSize: '10px', 
+                  fontSize: '10.5px', 
                   fontWeight: 800, 
                   color: '#6366F1', 
-                  letterSpacing: '0.12em', 
+                  letterSpacing: '0.04em', 
                   background: '#F8FAFC', 
-                  padding: '4px 12px', 
+                  padding: '4px 14px', 
                   borderRadius: '12px', 
                   border: '1.2px dashed rgba(99, 102, 241, 0.25)',
-                  textTransform: 'uppercase'
+                  textTransform: 'none'
                 }}>
-                  MENTR ECOSYSTEM
+                  The MentR Ecosystem
                 </span>
                 <div style={{ width: '2px', height: '28px', background: 'rgba(99, 102, 241, 0.2)' }} />
               </div>

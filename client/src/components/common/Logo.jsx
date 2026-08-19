@@ -1,10 +1,9 @@
 import React from 'react';
 
 /**
- * Premium Glossy Glassmorphic Logo component with a subtle blue hue.
- * - Even larger gradient emblem inside.
- * - Card size kept compact (minimal padding so emblem fills out the card).
- * - Circular TM badge with transparent/glass background (no solid color background).
+ * Clean Logo component without background card.
+ * - Displays the pure emblem directly.
+ * - TM badge circle in matching blue color.
  */
 export default function Logo({ 
   height, 
@@ -14,41 +13,29 @@ export default function Logo({
   className = '', 
   showTm = true 
 }) {
-  // Larger logo height so emblem fills the card without increasing outer card size
-  const logoHeight = height || (scrolled ? 36 : 48);
+  const logoHeight = height || (scrolled ? 36 : 44);
   const logoWidth = Math.round(logoHeight * 1.05);
   const logoUrl = `${import.meta.env.BASE_URL}mentR_Logo.webp`;
 
   return (
     <div
       onClick={onClick}
-      className={`glass-logo-badge ${className}`}
+      className={`clean-logo-wrapper ${className}`}
       style={{
         position: 'relative',
         display: 'inline-flex',
         alignItems: 'center',
         justifyContent: 'center',
-        // Minimal padding to maximize emblem size without enlarging card
-        padding: scrolled ? '3px 6px' : '4px 8px',
-        borderRadius: 14,
-        // Glossy glassmorphic background with a subtle blue hue & specular top light
-        background: 'linear-gradient(135deg, rgba(255, 255, 255, 0.85) 0%, rgba(239, 246, 255, 0.7) 50%, rgba(219, 234, 254, 0.6) 100%)',
-        backdropFilter: 'blur(20px)',
-        WebkitBackdropFilter: 'blur(20px)',
-        border: '1px solid rgba(191, 219, 254, 0.75)',
-        boxShadow: `
-          0 8px 24px rgba(37, 99, 235, 0.12),
-          0 2px 8px rgba(15, 23, 42, 0.04),
-          inset 0 1.5px 2px rgba(255, 255, 255, 0.95),
-          inset 0 -1.5px 2px rgba(59, 130, 246, 0.15)
-        `,
-        transition: 'all 0.35s cubic-bezier(0.16, 1, 0.3, 1)',
+        background: 'transparent',
+        border: 'none',
+        boxShadow: 'none',
+        padding: '2px',
         cursor: onClick ? 'pointer' : 'default',
         userSelect: 'none',
         ...style
       }}
     >
-      {/* Larger Deep-Blue to Violet Gradient Logo Emblem */}
+      {/* Deep-Blue to Violet Gradient Logo Emblem */}
       <div
         className="logo-emblem-fill"
         style={{
@@ -63,53 +50,44 @@ export default function Logo({
           maskRepeat: 'no-repeat',
           WebkitMaskPosition: 'center',
           maskPosition: 'center',
-          filter: 'drop-shadow(0 2px 6px rgba(37, 99, 235, 0.2))',
-          transition: 'all 0.35s cubic-bezier(0.16, 1, 0.3, 1)'
+          filter: 'drop-shadow(0 2px 6px rgba(37, 99, 235, 0.25))',
+          transition: 'all 0.3s ease'
         }}
       />
 
-      {/* Fallback image for accessibility / SSR */}
       <img
         src={logoUrl}
         alt="TheMentR Logo"
-        style={{
-          display: 'none'
-        }}
+        style={{ display: 'none' }}
       />
 
-      {/* Transparent / Glass Circular TM Badge at top right (No solid color background) */}
+      {/* TM Badge Circle matching logo blue color */}
       {showTm && (
         <span
           className="tm-badge-circle"
           style={{
             position: 'absolute',
-            top: -6,
-            right: -6,
-            width: 17,
-            height: 17,
+            top: -4,
+            right: -10,
+            width: 16,
+            height: 16,
             borderRadius: '50%',
-            background: 'rgba(255, 255, 255, 0.85)',
-            backdropFilter: 'blur(8px)',
-            WebkitBackdropFilter: 'blur(8px)',
-            border: '1.2px solid #1E3A8A',
-            color: '#0F172A',
-            fontSize: '15px',
-            fontWeight: 900,
+            background: 'transparent',
+            border: '1.2px solid #2563EB',
+            color: '#2563EB',
+            fontSize: '9px',
+            fontWeight: 800,
             fontFamily: 'var(--font-sans, system-ui, sans-serif)',
             display: 'flex',
             alignItems: 'center',
             justifyContent: 'center',
-            paddingTop: '2px',
-            paddingLeft: '0.5px',
-            boxSizing: 'border-box',
-            boxShadow: '0 2px 6px rgba(37, 99, 235, 0.15)',
+            boxShadow: '0 2px 4px rgba(37, 99, 235, 0.15)',
             lineHeight: 1,
-            transition: 'all 0.35s cubic-bezier(0.16, 1, 0.3, 1)',
             zIndex: 2
           }}
           title="Registered Trademark"
         >
-          ™
+          TM
         </span>
       )}
     </div>

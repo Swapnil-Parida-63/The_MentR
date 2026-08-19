@@ -1,9 +1,11 @@
 import { Link, useNavigate } from 'react-router-dom';
 import { FaInstagram, FaLinkedinIn, FaXTwitter, FaFacebookF, FaWhatsapp, FaEnvelope } from 'react-icons/fa6';
 import Logo from '../common/Logo';
+import { useModal } from '../../context/ModalContext';
 
 export default function Footer() {
   const navigate = useNavigate();
+  const { openModal } = useModal();
 
   const navigateAndScroll = (path, hashId) => {
     navigate(path);
@@ -54,9 +56,8 @@ export default function Footer() {
     {
       title: 'Careers',
       links: [
-        { label: 'Open Roles', to: '/careers' },
-        { label: 'Life at TheMentR', to: '/careers' },
-        { label: 'Internships', to: '/careers' }
+        { label: 'Open Roles', onClick: () => openModal('comingSoon', { title: 'Open Roles' }) },
+        { label: 'Internships', onClick: () => openModal('comingSoon', { title: 'Internships' }) }
       ]
     },
     {

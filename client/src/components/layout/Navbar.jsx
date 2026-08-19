@@ -57,8 +57,7 @@ export default function Navbar() {
     { label: 'Pricing', path: '/pricing' },
     { label: 'Hall of Fame', id: 'gallery' },
     { label: 'Journal', id: 'blogs' },
-    { label: 'Contact', id: 'contact-section' },
-    { label: 'Join as a Teacher', id: 'contact-forms' }
+    { label: 'Contact', id: 'contact-section' }
   ];
 
   if (isMobile) {
@@ -236,27 +235,46 @@ export default function Navbar() {
                   );
                 })}
 
-                {/* Primary CTA positioned right near Join as a Teacher */}
-                <button
-                  onClick={() => navigateAndScroll('/', 'contact-forms')}
-                  className="btn"
-                  style={{
-                    fontSize: 14,
-                    padding: '12px 20px',
-                    borderRadius: 14,
-                    background: 'linear-gradient(135deg, #4F7CFF 0%, #7469F8 100%)',
-                    color: 'white',
-                    border: 'none',
-                    fontWeight: 600,
-                    cursor: 'pointer',
-                    marginTop: 12,
-                    textAlign: 'center',
-                    boxShadow: '0 4px 14px rgba(79, 124, 255, 0.25)',
-                    width: '100%'
-                  }}
-                >
-                  Book Assessment
-                </button>
+                {/* Action Buttons in Mobile Drawer */}
+                <div style={{ display: 'flex', flexDirection: 'column', gap: 10, marginTop: 16 }}>
+                  <button
+                    onClick={() => navigateAndScroll('/', 'contact-forms')}
+                    style={{
+                      fontSize: 13.5,
+                      padding: '11px 18px',
+                      borderRadius: 99,
+                      background: '#FFFFFF',
+                      color: '#1E293B',
+                      border: '1.5px solid rgba(79, 124, 255, 0.25)',
+                      fontWeight: 700,
+                      cursor: 'pointer',
+                      textAlign: 'center',
+                      boxShadow: '0 2px 8px rgba(15, 23, 42, 0.04)',
+                      width: '100%'
+                    }}
+                  >
+                    Join as a Teacher
+                  </button>
+
+                  <button
+                    onClick={() => navigateAndScroll('/', 'contact-forms')}
+                    style={{
+                      fontSize: 13.5,
+                      padding: '11px 18px',
+                      borderRadius: 99,
+                      background: 'linear-gradient(135deg, #4F7CFF 0%, #7469F8 100%)',
+                      color: 'white',
+                      border: 'none',
+                      fontWeight: 700,
+                      cursor: 'pointer',
+                      textAlign: 'center',
+                      boxShadow: '0 4px 14px rgba(79, 124, 255, 0.25)',
+                      width: '100%'
+                    }}
+                  >
+                    Book a demo
+                  </button>
+                </div>
               </div>
             </div>
             

@@ -23,7 +23,7 @@ export default function PainPointsSection() {
   const parentPoints = [
     {
       id: 'fam-1',
-      title: 'Finding trusted teachers',
+      title: 'Finding verified Teachers',
       description: 'Finding a qualified, vetted teacher often feels overwhelming and uncertain.',
       icon: Search
     },
@@ -294,7 +294,7 @@ export default function PainPointsSection() {
                   userSelect: 'none'
                 }}
               >
-                Finding the right mentor shouldn't feel like luck.
+                Finding the right tutor shouldn't feel like luck.
               </motion.h3>
 
               {/* Collapsible paragraph - revealed on hover */}

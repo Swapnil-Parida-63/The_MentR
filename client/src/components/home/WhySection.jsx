@@ -47,7 +47,7 @@ export default function WhySection() {
     },
     {
       id: 2,
-      title: 'Verified Educators',
+      title: 'Verified Teachers',
       description: 'Every teacher is carefully screened, evaluated and continuously supported.',
       icon: ShieldCheck,
       emoji: '✅',

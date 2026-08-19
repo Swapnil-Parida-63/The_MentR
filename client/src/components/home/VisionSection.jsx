@@ -210,27 +210,49 @@ export default function VisionSection() {
 
         <div className="container" style={{ position: 'relative', zIndex: 1 }}>
           {isMobile ? (
-            /* ---- MOBILE: Stack ---- */
-            <div style={{ display: 'flex', flexDirection: 'column', gap: 48 }}>
-              <EditorialTextBlock
-                eyebrow="Our Vision"
-                eyebrowColor="#6366F1"
-                chipText="Future of Mentorship"
-                heading={<>Every student.<br />The right mentor.</>}
-                headingGradient="linear-gradient(135deg, #1E293B 0%, #3730A3 100%)"
-                body="We envision a future where quality education is guided by purpose, not chance. Every learner deserves personalized mentorship, meaningful direction, and measurable progress regardless of where they start."
-                pullQuote="Quality education is a right, not a privilege."
-                inView={visionInView}
-                delay={0}
-                metadata={['1-on-1 Dedicated Guidance', 'Custom Diagnostics']}
-              />
-              <EditorialImage
-                src={`${import.meta.env.BASE_URL}ChatGPT Image Jul 30, 2026, 11_28_11 PM.webp`}
-                alt="A luminous architectural portal representing boundless opportunity in education"
-                inView={visionInView}
-                delay={200}
-                isMobile={isMobile}
-              />
+            /* ---- MOBILE: Integrated Card with Vibrant 100% Visible Image ---- */
+            <div style={{
+              position: 'relative',
+              borderRadius: '24px',
+              overflow: 'hidden',
+              border: '1.2px solid rgba(99, 102, 241, 0.2)',
+              boxShadow: '0 16px 36px rgba(15, 23, 42, 0.08)',
+              background: '#FFFFFF',
+            }}>
+              {/* Full vibrant 100% opacity illustration image */}
+              <div style={{ position: 'relative', width: '100%', height: '240px', overflow: 'hidden' }}>
+                <img 
+                  src={`${import.meta.env.BASE_URL}ChatGPT Image Jul 30, 2026, 11_28_11 PM.webp`}
+                  alt="Vision Illustration"
+                  style={{
+                    width: '100%',
+                    height: '100%',
+                    objectFit: 'cover',
+                    objectPosition: 'center 25%',
+                  }}
+                />
+                <div style={{
+                  position: 'absolute',
+                  inset: 0,
+                  background: 'linear-gradient(180deg, rgba(99, 102, 241, 0.05) 0%, rgba(255, 255, 255, 0) 50%, #FFFFFF 100%)',
+                }} />
+              </div>
+
+              {/* Text content layer */}
+              <div style={{ padding: '0 24px 28px', marginTop: '-24px', position: 'relative', zIndex: 1 }}>
+                <EditorialTextBlock
+                  eyebrow="Our Vision"
+                  eyebrowColor="#6366F1"
+                  chipText="Future of Home Tuition"
+                  heading={<>Every student.<br />The right tutor.</>}
+                  headingGradient="linear-gradient(135deg, #1E293B 0%, #3730A3 100%)"
+                  body="We envision a future where quality education is guided by purpose, not chance. Every learner deserves personalized mentorship, meaningful direction and measurable progress regardless of where they start."
+                  pullQuote="Quality education is a right, not a privilege."
+                  inView={visionInView}
+                  delay={0}
+                  metadata={['1-on-1 Dedicated Guidance', 'Custom Diagnostics']}
+                />
+              </div>
             </div>
           ) : (
             /* ---- DESKTOP: Text LEFT · Image RIGHT ---- */
@@ -265,10 +287,10 @@ export default function VisionSection() {
               <EditorialTextBlock
                 eyebrow="Our Vision"
                 eyebrowColor="#6366F1"
-                chipText="✦ Future of Mentorship"
-                heading={<>Every student.<br />The right mentor.</>}
+                chipText="✦ Future of Home Tuition"
+                heading={<>Every student.<br />The right tutor.</>}
                 headingGradient="linear-gradient(135deg, #1E293B 0%, #3730A3 100%)"
-                body="We envision a future where quality education is guided by purpose, not chance. Every learner deserves personalized mentorship, meaningful direction, and measurable progress regardless of where they start."
+                body="We envision a future where quality education is guided by purpose, not chance. Every learner deserves personalized mentorship, meaningful direction and measurable progress regardless of where they start."
                 pullQuote="Quality education is a right, not a privilege."
                 inView={visionInView}
                 delay={0}
@@ -378,28 +400,49 @@ export default function VisionSection() {
 
         <div className="container" style={{ position: 'relative', zIndex: 1 }}>
           {isMobile ? (
-            /* ---- MOBILE: Stack ---- */
-            <div style={{ display: 'flex', flexDirection: 'column', gap: 48 }}>
-              <EditorialTextBlock
-                eyebrow="Our Mission"
-                eyebrowColor="#8B5CF6"
-                chipText="Life-Changing Matches"
-                heading={<>Beyond finding<br />teachers.</>}
-                headingGradient="linear-gradient(135deg, #1E293B 0%, #6D28D9 100%)"
-                body="We solve the overlooked challenges in learning: understanding the child, matching with the right educator, and sustaining accountability over time. Because a great mentor changes the entire trajectory of a life."
-                pullQuote="The right match changes everything."
-                inView={missionInView}
-                delay={0}
-                metadata={['Verified Educators', 'Sustained Accountability']}
-              />
-              <EditorialImage
-                src={`${import.meta.env.BASE_URL}ChatGPT Image Jul 30, 2026, 11_34_55 PM.webp`}
-                alt="An elegant winding pathway representing purposeful guidance in education"
-                inView={missionInView}
-                delay={200}
-                isMobile={isMobile}
-                accent="#8B5CF6"
-              />
+            /* ---- MOBILE: Integrated Card with Vibrant 100% Visible Image ---- */
+            <div style={{
+              position: 'relative',
+              borderRadius: '24px',
+              overflow: 'hidden',
+              border: '1.2px solid rgba(139, 92, 246, 0.2)',
+              boxShadow: '0 16px 36px rgba(15, 23, 42, 0.08)',
+              background: '#FFFFFF',
+            }}>
+              {/* Full vibrant 100% opacity illustration image */}
+              <div style={{ position: 'relative', width: '100%', height: '240px', overflow: 'hidden' }}>
+                <img 
+                  src={`${import.meta.env.BASE_URL}ChatGPT Image Jul 30, 2026, 11_34_55 PM.webp`}
+                  alt="Mission Illustration"
+                  style={{
+                    width: '100%',
+                    height: '100%',
+                    objectFit: 'cover',
+                    objectPosition: 'center 25%',
+                  }}
+                />
+                <div style={{
+                  position: 'absolute',
+                  inset: 0,
+                  background: 'linear-gradient(180deg, rgba(139, 92, 246, 0.05) 0%, rgba(255, 255, 255, 0) 50%, #FFFFFF 100%)',
+                }} />
+              </div>
+
+              {/* Text content layer */}
+              <div style={{ padding: '0 24px 28px', marginTop: '-24px', position: 'relative', zIndex: 1 }}>
+                <EditorialTextBlock
+                  eyebrow="Our Mission"
+                  eyebrowColor="#8B5CF6"
+                  chipText="Life-Changing Matches"
+                  heading={<>Every child understood.<br />Every tutor valued.</>}
+                  headingGradient="linear-gradient(135deg, #1E293B 0%, #6D28D9 100%)"
+                  body="We solve the overlooked challenges in learning: understanding the child, matching with the right educator and sustaining accountability over time. Because a great mentor changes the entire trajectory of a life."
+                  pullQuote="The right match changes everything."
+                  inView={missionInView}
+                  delay={0}
+                  metadata={['Verified Teachers', 'Sustained Accountability']}
+                />
+              </div>
             </div>
           ) : (
             /* ---- DESKTOP: Image LEFT · Text RIGHT ---- */
@@ -445,13 +488,13 @@ export default function VisionSection() {
                 eyebrow="Our Mission"
                 eyebrowColor="#8B5CF6"
                 chipText="✧ Life-Changing Matches"
-                heading={<>Beyond finding<br />teachers.</>}
+                heading={<>Every child understood.<br />Every tutor valued.</>}
                 headingGradient="linear-gradient(135deg, #1E293B 0%, #6D28D9 100%)"
-                body="We solve the overlooked challenges in learning: understanding the child, matching with the right educator, and sustaining accountability over time. Because a great mentor changes the entire trajectory of a life."
+                body="We solve the overlooked challenges in learning: understanding the child, matching with the right educator and sustaining accountability over time. Because a great mentor changes the entire trajectory of a life."
                 pullQuote="The right match changes everything."
                 inView={missionInView}
                 delay={200}
-                metadata={['Verified Educators', 'Sustained Accountability']}
+                metadata={['Verified Teachers', 'Sustained Accountability']}
                 externalHovered={missionImageHovered}
               />
             </div>
@@ -541,10 +584,10 @@ export default function VisionSection() {
               }}
             >
               {[
-                { year: '2012 — Founded', title: 'Planning & Research', desc: 'TheMentR was conceived with deep research into the gaps in India\'s home tutoring ecosystem, laying the foundation for a structured approach to education.', active: true, delay: 0 },
-                { year: '2012–2022 — R&D', title: 'Development Phase', desc: 'A decade of research, curriculum development, mentor training frameworks, and ground-level testing across Bhubaneswar\'s education ecosystem.', active: true, delay: 100 },
-                { year: '2023–2025 — Launch', title: 'Platform Development', desc: 'TheMentR goes live — launching structured home assessments, the AVSAR programme, and an Olympiad preparation track on our online platform.', active: true, delay: 200 },
-                { year: '2025–2030 — Roadmap', title: 'National Expansion', desc: '50 cities. 10,000+ verified teachers. AI-assisted matching, data-driven learning outcomes, and a full national mentorship network.', active: false, delay: 300 },
+                { year: '2012 — Conceived', title: 'Planning & Research', desc: 'TheMentR was conceived with deep research into the gaps in India\'s home tutoring ecosystem, laying the foundation for a structured approach to education.', active: true, delay: 0 },
+                { year: '2012–2022 — R&D', title: 'Development Phase', desc: 'A decade of research, curriculum development, mentor training frameworks and ground-level testing across Bhubaneswar\'s personalized education system.', active: true, delay: 100 },
+                { year: '2023–2025 — Launch', title: 'Platform Development', desc: 'TheMentR goes live — launching structured home assessments, the AVSAR programme and an Olympiad preparation track on our platform.', active: true, delay: 200 },
+                { year: '2025–2030 — Roadmap', title: 'National Expansion', desc: '50 cities. 10,000+ verified teachers. AI-assisted matching, data-driven learning outcomes and a full national mentorship network — redefining the way India performs personal teaching and learning.', active: false, delay: 300 },
               ].map((node, i) => (
                 <div
                   key={i}
@@ -645,7 +688,7 @@ function EditorialTextBlock({ eyebrow, eyebrowColor, heading, headingGradient, b
     return () => window.removeEventListener('resize', handleResize);
   }, []);
 
-  const showContent = isMobile ? isMobileExpanded : (isHovered || externalHovered);
+  const showContent = isMobile ? (inView || isMobileExpanded) : (isHovered || externalHovered);
   const baseTransition = `opacity 0.9s cubic-bezier(0.16,1,0.3,1) ${delay}ms, transform 0.9s cubic-bezier(0.16,1,0.3,1) ${delay}ms`;
 
   const handleBlockClick = () => {

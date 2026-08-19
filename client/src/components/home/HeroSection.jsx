@@ -613,7 +613,7 @@ export default function HeroSection() {
                 textTransform: 'uppercase',
                 color: '#E0E7FF'
               }}>
-                EDUCATIONAL ECOSYSTEM NEVER BEFORE
+                WHERE LEARNING MEETS IT'S PURPOSE
               </span>
             </div>
 
@@ -871,7 +871,7 @@ export default function HeroSection() {
                 textShadow: isMobile ? '0 1px 8px rgba(255,255,255,0.7)' : 'none'
               }}
             >
-              Why MentR Works
+              Why it works
             </h2>
             {(!isMobile || whyDescOpen) && (
               <p style={{

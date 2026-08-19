@@ -4,6 +4,7 @@ import Navbar from './Navbar';
 import Footer from './Footer';
 import Chatbot from '../Chatbot';
 import ClickSpark from './ClickSpark';
+import AnnouncementTicker from './AnnouncementTicker';
 
 const FormModal = lazy(() => import('../home/FormModal'));
 
@@ -40,6 +41,7 @@ export default function Layout() {
         </main>
         <Footer style={{ position: 'relative', zIndex: 1 }} />
         <Chatbot />
+        <AnnouncementTicker />
         <Suspense fallback={null}>
           <FormModal />
         </Suspense>

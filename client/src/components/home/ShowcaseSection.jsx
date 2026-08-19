@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react';
 import { useLocation } from 'react-router-dom';
+import { useModal } from '../../context/ModalContext';
 import { FadeUp } from '../../hooks/useScrollReveal';
 import { Clock, CheckCircle, Calendar, MessageSquare, TrendingUp, Award, Laptop, Smartphone } from 'lucide-react';
 
@@ -523,6 +524,7 @@ function OlympiadRegisterForm({ onClose }) {
 // ==============================================================
 export default function ShowcaseSection() {
   const location = useLocation();
+  const { openModal } = useModal();
   const [activeTab, setActiveTab] = useState(0); // 0: Parent, 1: Teacher, 2: Online, 3: Olympiad
   const [parentIndex, setParentIndex] = useState(0);
   const [teacherIndex, setTeacherIndex] = useState(0);
@@ -768,10 +770,10 @@ export default function ShowcaseSection() {
               </div>
 
               <div className="download-ctas">
-                <button onClick={() => window.location.href = '/contact'} className="btn-olympiad-primary">
+                <button onClick={() => openModal('lead', { title: 'Start Online Classes' })} className="btn-olympiad-primary">
                   Start Online Classes
                 </button>
-                <button onClick={() => window.location.href = '/pricing'} className="btn-olympiad-secondary">
+                <button onClick={() => openModal('lead', { title: 'View Online Pricing' })} className="btn-olympiad-secondary">
                   View Online Pricing
                 </button>
               </div>
@@ -823,7 +825,7 @@ export default function ShowcaseSection() {
 
               {/* Registration lead button */}
               <div className="download-ctas" style={{ marginTop: 24 }}>
-                <button onClick={() => setShowOlympiadModal(true)} className="btn-olympiad-primary">
+                <button onClick={() => openModal('lead', { title: 'Register for Olympiad' })} className="btn-olympiad-primary">
                   Register for Olympiad
                 </button>
               </div>
