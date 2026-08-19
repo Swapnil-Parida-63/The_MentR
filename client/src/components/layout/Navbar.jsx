@@ -30,16 +30,35 @@ export default function Navbar() {
 
   const navigateAndScroll = (path, hashId) => {
     setMobileMenuOpen(false);
-    navigate(path);
-    if (hashId) {
-      setTimeout(() => {
-        const el = document.getElementById(hashId);
-        if (el) el.scrollIntoView({ behavior: 'smooth' });
-      }, 100);
-    } else {
-      if (!path.includes('#')) {
+
+    const performScroll = () => {
+      if (!hashId) {
         window.scrollTo({ top: 0, behavior: 'smooth' });
+        return;
       }
+
+      let attempts = 0;
+      const scrollInterval = setInterval(() => {
+        const el = document.getElementById(hashId);
+        if (el) {
+          clearInterval(scrollInterval);
+          const yOffset = -75; // Account for floating header height
+          const y = el.getBoundingClientRect().top + window.pageYOffset + yOffset;
+          window.scrollTo({ top: Math.max(0, y), behavior: 'smooth' });
+        } else {
+          attempts++;
+          if (attempts > 15) {
+            clearInterval(scrollInterval);
+          }
+        }
+      }, 60);
+    };
+
+    if (window.location.pathname !== '/' && path === '/') {
+      navigate('/');
+      setTimeout(performScroll, 100);
+    } else {
+      performScroll();
     }
   };
 
@@ -74,16 +93,24 @@ export default function Navbar() {
         }}>
           <Logo scrolled={true} onClick={() => navigateAndScroll('/', null)} />
           
-          <div style={{ display: 'flex', alignItems: 'center', gap: 6 }}>
+          <div style={{ display: 'flex', alignItems: 'center', gap: 4 }}>
             <button
               onClick={() => navigateAndScroll('/', 'why')}
-              style={{ background: 'none', border: 'none', color: '#1D2433', fontSize: 13, fontWeight: 600, cursor: 'pointer', padding: '4px 6px' }}
+              style={{
+                background: 'none', border: 'none', color: '#1D2433', fontSize: 13.5, fontWeight: 650,
+                cursor: 'pointer', padding: '8px 10px', minHeight: 38, display: 'inline-flex', alignItems: 'center',
+                justifyContent: 'center', WebkitTapHighlightColor: 'transparent', touchAction: 'manipulation'
+              }}
             >
               Why
             </button>
             <button
               onClick={() => navigateAndScroll('/', 'services')}
-              style={{ background: 'none', border: 'none', color: '#1D2433', fontSize: 13, fontWeight: 600, cursor: 'pointer', padding: '4px 6px' }}
+              style={{
+                background: 'none', border: 'none', color: '#1D2433', fontSize: 13.5, fontWeight: 650,
+                cursor: 'pointer', padding: '8px 10px', minHeight: 38, display: 'inline-flex', alignItems: 'center',
+                justifyContent: 'center', WebkitTapHighlightColor: 'transparent', touchAction: 'manipulation'
+              }}
             >
               Services
             </button>
@@ -100,7 +127,8 @@ export default function Navbar() {
                 borderRadius: 14,
                 display: 'flex',
                 alignItems: 'center',
-                gap: 2
+                gap: 2,
+                touchAction: 'manipulation'
               }}
             >
               More ▾
