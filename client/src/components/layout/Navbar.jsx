@@ -143,98 +143,108 @@ export default function Navbar() {
             <div 
               onClick={() => setMobileMenuOpen(false)}
               style={{
-                position: 'fixed', inset: 0, background: 'rgba(15, 23, 42, 0.25)',
-                backdropFilter: 'blur(4px)', WebkitBackdropFilter: 'blur(4px)',
+                position: 'fixed', inset: 0, background: 'rgba(15, 23, 42, 0.4)',
+                backdropFilter: 'blur(6px)', WebkitBackdropFilter: 'blur(6px)',
                 zIndex: 99998,
                 animation: 'fadeIn 0.2s ease-out'
               }}
             />
-            {/* Slide-out Drawer Panel */}
+            {/* Floating Glassmorphic Compact Drawer Panel */}
             <div style={{
-              position: 'fixed', top: 0, right: 0, bottom: 0, width: 300, maxWidth: '85vw',
-              background: 'rgba(255, 255, 255, 0.96)', backdropFilter: 'blur(16px)', WebkitBackdropFilter: 'blur(16px)',
-              boxShadow: '-8px 0 32px rgba(15, 23, 42, 0.08)',
+              position: 'fixed', top: 16, right: 16, width: 310, maxWidth: 'calc(100vw - 32px)',
+              maxHeight: 'calc(100vh - 32px)',
+              background: 'linear-gradient(135deg, rgba(255, 255, 255, 0.98) 0%, rgba(240, 246, 255, 0.96) 50%, rgba(225, 235, 255, 0.94) 100%)',
+              backdropFilter: 'blur(24px)', WebkitBackdropFilter: 'blur(24px)',
+              border: '1.5px solid rgba(191, 219, 254, 0.85)',
+              borderRadius: 24,
+              boxShadow: '0 20px 50px -10px rgba(37, 99, 235, 0.25), 0 4px 16px rgba(15, 23, 42, 0.08)',
               zIndex: 99999, display: 'flex', flexDirection: 'column',
-              padding: '24px 20px', boxSizing: 'border-box', overflowY: 'auto',
-              animation: 'slideInRight 0.3s cubic-bezier(0.16, 1, 0.3, 1)'
+              padding: '20px', boxSizing: 'border-box', overflowY: 'auto',
+              animation: 'slideInRight 0.25s cubic-bezier(0.16, 1, 0.3, 1)'
             }}>
               {/* Header of Drawer */}
-              <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 20 }}>
-                <span style={{ fontSize: 12, fontWeight: 700, color: 'var(--color-text-secondary)', letterSpacing: '0.08em' }}>NAVIGATION</span>
+              <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 16, paddingBottom: 12, borderBottom: '1px solid rgba(191, 219, 254, 0.5)' }}>
+                <span style={{ fontSize: 16, fontWeight: 800, color: '#0F172A', letterSpacing: '-0.01em', display: 'flex', alignItems: 'center', gap: 6 }}>
+                  The MentR <span style={{ fontSize: 9, padding: '1px 5px', border: '1.2px solid #2563EB', color: '#2563EB', borderRadius: 99, fontWeight: 800 }}>TM</span>
+                </span>
                 <button
                   onClick={() => setMobileMenuOpen(false)}
-                  style={{ background: 'none', border: 'none', color: '#1D2433', cursor: 'pointer', padding: 4 }}
+                  style={{
+                    background: '#F1F5F9', border: 'none', color: '#64748B', cursor: 'pointer',
+                    width: 28, height: 28, borderRadius: '50%', display: 'flex', alignItems: 'center', justifyContent: 'center'
+                  }}
                 >
-                  <X size={22} />
+                  <X size={16} />
                 </button>
               </div>
 
               {/* Links list */}
-              <div style={{ display: 'flex', flexDirection: 'column', gap: 4, flex: 1 }}>
+              <div style={{ display: 'flex', flexDirection: 'column', gap: 2 }}>
                 {mobileNavLinks.map(item => {
                   if (item.isAccordion) {
                     return (
-                      <div key={item.label} style={{ borderBottom: '1px solid rgba(0,0,0,0.04)' }}>
+                      <div key={item.label} style={{ borderBottom: '1px solid rgba(191, 219, 254, 0.35)' }}>
                         <button
                           onClick={() => setMobileServicesOpen(!mobileServicesOpen)}
                           style={{
-                            background: 'none', border: 'none', color: '#1D2433', fontSize: 15,
-                            fontWeight: 600, cursor: 'pointer', textAlign: 'left', fontFamily: 'var(--font-sans)',
-                            padding: '10px 0', width: '100%', display: 'flex', justifyContent: 'space-between', alignItems: 'center'
+                            background: 'none', border: 'none', color: '#1E293B', fontSize: 14.5,
+                            fontWeight: 650, cursor: 'pointer', textAlign: 'left', fontFamily: 'var(--font-sans)',
+                            padding: '10px 8px', width: '100%', display: 'flex', justifyContent: 'space-between', alignItems: 'center',
+                            borderRadius: 10, transition: 'background 0.2s ease'
                           }}
                         >
                           <span>{item.label}</span>
-                          <ChevronDown size={16} style={{ color: '#64748B', transform: mobileServicesOpen ? 'rotate(180deg)' : 'rotate(0deg)', transition: 'transform 0.25s ease' }} />
+                          <ChevronDown size={15} style={{ color: '#2563EB', transform: mobileServicesOpen ? 'rotate(180deg)' : 'rotate(0deg)', transition: 'transform 0.25s ease' }} />
                         </button>
 
                         {/* Expanded Services Accordion */}
                         {mobileServicesOpen && (
                           <div style={{
-                            background: 'rgba(79, 124, 255, 0.03)',
-                            border: '1px solid rgba(79, 124, 255, 0.08)',
+                            background: 'rgba(255, 255, 255, 0.7)',
+                            border: '1px solid rgba(191, 219, 254, 0.6)',
                             borderRadius: 14,
-                            padding: '12px 14px',
-                            marginBottom: 10,
+                            padding: '10px 12px',
+                            marginBottom: 8,
                             display: 'flex',
                             flexDirection: 'column',
-                            gap: 12
+                            gap: 10
                           }}>
                             {/* Section: Platform & Intelligence */}
                             <div>
-                              <span style={{ fontSize: 10, fontWeight: 700, textTransform: 'uppercase', color: '#7469F8', letterSpacing: '0.08em', display: 'block', marginBottom: 6 }}>
+                              <span style={{ fontSize: 10, fontWeight: 800, textTransform: 'uppercase', color: '#2563EB', letterSpacing: '0.06em', display: 'block', marginBottom: 4 }}>
                                 Platform & Intelligence
                               </span>
                               <button
                                 onClick={() => navigateAndScroll('/avsar', null)}
                                 style={{
-                                  background: 'none', border: 'none', color: '#1D2433', fontSize: 13.5,
-                                  fontWeight: 600, cursor: 'pointer', textAlign: 'left', width: '100%',
-                                  padding: '4px 0 4px 8px', display: 'flex', flexDirection: 'column'
+                                  background: 'none', border: 'none', color: '#0F172A', fontSize: 13,
+                                  fontWeight: 650, cursor: 'pointer', textAlign: 'left', width: '100%',
+                                  padding: '4px 0', display: 'flex', flexDirection: 'column'
                                 }}
                               >
-                                <span>AVSAR (Assessment Visits & Student Assessment Reports)</span>
-                                <span style={{ fontSize: 11, fontWeight: 400, color: '#64748B', marginTop: 4, lineHeight: 1.4 }}>Education must start with an assessment. We evaluate the students, understand the requirements and personalize the approach with AVSAR.</span>
+                                <span>AVSAR (Student Assessment)</span>
+                                <span style={{ fontSize: 11, fontWeight: 400, color: '#64748B', marginTop: 2, lineHeight: 1.35 }}>Personalized home evaluation visits.</span>
                               </button>
                             </div>
 
-                            {/* Section: Platform */}
+                            {/* Section: Platform Apps */}
                             <div>
-                              <span style={{ fontSize: 10, fontWeight: 700, textTransform: 'uppercase', color: '#4F7CFF', letterSpacing: '0.08em', display: 'block', marginBottom: 6 }}>
-                                Platform
+                              <span style={{ fontSize: 10, fontWeight: 800, textTransform: 'uppercase', color: '#6366F1', letterSpacing: '0.06em', display: 'block', marginBottom: 4 }}>
+                                Apps & Ecosystem
                               </span>
-                              <div style={{ display: 'flex', flexDirection: 'column', gap: 6, paddingLeft: 8 }}>
+                              <div style={{ display: 'flex', flexDirection: 'column', gap: 4 }}>
                                 {[
-                                  { title: 'The MentR parent app', desc: "Education doesn't feel like a burden, only when the parents stay informed.", path: '/ecosystem#parent' },
-                                  { title: 'The MentR teacher app', desc: 'Search for the verified home tutor ends here.', path: '/ecosystem#teacher' },
-                                  { title: 'The MentR online app', desc: 'Connecting with you, no matter the location.', path: '/ecosystem#online' },
-                                  { title: 'The MentR Olympiad', desc: 'Growth can be felt only when evaluated', path: '/ecosystem#olympiad' }
+                                  { title: 'The MentR parent app', path: '/ecosystem#parent' },
+                                  { title: 'The MentR teacher app', path: '/ecosystem#teacher' },
+                                  { title: 'The MentR online app', path: '/ecosystem#online' },
+                                  { title: 'The MentR Olympiad', path: '/ecosystem#olympiad' }
                                 ].map(subItem => (
                                   <button
                                     key={subItem.title}
                                     onClick={() => navigateAndScroll(subItem.path, null)}
                                     style={{
-                                      background: 'none', border: 'none', color: '#1D2433', fontSize: 13.5,
-                                      fontWeight: 500, cursor: 'pointer', textAlign: 'left', padding: '3px 0'
+                                      background: 'none', border: 'none', color: '#334155', fontSize: 13,
+                                      fontWeight: 600, cursor: 'pointer', textAlign: 'left', padding: '3px 0'
                                     }}
                                   >
                                     {subItem.title}
@@ -253,9 +263,9 @@ export default function Navbar() {
                       key={item.label}
                       onClick={() => item.path ? navigateAndScroll(item.path, null) : navigateAndScroll('/', item.id)}
                       style={{
-                        background: 'none', border: 'none', color: '#1D2433', fontSize: 15,
-                        fontWeight: 600, cursor: 'pointer', textAlign: 'left', fontFamily: 'var(--font-sans)',
-                        padding: '10px 0', borderBottom: '1px solid rgba(0,0,0,0.04)'
+                        background: 'none', border: 'none', color: '#1E293B', fontSize: 14.5,
+                        fontWeight: 650, cursor: 'pointer', textAlign: 'left', fontFamily: 'var(--font-sans)',
+                        padding: '10px 8px', borderBottom: '1px solid rgba(191, 219, 254, 0.35)', borderRadius: 8
                       }}
                     >
                       {item.label}
@@ -263,21 +273,21 @@ export default function Navbar() {
                   );
                 })}
 
-                {/* Action Buttons in Mobile Drawer */}
-                <div style={{ display: 'flex', flexDirection: 'column', gap: 10, marginTop: 16 }}>
+                {/* Action Buttons inside Compact Mobile Drawer */}
+                <div style={{ display: 'flex', flexDirection: 'column', gap: 8, marginTop: 14 }}>
                   <button
                     onClick={() => navigateAndScroll('/', 'contact-forms')}
                     style={{
-                      fontSize: 13.5,
-                      padding: '11px 18px',
+                      fontSize: 13,
+                      padding: '10px 16px',
                       borderRadius: 99,
                       background: '#FFFFFF',
                       color: '#1E293B',
-                      border: '1.5px solid rgba(79, 124, 255, 0.25)',
+                      border: '1.5px solid rgba(59, 130, 246, 0.3)',
                       fontWeight: 700,
                       cursor: 'pointer',
                       textAlign: 'center',
-                      boxShadow: '0 2px 8px rgba(15, 23, 42, 0.04)',
+                      boxShadow: '0 2px 8px rgba(37, 99, 235, 0.08)',
                       width: '100%'
                     }}
                   >
@@ -287,16 +297,16 @@ export default function Navbar() {
                   <button
                     onClick={() => navigateAndScroll('/', 'contact-forms')}
                     style={{
-                      fontSize: 13.5,
-                      padding: '11px 18px',
+                      fontSize: 13,
+                      padding: '10px 16px',
                       borderRadius: 99,
-                      background: 'linear-gradient(135deg, #4F7CFF 0%, #7469F8 100%)',
+                      background: 'linear-gradient(135deg, #3B82F6 0%, #2563EB 100%)',
                       color: 'white',
                       border: 'none',
                       fontWeight: 700,
                       cursor: 'pointer',
                       textAlign: 'center',
-                      boxShadow: '0 4px 14px rgba(79, 124, 255, 0.25)',
+                      boxShadow: '0 4px 14px rgba(37, 99, 235, 0.28)',
                       width: '100%'
                     }}
                   >

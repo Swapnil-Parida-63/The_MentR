@@ -22,21 +22,17 @@ export default function HomePage() {
       <SEO {...PAGE_SEO.home} />
       <GlobalThread />
       
-      {/* First viewport: Rendered immediately */}
+      {/* Primary Hero & Core Navigation Sections: Rendered immediately */}
       <HeroSection />
+      <WhySection />
+      <ServicesSection />
 
-      {/* Below-the-fold sections: Deferred until user scrolls near them */}
+      {/* Below-the-fold content sections */}
       <DeferredSection minHeight="600px">
         <VisionSection />
       </DeferredSection>
       <DeferredSection minHeight="600px">
         <PainPointsSection />
-      </DeferredSection>
-      <DeferredSection minHeight="600px">
-        <WhySection />
-      </DeferredSection>
-      <DeferredSection minHeight="600px">
-        <ServicesSection />
       </DeferredSection>
       <DeferredSection minHeight="500px">
         <AvsarSection />
