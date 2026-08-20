@@ -2,9 +2,11 @@ import { useState, useEffect, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { X, ChevronDown } from 'lucide-react';
 import Logo from '../common/Logo';
+import { useModal } from '../../context/ModalContext';
 
 export default function Navbar() {
   const navigate = useNavigate();
+  const { openModal } = useModal();
   const [isMobile, setIsMobile] = useState(window.innerWidth < 1024);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [mobileServicesOpen, setMobileServicesOpen] = useState(false);
@@ -31,35 +33,55 @@ export default function Navbar() {
   const navigateAndScroll = (path, hashId) => {
     setMobileMenuOpen(false);
 
+    // Extract route and hash if provided e.g. '/#parent' or '/#teacher'
+    let targetPath = path || '/';
+    let targetHash = null;
+    if (targetPath.includes('#')) {
+      const parts = targetPath.split('#');
+      targetPath = parts[0] || '/';
+      targetHash = '#' + parts[1];
+    }
+
+    // Handle distinct non-home page routes (e.g. /pricing, /teacher-terms)
+    if (targetPath !== '/' && targetPath !== '') {
+      navigate(targetPath + (targetHash || ''));
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+      return;
+    }
+
+    // Homepage section scrolling & hash synchronization
+    if (window.location.pathname !== '/') {
+      navigate('/' + (targetHash || ''));
+    } else if (targetHash) {
+      window.history.pushState(null, '', targetHash);
+      window.dispatchEvent(new Event('hashchange'));
+    }
+
     const performScroll = () => {
-      if (!hashId) {
+      const targetId = hashId || (targetHash ? targetHash.replace('#', '') : null);
+      if (!targetId) {
         window.scrollTo({ top: 0, behavior: 'smooth' });
         return;
       }
 
       let attempts = 0;
       const scrollInterval = setInterval(() => {
-        const el = document.getElementById(hashId);
+        const el = document.getElementById(targetId);
         if (el) {
           clearInterval(scrollInterval);
-          const yOffset = -75; // Account for floating header height
+          const yOffset = -75;
           const y = el.getBoundingClientRect().top + window.pageYOffset + yOffset;
           window.scrollTo({ top: Math.max(0, y), behavior: 'smooth' });
         } else {
           attempts++;
-          if (attempts > 15) {
+          if (attempts > 20) {
             clearInterval(scrollInterval);
           }
         }
-      }, 60);
+      }, 50);
     };
 
-    if (window.location.pathname !== '/' && path === '/') {
-      navigate('/');
-      setTimeout(performScroll, 100);
-    } else {
-      performScroll();
-    }
+    performScroll();
   };
 
   const desktopNavLinks = [
@@ -215,7 +237,7 @@ export default function Navbar() {
                                 Platform & Intelligence
                               </span>
                               <button
-                                onClick={() => navigateAndScroll('/avsar', null)}
+                                onClick={() => navigateAndScroll('/', 'avsar')}
                                 style={{
                                   background: 'none', border: 'none', color: '#0F172A', fontSize: 13,
                                   fontWeight: 650, cursor: 'pointer', textAlign: 'left', width: '100%',
@@ -234,14 +256,14 @@ export default function Navbar() {
                               </span>
                               <div style={{ display: 'flex', flexDirection: 'column', gap: 4 }}>
                                 {[
-                                  { title: 'The MentR parent app', path: '/ecosystem#parent' },
-                                  { title: 'The MentR teacher app', path: '/ecosystem#teacher' },
-                                  { title: 'The MentR online app', path: '/ecosystem#online' },
-                                  { title: 'The MentR Olympiad', path: '/ecosystem#olympiad' }
+                                  { title: 'The MentR parent app', path: '/#parent', id: 'showcase' },
+                                  { title: 'The MentR teacher app', path: '/#teacher', id: 'showcase' },
+                                  { title: 'The MentR online app', path: '/#online', id: 'showcase' },
+                                  { title: 'The MentR Olympiad', path: '/#olympiad', id: 'showcase' }
                                 ].map(subItem => (
                                   <button
                                     key={subItem.title}
-                                    onClick={() => navigateAndScroll(subItem.path, null)}
+                                    onClick={() => navigateAndScroll(subItem.path, subItem.id)}
                                     style={{
                                       background: 'none', border: 'none', color: '#334155', fontSize: 13,
                                       fontWeight: 600, cursor: 'pointer', textAlign: 'left', padding: '3px 0'
@@ -276,7 +298,7 @@ export default function Navbar() {
                 {/* Action Buttons inside Compact Mobile Drawer */}
                 <div style={{ display: 'flex', flexDirection: 'column', gap: 8, marginTop: 14 }}>
                   <button
-                    onClick={() => navigateAndScroll('/', 'contact-forms')}
+                    onClick={() => { setMobileMenuOpen(false); openModal('teacher'); }}
                     style={{
                       fontSize: 13,
                       padding: '10px 16px',
@@ -295,7 +317,7 @@ export default function Navbar() {
                   </button>
 
                   <button
-                    onClick={() => navigateAndScroll('/', 'contact-forms')}
+                    onClick={() => { setMobileMenuOpen(false); openModal('demo'); }}
                     style={{
                       fontSize: 13,
                       padding: '10px 16px',
@@ -432,7 +454,7 @@ export default function Navbar() {
                     <div style={{ borderRight: '1px solid rgba(79, 124, 255, 0.08)', paddingRight: 16 }}>
                       <span style={{ fontSize: 10, fontWeight: 700, textTransform: 'uppercase', color: '#7469F8', letterSpacing: '0.08em', display: 'block', marginBottom: 12 }}>Intelligence</span>
                       <div 
-                        onClick={() => { setServicesHovered(false); navigateAndScroll('/avsar', null); }}
+                        onClick={() => { setServicesHovered(false); navigateAndScroll('/', 'avsar'); }}
                         style={{ cursor: 'pointer', transition: 'all 0.2s' }}
                         className="mega-menu-item"
                       >
@@ -448,7 +470,7 @@ export default function Navbar() {
                     {/* Right Column: Platform Services */}
                     <div style={{ display: 'flex', flexDirection: 'column', gap: 14 }}>
                       <button
-                        onClick={() => { setServicesHovered(false); navigateAndScroll('/ecosystem', null); }}
+                        onClick={() => { setServicesHovered(false); navigateAndScroll('/#parent', 'showcase'); }}
                         style={{
                           background: 'none',
                           border: 'none',
@@ -467,14 +489,14 @@ export default function Navbar() {
                         Platform & Sourcing
                       </button>
                       {[
-                        { title: 'The MentR parent app', desc: "Education doesn't feel like a burden, only when the parents stay informed.", path: '/ecosystem#parent' },
-                        { title: 'The MentR teacher app', desc: 'Search for the verified home tutor ends here.', path: '/ecosystem#teacher' },
-                        { title: 'The MentR online app', desc: 'Connecting with you, no matter the location.', path: '/ecosystem#online' },
-                        { title: 'The MentR Olympiad', desc: 'Growth can be felt only when evaluated', path: '/ecosystem#olympiad' }
+                        { title: 'The MentR parent app', desc: "Education doesn't feel like a burden, only when the parents stay informed.", path: '/#parent', id: 'showcase' },
+                        { title: 'The MentR teacher app', desc: 'Search for the verified home tutor ends here.', path: '/#teacher', id: 'showcase' },
+                        { title: 'The MentR online app', desc: 'Connecting with you, no matter the location.', path: '/#online', id: 'showcase' },
+                        { title: 'The MentR Olympiad', desc: 'Growth can be felt only when evaluated', path: '/#olympiad', id: 'showcase' }
                       ].map(srv => (
                         <div 
                           key={srv.title} 
-                          onClick={() => { setServicesHovered(false); navigateAndScroll(srv.path, null); }}
+                          onClick={() => { setServicesHovered(false); navigateAndScroll(srv.path, srv.id); }}
                           style={{ cursor: 'pointer', transition: 'all 0.2s' }}
                           className="mega-menu-item"
                         >

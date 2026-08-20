@@ -294,7 +294,7 @@ export default function PricingPage() {
   const [fullName, setFullName] = useState("");
   const [phone, setPhone] = useState("");
   const [email, setEmail] = useState("");
-  const [isParent, setIsParent] = useState(false);
+  const [agreedToTerms, setAgreedToTerms] = useState(false);
 
   // Step 2 States
   const [selectedBoards, setSelectedBoards] = useState([]);
@@ -336,8 +336,8 @@ export default function PricingPage() {
       setErrorMsg("⚠️ Email must be a valid Gmail address (e.g. user@gmail.com).");
       return;
     }
-    if (!isParent) {
-      setErrorMsg("⚠️ You must check 'I am a Parent' to proceed.");
+    if (!agreedToTerms) {
+      setErrorMsg("⚠️ You must agree to the Terms & Conditions to proceed.");
       return;
     }
 
@@ -428,7 +428,8 @@ export default function PricingPage() {
         fullName,
         phone,
         email,
-        isParent,
+        isParent: true,
+        agreedToTerms,
         boards: selectedBoards,
         classes: selectedClasses,
         subjects: selectedSubjects,
@@ -683,12 +684,12 @@ export default function PricingPage() {
                   </div>
                 </div>
 
-                {/* Mandatory Parent Checkbox */}
+                {/* Mandatory Terms & Conditions Checkbox */}
                 <label style={{ display: 'flex', alignItems: 'center', gap: 10, cursor: 'pointer', textAlign: 'left', marginTop: 8 }}>
                   <input 
                     type="checkbox"
-                    checked={isParent}
-                    onChange={(e) => setIsParent(e.target.checked)}
+                    checked={agreedToTerms}
+                    onChange={(e) => setAgreedToTerms(e.target.checked)}
                     style={{
                       width: 18,
                       height: 18,
@@ -697,7 +698,7 @@ export default function PricingPage() {
                     }}
                   />
                   <span style={{ fontSize: 13.5, color: '#5C667A', fontWeight: 500 }}>
-                    I am a Parent
+                    I agree to the <Link to="/teacher-terms" style={{ color: '#4F7CFF', textDecoration: 'underline' }}>Terms & Conditions</Link>
                   </span>
                 </label>
 

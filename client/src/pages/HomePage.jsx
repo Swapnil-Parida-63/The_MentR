@@ -14,7 +14,6 @@ import BlogsPreview from '../components/home/BlogsPreview';
 import FormsSection from '../components/home/FormsSection';
 import ContactSection from '../components/home/ContactSection';
 import GlobalThread from '../components/home/GlobalThread';
-import DeferredSection from '../components/common/DeferredSection';
 
 export default function HomePage() {
   return (
@@ -22,42 +21,20 @@ export default function HomePage() {
       <SEO {...PAGE_SEO.home} />
       <GlobalThread />
       
-      {/* Primary Hero & Core Navigation Sections: Rendered immediately */}
+      {/* Primary Home Page Sections */}
       <HeroSection />
       <WhySection />
       <ServicesSection />
-
-      {/* Below-the-fold content sections */}
-      <DeferredSection minHeight="600px">
-        <VisionSection />
-      </DeferredSection>
-      <DeferredSection minHeight="600px">
-        <PainPointsSection />
-      </DeferredSection>
-      <DeferredSection minHeight="500px">
-        <AvsarSection />
-      </DeferredSection>
-      <DeferredSection minHeight="500px">
-        <OrganogramSection />
-      </DeferredSection>
-      <DeferredSection minHeight="600px">
-        <ShowcaseSection />
-      </DeferredSection>
-      <DeferredSection minHeight="500px">
-        <TestimonialsSection />
-      </DeferredSection>
-      <DeferredSection minHeight="500px">
-        <GalleryPreview />
-      </DeferredSection>
-      <DeferredSection minHeight="500px">
-        <BlogsPreview />
-      </DeferredSection>
-      <DeferredSection minHeight="500px">
-        <FormsSection />
-      </DeferredSection>
-      <DeferredSection minHeight="500px">
-        <ContactSection />
-      </DeferredSection>
+      <VisionSection />
+      <PainPointsSection />
+      <AvsarSection />
+      <OrganogramSection />
+      <ShowcaseSection />
+      <TestimonialsSection />
+      <GalleryPreview />
+      <BlogsPreview />
+      <FormsSection />
+      <ContactSection />
     </div>
   );
 }
