@@ -6,6 +6,8 @@ import { Check, ChevronDown, User, Phone, Mail, FileText, ChevronRight, ArrowLef
 import { pricingAPI } from '../services/api';
 import SEO from '../components/common/SEO';
 import { PAGE_SEO } from '../config/seo.config';
+import { PAGE_SCHEMAS } from '../config/schema.config';
+import Breadcrumbs from '../components/common/Breadcrumbs';
 
 // Pricing Data
 const PRICING_DATA = {
@@ -447,7 +449,7 @@ export default function PricingPage() {
 
   return (
     <div style={{ background: 'transparent', minHeight: '100vh', position: 'relative', overflow: 'hidden', padding: '140px 0 96px' }}>
-      <SEO {...PAGE_SEO.pricing} />
+      <SEO {...PAGE_SEO.pricing} schema={PAGE_SCHEMAS.pricing} />
       
       {/* Background radial atmosphere */}
       <div style={{
@@ -476,6 +478,8 @@ export default function PricingPage() {
 
       <div className="container" style={{ position: 'relative', zIndex: 1, maxWidth: '680px', margin: '0 auto' }}>
         
+        <Breadcrumbs items={[{ name: 'Home', url: '/' }, { name: 'Pricing', url: '/pricing' }]} />
+
         {/* Sleek Floating Back to Home button */}
         <div style={{ marginBottom: 28 }}>
           <Link to="/" style={{
@@ -594,9 +598,9 @@ export default function PricingPage() {
               className="card-brand-glow"
               style={{ background: '#FFFFFF', borderRadius: 28, padding: '40px 32px', textAlign: 'center' }}
             >
-              <h2 style={{ fontFamily: 'var(--font-hero)', fontWeight: 800, fontSize: 26, color: '#1D2433', margin: '0 0 8px' }}>
+              <h1 style={{ fontFamily: 'var(--font-hero)', fontWeight: 800, fontSize: 26, color: '#1D2433', margin: '0 0 8px' }}>
                 View our fee plan
-              </h2>
+              </h1>
               <p style={{ fontFamily: 'var(--font-body)', fontSize: 14.5, color: '#5C667A', margin: '0 0 32px' }}>
                 Enter your details to view the available tuition fee packages.
               </p>

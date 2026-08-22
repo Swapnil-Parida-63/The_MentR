@@ -73,7 +73,7 @@ const faqsData = {
   ]
 };
 
-export default function ContactSection({ background = 'white' }) {
+export default function ContactSection({ background = 'white', isStandalonePage = false }) {
   const [openFaq, setOpenFaq] = useState(null);
   const [viewMore, setViewMore] = useState(false);
   const [selectedSection, setSelectedSection] = useState('teachers');
@@ -98,7 +98,11 @@ export default function ContactSection({ background = 'white' }) {
           <FadeUp>
             <div>
               <div className="eyebrow">Contact</div>
-              <h2 style={{ fontSize: isMobile ? 28 : 36, marginBottom: 12, marginTop: 0 }}>We're here to help.</h2>
+              {isStandalonePage ? (
+                <h1 style={{ fontSize: isMobile ? 28 : 36, marginBottom: 12, marginTop: 0, fontWeight: 700 }}>We're here to help.</h1>
+              ) : (
+                <h2 style={{ fontSize: isMobile ? 28 : 36, marginBottom: 12, marginTop: 0 }}>We're here to help.</h2>
+              )}
               <p style={{ fontSize: isMobile ? 14 : 16, color: 'var(--color-text-secondary)', lineHeight: 1.8, marginBottom: isMobile ? 24 : 40 }}>Whether you have a question about our services, our team responds within one business day.</p>
               <div style={{ display: 'flex', flexDirection: 'column', gap: 20 }}>
                 {[
@@ -116,7 +120,7 @@ export default function ContactSection({ background = 'white' }) {
                       border: '1px solid rgba(79,124,255,0.12)'
                     }}>{c.icon}</div>
                     <div>
-                      <h5 style={{ fontFamily: 'var(--font-sans)', fontSize: 13, fontWeight: 600, textTransform: 'uppercase', letterSpacing: '0.06em', color: 'var(--color-text-muted)', marginBottom: 2 }}>{c.label}</h5>
+                      <div style={{ fontFamily: 'var(--font-sans)', fontSize: 13, fontWeight: 600, textTransform: 'uppercase', letterSpacing: '0.06em', color: 'var(--color-text-muted)', marginBottom: 2 }}>{c.label}</div>
                       <p style={{ fontSize: 15, color: 'var(--color-text-primary)', margin: 0, wordBreak: 'break-word' }}>{c.value}</p>
                     </div>
                   </div>

@@ -57,6 +57,12 @@ export const PAGE_SEO = {
     description: 'Read TheMentR Terms of Service, Teacher Agreement, Parent Code of Conduct, and Privacy Policy.',
     path: '/terms'
   },
+  sitemap: {
+    title: 'HTML Sitemap & Page Directory | TheMentR',
+    description: 'Explore the main pages, tuition services, learning resources, and legal policies on TheMentR.',
+    keywords: 'TheMentR sitemap, website directory, home tuition pages, learning ecosystem links',
+    path: '/sitemap'
+  },
   notFound: {
     title: '404 Page Not Found | TheMentR',
     description: 'The page you are looking for does not exist or has been moved.',

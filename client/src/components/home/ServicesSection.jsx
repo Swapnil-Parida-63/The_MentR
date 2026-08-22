@@ -436,7 +436,9 @@ export default function ServicesSection() {
                       alignItems: 'center', 
                       justifyContent: 'space-between',
                       cursor: 'pointer',
-                      userSelect: 'none'
+                      userSelect: 'none',
+                      touchAction: 'manipulation',
+                      WebkitTapHighlightColor: 'transparent'
                     }}
                   >
                     <div style={{ display: 'flex', alignItems: 'center', gap: '16px' }}>
@@ -454,7 +456,7 @@ export default function ServicesSection() {
                         fontSize: '15px', 
                         color: isExpanded ? '#4F7CFF' : 'rgba(79, 124, 255, 0.6)', 
                         fontWeight: 'bold',
-                        transition: 'color 0.3s'
+                        transition: 'color 0.18s ease'
                       }}>
                         {offer.sym}
                       </span>
@@ -463,7 +465,7 @@ export default function ServicesSection() {
                         fontSize: '16px', 
                         fontWeight: 750, 
                         color: isExpanded ? '#4F7CFF' : '#1E293B',
-                        transition: 'color 0.3s'
+                        transition: 'color 0.18s ease'
                       }}>
                         {offer.title}
                       </span>
@@ -473,9 +475,11 @@ export default function ServicesSection() {
                       fontSize: '18px', 
                       fontWeight: 'bold', 
                       color: isExpanded ? '#4F7CFF' : '#64748B',
-                      transition: 'color 0.3s'
+                      transition: 'color 0.18s ease, transform 0.18s cubic-bezier(0.2, 0, 0, 1)',
+                      transform: isExpanded ? 'rotate(45deg)' : 'rotate(0deg)',
+                      display: 'inline-block'
                     }}>
-                      {isExpanded ? '−' : '+'}
+                      +
                     </span>
                   </div>
 
@@ -485,12 +489,12 @@ export default function ServicesSection() {
                       display: 'grid',
                       gridTemplateRows: isExpanded ? '1fr' : '0fr',
                       opacity: isExpanded ? 1 : 0,
-                      transition: 'grid-template-rows 0.28s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.22s ease-out',
+                      transition: 'grid-template-rows 0.18s cubic-bezier(0.2, 0, 0, 1), opacity 0.15s ease-out',
                       willChange: 'grid-template-rows, opacity',
                       transform: 'translateZ(0)'
                     }}
                   >
-                    <div style={{ overflow: 'hidden', paddingLeft: '48px', paddingTop: isExpanded ? '12px' : '0px', transition: 'padding-top 0.28s ease' }}>
+                    <div style={{ overflow: 'hidden', paddingLeft: '48px', paddingTop: isExpanded ? '12px' : '0px', transition: 'padding-top 0.18s ease' }}>
                       <p style={{ 
                         fontSize: '14px', 
                         color: '#64748B', 

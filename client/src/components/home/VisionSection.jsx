@@ -221,16 +221,23 @@ export default function VisionSection() {
             }}>
               {/* Full vibrant 100% opacity illustration image */}
               <div style={{ position: 'relative', width: '100%', height: '240px', overflow: 'hidden' }}>
-                <img 
-                  src={`${import.meta.env.BASE_URL}ChatGPT Image Jul 30, 2026, 11_28_11 PM.webp`}
-                  alt="Vision Illustration"
-                  style={{
-                    width: '100%',
-                    height: '100%',
-                    objectFit: 'cover',
-                    objectPosition: 'center 25%',
-                  }}
-                />
+                <picture style={{ width: '100%', height: '100%', display: 'block' }}>
+                  <source srcSet={`${import.meta.env.BASE_URL}Vision-Page-mobile.webp`} type="image/webp" />
+                  <img 
+                    src={`${import.meta.env.BASE_URL}Vision-Page-mobile.webp`}
+                    alt="Vision Illustration"
+                    loading="lazy"
+                    width={768}
+                    height={432}
+                    style={{
+                      width: '100%',
+                      height: '100%',
+                      objectFit: 'cover',
+                      objectPosition: 'center 25%',
+                      aspectRatio: '1672 / 941',
+                    }}
+                  />
+                </picture>
                 <div style={{
                   position: 'absolute',
                   inset: 0,
@@ -298,7 +305,11 @@ export default function VisionSection() {
                 externalHovered={visionImageHovered}
               />
               <EditorialImage
-                src={`${import.meta.env.BASE_URL}ChatGPT Image Jul 30, 2026, 11_28_11 PM.webp`}
+                src={`${import.meta.env.BASE_URL}Vision-Page.webp`}
+                srcMobile={`${import.meta.env.BASE_URL}Vision-Page-mobile.webp`}
+                width={1200}
+                height={675}
+                aspectRatio="1672 / 941"
                 alt="A luminous architectural portal representing boundless opportunity in education"
                 inView={visionInView}
                 delay={200}
@@ -411,16 +422,23 @@ export default function VisionSection() {
             }}>
               {/* Full vibrant 100% opacity illustration image */}
               <div style={{ position: 'relative', width: '100%', height: '240px', overflow: 'hidden' }}>
-                <img 
-                  src={`${import.meta.env.BASE_URL}ChatGPT Image Jul 30, 2026, 11_34_55 PM.webp`}
-                  alt="Mission Illustration"
-                  style={{
-                    width: '100%',
-                    height: '100%',
-                    objectFit: 'cover',
-                    objectPosition: 'center 25%',
-                  }}
-                />
+                <picture style={{ width: '100%', height: '100%', display: 'block' }}>
+                  <source srcSet={`${import.meta.env.BASE_URL}Mission-Page-mobile.webp`} type="image/webp" />
+                  <img 
+                    src={`${import.meta.env.BASE_URL}Mission-Page-mobile.webp`}
+                    alt="Mission Illustration"
+                    loading="lazy"
+                    width={768}
+                    height={512}
+                    style={{
+                      width: '100%',
+                      height: '100%',
+                      objectFit: 'cover',
+                      objectPosition: 'center 25%',
+                      aspectRatio: '1536 / 1024',
+                    }}
+                  />
+                </picture>
                 <div style={{
                   position: 'absolute',
                   inset: 0,
@@ -475,7 +493,11 @@ export default function VisionSection() {
               </svg>
 
               <EditorialImage
-                src={`${import.meta.env.BASE_URL}ChatGPT Image Jul 30, 2026, 11_34_55 PM.webp`}
+                src={`${import.meta.env.BASE_URL}Mission-Page.webp`}
+                srcMobile={`${import.meta.env.BASE_URL}Mission-Page-mobile.webp`}
+                width={1200}
+                height={800}
+                aspectRatio="1536 / 1024"
                 alt="An elegant winding pathway representing purposeful guidance in education"
                 inView={missionInView}
                 delay={0}
@@ -844,7 +866,7 @@ function EditorialTextBlock({ eyebrow, eyebrowColor, heading, headingGradient, b
 /* ========================================================================== */
 /* EDITORIAL IMAGE COMPONENT                                                  */
 /* ========================================================================== */
-function EditorialImage({ src, alt, inView, delay = 0, isMobile, accent = '#6366F1', floatingItems = [], onHoverChange }) {
+function EditorialImage({ src, srcMobile, width, height, aspectRatio, alt, inView, delay = 0, isMobile, accent = '#6366F1', floatingItems = [], onHoverChange }) {
   const [hovered, setHovered] = useState(false);
 
   return (
@@ -854,7 +876,7 @@ function EditorialImage({ src, alt, inView, delay = 0, isMobile, accent = '#6366
       whileHover={isMobile ? {} : { 
         scale: 1.04, 
         y: -10, 
-        rotate: src.includes("mission") ? 1.2 : -1.2 
+        rotate: src.includes("Mission") || src.includes("mission") ? 1.2 : -1.2 
       }}
       transition={{ 
         opacity: { duration: 0.8, ease: "easeOut", delay: delay / 1000 },
@@ -949,21 +971,28 @@ function EditorialImage({ src, alt, inView, delay = 0, isMobile, accent = '#6366
           zIndex: 2,
           borderRadius: '28px'
         }} />
-        <img
-          src={src}
-          alt={alt}
-          loading="lazy"
-          style={{
-            position: 'relative',
-            zIndex: 1,
-            width: '100%',
-            height: 'auto',
-            display: 'block',
-            mixBlendMode: 'multiply',
-            borderRadius: '16px',
-            transition: 'all 0.3s ease'
-          }}
-        />
+        <picture style={{ width: '100%', display: 'block', position: 'relative', zIndex: 1 }}>
+          {srcMobile && <source media="(max-width: 768px)" srcSet={srcMobile} type="image/webp" />}
+          <source media="(min-width: 769px)" srcSet={src} type="image/webp" />
+          <img
+            src={src}
+            alt={alt}
+            loading="lazy"
+            width={width}
+            height={height}
+            style={{
+              position: 'relative',
+              zIndex: 1,
+              width: '100%',
+              height: 'auto',
+              aspectRatio: aspectRatio || 'auto',
+              display: 'block',
+              mixBlendMode: 'multiply',
+              borderRadius: '16px',
+              transition: 'all 0.3s ease'
+            }}
+          />
+        </picture>
       </div>
     </motion.div>
   );

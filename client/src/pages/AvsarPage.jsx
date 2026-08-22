@@ -2,6 +2,8 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import { ArrowLeft } from 'lucide-react';
 import SEO from '../components/common/SEO';
+import { PAGE_SCHEMAS } from '../config/schema.config';
+import Breadcrumbs from '../components/common/Breadcrumbs';
 import AvsarSection from '../components/home/AvsarSection';
 
 export default function AvsarPage() {
@@ -10,10 +12,12 @@ export default function AvsarPage() {
       <SEO 
         title="AVSAR (Assessment Visits & Student Assessment Reports) | The MentR"
         description="Education must start with an assessment. We evaluate the students, understand the requirements and personalize the approach with AVSAR."
+        schema={PAGE_SCHEMAS.avsar}
       />
       
       {/* Sleek Floating Back to Home button */}
       <div className="container" style={{ position: 'relative', zIndex: 10, paddingTop: '10px', marginBottom: '-60px' }}>
+        <Breadcrumbs items={[{ name: 'Home', url: '/' }, { name: 'AVSAR Assessment', url: '/avsar' }]} />
         <Link to="/" style={{
           display: 'inline-flex',
           alignItems: 'center',
@@ -47,7 +51,7 @@ export default function AvsarPage() {
         </Link>
       </div>
 
-      <AvsarSection />
+      <AvsarSection isStandalonePage={true} />
     </div>
   );
 }

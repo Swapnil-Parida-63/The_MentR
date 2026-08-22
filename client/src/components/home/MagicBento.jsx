@@ -694,7 +694,7 @@ const MagicBento = ({
                       <img 
                         key={i} 
                         src={src} 
-                        alt={`card-${i + 1}`} 
+                        alt="" 
                         style={{ width: '100%', height: '100%', objectFit: 'cover' }} 
                         className="pointer-events-none select-none"
                       />

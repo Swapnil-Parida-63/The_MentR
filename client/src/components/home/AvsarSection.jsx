@@ -108,7 +108,7 @@ const HeroIllustration = () => (
   </svg>
 );
 
-export default function AvsarSection() {
+export default function AvsarSection({ isStandalonePage = false }) {
   const [isMobile, setIsMobile] = useState(window.innerWidth < 1024);
   const [hoveredCard, setHoveredCard] = useState(null);
   const [isAvsarDescExpanded, setIsAvsarDescExpanded] = useState(false);
@@ -178,8 +178,8 @@ export default function AvsarSection() {
           50% { transform: translateY(-4px); }
         }
         @keyframes float-decor {
-          0%, 100% { transform: translateY(0px) rotate(0deg); }
-          50% { transform: translateY(-12px) rotate(5deg); }
+          0%, 100% { transform: translateY(0px) scale(1); }
+          50% { transform: translateY(-12px) scale(1.05); }
         }
         .illust-float-badge { animation: float-badge 6s ease-in-out infinite; }
         .illust-float-chart { animation: float-chart 8s ease-in-out infinite; }
@@ -284,22 +284,41 @@ export default function AvsarSection() {
             <div style={{ fontSize: 11, fontWeight: 700, letterSpacing: '0.2em', color: '#6366F1', textTransform: 'uppercase', marginBottom: 12 }}>
               AVSAR (TRUST THROUGH QUALITY)
             </div>
-            <h2 
-              onClick={() => isMobile && setIsAvsarDescExpanded(!isAvsarDescExpanded)}
-              style={{
-                fontFamily: 'var(--font-hero)',
-                fontWeight: 800,
-                fontSize: 'clamp(36px, 4vw, 52px)',
-                lineHeight: 1.1,
-                letterSpacing: '-0.03em',
-                color: '#1E293B',
-                margin: '0 0 4px',
-                cursor: isMobile ? 'pointer' : 'default',
-                userSelect: 'none'
-              }}
-            >
-              Quality isn't claimed.<br />It's measured.
-            </h2>
+            {isStandalonePage ? (
+              <h1 
+                onClick={() => isMobile && setIsAvsarDescExpanded(!isAvsarDescExpanded)}
+                style={{
+                  fontFamily: 'var(--font-hero)',
+                  fontWeight: 800,
+                  fontSize: 'clamp(36px, 4vw, 52px)',
+                  lineHeight: 1.1,
+                  letterSpacing: '-0.03em',
+                  color: '#1E293B',
+                  margin: '0 0 4px',
+                  cursor: isMobile ? 'pointer' : 'default',
+                  userSelect: 'none'
+                }}
+              >
+                AVSAR <span style={{ fontWeight: 400, color: '#64748B' }}>(Assessment Visits & Student Assessment Reports)</span><br />Quality isn't claimed. It's measured.
+              </h1>
+            ) : (
+              <h2 
+                onClick={() => isMobile && setIsAvsarDescExpanded(!isAvsarDescExpanded)}
+                style={{
+                  fontFamily: 'var(--font-hero)',
+                  fontWeight: 800,
+                  fontSize: 'clamp(36px, 4vw, 52px)',
+                  lineHeight: 1.1,
+                  letterSpacing: '-0.03em',
+                  color: '#1E293B',
+                  margin: '0 0 4px',
+                  cursor: isMobile ? 'pointer' : 'default',
+                  userSelect: 'none'
+                }}
+              >
+                AVSAR <span style={{ fontWeight: 400, color: '#64748B' }}>(Assessment Visits & Student Assessment Reports)</span><br />Quality isn't claimed. It's measured.
+              </h2>
+            )}
             
             {/* Collapsible Hero Description */}
             <motion.div

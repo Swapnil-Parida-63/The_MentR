@@ -260,27 +260,25 @@ export default function WhySection() {
                         alignItems: 'center', 
                         position: 'relative', 
                         zIndex: 1,
-                        background: isExpanded 
-                          ? 'linear-gradient(135deg, rgba(255, 255, 255, 0.99) 0%, rgba(124, 92, 255, 0.04) 100%)' 
-                          : 'rgba(255, 255, 255, 0.65)',
-                        backdropFilter: 'blur(8px)',
-                        WebkitBackdropFilter: 'blur(8px)',
+                        background: isExpanded ? '#FFFFFF' : 'rgba(255, 255, 255, 0.95)',
                         border: isExpanded 
-                          ? '1.5px solid rgba(124, 92, 255, 0.3)' 
-                          : '1px solid rgba(79, 124, 255, 0.06)',
+                          ? '1.5px solid rgba(124, 92, 255, 0.35)' 
+                          : '1px solid rgba(79, 124, 255, 0.08)',
                         borderLeft: isExpanded 
                           ? '4px solid #7C5CFF' 
-                          : '1.5px solid rgba(79, 124, 255, 0.06)',
+                          : '1.5px solid rgba(79, 124, 255, 0.08)',
                         borderRadius: 20,
-                        padding: '18px 22px',
+                        padding: '16px 20px',
                         boxShadow: isExpanded 
-                          ? '0 16px 36px rgba(124, 92, 255, 0.12), 0 0 12px rgba(124, 92, 255, 0.04)' 
-                          : '0 4px 16px rgba(15, 23, 42, 0.01)',
+                          ? '0 12px 28px -6px rgba(124, 92, 255, 0.14)' 
+                          : '0 2px 8px rgba(15, 23, 42, 0.02)',
                         cursor: 'pointer',
-                        transition: 'all 0.3s cubic-bezier(0.16, 1, 0.3, 1)'
+                        touchAction: 'manipulation',
+                        WebkitTapHighlightColor: 'transparent',
+                        transition: 'background-color 0.18s ease, border-color 0.18s ease, box-shadow 0.18s ease'
                       }}
                     >
-                      {/* Enclosed Icon Circle with pulsing active state rings */}
+                      {/* Enclosed Icon Circle */}
                       <div style={{
                         position: 'relative',
                         width: 48,
@@ -288,27 +286,25 @@ export default function WhySection() {
                         borderRadius: '50%',
                         background: '#FFFFFF',
                         border: isExpanded 
-                          ? '1.5px solid rgba(124, 92, 255, 0.45)' 
-                          : '1px solid rgba(79, 124, 255, 0.1)',
+                          ? '1.5px solid rgba(124, 92, 255, 0.5)' 
+                          : '1px solid rgba(79, 124, 255, 0.12)',
                         color: isExpanded ? '#7C5CFF' : '#4F7CFF',
                         display: 'flex',
                         alignItems: 'center',
                         justifyContent: 'center',
                         flexShrink: 0,
                         boxShadow: isExpanded 
-                          ? '0 0 12px rgba(124, 92, 255, 0.25)' 
+                          ? '0 0 12px rgba(124, 92, 255, 0.2)' 
                           : '0 2px 6px rgba(0,0,0,0.02)',
-                        transition: 'all 0.3s'
+                        transition: 'color 0.18s ease, border-color 0.18s ease, box-shadow 0.18s ease'
                       }}>
                         {isExpanded && (
-                          <motion.div
-                            animate={{ scale: [1, 1.35, 1], opacity: [0.65, 0, 0.65] }}
-                            transition={{ repeat: Infinity, duration: 2.2, ease: "easeInOut" }}
+                          <div
                             style={{
                               position: 'absolute',
-                              inset: -5,
+                              inset: -4,
                               borderRadius: '50%',
-                              border: '1.5px solid #7C5CFF',
+                              border: '1.5px solid rgba(124, 92, 255, 0.4)',
                               pointerEvents: 'none'
                             }}
                           />
@@ -324,22 +320,22 @@ export default function WhySection() {
                             fontSize: '15.5px', 
                             fontWeight: 750, 
                             color: isExpanded ? '#7C5CFF' : '#1E293B',
-                            transition: 'color 0.3s'
+                            transition: 'color 0.18s ease'
                           }}>
                             {mod.title}
                           </h4>
-                          <motion.div
-                            animate={{ rotate: isExpanded ? 45 : 0 }}
-                            transition={{ duration: 0.25 }}
+                          <span
                             style={{
                               color: isExpanded ? '#7C5CFF' : '#64748B',
                               display: 'flex',
                               alignItems: 'center',
-                              justifyContent: 'center'
+                              justifyContent: 'center',
+                              transform: isExpanded ? 'rotate(45deg)' : 'rotate(0deg)',
+                              transition: 'transform 0.2s cubic-bezier(0.2, 0, 0, 1), color 0.18s ease'
                             }}
                           >
                             <Plus size={18} strokeWidth={2.5} />
-                          </motion.div>
+                          </span>
                         </div>
 
                         <div 
@@ -348,7 +344,7 @@ export default function WhySection() {
                             gridTemplateRows: isExpanded ? '1fr' : '0fr',
                             opacity: isExpanded ? 1 : 0,
                             marginTop: isExpanded ? 8 : 0,
-                            transition: 'grid-template-rows 0.28s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.22s ease-out, margin-top 0.28s ease',
+                            transition: 'grid-template-rows 0.18s cubic-bezier(0.2, 0, 0, 1), opacity 0.15s ease-out, margin-top 0.18s ease',
                             willChange: 'grid-template-rows, opacity',
                             transform: 'translateZ(0)'
                           }}

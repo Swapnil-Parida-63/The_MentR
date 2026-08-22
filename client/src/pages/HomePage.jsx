@@ -1,5 +1,6 @@
 import SEO from '../components/common/SEO';
 import { PAGE_SEO } from '../config/seo.config';
+import { PAGE_SCHEMAS } from '../config/schema.config';
 import HeroSection from '../components/home/HeroSection';
 import PainPointsSection from '../components/home/PainPointsSection';
 import WhySection from '../components/home/WhySection';
@@ -19,7 +20,7 @@ import DeferredSection from '../components/common/DeferredSection';
 export default function HomePage() {
   return (
     <div style={{ position: 'relative', width: '100%', overflow: 'hidden' }}>
-      <SEO {...PAGE_SEO.home} />
+      <SEO {...PAGE_SEO.home} schema={PAGE_SCHEMAS.home} />
       <GlobalThread />
       
       {/* First viewport: Rendered immediately */}

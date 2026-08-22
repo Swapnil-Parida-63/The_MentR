@@ -3,6 +3,8 @@ import { Scale, Users, UserCheck, Shield, ArrowLeft } from 'lucide-react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import SEO from '../components/common/SEO';
 import { PAGE_SEO } from '../config/seo.config';
+import { PAGE_SCHEMAS } from '../config/schema.config';
+import Breadcrumbs from '../components/common/Breadcrumbs';
 
 export default function TermsPage() {
   const location = useLocation();
@@ -36,31 +38,22 @@ export default function TermsPage() {
 
   return (
     <div className="subpage-wrapper legal-reduced-font" style={{ minHeight: '100vh', background: 'linear-gradient(180deg, #F0F5FF 0%, #EBF2FE 100%)', paddingBottom: 100 }}>
-      <SEO {...termsSeo} />
+      <SEO {...termsSeo} schema={PAGE_SCHEMAS.terms} />
       <style>{`
         .legal-reduced-font h1 {
           font-size: 21px !important;
           line-height: 1.25 !important;
         }
         .legal-reduced-font h2 {
-          font-size: 13px !important;
+          font-size: 16.5px !important;
           line-height: 1.3 !important;
         }
         .legal-reduced-font h3 {
-          font-size: 10px !important;
+          font-size: 13.5px !important;
           line-height: 1.35 !important;
-          margin-top: 14px !important;
-          margin-bottom: 6px !important;
         }
-        .legal-reduced-font h4 {
-          font-size: 8px !important;
-          line-height: 1.35 !important;
-          margin-top: 8px !important;
-        }
-        .legal-reduced-font p, 
-        .legal-reduced-font li, 
-        .legal-reduced-font span, 
-        .legal-reduced-font div,
+        .legal-reduced-font p,
+        .legal-reduced-font li,
         .legal-reduced-font td,
         .legal-reduced-font th,
         .legal-reduced-font strong,
@@ -73,6 +66,8 @@ export default function TermsPage() {
         }
       `}</style>
       <div className="container" style={{ paddingTop: 40 }}>
+        
+        <Breadcrumbs items={[{ name: 'Home', url: '/' }, { name: 'Terms & Policy', url: '/terms' }]} />
         
         {/* Back Button */}
         <button

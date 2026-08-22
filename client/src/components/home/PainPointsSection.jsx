@@ -337,7 +337,13 @@ export default function PainPointsSection() {
                       </div>
                       <div 
                         onClick={() => setExpandedParentPoint(expandedParentPoint === point.id ? null : point.id)}
-                        style={{ cursor: 'pointer', userSelect: 'none', flex: 1 }}
+                        style={{ 
+                          cursor: 'pointer', 
+                          userSelect: 'none', 
+                          flex: 1,
+                          touchAction: 'manipulation',
+                          WebkitTapHighlightColor: 'transparent'
+                        }}
                       >
                         <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
                           <h4 style={{ margin: '0 0 4px', fontSize: 18, fontWeight: 700, color: '#1E293B' }}>{point.title}</h4>
@@ -345,7 +351,7 @@ export default function PainPointsSection() {
                             fontSize: 16, 
                             fontWeight: 'bold', 
                             color: expandedParentPoint === point.id ? '#4F7CFF' : '#94A3B8',
-                            transition: 'transform 0.25s ease, color 0.2s ease',
+                            transition: 'transform 0.18s cubic-bezier(0.2, 0, 0, 1), color 0.15s ease',
                             transform: expandedParentPoint === point.id ? 'rotate(45deg)' : 'rotate(0deg)',
                             display: 'inline-block',
                             lineHeight: 1
@@ -356,7 +362,7 @@ export default function PainPointsSection() {
                             display: 'grid',
                             gridTemplateRows: expandedParentPoint === point.id ? '1fr' : '0fr',
                             opacity: expandedParentPoint === point.id ? 1 : 0,
-                            transition: 'grid-template-rows 0.28s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.22s ease-out',
+                            transition: 'grid-template-rows 0.18s cubic-bezier(0.2, 0, 0, 1), opacity 0.15s ease-out',
                             willChange: 'grid-template-rows, opacity',
                             transform: 'translateZ(0)'
                           }}
@@ -893,14 +899,20 @@ export default function PainPointsSection() {
                       </div>
                       <div 
                         onClick={() => setExpandedTeacherPoint(expandedTeacherPoint === point.id ? null : point.id)}
-                        style={{ cursor: 'pointer', userSelect: 'none', flex: 1 }}
+                        style={{ 
+                          cursor: 'pointer', 
+                          userSelect: 'none', 
+                          flex: 1,
+                          touchAction: 'manipulation',
+                          WebkitTapHighlightColor: 'transparent'
+                        }}
                       >
                         <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
                           <span style={{ 
                             fontSize: 16, 
                             fontWeight: 'bold', 
                             color: expandedTeacherPoint === point.id ? '#7B61FF' : '#94A3B8',
-                            transition: 'transform 0.25s ease, color 0.2s ease',
+                            transition: 'transform 0.18s cubic-bezier(0.2, 0, 0, 1), color 0.15s ease',
                             transform: expandedTeacherPoint === point.id ? 'rotate(45deg)' : 'rotate(0deg)',
                             display: 'inline-block',
                             lineHeight: 1
@@ -912,7 +924,7 @@ export default function PainPointsSection() {
                             display: 'grid',
                             gridTemplateRows: expandedTeacherPoint === point.id ? '1fr' : '0fr',
                             opacity: expandedTeacherPoint === point.id ? 1 : 0,
-                            transition: 'grid-template-rows 0.28s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.22s ease-out',
+                            transition: 'grid-template-rows 0.18s cubic-bezier(0.2, 0, 0, 1), opacity 0.15s ease-out',
                             willChange: 'grid-template-rows, opacity',
                             transform: 'translateZ(0)'
                           }}

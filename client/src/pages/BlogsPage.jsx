@@ -4,6 +4,8 @@ import { FadeUp } from '../hooks/useScrollReveal';
 import { Clock, Calendar, User, ArrowLeft, ArrowUpRight } from 'lucide-react';
 import SEO from '../components/common/SEO';
 import { PAGE_SEO } from '../config/seo.config';
+import { PAGE_SCHEMAS } from '../config/schema.config';
+import Breadcrumbs from '../components/common/Breadcrumbs';
 
 // ==============================================================
 // 1. COVER ILLUSTRATIONS (Minimalist Vector Art)
@@ -501,7 +503,7 @@ export default function BlogsPage() {
 
   return (
     <div className="section subpage-wrapper" style={{ background: 'transparent', minHeight: '100vh', paddingTop: '140px', position: 'relative', overflow: 'hidden' }}>
-      <SEO {...currentSeo} />
+      <SEO {...currentSeo} schema={PAGE_SCHEMAS.blogs} />
       
       {/* Background ambient glows */}
       <div style={{
@@ -528,6 +530,8 @@ export default function BlogsPage() {
       }} />
 
       <div className="container" style={{ position: 'relative', zIndex: 1 }}>
+        <Breadcrumbs items={selectedArticle ? [{ name: 'Home', url: '/' }, { name: 'Blogs', url: '/blogs' }, { name: selectedArticle.title, url: '/blogs' }] : [{ name: 'Home', url: '/' }, { name: 'Blogs', url: '/blogs' }]} />
+        
         
         {selectedArticle ? (
           <div>

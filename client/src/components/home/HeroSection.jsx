@@ -544,7 +544,7 @@ export default function HeroSection() {
           >
             <img
               src={src}
-              alt={`TheMentR Learning Story ${index + 1}`}
+              alt={`TheMentR home tutor guiding student - story ${index + 1}`}
               loading={index === 0 ? 'eager' : 'lazy'}
               fetchPriority={index === 0 ? 'high' : 'auto'}
               style={{
@@ -814,7 +814,7 @@ export default function HeroSection() {
           }}>
             <img 
               src={`${import.meta.env.BASE_URL}ChatGPT Image Jul 31, 2026, 01_55_40 AM.webp`} 
-              alt="Ecosystem graphic" 
+              alt="" 
               loading="lazy"
               width="800"
               height="533"

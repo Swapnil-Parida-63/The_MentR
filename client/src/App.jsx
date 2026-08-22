@@ -15,6 +15,7 @@ const PricingPage = lazy(() => import('./pages/PricingPage'));
 const AvsarPage = lazy(() => import('./pages/AvsarPage'));
 const EcosystemPage = lazy(() => import('./pages/EcosystemPage'));
 const TeacherTermsPage = lazy(() => import('./pages/TeacherTermsPage'));
+const SitemapPage = lazy(() => import('./pages/SitemapPage'));
 
 import SEO from './components/common/SEO';
 import { PAGE_SEO } from './config/seo.config';
@@ -60,6 +61,7 @@ export default function App() {
               <Route path="/pricing" element={<PricingPage />} />
               <Route path="/avsar" element={<AvsarPage />} />
               <Route path="/ecosystem" element={<EcosystemPage />} />
+              <Route path="/sitemap" element={<SitemapPage />} />
               <Route path="*" element={
                 <div className="section" style={{ textAlign: 'center', minHeight: '60vh', display: 'flex', alignItems: 'center', justifyContent: 'center', flexDirection: 'column' }}>
                   <SEO {...PAGE_SEO.notFound} />

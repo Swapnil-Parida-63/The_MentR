@@ -65,6 +65,7 @@ export default function Footer() {
       links: [
         { label: 'FAQ', onClick: () => navigateAndScroll('/', 'contact-section') },
         { label: 'Help Centre', to: '/contact' },
+        { label: 'Sitemap', to: '/sitemap' },
         { label: 'Terms & Conditions', to: '/terms-parents', target: '_blank' },
         { label: 'Privacy Policy', to: '/privacy', target: '_blank' }
       ]

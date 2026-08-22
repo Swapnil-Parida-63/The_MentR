@@ -20,7 +20,7 @@ const ParentScreen = ({ index }) => {
     <div style={{ width: '100%', height: '100%', overflow: 'hidden', background: '#0F172A', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
       <img 
         src={images[index]} 
-        alt={`Parent App Screen ${index + 1}`} 
+        alt={`TheMentR Parent App - Tutor tracking interface ${index + 1}`} 
         loading="lazy"
         width="575"
         height="1280"
@@ -124,7 +124,7 @@ const OlympiadScreen = ({ index }) => {
           <div style={{ display: 'grid', gridTemplateColumns: '1.4fr 1fr', gap: 16, padding: 16, flexGrow: 1 }} className="olympiad-portal-layout">
             <div style={{ display: 'flex', flexDirection: 'column', gap: 12 }}>
               <div style={{ background: '#FFFFFF', border: '1px solid rgba(15,23,42,0.04)', borderRadius: 12, padding: 16, boxShadow: '0 2px 8px rgba(0,0,0,0.01)' }}>
-                <h5 style={{ margin: 0, fontSize: 13, fontWeight: 800, color: '#0F172A' }}>International Math Olympiad (IMO)</h5>
+                <div style={{ margin: 0, fontSize: 13, fontWeight: 800, color: '#0F172A' }}>International Math Olympiad (IMO)</div>
                 <p style={{ margin: '4px 0 0', fontSize: 11, color: '#64748B' }}>Mock practice series 3 is active and available for benchmarking.</p>
                 <div style={{ display: 'flex', gap: 8, marginTop: 12 }}>
                   <span style={{ fontSize: 9, fontWeight: 700, padding: '2px 8px', background: '#ECFDF5', color: '#059669', borderRadius: 4 }}>Active Now</span>
@@ -134,7 +134,7 @@ const OlympiadScreen = ({ index }) => {
             </div>
             <div style={{ display: 'flex', flexDirection: 'column', gap: 12 }}>
               <div style={{ background: '#FFFFFF', border: '1px solid rgba(15,23,42,0.04)', borderRadius: 12, padding: 16, boxShadow: '0 2px 8px rgba(0,0,0,0.01)' }}>
-                <h6 style={{ margin: 0, fontSize: 11, color: '#64748B', fontWeight: 700 }}>NATIONAL RANKING</h6>
+                <div style={{ margin: 0, fontSize: 11, color: '#64748B', fontWeight: 700 }}>NATIONAL RANKING</div>
                 <div style={{ display: 'flex', alignItems: 'baseline', gap: 4, marginTop: 6 }}>
                   <span style={{ fontSize: 22, fontWeight: 900, color: '#7469F8' }}>#182</span>
                   <span style={{ fontSize: 10, color: '#10B981', fontWeight: 700 }}>Top 5%</span>
@@ -522,14 +522,14 @@ function OlympiadRegisterForm({ onClose }) {
 // ==============================================================
 // 2. MAIN SHOWCASE SECTION COMPONENT
 // ==============================================================
-export default function ShowcaseSection() {
+export default function ShowcaseSection({ isStandalonePage = false }) {
   const location = useLocation();
   const { openModal } = useModal();
   const [activeTab, setActiveTab] = useState(0); // 0: Parent, 1: Teacher, 2: Online, 3: Olympiad
   const [parentIndex, setParentIndex] = useState(0);
   const [teacherIndex, setTeacherIndex] = useState(0);
+  const [onlineIndex, setOnlineIndex] = useState(0);
   const [olympiadIndex, setOlympiadIndex] = useState(0);
-  const [showOlympiadModal, setShowOlympiadModal] = useState(false);
   const [isMobile, setIsMobile] = useState(window.innerWidth < 1024);
   const [showcaseHeaderOpen, setShowcaseHeaderOpen] = useState(false);
   const [isShowcaseDescExpanded, setIsShowcaseDescExpanded] = useState(false);
@@ -587,13 +587,23 @@ export default function ShowcaseSection() {
         <div className="showcase-header">
           <FadeUp><div className="showcase-eyebrow">THEMENTR ECOSYSTEM</div></FadeUp>
           <FadeUp delay={0.1}>
-            <h2 
-              onClick={() => isMobile && setShowcaseHeaderOpen(!showcaseHeaderOpen)}
-              className="showcase-title"
-              style={{ cursor: isMobile ? 'pointer' : 'default', userSelect: 'none' }}
-            >
-              One platform.<br />Four connected experiences.
-            </h2>
+            {isStandalonePage ? (
+              <h1 
+                onClick={() => isMobile && setShowcaseHeaderOpen(!showcaseHeaderOpen)}
+                className="showcase-title"
+                style={{ cursor: isMobile ? 'pointer' : 'default', userSelect: 'none' }}
+              >
+                The MentR Ecosystem — One platform. Four connected experiences.
+              </h1>
+            ) : (
+              <h2 
+                onClick={() => isMobile && setShowcaseHeaderOpen(!showcaseHeaderOpen)}
+                className="showcase-title"
+                style={{ cursor: isMobile ? 'pointer' : 'default', userSelect: 'none' }}
+              >
+                One platform.<br />Four connected experiences.
+              </h2>
+            )}
           </FadeUp>
           {(!isMobile || showcaseHeaderOpen) && (
             <FadeUp delay={0.15}>

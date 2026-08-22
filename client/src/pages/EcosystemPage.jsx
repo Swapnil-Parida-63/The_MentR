@@ -2,6 +2,8 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import { ArrowLeft } from 'lucide-react';
 import SEO from '../components/common/SEO';
+import { PAGE_SCHEMAS } from '../config/schema.config';
+import Breadcrumbs from '../components/common/Breadcrumbs';
 import ShowcaseSection from '../components/home/ShowcaseSection';
 
 export default function EcosystemPage() {
@@ -10,10 +12,12 @@ export default function EcosystemPage() {
       <SEO 
         title="The MentR Ecosystem | Apps & Sourcing"
         description="Explore The MentR parent, teacher, and Olympiad apps that drive our unified educational ecosystem."
+        schema={PAGE_SCHEMAS.ecosystem}
       />
       
       {/* Sleek Floating Back to Home button */}
       <div className="container" style={{ position: 'relative', zIndex: 10, paddingTop: '10px', marginBottom: '-60px' }}>
+        <Breadcrumbs items={[{ name: 'Home', url: '/' }, { name: 'Ecosystem', url: '/ecosystem' }]} />
         <Link to="/" style={{
           display: 'inline-flex',
           alignItems: 'center',
@@ -47,7 +51,7 @@ export default function EcosystemPage() {
         </Link>
       </div>
 
-      <ShowcaseSection />
+      <ShowcaseSection isStandalonePage={true} />
     </div>
   );
 }

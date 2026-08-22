@@ -1,0 +1,31 @@
+# TheMentR
+
+> TheMentR is a next-generation education platform connecting 100% background-checked home tutors, motivated K-12 students, and parents with structured learning, diagnostic assessments, and full curriculum mapping.
+
+## Main Pages
+
+- [Home](https://thementr.com/): Where Learning Meets Purpose — 100% verified home tutors and diagnostic assessments.
+- [Pricing](https://thementr.com/pricing): Transparent home tuition packages across Classes 1–12, CBSE, ICSE, IGCSE & State Boards.
+- [AVSAR Assessment](https://thementr.com/avsar): In-home 60–90 minute diagnostic assessment visits and student evaluation reports.
+- [Ecosystem](https://thementr.com/ecosystem): Integrated Parent, Teacher, and Olympiad prep mobile applications.
+- [Educational Journal](https://thementr.com/blogs): Expert study guidance, parenting tips, and K-12 learning insights.
+- [Contact Us](https://thementr.com/contact): 24/7 customer support, toll-free helpline, and assessment booking inquiry.
+- [HTML Sitemap](https://thementr.com/sitemap): Complete website directory and section navigation.
+
+## Core Services
+
+- **Home Tuition & 1-on-1 Mentorship**: AI-assisted tutor matching for K-12 students across CBSE, ICSE, IGCSE, and State Boards with verified educators.
+- **AVSAR Diagnostic Assessment Visit**: Comprehensive at-home learning evaluations (60–90 min) measuring subject familiarity, learning style, and academic goals before tutor placement.
+
+## Platform Information
+
+- **Target Audience**: Students (Classes 1–12, KG–PG), Parents seeking home tuition, Verified Educators, and Educational Institutions.
+- **Safety & Verification**: Multi-layered background screening, government ID authentication, degree verification, demo sessions, and annual re-verification.
+- **Headquarters**: Plot no. 2937/6463, Saptasati Vihar, Palasuni, Bhubaneswar, Odisha 751025, India.
+- **Primary Contact Email**: contact@thementr.com
+- **Toll-Free Helpline**: 1800 889 2388 (9:30 AM – 5:30 PM IST, All days)
+- **Direct Phone**: +91 96685 62631 (24/7 Support)
+
+## Policies & Legal
+
+- [Terms of Service & Privacy Policy](https://thementr.com/terms): Complete legal center covering Teacher Agreements, Parent Code of Conduct, and Data Privacy.
