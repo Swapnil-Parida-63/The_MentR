@@ -480,27 +480,28 @@ export default function ServicesSection() {
                   </div>
 
                   {/* Expanded Body Content */}
-                  <AnimatePresence initial={false}>
-                    {isExpanded && (
-                      <motion.div
-                        initial={{ height: 0, opacity: 0, marginTop: 0 }}
-                        animate={{ height: 'auto', opacity: 1, marginTop: 12 }}
-                        exit={{ height: 0, opacity: 0, marginTop: 0 }}
-                        transition={{ duration: 0.35, ease: 'easeInOut' }}
-                        style={{ overflow: 'hidden', paddingLeft: '48px' }}
-                      >
-                        <p style={{ 
-                          fontSize: '14px', 
-                          color: '#64748B', 
-                          lineHeight: '1.5', 
-                          margin: 0 
-                        }}>
-                          {offer.subtitle}
-                        </p>
-                        {offer.details}
-                      </motion.div>
-                    )}
-                  </AnimatePresence>
+                  <div 
+                    style={{ 
+                      display: 'grid',
+                      gridTemplateRows: isExpanded ? '1fr' : '0fr',
+                      opacity: isExpanded ? 1 : 0,
+                      transition: 'grid-template-rows 0.28s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.22s ease-out',
+                      willChange: 'grid-template-rows, opacity',
+                      transform: 'translateZ(0)'
+                    }}
+                  >
+                    <div style={{ overflow: 'hidden', paddingLeft: '48px', paddingTop: isExpanded ? '12px' : '0px', transition: 'padding-top 0.28s ease' }}>
+                      <p style={{ 
+                        fontSize: '14px', 
+                        color: '#64748B', 
+                        lineHeight: '1.5', 
+                        margin: 0 
+                      }}>
+                        {offer.subtitle}
+                      </p>
+                      {offer.details}
+                    </div>
+                  </div>
                 </div>
               );
             })}

@@ -265,16 +265,23 @@ export default function TestimonialsSection() {
               Teaching and Learning growing with The MentR
             </h2>
           </FadeUp>
-          <motion.div
-            initial={isMobile ? { opacity: 0, height: 0, marginTop: 0 } : { opacity: 1, height: 'auto' }}
-            animate={!isMobile || isDescExpanded ? { opacity: 1, height: 'auto' } : { opacity: 0, height: 0 }}
-            transition={{ duration: 0.3, ease: 'easeOut' }}
-            style={{ overflow: 'hidden' }}
+          <div
+            style={{
+              display: 'grid',
+              gridTemplateRows: (!isMobile || isDescExpanded) ? '1fr' : '0fr',
+              opacity: (!isMobile || isDescExpanded) ? 1 : 0,
+              marginTop: (!isMobile || isDescExpanded) ? 12 : 0,
+              transition: 'grid-template-rows 0.28s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.22s ease-out, margin-top 0.28s ease',
+              willChange: 'grid-template-rows, opacity',
+              transform: 'translateZ(0)'
+            }}
           >
-            <p style={{ fontSize: 16, color: '#64748B', lineHeight: 1.6, margin: 0 }}>
-              Hear directly from parents and teachers who have experienced the MentR journey and trusted us with learning.
-            </p>
-          </motion.div>
+            <div style={{ overflow: 'hidden' }}>
+              <p style={{ fontSize: 16, color: '#64748B', lineHeight: 1.6, margin: 0 }}>
+                Hear directly from parents and teachers who have experienced the MentR journey and trusted us with learning.
+              </p>
+            </div>
+          </div>
         </div>
 
         {/* Testimonial Filter Bar & Submit Feedback CTA */}

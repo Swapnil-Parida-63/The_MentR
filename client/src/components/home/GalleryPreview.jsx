@@ -154,22 +154,29 @@ export default function GalleryPreview({ background = 'var(--color-neutral)' }) 
               Moments worth celebrating.
             </h2>
           </FadeUp>
-          <motion.div
-            initial={isMobile ? { opacity: 0, height: 0, marginTop: 0 } : { opacity: 1, height: 'auto' }}
-            animate={!isMobile || isDescExpanded ? { opacity: 1, height: 'auto' } : { opacity: 0, height: 0 }}
-            transition={{ duration: 0.3, ease: 'easeOut' }}
-            style={{ overflow: 'hidden' }}
+          <div
+            style={{
+              display: 'grid',
+              gridTemplateRows: (!isMobile || isDescExpanded) ? '1fr' : '0fr',
+              opacity: (!isMobile || isDescExpanded) ? 1 : 0,
+              marginTop: (!isMobile || isDescExpanded) ? 12 : 0,
+              transition: 'grid-template-rows 0.28s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.22s ease-out, margin-top 0.28s ease',
+              willChange: 'grid-template-rows, opacity',
+              transform: 'translateZ(0)'
+            }}
           >
-            <p style={{
-              fontFamily: 'var(--font-body)',
-              fontSize: isMobile ? '14px' : '16px',
-              color: '#64748B',
-              lineHeight: 1.6,
-              margin: 0
-            }}>
-              From student achievements and Olympiad milestones to mentor moments and community events, explore the people and moments that make The MentR special.
-            </p>
-          </motion.div>
+            <div style={{ overflow: 'hidden' }}>
+              <p style={{
+                fontFamily: 'var(--font-body)',
+                fontSize: isMobile ? '14px' : '16px',
+                color: '#64748B',
+                lineHeight: 1.6,
+                margin: 0
+              }}>
+                From student achievements and Olympiad milestones to mentor moments and community events, explore the people and moments that make The MentR special.
+              </p>
+            </div>
+          </div>
         </div>
 
         {/* CURATED PHOTOGRAPH COMPOSITION */}

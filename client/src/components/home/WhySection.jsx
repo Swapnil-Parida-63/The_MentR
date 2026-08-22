@@ -342,27 +342,29 @@ export default function WhySection() {
                           </motion.div>
                         </div>
 
-                        <AnimatePresence initial={false}>
-                          {isExpanded && (
-                            <motion.div
-                              initial={{ height: 0, opacity: 0, marginTop: 0 }}
-                              animate={{ height: 'auto', opacity: 1, marginTop: 8 }}
-                              exit={{ height: 0, opacity: 0, marginTop: 0 }}
-                              transition={{ duration: 0.28, ease: "easeInOut" }}
-                              style={{ overflow: 'hidden' }}
-                            >
-                              <p style={{ 
-                                margin: 0, 
-                                fontSize: '13px', 
-                                lineHeight: 1.6, 
-                                color: '#64748B',
-                                fontWeight: 400
-                              }}>
-                                {mod.description}
-                              </p>
-                            </motion.div>
-                          )}
-                        </AnimatePresence>
+                        <div 
+                          style={{ 
+                            display: 'grid',
+                            gridTemplateRows: isExpanded ? '1fr' : '0fr',
+                            opacity: isExpanded ? 1 : 0,
+                            marginTop: isExpanded ? 8 : 0,
+                            transition: 'grid-template-rows 0.28s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.22s ease-out, margin-top 0.28s ease',
+                            willChange: 'grid-template-rows, opacity',
+                            transform: 'translateZ(0)'
+                          }}
+                        >
+                          <div style={{ overflow: 'hidden' }}>
+                            <p style={{ 
+                              margin: 0, 
+                              fontSize: '13px', 
+                              lineHeight: 1.6, 
+                              color: '#64748B',
+                              fontWeight: 400
+                            }}>
+                              {mod.description}
+                            </p>
+                          </div>
+                        </div>
                       </div>
                     </div>
                   );

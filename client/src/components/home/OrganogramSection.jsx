@@ -219,16 +219,23 @@ export default function OrganogramSection() {
                   Behind Every Successful Learning Journey
                 </h2>
               </FadeUp>
-              <motion.div
-                initial={{ opacity: 0, height: 0, marginTop: 0 }}
-                animate={isDescExpanded ? { opacity: 1, height: 'auto', marginTop: 12 } : { opacity: 0, height: 0, marginTop: 0 }}
-                transition={{ duration: 0.3, ease: 'easeOut' }}
-                style={{ overflow: 'hidden' }}
+              <div
+                style={{
+                  display: 'grid',
+                  gridTemplateRows: isDescExpanded ? '1fr' : '0fr',
+                  opacity: isDescExpanded ? 1 : 0,
+                  marginTop: isDescExpanded ? 12 : 0,
+                  transition: 'grid-template-rows 0.28s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.22s ease-out, margin-top 0.28s ease',
+                  willChange: 'grid-template-rows, opacity',
+                  transform: 'translateZ(0)'
+                }}
               >
-                <p style={{ color: 'var(--color-text-secondary)', fontSize: 14, lineHeight: 1.6, margin: 0 }}>
-                  See how MentR brings together leadership, expert teams, technology and educators to create a seamless learning experience.
-                </p>
-              </motion.div>
+                <div style={{ overflow: 'hidden' }}>
+                  <p style={{ color: 'var(--color-text-secondary)', fontSize: 14, lineHeight: 1.6, margin: 0 }}>
+                    See how MentR brings together leadership, expert teams, technology and educators to create a seamless learning experience.
+                  </p>
+                </div>
+              </div>
             </div>
 
             {/* Real Vertical Organogram Tree */}
