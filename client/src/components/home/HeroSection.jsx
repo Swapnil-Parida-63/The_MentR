@@ -771,7 +771,7 @@ export default function HeroSection() {
           background: 'linear-gradient(180deg, #FFFFFF 0%, #E3E8FF 50%, rgba(143, 149, 246, 0.42) 100%)', 
           position: 'relative', 
           overflow: 'hidden', 
-          padding: isMobile ? '60px 0 40px' : '90px 0 50px',
+          padding: isMobile ? '40px 0 20px' : '50px 0 30px',
           borderTop: '1px solid rgba(226, 232, 240, 0.6)'
         }}
       >

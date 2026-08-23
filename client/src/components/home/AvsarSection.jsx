@@ -153,7 +153,7 @@ export default function AvsarSection({ isStandalonePage = false }) {
       id="avsar" 
       style={{ 
         background: 'linear-gradient(180deg, #FFFFFF 0%, #E3E8FF 50%, rgba(143, 149, 246, 0.42) 100%)', 
-        padding: isMobile ? '80px 0 100px' : '140px 0 160px', 
+        padding: isMobile ? '40px 0 50px' : '50px 0 60px', 
         position: 'relative', 
         overflow: 'hidden',
         fontFamily: 'var(--font-sans)'

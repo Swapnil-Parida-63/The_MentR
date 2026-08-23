@@ -57,40 +57,40 @@ export default function HomePage() {
       <HeroSection />
 
       {/* Below-the-fold sections: Deferred until user scrolls near them */}
-      <DeferredSection id="vision" minHeight="600px">
+      <DeferredSection id="vision" minHeight="200px">
         <VisionSection />
       </DeferredSection>
-      <DeferredSection id="pain" minHeight="600px">
+      <DeferredSection id="pain" minHeight="200px">
         <PainPointsSection />
       </DeferredSection>
-      <DeferredSection id="why" minHeight="600px">
+      <DeferredSection id="why" minHeight="200px">
         <WhySection />
       </DeferredSection>
-      <DeferredSection id="services" minHeight="600px">
+      <DeferredSection id="services" minHeight="200px">
         <ServicesSection />
       </DeferredSection>
-      <DeferredSection id="avsar" minHeight="500px">
+      <DeferredSection id="avsar" minHeight="200px">
         <AvsarSection />
       </DeferredSection>
-      <DeferredSection id="organogram" minHeight="500px">
+      <DeferredSection id="organogram" minHeight="200px">
         <OrganogramSection />
       </DeferredSection>
-      <DeferredSection id="showcase" minHeight="600px">
+      <DeferredSection id="showcase" minHeight="200px">
         <ShowcaseSection />
       </DeferredSection>
-      <DeferredSection id="testimonials" minHeight="500px">
+      <DeferredSection id="testimonials" minHeight="200px">
         <TestimonialsSection />
       </DeferredSection>
-      <DeferredSection id="gallery" minHeight="500px">
+      <DeferredSection id="gallery" minHeight="200px">
         <GalleryPreview />
       </DeferredSection>
-      <DeferredSection id="blogs" minHeight="500px">
+      <DeferredSection id="blogs" minHeight="200px">
         <BlogsPreview />
       </DeferredSection>
-      <DeferredSection id="contact-forms" minHeight="500px">
+      <DeferredSection id="contact-forms" minHeight="200px">
         <FormsSection />
       </DeferredSection>
-      <DeferredSection id="contact-section" minHeight="500px">
+      <DeferredSection id="contact-section" minHeight="200px">
         <ContactSection />
       </DeferredSection>
     </div>

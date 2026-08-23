@@ -312,7 +312,7 @@ export default function ServicesSection() {
       id="services" 
       style={{ 
         background: 'linear-gradient(180deg, rgba(143, 149, 246, 0.42) 0%, #E3E8FF 50%, #FFFFFF 100%)', 
-        padding: isMobile ? '60px 0' : '110px 0',
+        padding: isMobile ? '40px 0' : '50px 0',
         position: 'relative',
         overflow: 'hidden'
       }}

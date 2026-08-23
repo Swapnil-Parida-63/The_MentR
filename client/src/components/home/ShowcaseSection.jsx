@@ -580,7 +580,7 @@ export default function ShowcaseSection({ isStandalonePage = false }) {
   }, [activeTab]);
 
   return (
-    <section id="showcase" className="section" style={{ background: 'linear-gradient(180deg, #FFFFFF 0%, #E3E8FF 50%, rgba(143, 149, 246, 0.42) 100%)', position: 'relative', overflow: 'hidden', padding: '140px 0' }}>
+    <section id="showcase" className="section" style={{ background: 'linear-gradient(180deg, #FFFFFF 0%, #E3E8FF 50%, rgba(143, 149, 246, 0.42) 100%)', position: 'relative', overflow: 'hidden', padding: isMobile ? '40px 0' : '50px 0' }}>
       
       {/* Background layer: Subtle warm glow */}
       <div style={{

@@ -194,7 +194,7 @@ export default function PainPointsSection() {
       {/* ============================================================== */}
       <div style={{
         background: 'linear-gradient(180deg, #FFFFFF 0%, #E3E8FF 60%, #FFFFFF 100%)',
-        padding: isMobile ? '80px 0 60px' : '120px 0 100px',
+        padding: isMobile ? '40px 0 30px' : '50px 0 40px',
         position: 'relative',
         zIndex: 1
       }}>
@@ -615,7 +615,7 @@ export default function PainPointsSection() {
     {/* ============================================================== */}
     <div style={{
       background: 'linear-gradient(180deg, #FFFFFF 0%, #E3E8FF 40%, #FFFFFF 100%)',
-      padding: isMobile ? '80px 0 100px' : '120px 0 140px',
+      padding: isMobile ? '40px 0 50px' : '50px 0 60px',
       position: 'relative',
       zIndex: 1
     }}>

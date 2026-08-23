@@ -108,7 +108,7 @@ export default function WhySection() {
       id="why" 
       style={{ 
         background: 'linear-gradient(180deg, #FFFFFF 0%, #E3E8FF 50%, rgba(143, 149, 246, 0.42) 100%)', 
-        padding: isMobile ? '140px 0 100px' : '150px 0', 
+        padding: isMobile ? '50px 0 40px' : '60px 0', 
         position: 'relative', 
         overflow: 'hidden',
         fontFamily: 'var(--font-sans)',

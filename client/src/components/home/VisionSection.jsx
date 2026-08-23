@@ -162,7 +162,7 @@ export default function VisionSection() {
         style={{
           ...sectionBase,
           background: 'linear-gradient(180deg, rgba(143, 149, 246, 0.42) 0%, #E3E8FF 50%, #FFFFFF 100%)',
-          padding: isMobile ? '80px 0 60px' : '120px 0 100px',
+          padding: isMobile ? '40px 0 30px' : '50px 0 40px',
         }}
       >
         {/* Ambient glows */}
@@ -363,7 +363,7 @@ export default function VisionSection() {
         style={{
           ...sectionBase,
           background: 'linear-gradient(180deg, #FFFFFF 0%, #E3E8FF 50%, rgba(143, 149, 246, 0.42) 100%)',
-          padding: isMobile ? '60px 0 80px' : '100px 0 120px',
+          padding: isMobile ? '40px 0 40px' : '50px 0 50px',
         }}
       >
         {/* Ambient glows */}
@@ -539,7 +539,7 @@ export default function VisionSection() {
         ref={timelineRef}
         style={{
           background: 'linear-gradient(180deg, rgba(143, 149, 246, 0.42) 0%, #E3E8FF 50%, #FFFFFF 100%)',
-          padding: isMobile ? '60px 0 70px' : '80px 0 100px',
+          padding: isMobile ? '40px 0 40px' : '50px 0 60px',
           position: 'relative',
           overflow: 'hidden',
         }}
