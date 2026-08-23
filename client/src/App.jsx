@@ -24,7 +24,9 @@ import { PAGE_SEO } from './config/seo.config';
 function ScrollToTop() {
   const { pathname } = useLocation();
   useEffect(() => {
-    window.scrollTo(0, 0);
+    if (!window.__PENDING_SECTION_SCROLL__) {
+      window.scrollTo(0, 0);
+    }
   }, [pathname]);
   return null;
 }

@@ -556,6 +556,19 @@ export default function ShowcaseSection({ isStandalonePage = false }) {
     else if (hash === '#olympiad') setActiveTab(3);
   }, [location.hash, location.pathname]);
 
+  // Synchronize activeTab with custom select-showcase-tab event
+  useEffect(() => {
+    const handleTabSelect = (e) => {
+      const tabId = e.detail;
+      if (tabId === 'parent' || tabId === 'parent-app') setActiveTab(0);
+      else if (tabId === 'teacher' || tabId === 'teacher-app') setActiveTab(1);
+      else if (tabId === 'online' || tabId === 'online-app') setActiveTab(2);
+      else if (tabId === 'olympiad') setActiveTab(3);
+    };
+    window.addEventListener('select-showcase-tab', handleTabSelect);
+    return () => window.removeEventListener('select-showcase-tab', handleTabSelect);
+  }, []);
+
   // Auto transition parent/teacher/olympiad sub-screens
   useEffect(() => {
     const t = setInterval(() => {

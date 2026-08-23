@@ -28,45 +28,103 @@ export default function Navbar() {
     };
   }, []);
 
-  const navigateAndScroll = (path, hashId) => {
-    setMobileMenuOpen(false);
+  const SECTION_ORDER = [
+    'vision',
+    'pain',
+    'why',
+    'services',
+    'avsar',
+    'organogram',
+    'showcase',
+    'testimonials',
+    'gallery',
+    'blogs',
+    'contact-forms',
+    'contact-section'
+  ];
 
-    const performScroll = () => {
-      if (!hashId) {
+  const navigateAndScroll = (targetId, tabId = null) => {
+    setMobileMenuOpen(false);
+    setServicesHovered(false);
+
+    if (typeof window !== 'undefined' && window.__ACTIVE_STABILIZE_RAF__) {
+      cancelAnimationFrame(window.__ACTIVE_STABILIZE_RAF__);
+      window.__ACTIVE_STABILIZE_RAF__ = null;
+    }
+    if (typeof window !== 'undefined' && window.__ACTIVE_SCROLL_INTERVAL__) {
+      clearInterval(window.__ACTIVE_SCROLL_INTERVAL__);
+      window.__ACTIVE_SCROLL_INTERVAL__ = null;
+    }
+
+    // Explicit route path (like '/pricing')
+    if (targetId && targetId.startsWith('/')) {
+      navigate(targetId);
+      return;
+    }
+
+    const performSectionScroll = () => {
+      if (tabId) {
+        window.dispatchEvent(new CustomEvent('select-showcase-tab', { detail: tabId }));
+      }
+
+      if (!targetId) {
         window.scrollTo({ top: 0, behavior: 'smooth' });
+        window.__PENDING_SECTION_SCROLL__ = null;
         return;
       }
 
-      // Dispatch event to force DeferredSection to render immediately if deferred
-      window.dispatchEvent(new CustomEvent('force-mount-section', { detail: hashId }));
+      // Force mount all sections up to targetId to ensure layout above target is fully expanded & stable
+      const targetIndex = SECTION_ORDER.indexOf(targetId);
+      if (targetIndex !== -1) {
+        SECTION_ORDER.slice(0, targetIndex + 1).forEach(id => {
+          window.dispatchEvent(new CustomEvent('force-mount-section', { detail: id }));
+        });
+      } else {
+        window.dispatchEvent(new CustomEvent('force-mount-section', { detail: targetId }));
+      }
 
-      const tryScroll = () => {
-        const el = document.getElementById(hashId);
-        if (el) {
-          const yOffset = -75;
-          const y = el.getBoundingClientRect().top + (window.scrollY || window.pageYOffset || 0) + yOffset;
-          window.scrollTo({ top: Math.max(0, y), behavior: 'smooth' });
-          return true;
+      let lastHeight = 0;
+      let stableFrames = 0;
+      let totalAttempts = 0;
+
+      const checkAndScroll = () => {
+        totalAttempts++;
+        const currentHeight = document.body ? document.body.scrollHeight : 0;
+        const el = document.getElementById(targetId);
+        const isMounted = el && el.getAttribute('data-mounted') !== 'false';
+
+        if (currentHeight === lastHeight && currentHeight > 0 && isMounted) {
+          stableFrames++;
+        } else {
+          stableFrames = 0;
+          lastHeight = currentHeight;
         }
-        return false;
+
+        // Once layout has stabilized across 2 consecutive frames (or after max attempts)
+        if (stableFrames >= 2 || totalAttempts > 40) {
+          if (el) {
+            const yOffset = -75;
+            const y = el.getBoundingClientRect().top + (window.scrollY || window.pageYOffset || 0) + yOffset;
+            window.scrollTo({ top: Math.max(0, y), behavior: 'auto' });
+          }
+          window.__PENDING_SECTION_SCROLL__ = null;
+          window.__ACTIVE_STABILIZE_RAF__ = null;
+        } else {
+          window.__ACTIVE_STABILIZE_RAF__ = requestAnimationFrame(checkAndScroll);
+        }
       };
 
-      if (!tryScroll()) {
-        let attempts = 0;
-        const scrollInterval = setInterval(() => {
-          attempts++;
-          if (tryScroll() || attempts > 20) {
-            clearInterval(scrollInterval);
-          }
-        }, 50);
-      }
+      window.__ACTIVE_STABILIZE_RAF__ = requestAnimationFrame(checkAndScroll);
     };
 
-    if (path && window.location.pathname !== path) {
-      navigate(path);
-      setTimeout(performScroll, 120);
+    if (window.location.pathname !== '/') {
+      window.__PENDING_SECTION_SCROLL__ = targetId || 'top';
+      navigate('/');
+      requestAnimationFrame(() => {
+        setTimeout(performSectionScroll, 40);
+      });
     } else {
-      performScroll();
+      performSectionScroll();
     }
   };
 
@@ -99,11 +157,11 @@ export default function Navbar() {
           justifyContent: 'space-between', padding: '0 12px 0 8px', zIndex: 99999,
           boxShadow: '0 10px 32px rgba(37, 99, 235, 0.12), inset 0 1.5px 2px rgba(255, 255, 255, 0.95), inset 0 -1px 2px rgba(59, 130, 246, 0.12)'
         }}>
-          <Logo scrolled={true} onClick={() => navigateAndScroll('/', null)} />
+          <Logo scrolled={true} onClick={() => navigateAndScroll(null)} />
           
           <div style={{ display: 'flex', alignItems: 'center', gap: 4 }}>
             <button
-              onClick={() => navigateAndScroll('/', 'why')}
+              onClick={() => navigateAndScroll('why')}
               style={{
                 background: 'none', border: 'none', color: '#1D2433', fontSize: 13.5, fontWeight: 650,
                 cursor: 'pointer', padding: '8px 10px', minHeight: 38, display: 'inline-flex', alignItems: 'center',
@@ -113,7 +171,7 @@ export default function Navbar() {
               Why
             </button>
             <button
-              onClick={() => navigateAndScroll('/', 'services')}
+              onClick={() => navigateAndScroll('services')}
               style={{
                 background: 'none', border: 'none', color: '#1D2433', fontSize: 13.5, fontWeight: 650,
                 cursor: 'pointer', padding: '8px 10px', minHeight: 38, display: 'inline-flex', alignItems: 'center',
@@ -213,7 +271,7 @@ export default function Navbar() {
                                 Platform & Intelligence
                               </span>
                               <button
-                                onClick={() => navigateAndScroll('/avsar', null)}
+                                onClick={() => navigateAndScroll('avsar')}
                                 style={{
                                   background: 'none', border: 'none', color: '#1D2433', fontSize: 13.5,
                                   fontWeight: 600, cursor: 'pointer', textAlign: 'left', width: '100%',
@@ -232,14 +290,14 @@ export default function Navbar() {
                               </span>
                               <div style={{ display: 'flex', flexDirection: 'column', gap: 6, paddingLeft: 8 }}>
                                 {[
-                                  { title: 'The MentR parent app', desc: "Education doesn't feel like a burden, only when the parents stay informed.", path: '/ecosystem#parent' },
-                                  { title: 'The MentR teacher app', desc: 'Search for the verified home tutor ends here.', path: '/ecosystem#teacher' },
-                                  { title: 'The MentR online app', desc: 'Connecting with you, no matter the location.', path: '/ecosystem#online' },
-                                  { title: 'The MentR Olympiad', desc: 'Growth can be felt only when evaluated', path: '/ecosystem#olympiad' }
+                                  { title: 'The MentR parent app', desc: "Education doesn't feel like a burden, only when the parents stay informed.", targetId: 'showcase', tabId: 'parent' },
+                                  { title: 'The MentR teacher app', desc: 'Search for the verified home tutor ends here.', targetId: 'showcase', tabId: 'teacher' },
+                                  { title: 'The MentR online app', desc: 'Connecting with you, no matter the location.', targetId: 'showcase', tabId: 'online' },
+                                  { title: 'The MentR Olympiad', desc: 'Growth can be felt only when evaluated', targetId: 'showcase', tabId: 'olympiad' }
                                 ].map(subItem => (
                                   <button
                                     key={subItem.title}
-                                    onClick={() => navigateAndScroll(subItem.path, null)}
+                                    onClick={() => navigateAndScroll(subItem.targetId, subItem.tabId)}
                                     style={{
                                       background: 'none', border: 'none', color: '#1D2433', fontSize: 13.5,
                                       fontWeight: 500, cursor: 'pointer', textAlign: 'left', padding: '3px 0'
@@ -259,7 +317,7 @@ export default function Navbar() {
                   return (
                     <button
                       key={item.label}
-                      onClick={() => item.path ? navigateAndScroll(item.path, null) : navigateAndScroll('/', item.id)}
+                      onClick={() => item.path ? navigateAndScroll(item.path) : navigateAndScroll(item.id)}
                       style={{
                         background: 'none', border: 'none', color: '#1D2433', fontSize: 15,
                         fontWeight: 600, cursor: 'pointer', textAlign: 'left', fontFamily: 'var(--font-sans)',
@@ -274,7 +332,7 @@ export default function Navbar() {
                 {/* Action Buttons in Mobile Drawer */}
                 <div style={{ display: 'flex', flexDirection: 'column', gap: 10, marginTop: 16 }}>
                   <button
-                    onClick={() => navigateAndScroll('/', 'contact-forms')}
+                    onClick={() => navigateAndScroll('contact-forms')}
                     style={{
                       fontSize: 13.5,
                       padding: '11px 18px',
@@ -293,7 +351,7 @@ export default function Navbar() {
                   </button>
 
                   <button
-                    onClick={() => navigateAndScroll('/', 'contact-forms')}
+                    onClick={() => navigateAndScroll('contact-forms')}
                     style={{
                       fontSize: 13.5,
                       padding: '11px 18px',
@@ -361,7 +419,7 @@ export default function Navbar() {
       <div style={{ display: 'flex', alignItems: 'center', position: 'relative', zIndex: 100 }}>
         <Logo 
           scrolled={scrolled} 
-          onClick={() => navigateAndScroll('/', null)} 
+          onClick={() => navigateAndScroll(null)} 
         />
       </div>
 
@@ -384,7 +442,7 @@ export default function Navbar() {
                 style={{ position: 'relative' }}
               >
                 <button
-                  onClick={() => navigateAndScroll('/', link.id)}
+                  onClick={() => navigateAndScroll('services')}
                   className="nav-link-btn"
                   style={{
                     background: 'none',
@@ -430,7 +488,7 @@ export default function Navbar() {
                     <div style={{ borderRight: '1px solid rgba(79, 124, 255, 0.08)', paddingRight: 16 }}>
                       <span style={{ fontSize: 10, fontWeight: 700, textTransform: 'uppercase', color: '#7469F8', letterSpacing: '0.08em', display: 'block', marginBottom: 12 }}>Intelligence</span>
                       <div 
-                        onClick={() => { setServicesHovered(false); navigateAndScroll('/avsar', null); }}
+                        onClick={() => navigateAndScroll('avsar')}
                         style={{ cursor: 'pointer', transition: 'all 0.2s' }}
                         className="mega-menu-item"
                       >
@@ -446,7 +504,7 @@ export default function Navbar() {
                     {/* Right Column: Platform Services */}
                     <div style={{ display: 'flex', flexDirection: 'column', gap: 14 }}>
                       <button
-                        onClick={() => { setServicesHovered(false); navigateAndScroll('/ecosystem', null); }}
+                        onClick={() => navigateAndScroll('showcase', 'parent')}
                         style={{
                           background: 'none',
                           border: 'none',
@@ -465,14 +523,14 @@ export default function Navbar() {
                         Platform & Sourcing
                       </button>
                       {[
-                        { title: 'The MentR parent app', desc: "Education doesn't feel like a burden, only when the parents stay informed.", path: '/ecosystem#parent' },
-                        { title: 'The MentR teacher app', desc: 'Search for the verified home tutor ends here.', path: '/ecosystem#teacher' },
-                        { title: 'The MentR online app', desc: 'Connecting with you, no matter the location.', path: '/ecosystem#online' },
-                        { title: 'The MentR Olympiad', desc: 'Growth can be felt only when evaluated', path: '/ecosystem#olympiad' }
+                        { title: 'The MentR parent app', desc: "Education doesn't feel like a burden, only when the parents stay informed.", targetId: 'showcase', tabId: 'parent' },
+                        { title: 'The MentR teacher app', desc: 'Search for the verified home tutor ends here.', targetId: 'showcase', tabId: 'teacher' },
+                        { title: 'The MentR online app', desc: 'Connecting with you, no matter the location.', targetId: 'showcase', tabId: 'online' },
+                        { title: 'The MentR Olympiad', desc: 'Growth can be felt only when evaluated', targetId: 'showcase', tabId: 'olympiad' }
                       ].map(srv => (
                         <div 
                           key={srv.title} 
-                          onClick={() => { setServicesHovered(false); navigateAndScroll(srv.path, null); }}
+                          onClick={() => navigateAndScroll(srv.targetId, srv.tabId)}
                           style={{ cursor: 'pointer', transition: 'all 0.2s' }}
                           className="mega-menu-item"
                         >
@@ -490,7 +548,7 @@ export default function Navbar() {
           return (
             <button
               key={link.label}
-              onClick={() => link.path ? navigateAndScroll(link.path, null) : navigateAndScroll('/', link.id)}
+              onClick={() => link.path ? navigateAndScroll(link.path) : navigateAndScroll(link.id)}
               className="nav-link-btn"
               style={{
                 background: 'none',
@@ -512,7 +570,7 @@ export default function Navbar() {
       {/* Right: Actions */}
       <div style={{ display: 'flex', alignItems: 'center', gap: 12 }}>
         <button
-          onClick={() => navigateAndScroll('/', 'contact-section')}
+          onClick={() => navigateAndScroll('contact-section')}
           className="nav-link-btn"
           style={{
             background: 'none',
@@ -528,7 +586,7 @@ export default function Navbar() {
           Contact
         </button>
         <button
-          onClick={() => navigateAndScroll('/', 'contact-forms')}
+          onClick={() => navigateAndScroll('contact-forms')}
           style={{
             fontSize: 12,
             padding: '7px 14px',
@@ -546,7 +604,7 @@ export default function Navbar() {
           Join as a Teacher
         </button>
         <button
-          onClick={() => navigateAndScroll('/', 'contact-forms')}
+          onClick={() => navigateAndScroll('contact-forms')}
           style={{
             fontSize: 12,
             padding: '7px 14px',

@@ -1,3 +1,4 @@
+import { useEffect } from 'react';
 import SEO from '../components/common/SEO';
 import { PAGE_SEO } from '../config/seo.config';
 import { PAGE_SCHEMAS } from '../config/schema.config';
@@ -17,7 +18,36 @@ import ContactSection from '../components/home/ContactSection';
 import GlobalThread from '../components/home/GlobalThread';
 import DeferredSection from '../components/common/DeferredSection';
 
+const SECTION_ORDER = [
+  'vision',
+  'pain',
+  'why',
+  'services',
+  'avsar',
+  'organogram',
+  'showcase',
+  'testimonials',
+  'gallery',
+  'blogs',
+  'contact-forms',
+  'contact-section'
+];
+
 export default function HomePage() {
+  useEffect(() => {
+    if (typeof window !== 'undefined' && window.__PENDING_SECTION_SCROLL__) {
+      const targetId = window.__PENDING_SECTION_SCROLL__;
+      const targetIndex = SECTION_ORDER.indexOf(targetId);
+      if (targetIndex !== -1) {
+        SECTION_ORDER.slice(0, targetIndex + 1).forEach(id => {
+          window.dispatchEvent(new CustomEvent('force-mount-section', { detail: id }));
+        });
+      } else {
+        window.dispatchEvent(new CustomEvent('force-mount-section', { detail: targetId }));
+      }
+    }
+  }, []);
+
   return (
     <div style={{ position: 'relative', width: '100%', overflow: 'hidden' }}>
       <SEO {...PAGE_SEO.home} schema={PAGE_SCHEMAS.home} />

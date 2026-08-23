@@ -48,6 +48,7 @@ export default function DeferredSection({
     <div
       ref={ref}
       id={id}
+      data-mounted={shouldRender ? 'true' : 'false'}
       style={{
         minHeight: shouldRender ? 'auto' : minHeight
       }}
