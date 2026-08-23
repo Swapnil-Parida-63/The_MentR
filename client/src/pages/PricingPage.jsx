@@ -77,7 +77,7 @@ const PRICING_DATA = {
   }
 };
 
-const BOARDS = ["CBSE", "ICSE", "State Board", "ISC", "NIOS", "IB", "IGCSE"];
+const BOARDS = ['Odisha State Board', 'SSVM (Odisha)', 'CHSE (Odisha)', 'ICSE', 'CBSE', 'IGCSE'];
 const CLASS_GROUPS = [
   {
     title: "AP Pricing • Classes 1–3",

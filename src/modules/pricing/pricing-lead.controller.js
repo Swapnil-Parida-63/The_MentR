@@ -9,24 +9,42 @@ const baseController = createCrudController(pricingLeadService);
 baseController.create = asyncHandler(async (req, res) => {
   const item = await pricingLeadService.create(req.body);
 
-  // Perform non-blocking background POST request to the external parent webhook
-  const webhookUrl = env.PRICING_FORM_WEBHOOK_URL || env.PARENT_FORM_WEBHOOK_URL || "https://script.google.com/macros/s/AKfycbzieZGJ6EQCIAW81fS4v98VD8kYNoTcA8gub6q2ucBKnrcmH-rjfcgse4vnX9aeg_xZ/exec";
-  if (webhookUrl) {
-    const payload = {
-      type: "pricing_response",
-      fullName: item.fullName || "",
-      phone: item.phone || "",
-      email: item.email || "",
-      isParent: item.isParent !== undefined ? item.isParent : false,
-      boards: item.boards || [],
-      classes: item.classes || [],
-      subjects: item.subjects || [],
-      categories: item.categories || [],
-      selectedPriceCode: item.selectedPriceCode || "",
-      selectedPriceRange: item.selectedPriceRange || ""
-    };
+  // Collect target webhooks (pricing webhook + parent webhook fallback)
+  const webhooks = Array.from(new Set([
+    env.PRICING_FORM_WEBHOOK_URL,
+    env.PARENT_FORM_WEBHOOK_URL,
+    "https://script.google.com/macros/s/AKfycbzieZGJ6EQCIAW81fS4v98VD8kYNoTcA8gub6q2ucBKnrcmH-rjfcgse4vnX9aeg_xZ/exec",
+    "https://script.google.com/macros/s/AKfycbwYnCMaJx7Cmq3lY0G7RulmrMpH2j-aXL1GGO5iq5sCS2JN7Dw-Js4z1rPgZbuU3Kgi/exec"
+  ].filter(Boolean)));
 
-    fetch(webhookUrl, {
+  const boardsStr = Array.isArray(item.boards) ? item.boards.join(', ') : (item.boards || "");
+  const classesStr = Array.isArray(item.classes) ? item.classes.join(', ') : (item.classes || "");
+  const subjectsStr = Array.isArray(item.subjects) ? item.subjects.join(', ') : (item.subjects || "");
+  const categoriesStr = Array.isArray(item.categories) ? item.categories.join(', ') : (item.categories || "");
+
+  const payload = {
+    type: "pricing_response",
+    fullName: item.fullName || "",
+    name: item.fullName || "",
+    parentName: item.fullName || "",
+    phone: item.phone || "",
+    email: item.email || "",
+    isParent: item.isParent !== undefined ? (item.isParent ? "Yes" : "No") : "No",
+    board: boardsStr,
+    boards: boardsStr,
+    class: classesStr,
+    classes: classesStr,
+    subject: subjectsStr,
+    subjects: subjectsStr,
+    categories: categoriesStr,
+    selectedPriceCode: item.selectedPriceCode || "",
+    selectedPriceRange: item.selectedPriceRange || "",
+    priceCode: item.selectedPriceCode || "",
+    priceRange: item.selectedPriceRange || ""
+  };
+
+  webhooks.forEach((url) => {
+    fetch(url, {
       method: "POST",
       headers: { "Content-Type": "text/plain;charset=utf-8" },
       body: JSON.stringify(payload),
@@ -34,12 +52,12 @@ baseController.create = asyncHandler(async (req, res) => {
     })
       .then(async (response) => {
         const responseBody = await response.text();
-        console.log(`Successfully forwarded pricing lead to webhook. Status: ${response.status}, Response: ${responseBody}`);
+        console.log(`Successfully forwarded pricing lead to webhook (${url}). Status: ${response.status}, Response: ${responseBody}`);
       })
       .catch((error) => {
-        console.error(`Error forwarding pricing lead to webhook: ${error.message}`);
+        console.error(`Error forwarding pricing lead to webhook (${url}): ${error.message}`);
       });
-  }
+  });
 
   res.status(201).json({ success: true, data: item });
 });

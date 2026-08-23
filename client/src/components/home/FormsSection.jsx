@@ -4,11 +4,11 @@ import { FadeUp } from '../../hooks/useScrollReveal';
 import BorderGlow from './BorderGlow';
 import { parentAPI, teachersAPI } from '../../services/api';
 
-const boardOptions = ['CBSE', 'ICSE', 'IGCSE', 'State board'];
+const boardOptions = ['Odisha State Board', 'SSVM (Odisha)', 'CHSE (Odisha)', 'ICSE', 'CBSE', 'IGCSE'];
 const classOptions = Array.from({ length: 12 }, (_, i) => `Class ${i + 1}`);
-const subjectsList = ['All Subjects', 'Mathematics', 'Physics', 'Chemistry', 'Biology', 'English', 'Social Studies', 'Computer Science'];
+const subjectsList = ['All Subjects', 'Mathematics', 'Science', 'Physics', 'Chemistry', 'Biology', 'Social Science', 'Odia', 'English', 'Hindi', 'Sanskrit', 'IT/Computer', 'General Knowledge', 'Moral Values'];
 
-const teacherBoardOptions = ['CBSE', 'ICSE', 'IB', 'State Board'];
+const teacherBoardOptions = ['Odisha State Board', 'SSVM (Odisha)', 'CHSE (Odisha)', 'ICSE', 'CBSE', 'IGCSE'];
 const teacherClassOptions = ['Class 1–5', 'Class 6–8', 'Class 9–10', 'Class 11–12'];
 const mediumOptions = ['English', 'Hindi', 'Odia', 'Bengali', 'Bilingual'];
 
@@ -79,7 +79,15 @@ function CustomSelect({ label, value, onChange, options, placeholder = "Select o
   }, []);
 
   return (
-    <div ref={dropdownRef} style={{ marginBottom: isMobile ? 14 : 20, position: 'relative', textAlign: 'left' }}>
+    <div 
+      ref={dropdownRef} 
+      style={{ 
+        marginBottom: isOpen ? (isMobile ? 180 : 220) : (isMobile ? 14 : 20), 
+        position: 'relative', 
+        textAlign: 'left',
+        transition: 'margin-bottom 0.25s ease'
+      }}
+    >
       {label && (
         <label style={{ display: 'block', fontSize: isMobile ? 12 : 13, fontWeight: 700, color: '#4F7CFF', marginBottom: 6 }}>
           {label}
@@ -118,8 +126,8 @@ function CustomSelect({ label, value, onChange, options, placeholder = "Select o
           background: '#FFFFFF',
           border: '1.5px solid rgba(79, 124, 255, 0.2)',
           borderRadius: 14,
-          boxShadow: '0 12px 32px rgba(15, 23, 42, 0.12)',
-          zIndex: 999,
+          boxShadow: '0 16px 40px rgba(15, 23, 42, 0.18)',
+          zIndex: 9999,
           maxHeight: 220,
           overflowY: 'auto',
           padding: 4
@@ -158,7 +166,7 @@ function CustomSelect({ label, value, onChange, options, placeholder = "Select o
 }
 
 // Custom Styled Multi-Select Dropdown matching user's screenshots
-function CustomMultiSelect({ label, options, selectedValues, onChange, placeholder = "Select options...", isMobile = false }) {
+function CustomMultiSelect({ label, options, selectedValues = [], onChange, placeholder = "Select options...", isMobile = false, maxSelections = null }) {
   const [isOpen, setIsOpen] = useState(false);
   const dropdownRef = useRef(null);
 
@@ -184,13 +192,24 @@ function CustomMultiSelect({ label, options, selectedValues, onChange, placehold
       if (nextValues.includes(opt)) {
         onChange(nextValues.filter(v => v !== opt));
       } else {
+        if (maxSelections && nextValues.length >= maxSelections) {
+          return;
+        }
         onChange([...nextValues, opt]);
       }
     }
   };
 
   return (
-    <div ref={dropdownRef} style={{ marginBottom: isMobile ? 14 : 20, position: 'relative', textAlign: 'left' }}>
+    <div 
+      ref={dropdownRef} 
+      style={{ 
+        marginBottom: isOpen ? (isMobile ? 180 : 220) : (isMobile ? 14 : 20), 
+        position: 'relative', 
+        textAlign: 'left',
+        transition: 'margin-bottom 0.25s ease'
+      }}
+    >
       {label && (
         <label style={{ display: 'block', fontSize: isMobile ? 12 : 13, fontWeight: 700, color: '#4F7CFF', marginBottom: 6 }}>
           {label}
@@ -257,14 +276,15 @@ function CustomMultiSelect({ label, options, selectedValues, onChange, placehold
           background: '#FFFFFF',
           border: '1.5px solid rgba(79, 124, 255, 0.2)',
           borderRadius: 14,
-          boxShadow: '0 12px 32px rgba(15, 23, 42, 0.12)',
-          zIndex: 999,
+          boxShadow: '0 16px 40px rgba(15, 23, 42, 0.18)',
+          zIndex: 9999,
           maxHeight: 220,
           overflowY: 'auto',
           padding: 4
         }}>
           {options.map((opt) => {
             const isSelected = selectedValues.includes(opt);
+            const isMaxReached = maxSelections && selectedValues.length >= maxSelections && !isSelected;
             return (
               <div
                 key={opt}
@@ -273,17 +293,18 @@ function CustomMultiSelect({ label, options, selectedValues, onChange, placehold
                   padding: '10px 14px',
                   fontSize: 13.5,
                   fontWeight: isSelected ? 700 : 500,
-                  color: isSelected ? '#4F7CFF' : '#334155',
+                  color: isSelected ? '#4F7CFF' : isMaxReached ? '#94A3B8' : '#334155',
                   background: isSelected ? 'rgba(79, 124, 255, 0.08)' : 'transparent',
                   borderRadius: 10,
-                  cursor: 'pointer',
+                  cursor: isMaxReached ? 'not-allowed' : 'pointer',
                   display: 'flex',
                   alignItems: 'center',
                   justifyContent: 'space-between',
+                  opacity: isMaxReached ? 0.6 : 1,
                   transition: 'background 0.15s ease'
                 }}
                 onMouseEnter={(e) => {
-                  if (!isSelected) e.currentTarget.style.background = '#F1F5F9';
+                  if (!isSelected && !isMaxReached) e.currentTarget.style.background = '#F1F5F9';
                 }}
                 onMouseLeave={(e) => {
                   if (!isSelected) e.currentTarget.style.background = 'transparent';
@@ -313,8 +334,8 @@ export default function FormsSection() {
   const [demoParentName, setDemoParentName] = useState('');
   const [demoPhone, setDemoPhone] = useState('');
   const [demoStudentName, setDemoStudentName] = useState('');
-  const [demoBoard, setDemoBoard] = useState('');
-  const [demoClass, setDemoClass] = useState('');
+  const [demoBoard, setDemoBoard] = useState([]);
+  const [demoClass, setDemoClass] = useState([]);
   const [demoLocation, setDemoLocation] = useState('');
   const [demoGuidanceSubjects, setDemoGuidanceSubjects] = useState([]);
   const [demoAgreed, setDemoAgreed] = useState(false);
@@ -359,7 +380,10 @@ export default function FormsSection() {
     e.preventDefault();
     if (demoSubmitting) return;
 
-    if (!demoParentName.trim() || !demoPhone.trim() || !demoStudentName.trim() || !demoBoard || !demoClass || !demoLocation.trim()) {
+    const demoBoardStr = Array.isArray(demoBoard) ? demoBoard.join(', ') : demoBoard;
+    const demoClassStr = Array.isArray(demoClass) ? demoClass.join(', ') : demoClass;
+
+    if (!demoParentName.trim() || !demoPhone.trim() || !demoStudentName.trim() || !demoBoardStr || !demoClassStr || !demoLocation.trim()) {
       showToast("⚠️ Please fill in all required fields.");
       return;
     }
@@ -380,8 +404,8 @@ export default function FormsSection() {
         parentName: demoParentName,
         phone: demoPhone,
         studentName: demoStudentName,
-        board: demoBoard,
-        class: demoClass,
+        board: demoBoardStr,
+        class: demoClassStr,
         location: demoLocation,
         specificSubject: demoGuidanceSubjects.join(', ') || 'General Guidance',
         agreedToTerms: true
@@ -586,23 +610,23 @@ export default function FormsSection() {
                         </div>
 
                         <div style={{ display: 'grid', gridTemplateColumns: isMobile ? '1fr' : '1fr 1fr', gap: isMobile ? 0 : 16 }}>
-                          <CustomSelect 
+                          <CustomMultiSelect 
                             label="Syllabus / Board *" 
                             options={boardOptions} 
-                            value={demoBoard} 
+                            selectedValues={demoBoard} 
                             onChange={setDemoBoard} 
-                            placeholder="Select board"
-                            required
+                            placeholder="Select board (Max 3)"
+                            maxSelections={3}
                             isMobile={isMobile}
                           />
 
-                          <CustomSelect 
+                          <CustomMultiSelect 
                             label="Class *" 
                             options={classOptions} 
-                            value={demoClass} 
+                            selectedValues={demoClass} 
                             onChange={setDemoClass} 
-                            placeholder="Select class"
-                            required
+                            placeholder="Select class (Max 3)"
+                            maxSelections={3}
                             isMobile={isMobile}
                           />
                         </div>
