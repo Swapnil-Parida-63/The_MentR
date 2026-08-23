@@ -27,40 +27,40 @@ export default function HomePage() {
       <HeroSection />
 
       {/* Below-the-fold sections: Deferred until user scrolls near them */}
-      <DeferredSection minHeight="600px">
+      <DeferredSection id="vision" minHeight="600px">
         <VisionSection />
       </DeferredSection>
-      <DeferredSection minHeight="600px">
+      <DeferredSection id="pain" minHeight="600px">
         <PainPointsSection />
       </DeferredSection>
-      <DeferredSection minHeight="600px">
+      <DeferredSection id="why" minHeight="600px">
         <WhySection />
       </DeferredSection>
-      <DeferredSection minHeight="600px">
+      <DeferredSection id="services" minHeight="600px">
         <ServicesSection />
       </DeferredSection>
-      <DeferredSection minHeight="500px">
+      <DeferredSection id="avsar" minHeight="500px">
         <AvsarSection />
       </DeferredSection>
-      <DeferredSection minHeight="500px">
+      <DeferredSection id="organogram" minHeight="500px">
         <OrganogramSection />
       </DeferredSection>
-      <DeferredSection minHeight="600px">
+      <DeferredSection id="showcase" minHeight="600px">
         <ShowcaseSection />
       </DeferredSection>
-      <DeferredSection minHeight="500px">
+      <DeferredSection id="testimonials" minHeight="500px">
         <TestimonialsSection />
       </DeferredSection>
-      <DeferredSection minHeight="500px">
+      <DeferredSection id="gallery" minHeight="500px">
         <GalleryPreview />
       </DeferredSection>
-      <DeferredSection minHeight="500px">
+      <DeferredSection id="blogs" minHeight="500px">
         <BlogsPreview />
       </DeferredSection>
-      <DeferredSection minHeight="500px">
+      <DeferredSection id="contact-forms" minHeight="500px">
         <FormsSection />
       </DeferredSection>
-      <DeferredSection minHeight="500px">
+      <DeferredSection id="contact-section" minHeight="500px">
         <ContactSection />
       </DeferredSection>
     </div>

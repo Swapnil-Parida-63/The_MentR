@@ -11,6 +11,7 @@ const FormModal = lazy(() => import('../home/FormModal'));
 export default function Layout() {
   const location = useLocation();
   const isLandingPage = location.pathname === '/';
+  const isPricingPage = location.pathname === '/pricing';
 
   const mainStyle = isLandingPage
     ? { flex: 1, position: 'relative', zIndex: 1 }
@@ -39,7 +40,7 @@ export default function Layout() {
         <main style={mainStyle}>
           <Outlet />
         </main>
-        <Footer style={{ position: 'relative', zIndex: 1 }} />
+        {!isPricingPage && <Footer style={{ position: 'relative', zIndex: 1 }} />}
         <Chatbot />
         <AnnouncementTicker />
         <Suspense fallback={null}>

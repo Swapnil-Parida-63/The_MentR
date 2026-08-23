@@ -10,6 +10,16 @@ export default function DeferredSection({
   const ref = useRef(null);
 
   useEffect(() => {
+    const handleForceMount = (e) => {
+      if (id && (e.detail === id || e.detail === `#${id}`)) {
+        setShouldRender(true);
+      }
+    };
+    window.addEventListener('force-mount-section', handleForceMount);
+    return () => window.removeEventListener('force-mount-section', handleForceMount);
+  }, [id]);
+
+  useEffect(() => {
     if (shouldRender) return;
 
     if (typeof window === 'undefined' || !('IntersectionObserver' in window)) {

@@ -136,8 +136,10 @@ function MultiSelectDropdown({ label, options, groups, selectedValues, onChange 
     }
   };
 
+  const isMobileView = typeof window !== 'undefined' && window.innerWidth < 768;
+
   return (
-    <div ref={dropdownRef} style={{ marginBottom: 24, position: 'relative', textAlign: 'left' }}>
+    <div ref={dropdownRef} style={{ marginBottom: isOpen ? (isMobileView ? 150 : 180) : 24, position: 'relative', textAlign: 'left', transition: 'margin-bottom 0.25s ease' }}>
       <label style={{ display: 'block', fontSize: 12, fontWeight: 600, color: '#1D2433', marginBottom: 8, letterSpacing: '0.02em', textTransform: 'uppercase' }}>
         {label}
       </label>
@@ -197,11 +199,11 @@ function MultiSelectDropdown({ label, options, groups, selectedValues, onChange 
           left: 0,
           right: 0,
           background: '#FFFFFF',
-          border: '1px solid rgba(79, 124, 255, 0.12)',
-          boxShadow: '0 12px 32px rgba(15, 23, 42, 0.12)',
-          borderRadius: 14,
-          zIndex: 999,
-          maxHeight: 260,
+          border: '1.5px solid rgba(79, 124, 255, 0.35)',
+          boxShadow: '0 24px 60px rgba(15, 23, 42, 0.22), 0 6px 16px rgba(79, 124, 255, 0.12)',
+          borderRadius: 16,
+          zIndex: 99999,
+          maxHeight: isMobileView ? 170 : 220,
           overflowY: 'auto',
           marginTop: 6,
           padding: 8
@@ -291,12 +293,20 @@ export default function PricingPage() {
   const { openModal } = useModal();
   const [step, setStep] = useState(1); // 1: Contact, 2: Requirements, 3: Pricing
   const [errorMsg, setErrorMsg] = useState("");
+  const [isMobile, setIsMobile] = useState(typeof window !== 'undefined' ? window.innerWidth < 768 : false);
+
+  useEffect(() => {
+    const handleResize = () => setIsMobile(window.innerWidth < 768);
+    window.addEventListener('resize', handleResize);
+    return () => window.removeEventListener('resize', handleResize);
+  }, []);
 
   // Step 1 States
   const [fullName, setFullName] = useState("");
   const [phone, setPhone] = useState("");
   const [email, setEmail] = useState("");
   const [isParent, setIsParent] = useState(false);
+  const [agreeTerms, setAgreeTerms] = useState(false);
 
   // Step 2 States
   const [selectedBoards, setSelectedBoards] = useState([]);
@@ -340,6 +350,10 @@ export default function PricingPage() {
     }
     if (!isParent) {
       setErrorMsg("⚠️ You must check 'I am a Parent' to proceed.");
+      return;
+    }
+    if (!agreeTerms) {
+      setErrorMsg("⚠️ You must agree to the Terms of Service & Privacy Policy to proceed.");
       return;
     }
 
@@ -448,7 +462,7 @@ export default function PricingPage() {
   };
 
   return (
-    <div style={{ background: 'transparent', minHeight: '100vh', position: 'relative', overflow: 'hidden', padding: '140px 0 96px' }}>
+    <div style={{ background: 'transparent', minHeight: '100vh', position: 'relative', overflow: 'hidden', padding: isMobile ? '95px 12px 140px' : '140px 0 160px' }}>
       <SEO {...PAGE_SEO.pricing} schema={PAGE_SCHEMAS.pricing} />
       
       {/* Background radial atmosphere */}
@@ -478,20 +492,25 @@ export default function PricingPage() {
 
       <div className="container" style={{ position: 'relative', zIndex: 1, maxWidth: '680px', margin: '0 auto' }}>
         
-        <Breadcrumbs items={[{ name: 'Home', url: '/' }, { name: 'Pricing', url: '/pricing' }]} />
-
-        {/* Sleek Floating Back to Home button */}
-        <div style={{ marginBottom: 28 }}>
+        <div style={{
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'space-between',
+          flexWrap: 'wrap',
+          gap: 12,
+          marginBottom: isMobile ? 18 : 28
+        }}>
+          <Breadcrumbs items={[{ name: 'Home', url: '/' }, { name: 'Pricing', url: '/pricing' }]} />
           <Link to="/" style={{
             display: 'inline-flex',
             alignItems: 'center',
             gap: '8px',
-            padding: '8px 18px',
+            padding: '6px 16px',
             borderRadius: '99px',
             background: 'rgba(255, 255, 255, 0.85)',
             border: '1px solid rgba(79, 124, 255, 0.2)',
             color: '#1E293B',
-            fontSize: '13px',
+            fontSize: '12.5px',
             fontWeight: 600,
             textDecoration: 'none',
             boxShadow: '0 4px 14px rgba(37, 99, 235, 0.08)',
@@ -510,13 +529,13 @@ export default function PricingPage() {
             e.currentTarget.style.color = '#1E293B';
           }}
           >
-            <ArrowLeft size={16} color="#2563EB" />
+            <ArrowLeft size={15} color="#2563EB" />
             <span>Back to Home</span>
           </Link>
         </div>
 
         {/* Step Progress Indicators */}
-        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 44, padding: '0 8px' }}>
+        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: isMobile ? 24 : 44, padding: '0 4px' }}>
           {[
             { num: 1, label: "Contact" },
             { num: 2, label: "Requirements" },
@@ -526,25 +545,26 @@ export default function PricingPage() {
             const isCompleted = step > item.num;
             return (
               <div key={item.num} style={{ display: 'flex', alignItems: 'center', flex: idx < 2 ? '1' : 'none' }}>
-                <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
+                <div style={{ display: 'flex', alignItems: 'center', gap: isMobile ? 5 : 10 }}>
                   <div style={{
-                    width: 32,
-                    height: 32,
+                    width: isMobile ? 28 : 32,
+                    height: isMobile ? 28 : 32,
                     borderRadius: '50%',
                     background: isCompleted ? '#4F7CFF' : isActive ? 'linear-gradient(135deg, #4F7CFF 0%, #6366F1 100%)' : '#FFFFFF',
                     border: isCompleted || isActive ? 'none' : '1px solid rgba(79, 124, 255, 0.25)',
                     color: isCompleted || isActive ? '#FFFFFF' : '#64748B',
                     fontWeight: 700,
-                    fontSize: 13,
+                    fontSize: isMobile ? 12 : 13,
                     display: 'flex',
                     alignItems: 'center',
                     justifyContent: 'center',
                     boxShadow: isActive ? '0 4px 12px rgba(79, 124, 255, 0.25)' : 'none',
-                    transition: 'all 0.3s ease'
+                    transition: 'all 0.3s ease',
+                    flexShrink: 0
                   }}>
                     {isCompleted ? "✓" : item.num}
                   </div>
-                  <span style={{ fontSize: 13.5, fontWeight: isActive || isCompleted ? 600 : 500, color: isActive || isCompleted ? '#1D2433' : '#64748B' }}>
+                  <span style={{ fontSize: isMobile ? 11.5 : 13.5, fontWeight: isActive || isCompleted ? 600 : 500, color: isActive || isCompleted ? '#1D2433' : '#64748B', whiteSpace: 'nowrap' }}>
                     {item.label}
                   </span>
                 </div>
@@ -553,8 +573,8 @@ export default function PricingPage() {
                     flex: 1,
                     height: 1.5,
                     background: isCompleted ? '#4F7CFF' : 'rgba(79, 124, 255, 0.15)',
-                    margin: '0 16px',
-                    minWidth: 24
+                    margin: isMobile ? '0 6px' : '0 16px',
+                    minWidth: isMobile ? 8 : 24
                   }} />
                 )}
               </div>
@@ -596,12 +616,12 @@ export default function PricingPage() {
               exit={{ opacity: 0, y: -15 }}
               transition={{ duration: 0.35, ease: [0.16, 1, 0.3, 1] }}
               className="card-brand-glow"
-              style={{ background: '#FFFFFF', borderRadius: 28, padding: '40px 32px', textAlign: 'center' }}
+              style={{ background: '#FFFFFF', borderRadius: isMobile ? 20 : 28, padding: isMobile ? '24px 18px' : '40px 32px', textAlign: 'center' }}
             >
-              <h1 style={{ fontFamily: 'var(--font-hero)', fontWeight: 800, fontSize: 26, color: '#1D2433', margin: '0 0 8px' }}>
+              <h1 style={{ fontFamily: 'var(--font-hero)', fontWeight: 800, fontSize: isMobile ? 21 : 26, color: '#1D2433', margin: '0 0 8px' }}>
                 View our fee plan
               </h1>
-              <p style={{ fontFamily: 'var(--font-body)', fontSize: 14.5, color: '#5C667A', margin: '0 0 32px' }}>
+              <p style={{ fontFamily: 'var(--font-body)', fontSize: isMobile ? 13.5 : 14.5, color: '#5C667A', margin: isMobile ? '0 0 20px' : '0 0 32px' }}>
                 Enter your details to view the available tuition fee packages.
               </p>
 
@@ -705,6 +725,25 @@ export default function PricingPage() {
                   </span>
                 </label>
 
+                {/* Mandatory Terms & Conditions Checkbox */}
+                <label style={{ display: 'flex', alignItems: 'flex-start', gap: 10, cursor: 'pointer', textAlign: 'left', marginTop: 2 }}>
+                  <input 
+                    type="checkbox"
+                    checked={agreeTerms}
+                    onChange={(e) => setAgreeTerms(e.target.checked)}
+                    style={{
+                      width: 18,
+                      height: 18,
+                      accentColor: '#4F7CFF',
+                      cursor: 'pointer',
+                      marginTop: 2
+                    }}
+                  />
+                  <span style={{ fontSize: 13, color: '#5C667A', fontWeight: 500, lineHeight: 1.4 }}>
+                    I agree to TheMentR <Link to="/terms" target="_blank" style={{ color: '#4F7CFF', textDecoration: 'underline', fontWeight: 600 }}>Terms of Service & Privacy Policy</Link>
+                  </span>
+                </label>
+
                 {/* Submit button */}
                 <button type="submit" className="btn btn-primary" style={{ height: 48, borderRadius: 14, marginTop: 12, justifyContent: 'center' }}>
                   Continue →
@@ -721,12 +760,12 @@ export default function PricingPage() {
               exit={{ opacity: 0, y: -15 }}
               transition={{ duration: 0.35, ease: [0.16, 1, 0.3, 1] }}
               className="card-brand-glow"
-              style={{ background: '#FFFFFF', borderRadius: 28, padding: '40px 32px', textAlign: 'center' }}
+              style={{ background: '#FFFFFF', borderRadius: isMobile ? 20 : 28, padding: isMobile ? '24px 18px' : '40px 32px', textAlign: 'center' }}
             >
-              <h2 style={{ fontFamily: 'var(--font-hero)', fontWeight: 800, fontSize: 26, color: '#1D2433', margin: '0 0 8px' }}>
+              <h2 style={{ fontFamily: 'var(--font-hero)', fontWeight: 800, fontSize: isMobile ? 21 : 26, color: '#1D2433', margin: '0 0 8px' }}>
                 Tell us what you're looking for
               </h2>
-              <p style={{ fontFamily: 'var(--font-body)', fontSize: 14.5, color: '#5C667A', margin: '0 0 32px' }}>
+              <p style={{ fontFamily: 'var(--font-body)', fontSize: isMobile ? 13.5 : 14.5, color: '#5C667A', margin: isMobile ? '0 0 20px' : '0 0 32px' }}>
                 Select your board and classes to build your package.
               </p>
 

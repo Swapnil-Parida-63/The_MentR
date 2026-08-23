@@ -7,6 +7,7 @@ import { MessageSquare, X, Sparkles } from 'lucide-react';
  */
 export default function ChatLauncher({ isOpen, onClick, unreadCount = 0 }) {
   const [bubbleDismissed, setBubbleDismissed] = useState(false);
+  const isMobileView = typeof window !== 'undefined' && window.innerWidth < 768;
 
   return (
     <>
@@ -17,18 +18,18 @@ export default function ChatLauncher({ isOpen, onClick, unreadCount = 0 }) {
           className="mentee-cloud-bubble"
           style={{
             position: 'fixed',
-            bottom: 120,
-            right: 24,
+            bottom: isMobileView ? 100 : 120,
+            right: isMobileView ? 16 : 24,
             background: 'rgba(255, 255, 255, 0.96)',
             backdropFilter: 'blur(16px)',
             WebkitBackdropFilter: 'blur(16px)',
             border: '1.5px solid rgba(79, 124, 255, 0.22)',
             borderRadius: '20px 20px 4px 20px',
-            padding: '12px 28px 12px 18px',
+            padding: isMobileView ? '10px 22px 10px 14px' : '12px 28px 12px 18px',
             boxShadow: '0 12px 32px rgba(37, 99, 235, 0.18), 0 2px 8px rgba(15, 23, 42, 0.06)',
             zIndex: 100003,
             cursor: 'pointer',
-            maxWidth: 220,
+            maxWidth: isMobileView ? 180 : 220,
             animation: 'bubbleFloat 3s ease-in-out infinite alternate',
             transition: 'all 0.3s cubic-bezier(0.16, 1, 0.3, 1)',
             userSelect: 'none'
@@ -53,13 +54,13 @@ export default function ChatLauncher({ isOpen, onClick, unreadCount = 0 }) {
               display: 'flex',
               alignItems: 'center',
               justifyContent: 'center',
-              cursor: 'pointer',
               color: '#64748B',
-              padding: 0,
-              transition: 'all 0.2s ease'
+              cursor: 'pointer',
+              transition: 'all 0.2s ease',
+              padding: 0
             }}
             onMouseEnter={(e) => {
-              e.currentTarget.style.background = 'rgba(239, 68, 68, 0.15)';
+              e.currentTarget.style.background = 'rgba(239, 68, 68, 0.12)';
               e.currentTarget.style.color = '#EF4444';
             }}
             onMouseLeave={(e) => {
@@ -74,7 +75,7 @@ export default function ChatLauncher({ isOpen, onClick, unreadCount = 0 }) {
             Hi 👋
           </div>
           <div style={{ fontSize: 12.5, fontWeight: 600, color: '#475569', lineHeight: 1.4 }}>
-            I'm Mentee, how can I help uh?
+            I'm Mentee, how can I help you?
           </div>
           {/* Speech bubble pointer tail */}
           <div
@@ -92,14 +93,15 @@ export default function ChatLauncher({ isOpen, onClick, unreadCount = 0 }) {
         </div>
       )}
 
+      {/* Floating Launcher Action Button */}
       <button
         onClick={onClick}
         aria-label={isOpen ? 'Close Mentee AI Assistant' : 'Open Mentee AI Assistant'}
         className="mentee-launcher-btn"
         style={{
           position: 'fixed',
-          bottom: 50,
-          right: 24,
+          bottom: isMobileView ? 46 : 50,
+          right: isMobileView ? 16 : 24,
           width: 60,
           height: 60,
           borderRadius: '50%',

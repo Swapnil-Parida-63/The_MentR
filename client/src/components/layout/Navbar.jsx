@@ -37,26 +37,34 @@ export default function Navbar() {
         return;
       }
 
-      let attempts = 0;
-      const scrollInterval = setInterval(() => {
+      // Dispatch event to force DeferredSection to render immediately if deferred
+      window.dispatchEvent(new CustomEvent('force-mount-section', { detail: hashId }));
+
+      const tryScroll = () => {
         const el = document.getElementById(hashId);
         if (el) {
-          clearInterval(scrollInterval);
-          const yOffset = -75; // Account for floating header height
-          const y = el.getBoundingClientRect().top + window.pageYOffset + yOffset;
+          const yOffset = -75;
+          const y = el.getBoundingClientRect().top + (window.scrollY || window.pageYOffset || 0) + yOffset;
           window.scrollTo({ top: Math.max(0, y), behavior: 'smooth' });
-        } else {
+          return true;
+        }
+        return false;
+      };
+
+      if (!tryScroll()) {
+        let attempts = 0;
+        const scrollInterval = setInterval(() => {
           attempts++;
-          if (attempts > 15) {
+          if (tryScroll() || attempts > 20) {
             clearInterval(scrollInterval);
           }
-        }
-      }, 60);
+        }, 50);
+      }
     };
 
-    if (window.location.pathname !== '/' && path === '/') {
-      navigate('/');
-      setTimeout(performScroll, 100);
+    if (path && window.location.pathname !== path) {
+      navigate(path);
+      setTimeout(performScroll, 120);
     } else {
       performScroll();
     }

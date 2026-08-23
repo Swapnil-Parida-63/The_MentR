@@ -530,6 +530,7 @@ export default function ShowcaseSection({ isStandalonePage = false }) {
   const [teacherIndex, setTeacherIndex] = useState(0);
   const [onlineIndex, setOnlineIndex] = useState(0);
   const [olympiadIndex, setOlympiadIndex] = useState(0);
+  const [showOlympiadModal, setShowOlympiadModal] = useState(false);
   const [isMobile, setIsMobile] = useState(window.innerWidth < 1024);
   const [showcaseHeaderOpen, setShowcaseHeaderOpen] = useState(false);
   const [isShowcaseDescExpanded, setIsShowcaseDescExpanded] = useState(false);
