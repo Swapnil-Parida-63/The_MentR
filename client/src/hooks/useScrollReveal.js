@@ -22,7 +22,7 @@ export function useScrollReveal(options = {}) {
     if (!el) return;
 
     if (isMobile) {
-      // Mobile: Immediate reveal as soon as element enters field of view (0 delay, 0 threshold, all loaded at once)
+      // Mobile: Immediate reveal as soon as element enters field of view (0 delay, 0 threshold)
       el.style.opacity = '0';
       el.style.transform = `translate3d(0, ${y > 10 ? 10 : y}px, 0)`;
       el.style.transition = 'none';
@@ -35,6 +35,7 @@ export function useScrollReveal(options = {}) {
             el.style.transition = `opacity ${duration}s ease-out, transform ${duration}s ease-out`;
             el.style.opacity = '1';
             el.style.transform = 'translate3d(0, 0, 0)';
+            observer.disconnect();
           }
         },
         { threshold: 0 }
@@ -42,7 +43,7 @@ export function useScrollReveal(options = {}) {
       observer.observe(el);
       return () => observer.disconnect();
     } else {
-      // Desktop: Keep existing desktop scroll reveal behavior exactly as is
+      // Desktop: Smooth reveal on entry, stay permanently visible once revealed
       el.style.opacity = '0';
       el.style.transform = `translate3d(0, ${y}px, 0)`;
       el.style.transition = 'none';
@@ -50,29 +51,11 @@ export function useScrollReveal(options = {}) {
 
       const observer = new IntersectionObserver(
         ([entry]) => {
-          const rect = entry.boundingClientRect;
-          const isBelow = rect.top > (window.innerHeight * 0.3);
-
           if (entry.isIntersecting) {
-            if (isBelow) {
-              el.style.transition = `opacity ${duration}s ${easing}, transform ${duration}s ${easing}`;
-              el.style.opacity = '1';
-              el.style.transform = 'translate3d(0, 0, 0)';
-            } else {
-              el.style.transition = 'none';
-              el.style.opacity = '1';
-              el.style.transform = 'translate3d(0, 0, 0)';
-            }
-          } else {
-            if (isBelow) {
-              el.style.transition = 'none';
-              el.style.opacity = '0';
-              el.style.transform = `translate3d(0, ${y}px, 0)`;
-            } else {
-              el.style.transition = 'none';
-              el.style.opacity = '1';
-              el.style.transform = 'translate3d(0, 0, 0)';
-            }
+            el.style.transition = `opacity ${duration}s ${easing}, transform ${duration}s ${easing}`;
+            el.style.opacity = '1';
+            el.style.transform = 'translate3d(0, 0, 0)';
+            observer.disconnect();
           }
         },
         { threshold }

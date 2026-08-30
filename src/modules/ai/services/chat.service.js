@@ -88,13 +88,18 @@ class ChatService {
       options: context.options || {}
     });
 
+    const cleanReply = (result.reply || '')
+      .replace(/\s*[\u2014\u2013\u2015\u2012]\s*/g, ', ')
+      .replace(/[\u2014\u2013\u2015\u2012]/g, ', ')
+      .replace(/\s*--+\s*/g, ', ');
+
     // 8. Persist assistant reply to database history
     await this.conversationManager.addMessage({
       sessionId,
       role: 'assistant',
-      content: result.reply,
+      content: cleanReply,
       metadata: {
-        model: result.model || 'llama-3.3-70b-versatile',
+        model: result.model || 'groq/compound',
         ragDocsCount: String(ragResult.contextDocsCount || 0)
       }
     });
@@ -102,7 +107,7 @@ class ChatService {
     // 9. Format standardized response payload with active session summary
     return {
       sessionId,
-      reply: result.reply,
+      reply: cleanReply,
       retrievedContextCount: ragResult.contextDocsCount || 0,
       retrievedSources: ragResult.docTitles || [],
       suggestedActions: result.suggestedActions || ['Find a Tutor', 'Book Assessment', 'Fees & Pricing', 'Contact Support'],

@@ -57,9 +57,11 @@ class EmbeddingService extends EmbeddingGeneratorInterface {
       return [];
     }
 
-    // Sandbox / Mock fallback when OPENAI_API_KEY is not set in local dev environment
-    if (!this.apiKey) {
-      console.warn('[EmbeddingService] OPENAI_API_KEY is not set. Generating deterministic mock vectors for local testing.');
+    // Sandbox / Mock fallback when OPENAI_API_KEY is not set or when using Groq (which doesn't support /v1/embeddings)
+    if (!this.apiKey || this.baseUrl.includes('groq.com') || (this.apiKey && this.apiKey.startsWith('gsk_'))) {
+      if (!this.apiKey) {
+        console.warn('[EmbeddingService] OPENAI_API_KEY is not set. Generating deterministic mock vectors for local testing.');
+      }
       return cleanTexts.map((txt) => this.generateMockVector(txt));
     }
 

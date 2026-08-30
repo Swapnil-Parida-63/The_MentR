@@ -477,28 +477,27 @@ export default function AvsarSection({ isStandalonePage = false }) {
                           {/* Collapsible content */}
                           <div 
                             style={{ 
-                              display: 'grid',
-                              gridTemplateRows: isActive ? '1fr' : '0fr',
+                              maxHeight: isActive ? '200px' : '0px',
                               opacity: isActive ? 1 : 0,
-                              transition: 'grid-template-rows 0.28s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.22s ease-out',
-                              willChange: 'grid-template-rows, opacity',
+                              overflow: 'hidden',
+                              paddingTop: isActive ? '8px' : '0px',
+                              transition: 'max-height 0.18s cubic-bezier(0, 0, 0.2, 1), opacity 0.15s ease-out, padding-top 0.18s ease',
+                              willChange: 'max-height, opacity',
                               transform: 'translateZ(0)'
                             }}
                           >
-                            <div style={{ overflow: 'hidden', paddingTop: isActive ? '8px' : '0px', transition: 'padding-top 0.28s ease' }}>
-                              <div style={{ display: 'flex', alignItems: 'center', gap: 8, color: '#6366F1', marginBottom: 6 }}>
-                                <StepIcon size={14} />
-                                <span style={{ fontSize: 11, fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.05em' }}>Verification Stage</span>
-                              </div>
-                              <p style={{ 
-                                fontSize: '13px', 
-                                color: '#64748B', 
-                                lineHeight: '1.5', 
-                                margin: 0 
-                              }}>
-                                {s.desc}
-                              </p>
+                            <div style={{ display: 'flex', alignItems: 'center', gap: 8, color: '#6366F1', marginBottom: 6 }}>
+                              <StepIcon size={14} />
+                              <span style={{ fontSize: 11, fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.05em' }}>Verification Stage</span>
                             </div>
+                            <p style={{ 
+                              fontSize: '13px', 
+                              color: '#64748B', 
+                              lineHeight: '1.5', 
+                              margin: 0 
+                            }}>
+                              {s.desc}
+                            </p>
                           </div>
                         </div>
                       </div>

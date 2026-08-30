@@ -716,7 +716,9 @@ export default function FormModal() {
                 style={{
                   flex: 1, padding: '9px 12px', border: 'none', borderRadius: 99, fontSize: 13, fontWeight: 700,
                   background: activeTab === 'demo' ? '#FFF' : 'transparent',
-                  color: activeTab === 'demo' ? '#4F7CFF' : '#64748B', cursor: 'pointer'
+                  boxShadow: activeTab === 'demo' ? '0 4px 12px rgba(15, 23, 42, 0.08)' : 'none',
+                  color: activeTab === 'demo' ? '#4F7CFF' : '#64748B', cursor: 'pointer',
+                  transition: 'all 0.2s ease-in-out'
                 }}
               >
                 Book a Demo
@@ -727,7 +729,9 @@ export default function FormModal() {
                 style={{
                   flex: 1, padding: '9px 12px', border: 'none', borderRadius: 99, fontSize: 13, fontWeight: 700,
                   background: activeTab === 'teacher' ? '#FFF' : 'transparent',
-                  color: activeTab === 'teacher' ? '#4F7CFF' : '#64748B', cursor: 'pointer'
+                  boxShadow: activeTab === 'teacher' ? '0 4px 12px rgba(15, 23, 42, 0.08)' : 'none',
+                  color: activeTab === 'teacher' ? '#4F7CFF' : '#64748B', cursor: 'pointer',
+                  transition: 'all 0.2s ease-in-out'
                 }}
               >
                 Join as Teacher
@@ -735,8 +739,8 @@ export default function FormModal() {
             </div>
 
             {/* TAB 1: DEMO FORM */}
-            {activeTab === 'demo' && (
-              demoSubmitted ? (
+            <div style={{ display: activeTab === 'demo' ? 'block' : 'none' }}>
+              {demoSubmitted ? (
                 <div style={{ textAlign: 'center', padding: '24px 12px' }}>
                   <div style={{ fontSize: 44, marginBottom: 12 }}>🎉</div>
                   <h3 style={{ fontFamily: 'var(--font-hero)', fontSize: 20, fontWeight: 800, color: '#1E293B', marginBottom: 8 }}>
@@ -774,12 +778,12 @@ export default function FormModal() {
                     {demoSubmitting ? 'Submitting...' : 'Book Demo Class →'}
                   </button>
                 </form>
-              )
-            )}
+              )}
+            </div>
 
             {/* TAB 2: TEACHER FORM */}
-            {activeTab === 'teacher' && (
-              teacherSubmitted ? (
+            <div style={{ display: activeTab === 'teacher' ? 'block' : 'none' }}>
+              {teacherSubmitted ? (
                 <div style={{ textAlign: 'center', padding: '24px 12px' }}>
                   <div style={{ fontSize: 44, marginBottom: 12 }}>🎉</div>
                   <h3 style={{ fontFamily: 'var(--font-hero)', fontSize: 20, fontWeight: 800, color: '#1E293B', marginBottom: 8 }}>
@@ -851,8 +855,8 @@ export default function FormModal() {
                     </div>
                   )}
                 </form>
-              )
-            )}
+              )}
+            </div>
           </div>
         )}
       </div>

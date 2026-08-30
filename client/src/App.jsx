@@ -10,7 +10,6 @@ const LoginPage = lazy(() => import('./pages/LoginPage'));
 const RegisterPage = lazy(() => import('./pages/RegisterPage'));
 const BlogsPage = lazy(() => import('./pages/BlogsPage'));
 const ContactPage = lazy(() => import('./pages/ContactPage'));
-const GalleryPage = lazy(() => import('./pages/GalleryPage'));
 const PricingPage = lazy(() => import('./pages/PricingPage'));
 const AvsarPage = lazy(() => import('./pages/AvsarPage'));
 const EcosystemPage = lazy(() => import('./pages/EcosystemPage'));
@@ -58,7 +57,6 @@ export default function App() {
             <Route element={<Layout />}>
               <Route path="/" element={<HomePage />} />
               <Route path="/blogs" element={<BlogsPage />} />
-              <Route path="/gallery" element={<GalleryPage />} />
               <Route path="/contact" element={<ContactPage />} />
               <Route path="/pricing" element={<PricingPage />} />
               <Route path="/avsar" element={<AvsarPage />} />

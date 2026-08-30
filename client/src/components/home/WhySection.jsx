@@ -340,26 +340,24 @@ export default function WhySection() {
 
                         <div 
                           style={{ 
-                            display: 'grid',
-                            gridTemplateRows: isExpanded ? '1fr' : '0fr',
+                            maxHeight: isExpanded ? '180px' : '0px',
                             opacity: isExpanded ? 1 : 0,
                             marginTop: isExpanded ? 8 : 0,
-                            transition: 'grid-template-rows 0.18s cubic-bezier(0.2, 0, 0, 1), opacity 0.15s ease-out, margin-top 0.18s ease',
-                            willChange: 'grid-template-rows, opacity',
+                            overflow: 'hidden',
+                            transition: 'max-height 0.18s cubic-bezier(0, 0, 0.2, 1), opacity 0.15s ease-out, margin-top 0.18s ease',
+                            willChange: 'max-height, opacity',
                             transform: 'translateZ(0)'
                           }}
                         >
-                          <div style={{ overflow: 'hidden' }}>
-                            <p style={{ 
-                              margin: 0, 
-                              fontSize: '13px', 
-                              lineHeight: 1.6, 
-                              color: '#64748B',
-                              fontWeight: 400
-                            }}>
-                              {mod.description}
-                            </p>
-                          </div>
+                          <p style={{ 
+                            margin: 0, 
+                            fontSize: '13px', 
+                            lineHeight: 1.6, 
+                            color: '#64748B',
+                            fontWeight: 400
+                          }}>
+                            {mod.description}
+                          </p>
                         </div>
                       </div>
                     </div>

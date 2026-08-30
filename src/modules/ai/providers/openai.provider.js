@@ -39,12 +39,16 @@ class OpenAIProvider extends BaseAIProvider {
    * @returns {Promise<Object>} Standardized result object { reply, tokenUsage, model, finishReason }
    */
   async generateCompletion({ messages, options = {} }) {
-    if (!this.apiKey) {
+    const apiKey = options.apiKey || this.apiKey || aiConfig.openAiApiKey;
+    const baseUrl = options.baseUrl || this.baseUrl || aiConfig.baseUrl || 'https://api.openai.com/v1';
+    const model = options.model || aiConfig.model || this.model || 'groq/compound';
+
+    if (!apiKey) {
       // Return clean fallback response when OPENAI_API_KEY is not configured yet
       return {
         reply: "Hello! I'm Mentee, your personal AI learning advisor. (API key is not configured in environment settings yet, running in sandbox mode).",
         tokenUsage: { promptTokens: 0, completionTokens: 0, totalTokens: 0 },
-        model: this.model,
+        model: model,
         finishReason: 'sandbox_fallback',
         isMockResponse: true
       };
@@ -53,10 +57,10 @@ class OpenAIProvider extends BaseAIProvider {
     const controller = new AbortController();
     const timeoutId = setTimeout(() => controller.abort(), options.timeoutMs || this.timeoutMs);
 
-    const endpoint = `${this.baseUrl.replace(/\/$/, '')}/chat/completions`;
+    const endpoint = `${baseUrl.replace(/\/$/, '')}/chat/completions`;
 
     const requestBody = {
-      model: options.model || this.model,
+      model: model,
       messages,
       max_tokens: options.maxTokens || this.maxTokens,
       temperature: options.temperature !== undefined ? options.temperature : this.temperature
@@ -67,7 +71,7 @@ class OpenAIProvider extends BaseAIProvider {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
-          'Authorization': `Bearer ${this.apiKey}`
+          'Authorization': `Bearer ${apiKey}`
         },
         body: JSON.stringify(requestBody),
         signal: controller.signal

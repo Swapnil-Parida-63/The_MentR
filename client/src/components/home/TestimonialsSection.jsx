@@ -267,21 +267,19 @@ export default function TestimonialsSection() {
           </FadeUp>
           <div
             style={{
-              display: 'grid',
-              gridTemplateRows: (!isMobile || isDescExpanded) ? '1fr' : '0fr',
+              maxHeight: (!isMobile || isDescExpanded) ? '150px' : '0px',
               opacity: (!isMobile || isDescExpanded) ? 1 : 0,
               marginTop: (!isMobile || isDescExpanded) ? 12 : 0,
-              transition: 'grid-template-rows 0.28s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.22s ease-out, margin-top 0.28s ease',
-              willChange: 'grid-template-rows, opacity',
+              overflow: 'hidden',
+              transition: 'max-height 0.18s cubic-bezier(0, 0, 0.2, 1), opacity 0.15s ease-out, margin-top 0.18s ease',
+              willChange: 'max-height, opacity',
               transform: 'translateZ(0)'
             }}
           >
-            <div style={{ overflow: 'hidden' }}>
-              <p style={{ fontSize: 16, color: '#64748B', lineHeight: 1.6, margin: 0 }}>
+            <p style={{ fontSize: 16, color: '#64748B', lineHeight: 1.6, margin: 0 }}>
                 Hear directly from parents and teachers who have experienced the MentR journey and trusted us with learning.
               </p>
             </div>
-          </div>
         </div>
 
         {/* Testimonial Filter Bar & Submit Feedback CTA */}

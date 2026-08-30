@@ -37,7 +37,6 @@ export default function Navbar() {
     'organogram',
     'showcase',
     'testimonials',
-    'gallery',
     'blogs',
     'contact-forms',
     'contact-section'
@@ -132,7 +131,6 @@ export default function Navbar() {
     { label: 'Why TheMentR', id: 'why' },
     { label: 'Services', isAccordion: true, id: 'services' },
     { label: 'Pricing', path: '/pricing' },
-    { label: 'Hall of Fame', id: 'gallery' },
     { label: 'Journal', id: 'blogs' }
   ];
 
@@ -140,7 +138,6 @@ export default function Navbar() {
     { label: 'Why TheMentR', id: 'why' },
     { label: 'Services', isAccordion: true, id: 'services' },
     { label: 'Pricing', path: '/pricing' },
-    { label: 'Hall of Fame', id: 'gallery' },
     { label: 'Journal', id: 'blogs' },
     { label: 'Contact', id: 'contact-section' }
   ];

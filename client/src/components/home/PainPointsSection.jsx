@@ -359,19 +359,17 @@ export default function PainPointsSection() {
                         </div>
                         <div 
                           style={{ 
-                            display: 'grid',
-                            gridTemplateRows: expandedParentPoint === point.id ? '1fr' : '0fr',
+                            maxHeight: expandedParentPoint === point.id ? '160px' : '0px',
                             opacity: expandedParentPoint === point.id ? 1 : 0,
-                            transition: 'grid-template-rows 0.18s cubic-bezier(0.2, 0, 0, 1), opacity 0.15s ease-out',
-                            willChange: 'grid-template-rows, opacity',
+                            overflow: 'hidden',
+                            transition: 'max-height 0.18s cubic-bezier(0, 0, 0.2, 1), opacity 0.15s ease-out',
+                            willChange: 'max-height, opacity',
                             transform: 'translateZ(0)'
                           }}
                         >
-                          <div style={{ overflow: 'hidden' }}>
-                            <p style={{ margin: '4px 0 0', fontSize: 13.5, lineHeight: 1.5, color: '#64748B' }}>
-                              {point.description}
-                            </p>
-                          </div>
+                          <p style={{ margin: '4px 0 0', fontSize: 13.5, lineHeight: 1.5, color: '#64748B' }}>
+                            {point.description}
+                          </p>
                         </div>
                       </div>
                     </div>
@@ -921,19 +919,17 @@ export default function PainPointsSection() {
                         </div>
                         <div 
                           style={{ 
-                            display: 'grid',
-                            gridTemplateRows: expandedTeacherPoint === point.id ? '1fr' : '0fr',
+                            maxHeight: expandedTeacherPoint === point.id ? '160px' : '0px',
                             opacity: expandedTeacherPoint === point.id ? 1 : 0,
-                            transition: 'grid-template-rows 0.18s cubic-bezier(0.2, 0, 0, 1), opacity 0.15s ease-out',
-                            willChange: 'grid-template-rows, opacity',
+                            overflow: 'hidden',
+                            transition: 'max-height 0.18s cubic-bezier(0, 0, 0.2, 1), opacity 0.15s ease-out',
+                            willChange: 'max-height, opacity',
                             transform: 'translateZ(0)'
                           }}
                         >
-                          <div style={{ overflow: 'hidden' }}>
-                            <p style={{ margin: '4px 0 0', fontSize: 13.5, lineHeight: 1.5, color: '#64748B' }}>
-                              {point.description}
-                            </p>
-                          </div>
+                          <p style={{ margin: '4px 0 0', fontSize: 13.5, lineHeight: 1.5, color: '#64748B' }}>
+                            {point.description}
+                          </p>
                         </div>
                       </div>
                     </div>

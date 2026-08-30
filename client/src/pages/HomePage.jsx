@@ -11,7 +11,6 @@ import VisionSection from '../components/home/VisionSection';
 import OrganogramSection from '../components/home/OrganogramSection';
 import ShowcaseSection from '../components/home/ShowcaseSection';
 import TestimonialsSection from '../components/home/TestimonialsSection';
-import GalleryPreview from '../components/home/GalleryPreview';
 import BlogsPreview from '../components/home/BlogsPreview';
 import FormsSection from '../components/home/FormsSection';
 import ContactSection from '../components/home/ContactSection';
@@ -27,7 +26,6 @@ const SECTION_ORDER = [
   'organogram',
   'showcase',
   'testimonials',
-  'gallery',
   'blogs',
   'contact-forms',
   'contact-section'
@@ -80,9 +78,6 @@ export default function HomePage() {
       </DeferredSection>
       <DeferredSection id="testimonials" minHeight="200px">
         <TestimonialsSection />
-      </DeferredSection>
-      <DeferredSection id="gallery" minHeight="200px">
-        <GalleryPreview />
       </DeferredSection>
       <DeferredSection id="blogs" minHeight="200px">
         <BlogsPreview />

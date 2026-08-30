@@ -1,7 +1,8 @@
+const path = require('path');
 const dotenv = require('dotenv');
 const { z } = require('zod');
 
-dotenv.config();
+dotenv.config({ path: path.resolve(__dirname, '../../.env'), override: true });
 
 const envSchema = z.object({
   NODE_ENV: z.enum(['development', 'test', 'production']).default('development'),
@@ -16,7 +17,7 @@ const envSchema = z.object({
   PRICING_FORM_WEBHOOK_URL: z.string().url().optional().or(z.literal('')).default('https://script.google.com/macros/s/AKfycbzieZGJ6EQCIAW81fS4v98VD8kYNoTcA8gub6q2ucBKnrcmH-rjfcgse4vnX9aeg_xZ/exec'),
   AI_PROVIDER: z.string().default('openai'),
   OPENAI_API_KEY: z.string().optional().default(''),
-  OPENAI_MODEL: z.string().default('llama-3.3-70b-versatile'),
+  OPENAI_MODEL: z.string().default('groq/compound'),
   OPENAI_BASE_URL: z.string().url().optional().default('https://api.groq.com/openai/v1'),
   OPENAI_TIMEOUT: z.coerce.number().int().positive().default(30000),
   OPENAI_MAX_TOKENS: z.coerce.number().int().positive().default(1024),

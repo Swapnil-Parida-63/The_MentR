@@ -486,25 +486,25 @@ export default function ServicesSection() {
                   {/* Expanded Body Content */}
                   <div 
                     style={{ 
-                      display: 'grid',
-                      gridTemplateRows: isExpanded ? '1fr' : '0fr',
+                      maxHeight: isExpanded ? '300px' : '0px',
                       opacity: isExpanded ? 1 : 0,
-                      transition: 'grid-template-rows 0.18s cubic-bezier(0.2, 0, 0, 1), opacity 0.15s ease-out',
-                      willChange: 'grid-template-rows, opacity',
+                      overflow: 'hidden',
+                      paddingLeft: '48px',
+                      paddingTop: isExpanded ? '12px' : '0px',
+                      transition: 'max-height 0.18s cubic-bezier(0, 0, 0.2, 1), opacity 0.15s ease-out, padding-top 0.18s ease',
+                      willChange: 'max-height, opacity',
                       transform: 'translateZ(0)'
                     }}
                   >
-                    <div style={{ overflow: 'hidden', paddingLeft: '48px', paddingTop: isExpanded ? '12px' : '0px', transition: 'padding-top 0.18s ease' }}>
-                      <p style={{ 
-                        fontSize: '14px', 
-                        color: '#64748B', 
-                        lineHeight: '1.5', 
-                        margin: 0 
-                      }}>
-                        {offer.subtitle}
-                      </p>
-                      {offer.details}
-                    </div>
+                    <p style={{ 
+                      fontSize: '14px', 
+                      color: '#64748B', 
+                      lineHeight: '1.5', 
+                      margin: 0 
+                    }}>
+                      {offer.subtitle}
+                    </p>
+                    {offer.details}
                   </div>
                 </div>
               );

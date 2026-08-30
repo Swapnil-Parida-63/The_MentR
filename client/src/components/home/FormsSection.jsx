@@ -503,20 +503,19 @@ export default function FormsSection() {
                         onClick={() => setActiveTab(tab.id)}
                         type="button"
                         style={{
-                          background: 'none', 
+                          background: isActive ? '#FFFFFF' : 'transparent', 
+                          boxShadow: isActive ? '0 4px 12px rgba(15, 23, 42, 0.08)' : 'none',
                           border: 'none', 
                           fontSize: isMobile ? 12.5 : 14, 
                           fontWeight: 700,
                           color: isActive ? '#4F7CFF' : '#475569', 
                           cursor: 'pointer',
-                          position: 'relative', 
-                          transition: 'color 0.25s', 
+                          transition: 'all 0.2s ease-in-out', 
                           fontFamily: 'var(--font-sans)',
                           padding: isMobile ? '10px 14px' : '11px 24px',
                           borderRadius: 99,
                           flex: 1,
                           textAlign: 'center',
-                          zIndex: 1,
                           display: 'inline-flex',
                           alignItems: 'center',
                           justifyContent: 'center',
@@ -524,20 +523,6 @@ export default function FormsSection() {
                         }}
                       >
                         {isMobile ? tab.mobileLabel : tab.label}
-                        {isActive && (
-                          <motion.div
-                            layoutId="activeFormTabPill"
-                            style={{
-                              position: 'absolute',
-                              inset: 0,
-                              background: '#FFFFFF',
-                              borderRadius: 99,
-                              boxShadow: '0 4px 12px rgba(15, 23, 42, 0.06)',
-                              zIndex: -1
-                            }}
-                            transition={{ type: 'spring', stiffness: 380, damping: 30 }}
-                          />
-                        )}
                       </button>
                     );
                   })}
@@ -546,150 +531,148 @@ export default function FormsSection() {
                 {/* ============================================================== */}
                 {/* TAB 1: BOOK A DEMO FORM */}
                 {/* ============================================================== */}
-                {activeTab === 'demo' && (
-                  <div style={{ flex: 1, display: 'flex', flexDirection: 'column' }}>
-                    {demoSubmitted ? (
-                      <div style={{ textAlign: 'center', padding: isMobile ? '24px 12px' : '40px 20px' }}>
-                        <div style={{ fontSize: 44, marginBottom: 12 }}>🎉</div>
-                        <h3 style={{ fontFamily: 'var(--font-display)', fontSize: isMobile ? 20 : 24, fontWeight: 700, color: '#1E293B', marginBottom: 8 }}>
-                          Demo Request Received!
-                        </h3>
-                        <p style={{ fontSize: 14, color: '#475569', lineHeight: 1.5, maxWidth: 400, margin: '0 auto 20px' }}>
-                          We have noticed your interest, our team will contact uh soon.
-                        </p>
-                        <button
-                          type="button"
-                          onClick={() => {
-                            setDemoSubmitted(false);
-                            setDemoParentName('');
-                            setDemoPhone('');
-                            setDemoStudentName('');
-                            setDemoBoard('');
-                            setDemoClass('');
-                            setDemoLocation('');
-                            setDemoGuidanceSubjects([]);
-                            setDemoAgreed(false);
-                          }}
-                          className="btn-editorial-pill"
-                          style={{ padding: '10px 28px', fontSize: 13.5 }}
-                        >
-                          Book Another Demo
-                        </button>
-                      </div>
-                    ) : (
-                      <form onSubmit={handleDemoSubmit} style={{ display: 'flex', flexDirection: 'column', flex: 1 }}>
+                <div style={{ flex: 1, display: activeTab === 'demo' ? 'flex' : 'none', flexDirection: 'column' }}>
+                  {demoSubmitted ? (
+                    <div style={{ textAlign: 'center', padding: isMobile ? '24px 12px' : '40px 20px' }}>
+                      <div style={{ fontSize: 44, marginBottom: 12 }}>🎉</div>
+                      <h3 style={{ fontFamily: 'var(--font-display)', fontSize: isMobile ? 20 : 24, fontWeight: 700, color: '#1E293B', marginBottom: 8 }}>
+                        Demo Request Received!
+                      </h3>
+                      <p style={{ fontSize: 14, color: '#475569', lineHeight: 1.5, maxWidth: 400, margin: '0 auto 20px' }}>
+                        We have noticed your interest, our team will contact uh soon.
+                      </p>
+                      <button
+                        type="button"
+                        onClick={() => {
+                          setDemoSubmitted(false);
+                          setDemoParentName('');
+                          setDemoPhone('');
+                          setDemoStudentName('');
+                          setDemoBoard('');
+                          setDemoClass('');
+                          setDemoLocation('');
+                          setDemoGuidanceSubjects([]);
+                          setDemoAgreed(false);
+                        }}
+                        className="btn-editorial-pill"
+                        style={{ padding: '10px 28px', fontSize: 13.5 }}
+                      >
+                        Book Another Demo
+                      </button>
+                    </div>
+                  ) : (
+                    <form onSubmit={handleDemoSubmit} style={{ display: 'flex', flexDirection: 'column', flex: 1 }}>
 
+                      <UnderlineField 
+                        label="Parent Name *" 
+                        placeholder="Your full name" 
+                        value={demoParentName} 
+                        onChange={e => setDemoParentName(e.target.value)} 
+                        required 
+                        isMobile={isMobile}
+                      />
+
+                      <div style={{ display: 'grid', gridTemplateColumns: isMobile ? '1fr' : '1fr 1fr', gap: isMobile ? 0 : 16 }}>
                         <UnderlineField 
-                          label="Parent Name *" 
-                          placeholder="Your full name" 
-                          value={demoParentName} 
-                          onChange={e => setDemoParentName(e.target.value)} 
+                          label="Phone Number *" 
+                          type="tel" 
+                          placeholder="10-digit number" 
+                          value={demoPhone} 
+                          onChange={e => setDemoPhone(e.target.value.replace(/\D/g, '').slice(0, 10))} 
                           required 
                           isMobile={isMobile}
                         />
 
-                        <div style={{ display: 'grid', gridTemplateColumns: isMobile ? '1fr' : '1fr 1fr', gap: isMobile ? 0 : 16 }}>
-                          <UnderlineField 
-                            label="Phone Number *" 
-                            type="tel" 
-                            placeholder="10-digit number" 
-                            value={demoPhone} 
-                            onChange={e => setDemoPhone(e.target.value.replace(/\D/g, '').slice(0, 10))} 
-                            required 
-                            isMobile={isMobile}
-                          />
-
-                          <UnderlineField 
-                            label="Student Name *" 
-                            placeholder="Student's full name" 
-                            value={demoStudentName} 
-                            onChange={e => setDemoStudentName(e.target.value)} 
-                            required 
-                            isMobile={isMobile}
-                          />
-                        </div>
-
-                        <div style={{ display: 'grid', gridTemplateColumns: isMobile ? '1fr' : '1fr 1fr', gap: isMobile ? 0 : 16 }}>
-                          <CustomMultiSelect 
-                            label="Syllabus / Board *" 
-                            options={boardOptions} 
-                            selectedValues={demoBoard} 
-                            onChange={setDemoBoard} 
-                            placeholder="Select board (Max 3)"
-                            maxSelections={3}
-                            isMobile={isMobile}
-                          />
-
-                          <CustomMultiSelect 
-                            label="Class *" 
-                            options={classOptions} 
-                            selectedValues={demoClass} 
-                            onChange={setDemoClass} 
-                            placeholder="Select class (Max 3)"
-                            maxSelections={3}
-                            isMobile={isMobile}
-                          />
-                        </div>
-
                         <UnderlineField 
-                          label="Location *" 
-                          placeholder="Area / Landmark, City" 
-                          value={demoLocation} 
-                          onChange={e => setDemoLocation(e.target.value)} 
+                          label="Student Name *" 
+                          placeholder="Student's full name" 
+                          value={demoStudentName} 
+                          onChange={e => setDemoStudentName(e.target.value)} 
                           required 
+                          isMobile={isMobile}
+                        />
+                      </div>
+
+                      <div style={{ display: 'grid', gridTemplateColumns: isMobile ? '1fr' : '1fr 1fr', gap: isMobile ? 0 : 16 }}>
+                        <CustomMultiSelect 
+                          label="Syllabus / Board *" 
+                          options={boardOptions} 
+                          selectedValues={demoBoard} 
+                          onChange={setDemoBoard} 
+                          placeholder="Select board (Max 3)"
+                          maxSelections={3}
                           isMobile={isMobile}
                         />
 
                         <CustomMultiSelect 
-                          label="Any specific subject required for guidance" 
-                          options={subjectsList} 
-                          selectedValues={demoGuidanceSubjects} 
-                          onChange={setDemoGuidanceSubjects} 
-                          placeholder="Select options..."
+                          label="Class *" 
+                          options={classOptions} 
+                          selectedValues={demoClass} 
+                          onChange={setDemoClass} 
+                          placeholder="Select class (Max 3)"
+                          maxSelections={3}
                           isMobile={isMobile}
                         />
+                      </div>
 
-                        {/* Mandatory Checkbox for Terms and Conditions */}
-                        <div style={{ display: 'flex', alignItems: 'center', gap: 10, marginTop: 4, marginBottom: isMobile ? 16 : 24, textAlign: 'left' }}>
-                          <input 
-                            type="checkbox" 
-                            id="demoTermsCheckbox"
-                            checked={demoAgreed} 
-                            onChange={(e) => setDemoAgreed(e.target.checked)} 
-                            required
-                            style={{ width: isMobile ? 16 : 18, height: isMobile ? 16 : 18, accentColor: '#4F7CFF', cursor: 'pointer', flexShrink: 0 }}
-                          />
-                          <label htmlFor="demoTermsCheckbox" style={{ fontSize: isMobile ? 12 : 13, color: '#475569', cursor: 'pointer', userSelect: 'none', lineHeight: 1.35 }}>
-                            I agree with the{' '}
-                            <a 
-                              href="/teacher-terms" 
-                              target="_blank" 
-                              rel="noopener noreferrer" 
-                              style={{ color: '#4F7CFF', fontWeight: 700, textDecoration: 'underline' }}
-                              onClick={(e) => e.stopPropagation()}
-                            >
-                              Terms and Conditions
-                            </a>
-                          </label>
-                        </div>
+                      <UnderlineField 
+                        label="Location *" 
+                        placeholder="Area / Landmark, City" 
+                        value={demoLocation} 
+                        onChange={e => setDemoLocation(e.target.value)} 
+                        required 
+                        isMobile={isMobile}
+                      />
 
-                        <button 
-                          type="submit"
-                          disabled={!demoAgreed || demoSubmitting}
-                          className="btn-editorial-pill"
-                          style={{ width: '100%', padding: isMobile ? '12px' : '14px', fontSize: isMobile ? 14 : 15 }}
-                        >
-                          {demoSubmitting ? 'Submitting...' : 'Book Demo Class →'}
-                        </button>
-                      </form>
-                    )}
-                  </div>
-                )}
+                      <CustomMultiSelect 
+                        label="Any specific subject required for guidance" 
+                        options={subjectsList} 
+                        selectedValues={demoGuidanceSubjects} 
+                        onChange={setDemoGuidanceSubjects} 
+                        placeholder="Select options..."
+                        isMobile={isMobile}
+                      />
+
+                      {/* Mandatory Checkbox for Terms and Conditions */}
+                      <div style={{ display: 'flex', alignItems: 'center', gap: 10, marginTop: 4, marginBottom: isMobile ? 16 : 24, textAlign: 'left' }}>
+                        <input 
+                          type="checkbox" 
+                          id="demoTermsCheckbox"
+                          checked={demoAgreed} 
+                          onChange={(e) => setDemoAgreed(e.target.checked)} 
+                          required
+                          style={{ width: isMobile ? 16 : 18, height: isMobile ? 16 : 18, accentColor: '#4F7CFF', cursor: 'pointer', flexShrink: 0 }}
+                        />
+                        <label htmlFor="demoTermsCheckbox" style={{ fontSize: isMobile ? 12 : 13, color: '#475569', cursor: 'pointer', userSelect: 'none', lineHeight: 1.35 }}>
+                          I agree with the{' '}
+                          <a 
+                            href="/teacher-terms" 
+                            target="_blank" 
+                            rel="noopener noreferrer" 
+                            style={{ color: '#4F7CFF', fontWeight: 700, textDecoration: 'underline' }}
+                            onClick={(e) => e.stopPropagation()}
+                          >
+                            Terms and Conditions
+                          </a>
+                        </label>
+                      </div>
+
+                      <button 
+                        type="submit"
+                        disabled={!demoAgreed || demoSubmitting}
+                        className="btn-editorial-pill"
+                        style={{ width: '100%', padding: isMobile ? '12px' : '14px', fontSize: isMobile ? 14 : 15 }}
+                      >
+                        {demoSubmitting ? 'Submitting...' : 'Book Demo Class →'}
+                      </button>
+                    </form>
+                  )}
+                </div>
 
                 {/* ============================================================== */}
                 {/* TAB 2: JOIN AS A TEACHER FORM */}
                 {/* ============================================================== */}
-                {activeTab === 'teacher' && (
+                <div style={{ flex: 1, display: activeTab === 'teacher' ? 'flex' : 'none', flexDirection: 'column' }}>
                   <div style={{ flex: 1, display: 'flex', flexDirection: 'column' }}>
                     {teacherSubmitted ? (
                       <div style={{ textAlign: 'center', padding: isMobile ? '24px 12px' : '40px 20px' }}>
@@ -902,7 +885,7 @@ export default function FormsSection() {
                       </form>
                     )}
                   </div>
-                )}
+                </div>
 
               </div>
 

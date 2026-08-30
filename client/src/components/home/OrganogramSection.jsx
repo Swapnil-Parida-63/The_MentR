@@ -221,20 +221,18 @@ export default function OrganogramSection() {
               </FadeUp>
               <div
                 style={{
-                  display: 'grid',
-                  gridTemplateRows: isDescExpanded ? '1fr' : '0fr',
+                  maxHeight: isDescExpanded ? '150px' : '0px',
                   opacity: isDescExpanded ? 1 : 0,
                   marginTop: isDescExpanded ? 12 : 0,
-                  transition: 'grid-template-rows 0.28s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.22s ease-out, margin-top 0.28s ease',
-                  willChange: 'grid-template-rows, opacity',
+                  overflow: 'hidden',
+                  transition: 'max-height 0.18s cubic-bezier(0, 0, 0.2, 1), opacity 0.15s ease-out, margin-top 0.18s ease',
+                  willChange: 'max-height, opacity',
                   transform: 'translateZ(0)'
                 }}
               >
-                <div style={{ overflow: 'hidden' }}>
-                  <p style={{ color: 'var(--color-text-secondary)', fontSize: 14, lineHeight: 1.6, margin: 0 }}>
-                    See how MentR brings together leadership, expert teams, technology and educators to create a seamless learning experience.
-                  </p>
-                </div>
+                <p style={{ color: 'var(--color-text-secondary)', fontSize: 14, lineHeight: 1.6, margin: 0 }}>
+                  See how MentR brings together leadership, expert teams, technology and educators to create a seamless learning experience.
+                </p>
               </div>
             </div>
 

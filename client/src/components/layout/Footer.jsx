@@ -49,7 +49,6 @@ export default function Footer() {
         { label: 'Our Vision', onClick: () => navigateAndScroll('/', 'vision') },
         { label: 'Team', onClick: () => navigateAndScroll('/', 'organogram') },
         { label: 'Blog', to: '/blogs' },
-        { label: 'Hall of Fame', onClick: () => navigateAndScroll('/', 'gallery') },
         { label: 'Contact', to: '/contact' }
       ]
     },
