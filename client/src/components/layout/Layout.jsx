@@ -43,7 +43,7 @@ export default function Layout() {
         </main>
         {!isPricingPage && <Footer style={{ position: 'relative', zIndex: 1 }} />}
         {!isVerifyPage && <Chatbot />}
-        <AnnouncementTicker />
+        {!isVerifyPage && <AnnouncementTicker />}
         <Suspense fallback={null}>
           <FormModal />
         </Suspense>

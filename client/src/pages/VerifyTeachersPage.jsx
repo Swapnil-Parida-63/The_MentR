@@ -5,13 +5,25 @@ import { verifiedTeachers } from '../data/verifiedTeachers';
 import { getTeacherMilestone, PROGRESS_NODES, filterVerifiedTeachers } from '../utils/milestone.utils';
 import { Search, CheckCircle, ShieldCheck, Award, ArrowLeft, X, Sparkles, BookOpen, MapPin, Calendar, Clock, Star, PartyPopper } from 'lucide-react';
 
+// Helper to check if current time is within 24-hour Teachers' Day window (Sept 5th 00:00:00 to Sept 6th 00:00:00)
+const isTeachersDayWindow = () => {
+  const now = new Date();
+  const year = now.getFullYear();
+  // Month index 8 = September in JS Date
+  const startTime = new Date(year, 8, 5, 0, 0, 0).getTime();
+  const endTime = new Date(year, 8, 6, 0, 0, 0).getTime();
+  const currentTime = now.getTime();
+
+  return currentTime >= startTime && currentTime < endTime;
+};
+
 export default function VerifyTeachersPage() {
   const eligibleTeachers = useMemo(() => filterVerifiedTeachers(verifiedTeachers), []);
   const [selectedTeacherId, setSelectedTeacherId] = useState(eligibleTeachers[0]?.id || '');
   const [searchQuery, setSearchQuery] = useState('');
   const [isMobile, setIsMobile] = useState(typeof window !== 'undefined' ? window.innerWidth < 1024 : false);
   const [mobileModalOpen, setMobileModalOpen] = useState(false);
-  const [showCelebration, setShowCelebration] = useState(true);
+  const [showCelebration, setShowCelebration] = useState(() => isTeachersDayWindow());
   const [hoveredNodeHours, setHoveredNodeHours] = useState(null);
 
   // Trigger party poppers from left and right sides
@@ -53,9 +65,11 @@ export default function VerifyTeachersPage() {
     }, 350);
   };
 
-  // Fire confetti upon page mount
+  // Auto-fire confetti upon page mount only during Teachers' Day window
   useEffect(() => {
-    triggerConfetti();
+    if (isTeachersDayWindow()) {
+      triggerConfetti();
+    }
   }, []);
 
   useEffect(() => {
@@ -652,10 +666,14 @@ export default function VerifyTeachersPage() {
 
                   {/* Milestone Nodes */}
                   <div style={{ display: 'flex', justifyContent: 'space-between', position: 'relative', zIndex: 2 }}>
-                    {PROGRESS_NODES.map((node) => {
+                    {PROGRESS_NODES.map((node, idx) => {
                       const isAchieved = selectedTeacher.teachingHours >= node.hours;
                       const isCurrent = milestoneData.current.minHours === node.hours || (node.hours === 100 && selectedTeacher.teachingHours < 250);
                       const isHovered = hoveredNodeHours === node.hours;
+
+                      // Smart edge-aware alignment to prevent cut-off on screen edges
+                      const isLeftEdge = idx === 0;
+                      const isRightEdge = idx === PROGRESS_NODES.length - 1;
 
                       return (
                         <div 
@@ -674,14 +692,16 @@ export default function VerifyTeachersPage() {
                               position: 'absolute',
                               bottom: '100%',
                               marginBottom: 10,
-                              left: '50%',
-                              transform: 'translateX(-50%)',
+                              left: isLeftEdge ? '-10px' : isRightEdge ? 'auto' : '50%',
+                              right: isRightEdge ? '-10px' : 'auto',
+                              transform: isLeftEdge || isRightEdge ? 'none' : 'translateX(-50%)',
                               width: 210,
+                              maxWidth: '85vw',
                               background: '#0F172A',
                               color: '#FFFFFF',
                               padding: '12px 14px',
                               borderRadius: 14,
-                              boxShadow: '0 12px 28px rgba(15, 23, 42, 0.35), 0 0 0 1px rgba(255, 255, 255, 0.1)',
+                              boxShadow: '0 12px 28px rgba(15, 23, 42, 0.4), 0 0 0 1px rgba(255, 255, 255, 0.1)',
                               zIndex: 100,
                               textAlign: 'left',
                               pointerEvents: 'none'
@@ -690,8 +710,9 @@ export default function VerifyTeachersPage() {
                               <div style={{
                                 position: 'absolute',
                                 bottom: -5,
-                                left: '50%',
-                                transform: 'translateX(-50%) rotate(45deg)',
+                                left: isLeftEdge ? '24px' : isRightEdge ? 'auto' : '50%',
+                                right: isRightEdge ? '24px' : 'auto',
+                                transform: isLeftEdge || isRightEdge ? 'rotate(45deg)' : 'translateX(-50%) rotate(45deg)',
                                 width: 10,
                                 height: 10,
                                 background: '#0F172A',
@@ -836,14 +857,14 @@ export default function VerifyTeachersPage() {
         <div style={{
           position: 'fixed',
           inset: 0,
-          background: 'rgba(15, 23, 42, 0.65)',
-          backdropFilter: 'blur(6px)',
-          WebkitBackdropFilter: 'blur(6px)',
-          zIndex: 999999,
+          background: 'rgba(15, 23, 42, 0.7)',
+          backdropFilter: 'blur(8px)',
+          WebkitBackdropFilter: 'blur(8px)',
+          zIndex: 99999999,
           display: 'flex',
           justifyContent: 'center',
           alignItems: 'flex-end',
-          paddingTop: 54
+          paddingTop: 64
         }}
         onClick={() => setMobileModalOpen(false)}
         >
@@ -851,13 +872,13 @@ export default function VerifyTeachersPage() {
             className="hide-scrollbar"
             style={{
               width: '100%',
-              maxHeight: 'calc(100vh - 58px)',
+              maxHeight: 'calc(100vh - 70px)',
               background: '#FFFFFF',
               borderRadius: '24px 24px 0 0',
               overflowY: 'auto',
-              padding: '20px 18px 32px 18px',
+              padding: '20px 18px 60px 18px',
               position: 'relative',
-              boxShadow: '0 -10px 40px rgba(15, 23, 42, 0.25)',
+              boxShadow: '0 -10px 40px rgba(15, 23, 42, 0.3)',
               scrollbarWidth: 'none',
               msOverflowStyle: 'none'
             }}
@@ -909,10 +930,14 @@ export default function VerifyTeachersPage() {
 
               {/* Mobile Nodes Row */}
               <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', background: '#F8FAFC', padding: '10px 8px', borderRadius: 14, border: '1px solid #E2E8F0', marginBottom: 12, position: 'relative' }}>
-                {PROGRESS_NODES.map((node) => {
+                {PROGRESS_NODES.map((node, idx) => {
                   const isAchieved = selectedTeacher.teachingHours >= node.hours;
                   const isCurrent = milestoneData.current.minHours === node.hours || (node.hours === 100 && selectedTeacher.teachingHours < 250);
                   const isHovered = hoveredNodeHours === node.hours;
+
+                  // Smart edge-aware alignment for mobile popovers
+                  const isLeftEdge = idx === 0;
+                  const isRightEdge = idx === PROGRESS_NODES.length - 1;
 
                   return (
                     <div 
@@ -929,17 +954,32 @@ export default function VerifyTeachersPage() {
                           position: 'absolute',
                           bottom: '100%',
                           marginBottom: 8,
-                          left: '50%',
-                          transform: 'translateX(-50%)',
+                          left: isLeftEdge ? '-6px' : isRightEdge ? 'auto' : '50%',
+                          right: isRightEdge ? '-6px' : 'auto',
+                          transform: isLeftEdge || isRightEdge ? 'none' : 'translateX(-50%)',
                           width: 180,
+                          maxWidth: '72vw',
                           background: '#0F172A',
                           color: '#FFFFFF',
                           padding: '10px 12px',
                           borderRadius: 12,
-                          boxShadow: '0 10px 24px rgba(15, 23, 42, 0.4)',
+                          boxShadow: '0 10px 24px rgba(15, 23, 42, 0.45)',
                           zIndex: 1000,
                           textAlign: 'left'
                         }}>
+                          {/* Arrow Pointer */}
+                          <div style={{
+                            position: 'absolute',
+                            bottom: -5,
+                            left: isLeftEdge ? '16px' : isRightEdge ? 'auto' : '50%',
+                            right: isRightEdge ? '16px' : 'auto',
+                            transform: isLeftEdge || isRightEdge ? 'rotate(45deg)' : 'translateX(-50%) rotate(45deg)',
+                            width: 10,
+                            height: 10,
+                            background: '#0F172A',
+                            borderRight: '1px solid rgba(255, 255, 255, 0.1)',
+                            borderBottom: '1px solid rgba(255, 255, 255, 0.1)'
+                          }} />
                           <div style={{ fontSize: 12, fontWeight: 800, color: '#38BDF8', display: 'flex', alignItems: 'center', gap: 4, marginBottom: 2 }}>
                             <span>{node.crown}</span> {node.name}
                           </div>
@@ -986,20 +1026,20 @@ export default function VerifyTeachersPage() {
             </div>
 
             {/* Details */}
-            <div style={{ display: 'flex', flexDirection: 'column', gap: 10 }}>
-              <div style={{ background: '#F8FAFC', padding: '10px 14px', borderRadius: 12, fontSize: 13 }}>
+            <div style={{ display: 'flex', flexDirection: 'column', gap: 10, paddingBottom: 24 }}>
+              <div style={{ background: '#F8FAFC', padding: '10px 14px', borderRadius: 12, fontSize: 13, lineHeight: 1.5 }}>
                 <span style={{ color: '#64748B', fontWeight: 600 }}>MentR ID: </span>
                 <span style={{ fontWeight: 800, color: '#0F172A' }}>{selectedTeacher.mentrId}</span>
               </div>
-              <div style={{ background: '#F8FAFC', padding: '10px 14px', borderRadius: 12, fontSize: 13 }}>
+              <div style={{ background: '#F8FAFC', padding: '10px 14px', borderRadius: 12, fontSize: 13, lineHeight: 1.5 }}>
                 <span style={{ color: '#64748B', fontWeight: 600 }}>Location: </span>
                 <span style={{ fontWeight: 700, color: '#0F172A' }}>{selectedTeacher.location}</span>
               </div>
-              <div style={{ background: '#F8FAFC', padding: '10px 14px', borderRadius: 12, fontSize: 13 }}>
+              <div style={{ background: '#F8FAFC', padding: '10px 14px', borderRadius: 12, fontSize: 13, lineHeight: 1.5 }}>
                 <span style={{ color: '#64748B', fontWeight: 600 }}>Classes: </span>
                 <span style={{ fontWeight: 700, color: '#0F172A' }}>{selectedTeacher.classes.join(', ')}</span>
               </div>
-              <div style={{ background: '#F8FAFC', padding: '10px 14px', borderRadius: 12, fontSize: 13 }}>
+              <div style={{ background: '#F8FAFC', padding: '10px 14px', borderRadius: 12, fontSize: 13, lineHeight: 1.5, wordBreak: 'break-word' }}>
                 <span style={{ color: '#64748B', fontWeight: 600 }}>Subjects: </span>
                 <span style={{ fontWeight: 700, color: '#0F172A' }}>{selectedTeacher.subjects.join(', ')}</span>
               </div>
