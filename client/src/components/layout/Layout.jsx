@@ -12,6 +12,7 @@ export default function Layout() {
   const location = useLocation();
   const isLandingPage = location.pathname === '/';
   const isPricingPage = location.pathname === '/pricing';
+  const isVerifyPage = location.pathname.startsWith('/verify');
 
   const mainStyle = isLandingPage
     ? { flex: 1, position: 'relative', zIndex: 1 }
@@ -41,7 +42,7 @@ export default function Layout() {
           <Outlet />
         </main>
         {!isPricingPage && <Footer style={{ position: 'relative', zIndex: 1 }} />}
-        <Chatbot />
+        {!isVerifyPage && <Chatbot />}
         <AnnouncementTicker />
         <Suspense fallback={null}>
           <FormModal />

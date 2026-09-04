@@ -9,6 +9,7 @@ export default function Navbar() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [mobileServicesOpen, setMobileServicesOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
+  const [isModalOpen, setIsModalOpen] = useState(false);
   const [servicesHovered, setServicesHovered] = useState(false);
   const leaveTimeoutRef = useRef(null);
 
@@ -19,10 +20,18 @@ export default function Navbar() {
     const handleScroll = () => {
       setScrolled(window.scrollY > 20);
     };
+    const checkModalState = () => {
+      setIsModalOpen(document.body.getAttribute('data-modal-open') === 'true');
+    };
+    
+    checkModalState();
+    const observer = new MutationObserver(checkModalState);
+    observer.observe(document.body, { attributes: true, attributeFilter: ['data-modal-open', 'style'] });
     
     window.addEventListener('resize', handleResize);
     window.addEventListener('scroll', handleScroll);
     return () => {
+      observer.disconnect();
       window.removeEventListener('resize', handleResize);
       window.removeEventListener('scroll', handleScroll);
     };
@@ -147,12 +156,22 @@ export default function Navbar() {
       <>
         {/* Sticky Mobile Header with Inline Direct Links & More Button */}
         <div style={{
-          position: 'fixed', top: 16, left: 16, right: 16, height: 56,
-          background: 'linear-gradient(135deg, rgba(255, 255, 255, 0.85) 0%, rgba(239, 246, 255, 0.72) 50%, rgba(224, 231, 255, 0.6) 100%)',
+          position: 'fixed', 
+          top: isModalOpen ? 6 : 16, 
+          left: isModalOpen ? 12 : 16, 
+          right: isModalOpen ? 12 : 16, 
+          height: isModalOpen ? 42 : 56,
+          background: 'linear-gradient(135deg, rgba(255, 255, 255, 0.92) 0%, rgba(239, 246, 255, 0.82) 50%, rgba(224, 231, 255, 0.75) 100%)',
           backdropFilter: 'blur(20px)', WebkitBackdropFilter: 'blur(20px)',
-          border: '1px solid rgba(191, 219, 254, 0.75)', borderRadius: 28, display: 'flex', alignItems: 'center',
-          justifyContent: 'space-between', padding: '0 12px 0 8px', zIndex: 99999,
-          boxShadow: '0 10px 32px rgba(37, 99, 235, 0.12), inset 0 1.5px 2px rgba(255, 255, 255, 0.95), inset 0 -1px 2px rgba(59, 130, 246, 0.12)'
+          border: '1px solid rgba(191, 219, 254, 0.75)', 
+          borderRadius: isModalOpen ? 20 : 28, 
+          display: 'flex', 
+          alignItems: 'center',
+          justifyContent: 'space-between', 
+          padding: isModalOpen ? '0 10px 0 6px' : '0 12px 0 8px', 
+          zIndex: 99999,
+          boxShadow: '0 10px 32px rgba(37, 99, 235, 0.12), inset 0 1.5px 2px rgba(255, 255, 255, 0.95), inset 0 -1px 2px rgba(59, 130, 246, 0.12)',
+          transition: 'all 0.3s cubic-bezier(0.16, 1, 0.3, 1)'
         }}>
           <Logo scrolled={true} onClick={() => navigateAndScroll(null)} />
           
