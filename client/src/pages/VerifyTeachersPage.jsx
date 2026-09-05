@@ -3,7 +3,7 @@ import confetti from 'canvas-confetti';
 import SEO from '../components/common/SEO';
 import { verifiedTeachers } from '../data/verifiedTeachers';
 import { getTeacherMilestone, PROGRESS_NODES, filterVerifiedTeachers } from '../utils/milestone.utils';
-import { Search, CheckCircle, ShieldCheck, Award, ArrowLeft, X, Sparkles, BookOpen, MapPin, Calendar, Clock, Star, PartyPopper } from 'lucide-react';
+import { Search, CheckCircle, ShieldCheck, Award, ArrowLeft, X, Sparkles, BookOpen, Calendar, Clock, Star, PartyPopper } from 'lucide-react';
 
 // Helper to check if current time is within 24-hour Teachers' Day window (Sept 5th 00:00:00 to Sept 6th 00:00:00)
 const isTeachersDayWindow = () => {
@@ -101,8 +101,7 @@ export default function VerifyTeachersPage() {
       t.name.toLowerCase().includes(q) ||
       t.mentrId.toLowerCase().includes(q) ||
       t.subjects.some(s => s.toLowerCase().includes(q)) ||
-      t.classes.some(c => c.toLowerCase().includes(q)) ||
-      t.location.toLowerCase().includes(q)
+      t.classes.some(c => c.toLowerCase().includes(q))
     );
   }, [eligibleTeachers, searchQuery]);
 
@@ -800,22 +799,13 @@ export default function VerifyTeachersPage() {
               </div>
 
               {/* Information Details Grid */}
-              <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 16, marginBottom: 20 }}>
+              <div style={{ display: 'grid', gridTemplateColumns: isMobile ? '1fr' : 'repeat(3, 1fr)', gap: 16, marginBottom: 20 }}>
                 <div style={{ background: '#F8FAFC', padding: '14px 18px', borderRadius: 14, border: '1px solid rgba(226, 232, 240, 0.8)' }}>
                   <div style={{ fontSize: 12, fontWeight: 700, color: '#64748B', marginBottom: 4, display: 'flex', alignItems: 'center', gap: 6 }}>
                     <ShieldCheck size={14} color="#4F7CFF" /> MentR ID
                   </div>
                   <div style={{ fontSize: 14, fontWeight: 800, color: '#0F172A', fontFamily: 'monospace' }}>
                     {selectedTeacher.mentrId}
-                  </div>
-                </div>
-
-                <div style={{ background: '#F8FAFC', padding: '14px 18px', borderRadius: 14, border: '1px solid rgba(226, 232, 240, 0.8)' }}>
-                  <div style={{ fontSize: 12, fontWeight: 700, color: '#64748B', marginBottom: 4, display: 'flex', alignItems: 'center', gap: 6 }}>
-                    <MapPin size={14} color="#4F7CFF" /> Location
-                  </div>
-                  <div style={{ fontSize: 14, fontWeight: 700, color: '#0F172A' }}>
-                    {selectedTeacher.location}
                   </div>
                 </div>
 
@@ -864,7 +854,7 @@ export default function VerifyTeachersPage() {
           display: 'flex',
           justifyContent: 'center',
           alignItems: 'flex-end',
-          paddingTop: 64
+          paddingTop: 100
         }}
         onClick={() => setMobileModalOpen(false)}
         >
@@ -872,11 +862,11 @@ export default function VerifyTeachersPage() {
             className="hide-scrollbar"
             style={{
               width: '100%',
-              maxHeight: 'calc(100vh - 70px)',
+              maxHeight: 'calc(100vh - 105px)',
               background: '#FFFFFF',
               borderRadius: '24px 24px 0 0',
               overflowY: 'auto',
-              padding: '20px 18px 60px 18px',
+              padding: '16px 18px 60px 18px',
               position: 'relative',
               boxShadow: '0 -10px 40px rgba(15, 23, 42, 0.3)',
               scrollbarWidth: 'none',
@@ -884,8 +874,20 @@ export default function VerifyTeachersPage() {
             }}
             onClick={(e) => e.stopPropagation()}
           >
-            {/* Header bar */}
-            <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 16, borderBottom: '1px solid #E2E8F0', paddingBottom: 12 }}>
+            {/* Header bar - Sticky at top of drawer */}
+            <div style={{ 
+              position: 'sticky',
+              top: -16,
+              background: '#FFFFFF',
+              zIndex: 50,
+              paddingTop: 12,
+              paddingBottom: 12,
+              marginBottom: 16,
+              borderBottom: '1px solid #E2E8F0',
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'space-between'
+            }}>
               <button 
                 onClick={() => setMobileModalOpen(false)}
                 style={{ background: '#F1F5F9', border: 'none', borderRadius: 99, padding: '6px 14px', fontSize: 13, fontWeight: 700, color: '#475569', display: 'flex', alignItems: 'center', gap: 6, cursor: 'pointer' }}
@@ -1030,10 +1032,6 @@ export default function VerifyTeachersPage() {
               <div style={{ background: '#F8FAFC', padding: '10px 14px', borderRadius: 12, fontSize: 13, lineHeight: 1.5 }}>
                 <span style={{ color: '#64748B', fontWeight: 600 }}>MentR ID: </span>
                 <span style={{ fontWeight: 800, color: '#0F172A' }}>{selectedTeacher.mentrId}</span>
-              </div>
-              <div style={{ background: '#F8FAFC', padding: '10px 14px', borderRadius: 12, fontSize: 13, lineHeight: 1.5 }}>
-                <span style={{ color: '#64748B', fontWeight: 600 }}>Location: </span>
-                <span style={{ fontWeight: 700, color: '#0F172A' }}>{selectedTeacher.location}</span>
               </div>
               <div style={{ background: '#F8FAFC', padding: '10px 14px', borderRadius: 12, fontSize: 13, lineHeight: 1.5 }}>
                 <span style={{ color: '#64748B', fontWeight: 600 }}>Classes: </span>
