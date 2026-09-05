@@ -284,7 +284,7 @@ export default function VerifyTeachersPage() {
             }}>
               <Award size={22} color="#F59E0B" />
               <div style={{ textAlign: 'left' }}>
-                <div style={{ fontSize: 13, fontWeight: 800, color: '#FFF' }}>13 Verified Teachers • 1,300+ Impact Hours</div>
+                <div style={{ fontSize: 13, fontWeight: 800, color: '#FFF' }}>13+ Verified Teachers • 1,300+ Impact Hours</div>
                 <div style={{ fontSize: 11.5, color: '#94A3B8' }}>Bronze Crown Educators Recognition</div>
               </div>
             </div>
@@ -454,10 +454,10 @@ export default function VerifyTeachersPage() {
             <div style={{ padding: '16px 18px', borderBottom: '1px solid rgba(226, 232, 240, 0.8)', background: '#FFFFFF' }}>
               <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 12 }}>
                 <h2 style={{ fontSize: 16, fontWeight: 800, color: '#0F172A', margin: 0, display: 'flex', alignItems: 'center', gap: 6 }}>
-                  <ShieldCheck size={18} color="#4F7CFF" /> MentR Directory
+                  <ShieldCheck size={18} color="#4F7CFF" /> Teachers Directory
                 </h2>
                 <span style={{ fontSize: 12, fontWeight: 700, background: 'rgba(79, 124, 255, 0.1)', color: '#4F7CFF', padding: '2px 8px', borderRadius: 99 }}>
-                  {filteredTeachers.length}+ Verified
+                  {filteredTeachers.length}+ Verified Teachers
                 </span>
               </div>
 
