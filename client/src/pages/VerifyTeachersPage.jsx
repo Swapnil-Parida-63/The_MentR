@@ -397,7 +397,7 @@ export default function VerifyTeachersPage() {
               textAlign: 'center' 
             }}>
               <div style={{ fontSize: isMobile ? 15 : 22, fontWeight: 800, color: '#4F7CFF', lineHeight: 1.2 }}>{eligibleTeachers.length}+</div>
-              <div style={{ fontSize: isMobile ? 10.5 : 12, fontWeight: 650, color: '#64748B', lineHeight: 1.3 }}>Verified Mentors</div>
+              <div style={{ fontSize: isMobile ? 10.5 : 12, fontWeight: 650, color: '#64748B', lineHeight: 1.3 }}>Bronze Crown Achievers</div>
             </div>
             <div style={{ 
               background: '#FFFFFF', 
@@ -454,10 +454,10 @@ export default function VerifyTeachersPage() {
             <div style={{ padding: '16px 18px', borderBottom: '1px solid rgba(226, 232, 240, 0.8)', background: '#FFFFFF' }}>
               <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 12 }}>
                 <h2 style={{ fontSize: 16, fontWeight: 800, color: '#0F172A', margin: 0, display: 'flex', alignItems: 'center', gap: 6 }}>
-                  <ShieldCheck size={18} color="#4F7CFF" /> Teachers Directory
+                  <ShieldCheck size={18} color="#4F7CFF" /> TheMentR Directory
                 </h2>
                 <span style={{ fontSize: 12, fontWeight: 700, background: 'rgba(79, 124, 255, 0.1)', color: '#4F7CFF', padding: '2px 8px', borderRadius: 99 }}>
-                  {filteredTeachers.length}+ Verified Teachers
+                  {filteredTeachers.length} Verified
                 </span>
               </div>
 
