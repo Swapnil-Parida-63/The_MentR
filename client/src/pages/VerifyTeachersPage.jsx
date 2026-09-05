@@ -267,7 +267,7 @@ export default function VerifyTeachersPage() {
               margin: '0 auto 24px',
               fontWeight: 450
             }}>
-              Dedicated to the extraordinary mentors of <strong>TheMentR</strong> who ignite curiosity, inspire confidence and guide students toward excellence every single day.
+              Dedicated to the extraordinary Teachers of <strong>TheMentR</strong> who ignite curiosity, inspire confidence and guide students toward excellence every single day.
             </p>
 
             {/* Impact Callout */}
@@ -457,7 +457,7 @@ export default function VerifyTeachersPage() {
                   <ShieldCheck size={18} color="#4F7CFF" /> MentR Directory
                 </h2>
                 <span style={{ fontSize: 12, fontWeight: 700, background: 'rgba(79, 124, 255, 0.1)', color: '#4F7CFF', padding: '2px 8px', borderRadius: 99 }}>
-                  {filteredTeachers.length} Verified
+                  {filteredTeachers.length}+ Verified
                 </span>
               </div>
 
