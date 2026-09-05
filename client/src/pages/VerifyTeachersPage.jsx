@@ -324,7 +324,7 @@ export default function VerifyTeachersPage() {
       {/* ==================================================================== */}
       {/* HERO SECTION / TEACHERS' DAY RECOGNITION HEADER                      */}
       {/* ==================================================================== */}
-      <section style={{ paddingTop: isMobile ? 84 : 120, paddingBottom: isMobile ? 24 : 40, textAlign: 'center', paddingLeft: 16, paddingRight: 16 }}>
+      <section style={{ paddingTop: isMobile ? 36 : 48, paddingBottom: isMobile ? 24 : 40, textAlign: 'center', paddingLeft: 16, paddingRight: 16 }}>
         <div style={{ maxWidth: 900, margin: '0 auto' }}>
           <div 
             onClick={() => {
@@ -854,7 +854,7 @@ export default function VerifyTeachersPage() {
           display: 'flex',
           justifyContent: 'center',
           alignItems: 'flex-end',
-          paddingTop: 100
+          paddingTop: 48
         }}
         onClick={() => setMobileModalOpen(false)}
         >
@@ -862,7 +862,7 @@ export default function VerifyTeachersPage() {
             className="hide-scrollbar"
             style={{
               width: '100%',
-              maxHeight: 'calc(100vh - 105px)',
+              maxHeight: 'calc(100vh - 48px)',
               background: '#FFFFFF',
               borderRadius: '24px 24px 0 0',
               overflowY: 'auto',

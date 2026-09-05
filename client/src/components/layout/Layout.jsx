@@ -37,7 +37,7 @@ export default function Layout() {
           <div className="bg-mesh-orb-6" />
         </div>
 
-        <Navbar />
+        {!isVerifyPage && <Navbar />}
         <main style={mainStyle}>
           <Outlet />
         </main>
