@@ -67,23 +67,24 @@ export default function Logo({
           className="tm-badge-circle"
           style={{
             position: 'absolute',
-            top: -4,
-            right: -10,
-            width: 16,
-            height: 16,
+            top: -2,
+            right: -5,
+            width: 11,
+            height: 11,
             borderRadius: '50%',
             background: 'transparent',
-            border: '1.2px solid #2563EB',
+            border: '0.9px solid #2563EB',
             color: '#2563EB',
-            fontSize: '9px',
+            fontSize: '6px',
             fontWeight: 800,
             fontFamily: 'var(--font-sans, system-ui, sans-serif)',
             display: 'flex',
             alignItems: 'center',
             justifyContent: 'center',
-            boxShadow: '0 2px 4px rgba(37, 99, 235, 0.15)',
+            boxShadow: '0 1px 3px rgba(37, 99, 235, 0.12)',
             lineHeight: 1,
-            zIndex: 2
+            zIndex: 2,
+            transition: 'all 0.2s ease'
           }}
           title="Registered Trademark"
         >

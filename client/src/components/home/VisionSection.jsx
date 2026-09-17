@@ -457,8 +457,7 @@ export default function VisionSection() {
                   body="We solve the overlooked challenges in learning: understanding the child, matching with the right educator and sustaining accountability over time. Because a great mentor changes the entire trajectory of a life."
                   pullQuote="The right match changes everything."
                   inView={missionInView}
-                  delay={0}
-                  metadata={['Verified Teachers', 'Sustained Accountability']}
+                  metadata={['Verified Teachers', 'One-to-One Learning', 'Sustained Accountability']}
                 />
               </div>
             </div>
@@ -516,7 +515,7 @@ export default function VisionSection() {
                 pullQuote="The right match changes everything."
                 inView={missionInView}
                 delay={200}
-                metadata={['Verified Teachers', 'Sustained Accountability']}
+                metadata={['Verified Teachers', 'One-to-One Learning', 'Sustained Accountability']}
                 externalHovered={missionImageHovered}
               />
             </div>
@@ -533,20 +532,20 @@ export default function VisionSection() {
       }} />
 
       {/* ================================================================== */}
-      {/* BLOCK 3 — MILESTONES TIMELINE                                       */}
+      {/* BLOCK 4 — OUR JOURNEY SO FAR                                        */}
+      {/* Horizontal timeline cards with micro-hover                          */}
       {/* ================================================================== */}
       <div
         ref={timelineRef}
         style={{
-          background: 'linear-gradient(180deg, rgba(143, 149, 246, 0.42) 0%, #E3E8FF 50%, #FFFFFF 100%)',
-          padding: isMobile ? '40px 0 40px' : '50px 0 60px',
-          position: 'relative',
-          overflow: 'hidden',
+          ...sectionBase,
+          background: 'linear-gradient(180deg, #FFFFFF 0%, #E0E7FF 50%, #C7D2FE 100%)',
+          padding: isMobile ? '40px 0 30px' : '50px 0 40px',
         }}
       >
-        {/* Blob glow */}
+        {/* Soft background glow orbs */}
         <div className="blob blob-1" style={{
-          position: 'absolute', top: '-20%', left: '-10%',
+          position: 'absolute', top: '-10%', left: '-10%',
           width: '50vw', height: '50vw',
           background: 'radial-gradient(circle, rgba(99,102,241,0.05) 0%, transparent 70%)',
           filter: 'blur(40px)', zIndex: 0, pointerEvents: 'none',
@@ -606,10 +605,10 @@ export default function VisionSection() {
               }}
             >
               {[
-                { year: '2012 — Conceived', title: 'Planning & Research', desc: 'TheMentR was conceived with deep research into the gaps in India\'s home tutoring ecosystem, laying the foundation for a structured approach to education.', active: true, delay: 0 },
-                { year: '2012–2022 — R&D', title: 'Development Phase', desc: 'A decade of research, curriculum development, mentor training frameworks and ground-level testing across Bhubaneswar\'s personalized education system.', active: true, delay: 100 },
-                { year: '2023–2025 — Launch', title: 'Platform Development', desc: 'TheMentR goes live — launching structured home assessments, the AVSAR programme and an Olympiad preparation track on our platform.', active: true, delay: 200 },
-                { year: '2025–2030 — Roadmap', title: 'National Expansion', desc: '50 cities. 10,000+ verified teachers. AI-assisted matching, data-driven learning outcomes and a full national mentorship network — redefining the way India performs personal teaching and learning.', active: false, delay: 300 },
+                { year: '2012 Conceived', title: 'Planning & Research', desc: 'TheMentR was conceived with deep research into the gaps in India\'s home tutoring ecosystem, laying the foundation for a structured approach to education.', active: true, delay: 0 },
+                { year: '2012-2022 R&D', title: 'Development Phase', desc: 'A decade of research, curriculum development, mentor training frameworks and ground-level testing across Bhubaneswar\'s personalized education system.', active: true, delay: 100 },
+                { year: '2023-2025 Launch', title: 'Platform Development', desc: 'TheMentR goes live, launching structured home assessments, the AVSAR programme and an Olympiad preparation track on our platform.', active: true, delay: 200 },
+                { year: '2025-2030 Roadmap', title: 'National Expansion', desc: '50 cities. 10,000+ verified teachers. AI-assisted matching, data-driven learning outcomes and a full national mentorship network, redefining the way India performs personal teaching and learning.', active: false, delay: 300 },
               ].map((node, i) => (
                 <div
                   key={i}

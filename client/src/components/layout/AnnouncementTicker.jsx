@@ -20,7 +20,7 @@ export default function AnnouncementTicker() {
 
   return (
     <>
-      {/* Bottom Ticker Bar Styled to Match TheMentR Light Blue Theme */}
+      {/* Bottom Ticker Bar Styled with High-Contrast Dark Obsidian Indigo Gradient */}
       <div
         className="announcement-ticker-bar"
         style={{
@@ -29,11 +29,11 @@ export default function AnnouncementTicker() {
           left: 0,
           right: 0,
           height: 38,
-          background: 'linear-gradient(135deg, rgba(255, 255, 255, 0.95) 0%, rgba(239, 246, 255, 0.88) 50%, rgba(224, 231, 255, 0.82) 100%)',
+          background: 'linear-gradient(135deg, #0F172A 0%, #1E1B4B 50%, #0F172A 100%)',
           backdropFilter: 'blur(16px)',
           WebkitBackdropFilter: 'blur(16px)',
-          borderTop: '1px solid rgba(191, 219, 254, 0.85)',
-          boxShadow: '0 -4px 20px rgba(37, 99, 235, 0.1)',
+          borderTop: '1px solid rgba(129, 140, 248, 0.35)',
+          boxShadow: '0 -6px 24px rgba(15, 23, 42, 0.4)',
           zIndex: 99990,
           display: 'flex',
           alignItems: 'center',
@@ -68,11 +68,12 @@ export default function AnnouncementTicker() {
                   marginRight: 40, 
                   fontSize: 13, 
                   fontWeight: 650, 
-                  color: '#1E293B',
+                  color: '#F8FAFC',
                   letterSpacing: '0.01em'
                 }}
               >
-                {text}
+                <span style={{ color: '#FCD34D', marginRight: 6 }}>★</span>
+                {text.replace('Live Updates ★ ', '')}
               </span>
             ))}
           </div>
@@ -86,31 +87,31 @@ export default function AnnouncementTicker() {
             aria-label="View Updates"
             title="View Live Updates"
             style={{
-              background: '#FFFFFF',
-              border: '1.2px solid rgba(59, 130, 246, 0.3)',
+              background: 'rgba(255, 255, 255, 0.12)',
+              border: '1px solid rgba(255, 255, 255, 0.25)',
               borderRadius: '50%',
               width: 26,
               height: 26,
               fontSize: 11,
               fontWeight: 700,
-              color: '#2563EB',
+              color: '#FFFFFF',
               cursor: 'pointer',
               display: 'flex',
               alignItems: 'center',
               justifyContent: 'center',
               padding: 0,
-              boxShadow: '0 2px 6px rgba(37, 99, 235, 0.12)',
+              boxShadow: '0 2px 6px rgba(0, 0, 0, 0.2)',
               transition: 'all 0.2s ease'
             }}
             onMouseEnter={e => {
-              e.currentTarget.style.background = '#2563EB';
+              e.currentTarget.style.background = '#4F7CFF';
               e.currentTarget.style.color = '#FFFFFF';
-              e.currentTarget.style.borderColor = '#2563EB';
+              e.currentTarget.style.borderColor = '#4F7CFF';
             }}
             onMouseLeave={e => {
-              e.currentTarget.style.background = '#FFFFFF';
-              e.currentTarget.style.color = '#2563EB';
-              e.currentTarget.style.borderColor = 'rgba(59, 130, 246, 0.3)';
+              e.currentTarget.style.background = 'rgba(255, 255, 255, 0.12)';
+              e.currentTarget.style.color = '#FFFFFF';
+              e.currentTarget.style.borderColor = 'rgba(255, 255, 255, 0.25)';
             }}
           >
             <ChevronRight size={15} />
@@ -124,7 +125,7 @@ export default function AnnouncementTicker() {
             style={{
               background: 'transparent',
               border: 'none',
-              color: '#64748B',
+              color: 'rgba(255, 255, 255, 0.7)',
               cursor: 'pointer',
               padding: 4,
               display: 'flex',
@@ -133,8 +134,8 @@ export default function AnnouncementTicker() {
               borderRadius: '50%',
               transition: 'color 0.2s ease'
             }}
-            onMouseEnter={e => e.currentTarget.style.color = '#EF4444'}
-            onMouseLeave={e => e.currentTarget.style.color = '#64748B'}
+            onMouseEnter={e => e.currentTarget.style.color = '#F87171'}
+            onMouseLeave={e => e.currentTarget.style.color = 'rgba(255, 255, 255, 0.7)'}
           >
             <X size={15} />
           </button>

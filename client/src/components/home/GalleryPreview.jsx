@@ -23,7 +23,7 @@ const hallOfFameItems = [
     category: "Teachers",
     year: "2026",
     subtitle: "Empowering Educators",
-    description: "Welcoming our next cohort of verified educators across India with comprehensive demo sessions."
+    description: "Welcoming our next cohort of verified teachers across India with comprehensive demo sessions."
   },
   {
     id: "3",

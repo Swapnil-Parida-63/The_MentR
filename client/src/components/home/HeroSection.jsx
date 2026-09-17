@@ -330,7 +330,7 @@ function EcosystemAnalyticsGrid({ teacherCount, teachingHours, isMobile = false 
       iconColor: '#2563EB',
       value: `${teacherCount}+`,
       label: 'Verified Teachers',
-      desc: 'Top 1% vetted expert educators paired with your child.'
+      desc: "It's all because we want you to stay assured"
     },
     {
       icon: <Star size={26} fill="#F59E0B" color="#F59E0B" />,
@@ -491,11 +491,7 @@ export default function HeroSection() {
   // (Timer removed per user request)
 
   const getTeacherCount = () => {
-    const baseDate = new Date('2026-07-01T00:00:00');
-    const currentDate = new Date();
-    const diffTime = Math.max(0, currentDate - baseDate);
-    const diffDays = Math.floor(diffTime / (1000 * 60 * 60 * 24));
-    return Math.min(639 + Math.floor(diffDays * 1.5), 5000);
+    return 756;
   };
 
   const getTeachingHours = () => {
@@ -673,7 +669,7 @@ export default function HeroSection() {
                   }}
                 >
                   Finding the right teacher shouldn't be guesswork.<br />
-                  Assessment-first learning. Verified educators.<br />
+                  Assessment-first learning. Verified teachers.<br />
                   Personalized guidance. Measurable outcomes.
                 </p>
               </div>
@@ -886,7 +882,7 @@ export default function HeroSection() {
                 padding: isMobile ? '8px 14px' : 0,
                 transition: 'all 0.3s ease'
               }}>
-                A complete educational ecosystem built around verified educators, diagnostic assessment, and continuous progress.
+                A complete educational ecosystem built around verified teachers, diagnostic assessment, and continuous progress.
               </p>
             )}
           </div>
