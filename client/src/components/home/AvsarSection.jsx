@@ -16,6 +16,7 @@ import {
   Quote, 
   ArrowRight 
 } from 'lucide-react';
+import { testimonialsData } from '../../data/testimonialsData';
 
 function Counter({ target, suffix, decimals = 0 }) {
   const [count, setCount] = useState(0);
@@ -113,12 +114,23 @@ export default function AvsarSection({ isStandalonePage = false }) {
   const [hoveredCard, setHoveredCard] = useState(null);
   const [isAvsarDescExpanded, setIsAvsarDescExpanded] = useState(false);
   const [activeStep, setActiveStep] = useState(0);
+  const [feedbackIdx, setFeedbackIdx] = useState(0);
 
   useEffect(() => {
     const handleResize = () => setIsMobile(window.innerWidth < 1024);
     window.addEventListener('resize', handleResize);
     return () => window.removeEventListener('resize', handleResize);
   }, []);
+
+  useEffect(() => {
+    if (!testimonialsData || testimonialsData.length === 0) return;
+    const interval = setInterval(() => {
+      setFeedbackIdx(prev => (prev + 1) % testimonialsData.length);
+    }, 5000);
+    return () => clearInterval(interval);
+  }, []);
+
+  const currentFeedback = testimonialsData[feedbackIdx] || testimonialsData[0];
 
   const getTeacherCount = () => {
     return 756;
@@ -139,7 +151,7 @@ export default function AvsarSection({ isStandalonePage = false }) {
     { label: 'Profile Review', icon: Search, desc: 'Credentials check' },
     { label: 'Interview', icon: MessageSquare, desc: 'Pedagogical fit' },
     { label: 'Demo Session', icon: Video, desc: 'Live teaching' },
-    { label: 'Background Check', icon: UserCheck, desc: 'Security review' },
+    { label: 'Identity Check', icon: UserCheck, desc: 'Security review' },
     { label: 'Training', icon: GraduationCap, desc: 'Playbook alignment' },
     { label: 'Approved', icon: CheckCircle, desc: 'Ready to teach' }
   ];
@@ -334,7 +346,7 @@ export default function AvsarSection({ isStandalonePage = false }) {
                 maxWidth: 520,
                 fontWeight: 400
               }}>
-                Every mentor joins through a rigorous evaluation process, and every learning journey is continuously reviewed using real parent feedback and measurable outcomes.
+                Every teacher joins through a rigorous evaluation process, and every learning journey is continuously reviewed using real parent feedback and measurable outcomes.
               </p>
             </motion.div>
           </div>
@@ -734,7 +746,7 @@ export default function AvsarSection({ isStandalonePage = false }) {
                 style={{
                   background: '#FFFFFF',
                   borderRadius: '24px',
-                  padding: '36px 30px',
+                  padding: '28px 30px',
                   border: '1.2px solid rgba(99, 102, 241, 0.1)',
                   boxShadow: hoveredCard === 'satisfaction' 
                     ? '0 20px 40px rgba(99, 102, 241, 0.05)' 
@@ -743,6 +755,9 @@ export default function AvsarSection({ isStandalonePage = false }) {
                   flexDirection: 'column',
                   gap: '12px',
                   justifyContent: 'center',
+                  minHeight: '170px',
+                  height: '170px',
+                  boxSizing: 'border-box',
                   transition: 'all 0.35s cubic-bezier(0.16, 1, 0.3, 1)'
                 }}
               >
@@ -788,7 +803,7 @@ export default function AvsarSection({ isStandalonePage = false }) {
                 style={{
                   background: '#FFFFFF',
                   borderRadius: '24px',
-                  padding: '36px 30px',
+                  padding: '28px 30px',
                   border: '1.2px solid rgba(99, 102, 241, 0.1)',
                   boxShadow: hoveredCard === 'rating' 
                     ? '0 20px 40px rgba(99, 102, 241, 0.05)' 
@@ -797,6 +812,9 @@ export default function AvsarSection({ isStandalonePage = false }) {
                   flexDirection: 'column',
                   gap: '12px',
                   justifyContent: 'center',
+                  minHeight: '170px',
+                  height: '170px',
+                  boxSizing: 'border-box',
                   transition: 'all 0.35s cubic-bezier(0.16, 1, 0.3, 1)'
                 }}
               >
@@ -842,7 +860,7 @@ export default function AvsarSection({ isStandalonePage = false }) {
                 style={{
                   background: 'radial-gradient(circle at 10% 20%, rgba(99, 102, 241, 0.02) 0%, rgba(255, 255, 255, 0.98) 100%)',
                   borderRadius: '24px',
-                  padding: '36px 30px',
+                  padding: '24px 28px',
                   border: '1.2px solid rgba(99, 102, 241, 0.12)',
                   boxShadow: hoveredCard === 'quote' 
                     ? '0 20px 40px rgba(99, 102, 241, 0.06)' 
@@ -850,31 +868,51 @@ export default function AvsarSection({ isStandalonePage = false }) {
                   display: 'flex',
                   flexDirection: 'column',
                   justifyContent: 'center',
-                  gap: '8px',
-                  transition: 'all 0.35s cubic-bezier(0.16, 1, 0.3, 1)'
+                  minHeight: '170px',
+                  height: '170px',
+                  boxSizing: 'border-box',
+                  transition: 'all 0.35s cubic-bezier(0.16, 1, 0.3, 1)',
+                  position: 'relative',
+                  overflow: 'hidden'
                 }}
               >
-                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-                  <div style={{ display: 'flex', gap: 2 }}>
-                    {[...Array(5)].map((_, i) => <Star key={i} size={14} fill="#FBBF24" color="#FBBF24" />)}
-                  </div>
-                  <span style={{ fontSize: 12, fontWeight: 700, color: '#6366F1' }}>— Parent, Class VIII</span>
-                </div>
+                <AnimatePresence mode="wait">
+                  <motion.div
+                    key={currentFeedback.id || feedbackIdx}
+                    initial={{ opacity: 0, y: 6 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    exit={{ opacity: 0, y: -6 }}
+                    transition={{ duration: 0.3, ease: 'easeInOut' }}
+                    style={{ display: 'flex', flexDirection: 'column', gap: '8px', height: '100%', justifyContent: 'center' }}
+                  >
+                    <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                      <div style={{ display: 'flex', gap: 2 }}>
+                        {[...Array(currentFeedback.rating || 5)].map((_, i) => (
+                          <Star key={i} size={14} fill="#FBBF24" color="#FBBF24" />
+                        ))}
+                      </div>
+                      <span style={{ fontSize: 12, fontWeight: 700, color: '#6366F1' }}>
+                        {currentFeedback.name} ({currentFeedback.role})
+                      </span>
+                    </div>
 
-                {/* Collapsible Testimonial Quote Description */}
-                <motion.div
-                  initial={{ opacity: 0, height: 0, marginTop: 0 }}
-                  animate={hoveredCard === 'quote'
-                    ? { opacity: 1, height: 'auto', marginTop: 12 }
-                    : { opacity: 0, height: 0, marginTop: 0 }
-                  }
-                  transition={{ duration: 0.35, ease: 'easeOut' }}
-                  style={{ overflow: 'hidden' }}
-                >
-                  <p style={{ fontSize: 13.5, fontStyle: 'italic', color: '#1E293B', lineHeight: 1.6, margin: 0 }}>
-                    "Our daughter found the perfect mentor within days. The structured onboarding gave us complete confidence."
-                  </p>
-                </motion.div>
+                    <div style={{ height: '68px', display: 'flex', alignItems: 'center' }}>
+                      <p style={{ 
+                        fontSize: 13, 
+                        fontStyle: 'italic', 
+                        color: '#1E293B', 
+                        lineHeight: 1.5, 
+                        margin: 0,
+                        display: '-webkit-box',
+                        WebkitLineClamp: 3,
+                        WebkitBoxOrient: 'vertical',
+                        overflow: 'hidden'
+                      }}>
+                        "{currentFeedback.quote}"
+                      </p>
+                    </div>
+                  </motion.div>
+                </AnimatePresence>
               </div>
             </div>
 
@@ -904,10 +942,10 @@ export default function AvsarSection({ isStandalonePage = false }) {
 
               <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: '28px' }}>
                 {[
-                  { label: 'CBSE', val: 95, desc: 'Highly selective CBSE curriculum vetting standards.', color: '#6366F1' },
-                  { label: 'ICSE', val: 83, desc: 'Advanced ICSE curriculum alignment evaluation.', color: '#7C5CFF' },
-                  { label: 'State Board', val: 96, desc: 'Regional syllabus evaluation checks.', color: '#64748B' },
-                  { label: 'IGCSE', val: 80, desc: 'International General Certificate of Secondary Education alignment.', color: '#10B981' }
+                  { label: 'CBSE', val: 79, desc: 'Highly selective CBSE curriculum vetting standards.', color: '#6366F1' },
+                  { label: 'ICSE', val: 68, desc: 'Advanced ICSE curriculum alignment evaluation.', color: '#7C5CFF' },
+                  { label: 'State Board', val: 82, desc: 'Regional syllabus evaluation checks.', color: '#64748B' },
+                  { label: 'IGCSE', val: 59, desc: 'International General Certificate of Secondary Education alignment.', color: '#10B981' }
                 ].map(b => (
                   <div key={b.label} style={{ display: 'flex', flexDirection: 'column', gap: 10 }}>
                     <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: 13, fontWeight: 800 }}>

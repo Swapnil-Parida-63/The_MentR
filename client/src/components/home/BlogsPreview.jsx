@@ -20,7 +20,7 @@ export default function BlogsPreview() {
         <div className="journal-header">
           <div className="journal-header-left">
             <div className="journal-header-top-row">
-              <FadeUp><div className="journal-eyebrow">THEMENTR JOURNAL</div></FadeUp>
+              <FadeUp><div className="journal-eyebrow">TheMentR JOURNAL</div></FadeUp>
               {isMobile && (
                 <FadeUp delay={0.15}>
                   <Link to="/blogs" className="journal-view-all-btn mobile-inline-btn">
@@ -139,7 +139,7 @@ export default function BlogsPreview() {
                   tagClass: 'tag-parents', 
                   tagText: 'Parents', 
                   title: 'How do I hire the right home tutor in Bhubaneswar?', 
-                  desc: 'Find verified subject experts, personalised learning, and structured mentorship with The MentR in Bhubaneswar.', 
+                  desc: 'Find verified subject experts, personalised learning, and structured mentorship with TheMentR in Bhubaneswar.', 
                   time: '6 min read' 
                 },
                 { 
@@ -210,7 +210,7 @@ export default function BlogsPreview() {
           font-weight: 700;
           letter-spacing: 0.12em;
           color: #6366F1;
-          text-transform: uppercase;
+          text-transform: none;
           margin-bottom: 12px;
         }
         .journal-title {

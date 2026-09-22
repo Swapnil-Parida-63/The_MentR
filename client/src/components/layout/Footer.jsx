@@ -79,7 +79,8 @@ export default function Footer() {
           <div>
             <div style={{ display: 'inline-block', marginBottom: 16 }}>
               <Logo 
-                height={30} 
+                height={38} 
+                variant="clay"
                 onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })} 
               />
             </div>

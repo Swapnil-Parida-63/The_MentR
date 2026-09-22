@@ -7,7 +7,7 @@ const items = [
   { icon: '📋', title: 'Assessment Visits', desc: "We start with a structured home assessment to understand learning style, gaps, and goals before any matching happens.", num: '03' },
   { icon: '🤝', title: 'Personalized Matching', desc: "Our matching system considers subject expertise, board alignment, teaching style, and personality.", num: '04' },
   { icon: '💻', title: 'Online + Offline Learning', desc: "Seamlessly switch between online sessions and in-person teaching. The same quality, the same teacher.", num: '05', emerald: true },
-  { icon: '📚', title: 'Board Flexibility', desc: "CBSE, ICSE, IB, State Board — our teachers are verified across all major curriculum boards in India.", num: '06' },
+  { icon: '📚', title: 'Board Flexibility', desc: "CBSE, ICSE, IGCSE, State Board — our teachers are verified across all major curriculum boards in India.", num: '06' },
   { icon: '🛡️', title: 'Safe Learning Environment', desc: "Background-checked educators, monitored sessions, and a transparent platform parents can trust.", num: '07' },
 ];
 

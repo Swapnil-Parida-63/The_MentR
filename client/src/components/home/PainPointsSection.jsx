@@ -276,6 +276,21 @@ export default function PainPointsSection() {
             )}
 
             <div style={{ position: 'relative', zIndex: 1 }}>
+              <div style={{
+                display: 'inline-flex',
+                alignItems: 'center',
+                gap: 6,
+                padding: '4px 14px',
+                borderRadius: 100,
+                background: 'rgba(79, 124, 255, 0.08)',
+                border: '1px solid rgba(79, 124, 255, 0.18)',
+                marginBottom: 14
+              }}>
+                <span style={{ fontSize: 12, fontWeight: 750, color: '#4F7CFF', letterSpacing: '0.04em', textTransform: 'uppercase' }}>
+                  For Parents
+                </span>
+              </div>
+
               <motion.h3
                 initial={{ opacity: 0, y: 15 }}
                 whileInView={{ opacity: 1, y: 0 }}
@@ -285,7 +300,7 @@ export default function PainPointsSection() {
                 style={{
                   fontFamily: 'var(--font-hero)',
                   fontWeight: 800,
-                  fontSize: isMobile ? '38px' : 'clamp(32px, 3vw, 44px)',
+                  fontSize: isMobile ? '34px' : 'clamp(30px, 2.8vw, 42px)',
                   lineHeight: 1.2,
                   letterSpacing: '-0.03em',
                   color: '#1E293B',
@@ -294,7 +309,8 @@ export default function PainPointsSection() {
                   userSelect: 'none'
                 }}
               >
-                Finding the right tutor shouldn't feel like luck.
+                Multiple problems, only one solution.<br />
+                Here is TheMentR, where your search ends.
               </motion.h3>
 
               {/* Collapsible paragraph - revealed on hover */}
@@ -766,7 +782,7 @@ export default function PainPointsSection() {
                   </div>
                 </motion.div>
 
-                {/* 4. Star Pedagogy Badge (edu-4) */}
+                {/* 4. Desire and Deserve Badge (edu-4) */}
                 <motion.div
                   animate={{
                     scale: activeTeacherId === 'edu-4' ? 1.08 : 1,
@@ -781,12 +797,15 @@ export default function PainPointsSection() {
                     backdropFilter: 'blur(8px)', WebkitBackdropFilter: 'blur(8px)',
                     border: '1.5px solid rgba(245, 158, 11, 0.16)',
                     borderRadius: 100, padding: '8px 16px', zIndex: 10,
-                    display: 'flex', alignItems: 'center', gap: 6,
-                    pointerEvents: 'none',
-                    minWidth: 80, minHeight: 30
+                    display: 'flex', alignItems: 'center', gap: 8,
+                    pointerEvents: 'none'
                   }}
                 >
-                  {/* Empty per user request */}
+                  <Award size={15} style={{ color: '#F59E0B', flexShrink: 0 }} />
+                  <div style={{ textAlign: 'left' }}>
+                    <div style={{ fontSize: 11, fontWeight: 700, color: '#1E293B', lineHeight: 1.25 }}>Desire and deserve</div>
+                    <div style={{ fontSize: 9, color: '#64748B', lineHeight: 1.25 }}>Every advantage, facility and recognition</div>
+                  </div>
                 </motion.div>
               </div>
             </motion.div>
@@ -836,6 +855,21 @@ export default function PainPointsSection() {
             )}
 
             <div style={{ position: 'relative', zIndex: 1 }}>
+              <div style={{
+                display: 'inline-flex',
+                alignItems: 'center',
+                gap: 6,
+                padding: '4px 14px',
+                borderRadius: 100,
+                background: 'rgba(123, 97, 255, 0.08)',
+                border: '1px solid rgba(123, 97, 255, 0.18)',
+                marginBottom: 14
+              }}>
+                <span style={{ fontSize: 12, fontWeight: 750, color: '#7B61FF', letterSpacing: '0.04em', textTransform: 'uppercase' }}>
+                  For Teachers
+                </span>
+              </div>
+
               <motion.h3
                 initial={{ opacity: 0, y: 15 }}
                 whileInView={{ opacity: 1, y: 0 }}
@@ -845,7 +879,7 @@ export default function PainPointsSection() {
                 style={{
                   fontFamily: 'var(--font-hero)',
                   fontWeight: 800,
-                  fontSize: isMobile ? '38px' : 'clamp(32px, 3vw, 44px)',
+                  fontSize: isMobile ? '34px' : 'clamp(30px, 2.8vw, 42px)',
                   lineHeight: 1.2,
                   letterSpacing: '-0.03em',
                   color: '#1E293B',
@@ -854,7 +888,7 @@ export default function PainPointsSection() {
                   userSelect: 'none'
                 }}
               >
-                Great educators deserve to be discovered.
+                Great teachers deserve to be discovered and valued.
               </motion.h3>
 
               {/* Collapsible paragraph - revealed on hover */}

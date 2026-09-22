@@ -172,7 +172,7 @@ export default function GalleryPreview({ background = 'var(--color-neutral)' }) 
               lineHeight: 1.6,
               margin: 0
             }}>
-              From student achievements and Olympiad milestones to mentor moments and community events, explore the people and moments that make The MentR special.
+              From student achievements and Olympiad milestones to mentor moments and community events, explore the people and moments that make TheMentR special.
             </p>
           </div>
         </div>

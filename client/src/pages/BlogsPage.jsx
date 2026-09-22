@@ -662,7 +662,7 @@ export default function BlogsPage() {
 
             {/* Page Header */}
             <div className="journal-page-header">
-              <FadeUp delay={0.05}><div className="journal-page-eyebrow">THEMENTR JOURNAL</div></FadeUp>
+              <FadeUp delay={0.05}><div className="journal-page-eyebrow">TheMentR JOURNAL</div></FadeUp>
               <FadeUp delay={0.1}>
                 <h1 className="journal-page-title">
                   Education, <span className="serif-italic">examined.</span>
@@ -867,7 +867,7 @@ export default function BlogsPage() {
           font-weight: 700;
           letter-spacing: 0.12em;
           color: #6366F1;
-          text-transform: uppercase;
+          text-transform: none;
           margin-bottom: 12px;
         }
         .journal-page-title {

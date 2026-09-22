@@ -1,19 +1,19 @@
 import { useState, useRef, useEffect } from 'react';
-import { Send } from 'lucide-react';
+import { ArrowUp } from 'lucide-react';
 
 /**
  * ChatInput Component
- * Auto-growing text area input with keyboard shortcuts and send action.
+ * Modern neomorphic search/chat dock with smooth send button.
  */
 export default function ChatInput({ onSend, disabled = false }) {
   const [text, setText] = useState('');
   const textareaRef = useRef(null);
 
-  // Auto-grow textarea up to max 110px
+  // Auto-grow textarea up to max 90px
   useEffect(() => {
     if (textareaRef.current) {
       textareaRef.current.style.height = 'auto';
-      textareaRef.current.style.height = `${Math.min(textareaRef.current.scrollHeight, 110)}px`;
+      textareaRef.current.style.height = `${Math.min(textareaRef.current.scrollHeight, 90)}px`;
     }
   }, [text]);
 
@@ -35,75 +35,93 @@ export default function ChatInput({ onSend, disabled = false }) {
 
   return (
     <div
+      className="mentee-input-container"
       style={{
-        padding: '12px 16px',
-        background: '#FFFFFF',
-        borderTop: '1px solid rgba(15, 23, 42, 0.06)',
-        display: 'flex',
-        alignItems: 'flex-end',
-        gap: 10,
-        borderBottomLeftRadius: 24,
-        borderBottomRightRadius: 24
+        padding: '10px 18px 18px',
+        background: 'transparent',
+        width: '100%',
+        boxSizing: 'border-box'
       }}
     >
-      <textarea
-        ref={textareaRef}
-        rows={1}
-        value={text}
-        disabled={disabled}
-        onChange={(e) => setText(e.target.value)}
-        onKeyDown={handleKeyDown}
-        placeholder={disabled ? 'Mentee is thinking...' : 'Ask Mentee anything...'}
+      <div
+        className="neomorphic-input-dock"
         style={{
-          flex: 1,
-          padding: '10px 14px',
-          borderRadius: 16,
-          border: '1px solid rgba(15, 23, 42, 0.12)',
-          background: disabled ? '#F8FAFC' : '#FFFFFF',
-          fontSize: 13.5,
-          fontFamily: 'var(--font-sans)',
-          color: '#0F172A',
-          outline: 'none',
-          resize: 'none',
-          maxHeight: 110,
-          lineHeight: 1.45,
-          boxShadow: 'inset 0 1px 2px rgba(15, 23, 42, 0.03)',
-          transition: 'all 0.2s ease'
-        }}
-        onFocus={(e) => {
-          e.target.style.borderColor = 'rgba(79, 124, 255, 0.4)';
-          e.target.style.boxShadow = '0 0 0 3px rgba(79, 124, 255, 0.1)';
-        }}
-        onBlur={(e) => {
-          e.target.style.borderColor = 'rgba(15, 23, 42, 0.12)';
-          e.target.style.boxShadow = 'inset 0 1px 2px rgba(15, 23, 42, 0.03)';
-        }}
-      />
-
-      <button
-        onClick={handleSend}
-        disabled={disabled || !text.trim()}
-        aria-label="Send Message"
-        style={{
-          width: 40,
-          height: 40,
-          borderRadius: '50%',
-          background: disabled || !text.trim()
-            ? '#E2E8F0'
-            : 'linear-gradient(135deg, #4F7CFF 0%, #7469F8 100%)',
-          color: disabled || !text.trim() ? '#94A3B8' : '#FFFFFF',
-          border: 'none',
-          cursor: disabled || !text.trim() ? 'not-allowed' : 'pointer',
+          background: 'rgba(255, 255, 255, 0.95)',
+          border: '1.5px solid rgba(255, 255, 255, 0.98)',
+          borderRadius: 99,
+          padding: '8px 10px 8px 18px',
+          boxShadow: '0 8px 24px rgba(163, 177, 210, 0.22), 0 2px 8px rgba(15, 23, 42, 0.04)',
           display: 'flex',
           alignItems: 'center',
-          justifyContent: 'center',
-          flexShrink: 0,
-          boxShadow: disabled || !text.trim() ? 'none' : '0 4px 12px rgba(79, 124, 255, 0.3)',
+          justifyContent: 'space-between',
+          gap: 10,
           transition: 'all 0.25s ease'
         }}
       >
-        <Send size={18} style={{ transform: 'translateX(1px)' }} />
-      </button>
+        {/* Main Textarea / Input */}
+        <textarea
+          ref={textareaRef}
+          rows={1}
+          value={text}
+          disabled={disabled}
+          onChange={(e) => setText(e.target.value)}
+          onKeyDown={handleKeyDown}
+          placeholder={disabled ? 'Mentee is thinking...' : 'Ask Mentee anything...'}
+          style={{
+            flex: 1,
+            background: 'transparent',
+            border: 'none',
+            outline: 'none',
+            resize: 'none',
+            fontSize: 14.5,
+            fontFamily: 'var(--font-sans)',
+            color: '#0F172A',
+            lineHeight: 1.4,
+            maxHeight: 90,
+            boxSizing: 'border-box',
+            padding: '4px 0',
+            margin: 0
+          }}
+        />
+
+        {/* Right Action Tools: Send Button */}
+        <div style={{ display: 'flex', alignItems: 'center', gap: 6, flexShrink: 0 }}>
+          <button
+            onClick={handleSend}
+            disabled={disabled || !text.trim()}
+            aria-label="Send Message"
+            style={{
+              width: 40,
+              height: 40,
+              borderRadius: '50%',
+              background: disabled || !text.trim()
+                ? 'linear-gradient(135deg, #A78BFA 0%, #60A5FA 100%)'
+                : 'linear-gradient(135deg, #7C3AED 0%, #2563EB 100%)',
+              opacity: disabled ? 0.6 : 1,
+              color: '#FFFFFF',
+              border: 'none',
+              cursor: disabled ? 'not-allowed' : 'pointer',
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              boxShadow: disabled || !text.trim()
+                ? '0 4px 12px rgba(124, 58, 237, 0.25)'
+                : '0 4px 16px rgba(124, 58, 237, 0.45)',
+              transition: 'all 0.2s cubic-bezier(0.16, 1, 0.3, 1)'
+            }}
+            onMouseEnter={(e) => {
+              if (!disabled && text.trim()) {
+                e.currentTarget.style.transform = 'scale(1.06)';
+              }
+            }}
+            onMouseLeave={(e) => {
+              e.currentTarget.style.transform = 'scale(1)';
+            }}
+          >
+            <ArrowUp size={19} strokeWidth={2.6} />
+          </button>
+        </div>
+      </div>
     </div>
   );
 }

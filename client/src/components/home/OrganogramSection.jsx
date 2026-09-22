@@ -396,7 +396,7 @@ export default function OrganogramSection() {
                   border: '1.2px dashed rgba(99, 102, 241, 0.25)',
                   textTransform: 'none'
                 }}>
-                  The MentR Ecosystem
+                  TheMentR Ecosystem
                 </span>
                 <div style={{ width: '2px', height: '28px', background: 'rgba(99, 102, 241, 0.2)' }} />
               </div>

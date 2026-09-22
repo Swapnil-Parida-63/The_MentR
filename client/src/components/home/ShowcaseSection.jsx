@@ -333,7 +333,7 @@ function OlympiadRegisterForm({ onClose }) {
         <div style={{ fontSize: 32, marginBottom: 12 }}>🎉</div>
         <h4 style={{ fontFamily: 'var(--font-hero)', fontSize: 18, fontWeight: 800, color: '#065F46', margin: '0 0 6px' }}>Registration Interest Received!</h4>
         <p style={{ fontSize: 12, color: '#047857', margin: 0, lineHeight: 1.5 }}>
-          Thank you for showing interest in The MentR Olympiad. Our team will get in touch with you shortly.
+          Thank you for showing interest in TheMentR Olympiad. Our team will get in touch with you shortly.
         </p>
       </div>
     );
@@ -599,7 +599,7 @@ export default function ShowcaseSection({ isStandalonePage = false }) {
         
         {/* Section Header */}
         <div className="showcase-header">
-          <FadeUp><div className="showcase-eyebrow">THEMENTR ECOSYSTEM</div></FadeUp>
+          <FadeUp><div className="showcase-eyebrow">TheMentR Ecosystem</div></FadeUp>
           <FadeUp delay={0.1}>
             {isStandalonePage ? (
               <h1 
@@ -607,7 +607,7 @@ export default function ShowcaseSection({ isStandalonePage = false }) {
                 className="showcase-title"
                 style={{ cursor: isMobile ? 'pointer' : 'default', userSelect: 'none' }}
               >
-                The MentR Ecosystem — One platform. Four connected experiences.
+                TheMentR Ecosystem — One platform. Four connected experiences.
               </h1>
             ) : (
               <h2 
@@ -837,7 +837,7 @@ export default function ShowcaseSection({ isStandalonePage = false }) {
               </h3>
               {(!isMobile || isShowcaseDescExpanded) && (
                 <p className="details-desc">
-                  Apart from the syllabus, apart from curriculum there is also something called general studies. The MentR Olympiad is a monthly assessment platform that helps benchmark not only their academic progress but also discover the importance of general studies.
+                  Apart from the syllabus, apart from curriculum there is also something called general studies. TheMentR Olympiad is a monthly assessment platform that helps benchmark not only their academic progress but also discover the importance of general studies.
                 </p>
               )}
               
@@ -886,12 +886,60 @@ export default function ShowcaseSection({ isStandalonePage = false }) {
             
             <div className="connector-flow-responsive">
               {[
-                { label: 'Parent App', desc: 'Track & Monitor' },
-                { label: 'Teacher App', desc: 'Manage & Plan' },
-                { label: 'Online App', desc: 'Connect & Learn' },
-                { label: 'TheMentR Olympiad', desc: 'Measure & Compete' },
-                { label: 'AVSAR Intelligence', desc: 'Analyze & Predict', highlighted: true },
-                { label: 'Better Learning Outcomes', desc: 'The Ultimate Goal', success: true }
+                { 
+                  label: 'Parent App', 
+                  desc: 'Track & Monitor', 
+                  bg: 'linear-gradient(135deg, rgba(59, 130, 246, 0.12) 0%, rgba(37, 99, 235, 0.22) 100%)', 
+                  border: '#3B82F6', 
+                  shadow: 'rgba(59, 130, 246, 0.25)',
+                  titleColor: '#1D4ED8',
+                  descColor: '#2563EB'
+                },
+                { 
+                  label: 'Teacher App', 
+                  desc: 'Manage & Plan', 
+                  bg: 'linear-gradient(135deg, rgba(168, 85, 247, 0.12) 0%, rgba(147, 51, 234, 0.22) 100%)', 
+                  border: '#A855F7', 
+                  shadow: 'rgba(168, 85, 247, 0.25)',
+                  titleColor: '#6B21A8',
+                  descColor: '#7E22CE'
+                },
+                { 
+                  label: 'Online App', 
+                  desc: 'Connect & Learn', 
+                  bg: 'linear-gradient(135deg, rgba(6, 182, 212, 0.12) 0%, rgba(14, 165, 233, 0.22) 100%)', 
+                  border: '#06B6D4', 
+                  shadow: 'rgba(6, 182, 212, 0.25)',
+                  titleColor: '#0E7490',
+                  descColor: '#0284C7'
+                },
+                { 
+                  label: 'TheMentR Olympiad', 
+                  desc: 'Measure & Compete', 
+                  bg: 'linear-gradient(135deg, rgba(245, 158, 11, 0.14) 0%, rgba(217, 119, 6, 0.24) 100%)', 
+                  border: '#F59E0B', 
+                  shadow: 'rgba(245, 158, 11, 0.25)',
+                  titleColor: '#B45309',
+                  descColor: '#D97706'
+                },
+                { 
+                  label: 'AVSAR Intelligence', 
+                  desc: 'Analyze & Predict', 
+                  bg: 'linear-gradient(135deg, rgba(99, 102, 241, 0.14) 0%, rgba(79, 70, 229, 0.24) 100%)', 
+                  border: '#6366F1', 
+                  shadow: 'rgba(99, 102, 241, 0.28)',
+                  titleColor: '#4338CA',
+                  descColor: '#4F46E5'
+                },
+                { 
+                  label: 'Better Learning Outcomes', 
+                  desc: 'The Ultimate Goal', 
+                  bg: 'linear-gradient(135deg, rgba(16, 185, 129, 0.14) 0%, rgba(5, 150, 105, 0.24) 100%)', 
+                  border: '#10B981', 
+                  shadow: 'rgba(16, 185, 129, 0.28)',
+                  titleColor: '#047857',
+                  descColor: '#059669'
+                }
               ].map((node, i) => (
                 <div key={node.label} className="connector-node-wrapper">
                   {i > 0 && (
@@ -901,9 +949,18 @@ export default function ShowcaseSection({ isStandalonePage = false }) {
                       </svg>
                     </div>
                   )}
-                  <div className={`connector-node ${node.highlighted ? 'node-highlight' : ''} ${node.success ? 'node-success' : ''}`}>
-                    <h5 className="node-title">{node.label}</h5>
-                    <p className="node-desc">{node.desc}</p>
+                  <div 
+                    className="connector-node"
+                    style={{
+                      background: node.bg,
+                      borderColor: node.border,
+                      borderWidth: '1.5px',
+                      borderStyle: 'solid',
+                      boxShadow: `0 4px 16px ${node.shadow}`
+                    }}
+                  >
+                    <h5 className="node-title" style={{ color: node.titleColor }}>{node.label}</h5>
+                    <p className="node-desc" style={{ color: node.descColor, fontWeight: 500 }}>{node.desc}</p>
                   </div>
                 </div>
               ))}
@@ -952,9 +1009,8 @@ export default function ShowcaseSection({ isStandalonePage = false }) {
           font-family: var(--font-sans);
           font-size: 13px;
           font-weight: 700;
-          letter-spacing: 0.12em;
+          letter-spacing: 0.06em;
           color: #6366F1;
-          text-transform: uppercase;
           margin-bottom: 12px;
         }
         .showcase-title {
@@ -1294,23 +1350,17 @@ export default function ShowcaseSection({ isStandalonePage = false }) {
         }
         .connector-node {
           background: #FFFFFF;
-          border: 1px solid rgba(15, 23, 42, 0.06);
+          border: 1.5px solid rgba(15, 23, 42, 0.06);
           padding: 12px 14px;
           border-radius: 14px;
           box-shadow: 0 4px 12px rgba(15, 23, 42, 0.015);
           text-align: left;
           flex-shrink: 0;
           white-space: nowrap;
+          transition: transform 0.2s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.2s ease;
         }
-        .node-highlight {
-          border-color: #6366F1;
-          box-shadow: 0 4px 16px rgba(99, 102, 241, 0.08);
-          background: linear-gradient(135deg, rgba(99, 102, 241, 0.02) 0%, rgba(99, 102, 241, 0.05) 100%);
-        }
-        .node-success {
-          border-color: #10B981;
-          box-shadow: 0 4px 16px rgba(16, 185, 129, 0.08);
-          background: linear-gradient(135deg, rgba(16, 185, 129, 0.02) 0%, rgba(16, 185, 129, 0.05) 100%);
+        .connector-node:hover {
+          transform: translateY(-2px);
         }
         .node-title {
           font-family: var(--font-sans);

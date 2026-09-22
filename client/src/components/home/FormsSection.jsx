@@ -681,7 +681,7 @@ export default function FormsSection() {
                           Application Submitted!
                         </h3>
                         <p style={{ fontSize: 14, color: '#475569', lineHeight: 1.5, maxWidth: 400, margin: '0 auto 20px' }}>
-                          Thank you for applying to join The MentR network. Our onboarding team will contact you shortly.
+                          Thank you for applying to join TheMentR network. Our onboarding team will contact you shortly.
                         </p>
                         <button
                           type="button"
@@ -900,7 +900,7 @@ export default function FormsSection() {
               >
                 <div>
                   <div style={{ fontSize: 12, fontWeight: 700, letterSpacing: '0.04em', color: '#818CF8', marginBottom: 8 }}>
-                    Why choose The MentR
+                    Why choose TheMentR
                   </div>
                   <h3 style={{ fontSize: isMobile ? 18 : 22, fontWeight: 800, color: '#FFFFFF', lineHeight: 1.3, marginBottom: 12, fontFamily: 'var(--font-display)' }}>
                     Structured learning, verified teachers.

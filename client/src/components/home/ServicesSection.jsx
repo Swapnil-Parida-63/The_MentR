@@ -190,10 +190,10 @@ export default function ServicesSection() {
       num: '01',
       sym: '✓',
       title: 'Verified Teachers',
-      subtitle: 'Every educator passes our screening process.',
+      subtitle: 'Every teacher passes our',
       details: (
         <div style={{ display: 'flex', flexDirection: 'column', gap: 8, marginTop: 12 }}>
-          {['Identity Verification', 'Demo Class & Subject Test', 'Continuous Reviews'].map(check => (
+          {['Identity Verification', 'Demo Class & Knowledge Test', 'Continuous Reviews'].map(check => (
             <div key={check} style={{ display: 'flex', alignItems: 'center', gap: 8, fontSize: 13, fontWeight: 550, color: '#334155' }}>
               <span style={{ color: '#10B981', display: 'flex' }}>✓</span>
               <span>{check}</span>
@@ -267,7 +267,7 @@ export default function ServicesSection() {
       subtitle: 'Curriculums matching major Indian school boards.',
       details: (
         <div style={{ display: 'flex', flexWrap: 'wrap', gap: 5, marginTop: 12 }}>
-          {['CBSE', 'ICSE', 'IB', 'State Board'].map(board => (
+          {['CBSE', 'ICSE', 'IGCSE', 'State Board'].map(board => (
             <span key={board} style={{ fontSize: 11, fontWeight: 600, color: '#334155', background: '#F1F5F9', padding: '3px 8px', borderRadius: 6 }}>
               {board}
             </span>
@@ -295,12 +295,12 @@ export default function ServicesSection() {
       num: '07',
       sym: '⇄',
       title: 'Online + Offline',
-      subtitle: 'Seamlessly switch modes under the same mentor.',
+      subtitle: 'Seamlessly switch modes under the same teachers.',
       details: (
         <div style={{ display: 'flex', flexDirection: 'column', gap: 4, fontSize: 13, fontWeight: 550, marginTop: 12 }}>
           <div style={{ display: 'flex', alignItems: 'center', gap: 8, color: '#334155' }}>
             <span style={{ color: '#4F7CFF', fontSize: '14px' }}>⌂</span>
-            <span>In-person home visits</span>
+            <span>In-person home tuition</span>
           </div>
         </div>
       )
@@ -407,7 +407,7 @@ export default function ServicesSection() {
               maxWidth: '560px',
               margin: 0
             }}>
-              Every component of our learning ecosystem works in unison to guide, verify, match, and sustain accountability for a complete learning journey.
+              Our integrated learning ecosystem harmonizes diagnosis, teacher verification, smart matching, and continuous accountability for a complete educational experience.
             </p>
           </motion.div>
         </div>
@@ -553,11 +553,11 @@ export default function ServicesSection() {
                 <div>
                   <h4 style={{ fontFamily: 'var(--font-sans)', fontWeight: 800, fontSize: 18, color: '#1E293B', margin: '0 0 4px' }}>Verified Teachers</h4>
                   <p style={{ fontFamily: 'var(--font-sans)', fontWeight: 400, fontSize: 13.5, color: '#64748B', lineHeight: 1.45, margin: '0 0 14px' }}>
-                    Every educator passes our strict screening process.
+                    Every teacher passes our
                   </p>
                   
                   <div style={{ display: 'flex', flexDirection: 'column', gap: 6 }}>
-                    {['Identity Verification', 'Demo Class & Subject Test', 'Continuous Reviews'].map((check) => (
+                    {['Identity Verification', 'Demo Class & Knowledge Test', 'Continuous Reviews'].map((check) => (
                       <div key={check} style={{ display: 'flex', alignItems: 'center', gap: 8, fontSize: 12.5, fontWeight: 600, color: '#1E293B' }}>
                         <Check size={14} style={{ color: '#10B981' }} />
                         <span>{check}</span>
@@ -913,7 +913,7 @@ export default function ServicesSection() {
                   Customized curriculums matching major boards.
                 </p>
                 <div style={{ display: 'flex', flexWrap: 'wrap', gap: 5 }}>
-                  {['CBSE', 'ICSE', 'IB', 'State Board'].map(board => (
+                  {['CBSE', 'ICSE', 'IGCSE', 'State Board'].map(board => (
                     <span key={board} style={{ fontSize: 11, fontWeight: 650, color: '#334155', background: '#F1F5F9', padding: '3px 8px', borderRadius: 6 }}>
                       {board}
                     </span>
@@ -999,7 +999,7 @@ export default function ServicesSection() {
                     marginBottom: 8
                   }}>
                     <span style={{ width: 5, height: 5, borderRadius: '50%', background: '#7C5CFF' }} />
-                    <span style={{ fontSize: 9.5, fontWeight: 750, color: '#7C5CFF', letterSpacing: '0.05em', textTransform: 'uppercase' }}>Featured Match Priority</span>
+                    <span style={{ fontSize: 9.5, fontWeight: 750, color: '#7C5CFF', letterSpacing: '0.05em', textTransform: 'uppercase' }}>Tradition needs excellence</span>
                   </div>
                   
                   <h4 style={{ fontFamily: 'var(--font-sans)', fontWeight: 800, fontSize: 20, color: '#1E293B', margin: '0 0 6px' }}>One-to-One Learning</h4>
@@ -1087,12 +1087,12 @@ export default function ServicesSection() {
               <div style={{ maxWidth: '65%', zIndex: 1 }}>
                 <h4 style={{ fontFamily: 'var(--font-sans)', fontWeight: 800, fontSize: 20, color: '#1E293B', margin: '0 0 4px' }}>Online + Offline Learning</h4>
                 <p style={{ fontFamily: 'var(--font-sans)', fontWeight: 400, fontSize: 14, color: '#64748B', lineHeight: 1.5, margin: '0 0 16px', maxWidth: '480px' }}>
-                  Seamlessly switch modes under the same verified mentor. Learn at home or virtually.
+                  Seamlessly switch modes under the same verified teachers. Learn at home or learn virtually, choice is yours.
                 </p>
                 <div style={{ display: 'flex', gap: 20 }}>
                   <div style={{ display: 'flex', alignItems: 'center', gap: 6, fontSize: 13, fontWeight: 650, color: '#1E293B' }}>
                     <Home size={16} style={{ color: '#4F7CFF' }} />
-                    <span>In-person home visits</span>
+                    <span>In-person home tuition</span>
                   </div>
                   <div style={{ display: 'flex', alignItems: 'center', gap: 6, fontSize: 13, fontWeight: 650, color: '#1E293B' }}>
                     <Monitor size={16} style={{ color: '#4F7CFF' }} />

@@ -3,11 +3,11 @@ import ChatLauncher from './ChatLauncher';
 const ChatWindow = lazy(() => import('./ChatWindow'));
 import { aiAPI } from '../../services/api';
 
-const INITIAL_GREETING = `Hi 👋
+const INITIAL_GREETING = `Hello! 👋
 
-I'm Mentee.
+I am Mentee.
 
-I'm here to help parents, students, and teachers with everything related to MentR.
+I'm here to help parents, students, and teachers with everything related to TheMentR.
 
 How can I help you today?`;
 

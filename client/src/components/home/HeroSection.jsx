@@ -298,22 +298,25 @@ function HeroEcosystemImage() {
       padding: '0px',
       overflow: 'visible'
     }}>
-      <img
-        src={`${import.meta.env.BASE_URL}Gemini_Generated_Image_lmg5iglmg5iglmg5.webp`}
-        alt="MentR Educational Ecosystem"
-        loading="lazy"
-        width="1600"
-        height="1066"
-        style={{
-          width: '100%',
-          maxWidth: '1570px',
-          height: 'auto',
-          objectFit: 'contain',
-          mixBlendMode: 'multiply',
-          WebkitMaskImage: 'radial-gradient(ellipse at 60% 50%, rgba(0, 0, 0, 1) 40%, rgba(0, 0, 0, 0) 90%)',
-          maskImage: 'radial-gradient(ellipse at 60% 50%, rgba(0, 0, 0, 1) 40%, rgba(0, 0, 0, 0) 90%)',
-        }}
-      />
+      <picture style={{ width: '100%', display: 'flex', justifyContent: 'center' }}>
+        <source srcSet={`${import.meta.env.BASE_URL}Why it works.webp`} type="image/webp" />
+        <img
+          src={`${import.meta.env.BASE_URL}Why it works.webp`}
+          alt="TheMentR Educational Ecosystem - Why it works"
+          loading="lazy"
+          width="1600"
+          height="1066"
+          style={{
+            width: '100%',
+            maxWidth: '1570px',
+            height: 'auto',
+            objectFit: 'contain',
+            mixBlendMode: 'multiply',
+            WebkitMaskImage: 'radial-gradient(ellipse at 60% 50%, rgba(0, 0, 0, 1) 40%, rgba(0, 0, 0, 0) 90%)',
+            maskImage: 'radial-gradient(ellipse at 60% 50%, rgba(0, 0, 0, 1) 40%, rgba(0, 0, 0, 0) 90%)',
+          }}
+        />
+      </picture>
     </div>
   );
 }
@@ -603,13 +606,12 @@ export default function HeroSection() {
               <span style={{ color: '#60A5FA', fontSize: 8 }}>●</span>
               <span style={{
                 fontFamily: 'var(--font-sans, system-ui, sans-serif)',
-                fontWeight: 700,
-                fontSize: 11,
-                letterSpacing: '0.12em',
-                textTransform: 'uppercase',
+                fontWeight: 600,
+                fontSize: 12.5,
+                letterSpacing: '0.01em',
                 color: '#E0E7FF'
               }}>
-                WHERE LEARNING MEETS IT'S PURPOSE
+                Where learning meets its purpose
               </span>
             </div>
 
@@ -625,22 +627,22 @@ export default function HeroSection() {
                 style={{
                   fontFamily: 'var(--font-hero)',
                   fontWeight: 800,
-                  fontSize: isMobile ? 'clamp(34px, 8.5vw, 46px)' : 'clamp(46px, 4.4vw, 68px)',
-                  lineHeight: 1.08,
+                  fontSize: isMobile ? 'clamp(30px, 7.5vw, 42px)' : 'clamp(40px, 3.8vw, 60px)',
+                  lineHeight: 1.15,
                   letterSpacing: '-0.035em',
                   color: '#FFFFFF',
                   margin: '0 0 14px',
                   textShadow: '0 4px 24px rgba(15, 23, 42, 0.4)'
                 }}
               >
-                Every child<br />
-                deserves the<br />
+                Multiple problems,<br />
+                only one solution.<br />
                 <span style={{
                   background: 'linear-gradient(135deg, #60A5FA 0%, #C4B5FD 100%)',
                   WebkitBackgroundClip: 'text',
                   WebkitTextFillColor: 'transparent'
                 }}>
-                  right mentor.
+                  Here is TheMentR, where your search ends.
                 </span>
               </h1>
 
@@ -850,7 +852,7 @@ export default function HeroSection() {
               borderRadius: 9999,
               background: 'rgba(37, 99, 235, 0.10)'
             }}>
-              <Sparkles size={13} color="#2563EB" /> The MentR
+              <Sparkles size={13} color="#2563EB" /> TheMentR
             </span>
             <h2
               onClick={() => isMobile && setWhyDescOpen(o => !o)}

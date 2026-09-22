@@ -790,7 +790,7 @@ export default function FormModal() {
                     Application Submitted!
                   </h3>
                   <p style={{ fontSize: 14, color: '#475569', lineHeight: 1.5, marginBottom: 20 }}>
-                    Thank you for applying to join The MentR network. Our onboarding team will contact you shortly.
+                    Thank you for applying to join TheMentR network. Our onboarding team will contact you shortly.
                   </p>
                   <button type="button" onClick={handleClose} className="btn-editorial-pill" style={{ padding: '10px 28px', fontSize: 13.5 }}>
                     Close

@@ -1,13 +1,15 @@
+import { useState, useEffect } from 'react';
 import ChatHeader from './ChatHeader';
 import MessageList from './MessageList';
-import QuickActions from './QuickActions';
+import EmptyState from './EmptyState';
 import TypingIndicator from './TypingIndicator';
 import ErrorState from './ErrorState';
 import ChatInput from './ChatInput';
 
 /**
  * ChatWindow Component
- * Main modal container hosting header, message list, actions, indicator, and input area.
+ * Seamlessly delivers Full-Screen Mobile Takeover (matching reference UI) and
+ * Sleek Neomorphic Pop-up Card on Desktop.
  */
 export default function ChatWindow({
   messages,
@@ -19,82 +21,192 @@ export default function ChatWindow({
   onActionClick,
   onRetry
 }) {
+  const [isMobile, setIsMobile] = useState(false);
+  const [mobileStep, setMobileStep] = useState('welcome'); // 'welcome' | 'discovery'
+
+  useEffect(() => {
+    const checkMobile = () => {
+      setIsMobile(window.innerWidth < 768);
+    };
+    checkMobile();
+    window.addEventListener('resize', checkMobile);
+    return () => window.removeEventListener('resize', checkMobile);
+  }, []);
+
+  // Check if conversation has any user message
+  const hasUserMessages = messages.some((m) => m.role === 'user');
+
+  // Handle back button on mobile
+  const handleBack = () => {
+    if (isMobile && mobileStep === 'discovery' && !hasUserMessages) {
+      setMobileStep('welcome');
+    } else {
+      onClose();
+    }
+  };
+
+  const handleSendWrapper = (text) => {
+    if (isMobile && mobileStep === 'welcome') {
+      setMobileStep('discovery');
+    }
+    onSend(text);
+  };
+
+  // Determine if top header should be shown (hidden on mobile welcome screen per reference)
+  const showHeader = !isMobile || mobileStep !== 'welcome' || hasUserMessages;
+
+  // Determine if bottom input dock should be shown (hidden on mobile welcome screen)
+  const showInput = !isMobile || mobileStep !== 'welcome' || hasUserMessages;
+
   return (
     <div
-      className="mentee-chat-window"
+      className="mentee-neomorphic-window"
       style={{
         position: 'fixed',
-        bottom: 96,
-        right: 24,
-        width: 380,
-        maxWidth: 'calc(100vw - 32px)',
-        height: 580,
-        maxHeight: 'calc(100vh - 120px)',
-        background: '#FAFAFC',
-        border: '1px solid rgba(79, 124, 255, 0.16)',
-        borderRadius: 24,
-        boxShadow: '0 20px 60px rgba(15, 23, 42, 0.2), 0 4px 16px rgba(79, 124, 255, 0.08)',
+        top: isMobile ? 0 : 24,
+        bottom: isMobile ? 0 : 24,
+        right: isMobile ? 0 : 24,
+        left: isMobile ? 0 : 'auto',
+        width: isMobile ? '100vw' : 'min(920px, 68vw)',
+        height: isMobile ? '100dvh' : 'calc(100vh - 48px)',
+        maxHeight: isMobile ? 'none' : 'calc(100vh - 48px)',
+        background: isMobile
+          ? 'linear-gradient(180deg, #E0F2FE 0%, #E8F0FE 30%, #F3E8FF 70%, #FAF5FF 100%)'
+          : 'linear-gradient(165deg, rgba(255, 255, 255, 0.95) 0%, rgba(246, 248, 255, 0.92) 40%, rgba(238, 242, 255, 0.95) 100%)',
+        backdropFilter: 'blur(20px)',
+        WebkitBackdropFilter: 'blur(20px)',
+        border: isMobile ? 'none' : '1.5px solid rgba(255, 255, 255, 0.9)',
+        borderRadius: isMobile ? 0 : 28,
+        boxShadow: isMobile
+          ? 'none'
+          : '0 24px 70px rgba(15, 23, 42, 0.22), 0 0 0 1px rgba(99, 102, 241, 0.12), -8px -8px 30px rgba(255, 255, 255, 0.95)',
         zIndex: 100005,
         display: 'flex',
         flexDirection: 'column',
         overflow: 'hidden',
-        animation: 'menteePopIn 0.3s cubic-bezier(0.16, 1, 0.3, 1) both'
+        animation: isMobile
+          ? 'menteeMobileSlideUp 0.35s cubic-bezier(0.16, 1, 0.3, 1) both'
+          : 'menteeSlideInCard 0.35s cubic-bezier(0.16, 1, 0.3, 1) both'
       }}
     >
-      {/* Header */}
-      <ChatHeader onClose={onClose} onReset={onReset} />
-
-      {/* Messages */}
-      <MessageList messages={messages} onActionClick={onActionClick} />
-
-      {/* Typing Indicator */}
-      {isLoading && (
-        <div style={{ padding: '0 16px' }}>
-          <TypingIndicator />
-        </div>
+      {/* Top Bar Header */}
+      {showHeader && (
+        <ChatHeader
+          onClose={onClose}
+          onReset={onReset}
+          isChatActive={hasUserMessages}
+          onBackToWelcome={handleBack}
+        />
       )}
 
-      {/* Error Alert */}
-      {error && <ErrorState message={error} onRetry={onRetry} />}
+      {/* Main Content Area */}
+      <div
+        style={{
+          flex: 1,
+          display: 'flex',
+          flexDirection: 'column',
+          overflowY: 'auto',
+          position: 'relative',
+          padding: isMobile ? '0' : '8px 0',
+          scrollbarWidth: 'thin'
+        }}
+      >
+        {!hasUserMessages ? (
+          <div
+            key="hero-view"
+            className="mentee-view-hero"
+            style={{
+              flex: 1,
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              height: '100%',
+              animation: 'menteeHeroEnter 0.45s cubic-bezier(0.16, 1, 0.3, 1) both'
+            }}
+          >
+            <EmptyState
+              onSelectPrompt={handleSendWrapper}
+              onClose={onClose}
+              mobileStep={mobileStep}
+              setMobileStep={setMobileStep}
+            />
+          </div>
+        ) : (
+          <div
+            key="chat-view"
+            className="mentee-view-chat"
+            style={{
+              flex: 1,
+              display: 'flex',
+              flexDirection: 'column',
+              padding: isMobile ? '12px 14px 6px' : '0 12px',
+              animation: 'menteeChatEnter 0.45s cubic-bezier(0.16, 1, 0.3, 1) both'
+            }}
+          >
+            <MessageList messages={messages} onActionClick={onActionClick} />
 
-      {/* Quick Action Chips */}
-      <QuickActions onSelectAction={onActionClick} disabled={isLoading} />
+            {/* Typing Indicator */}
+            {isLoading && (
+              <div style={{ padding: '0 24px 8px' }}>
+                <TypingIndicator />
+              </div>
+            )}
 
-      {/* Input Area */}
-      <ChatInput onSend={onSend} disabled={isLoading} />
+            {/* Error Alert */}
+            {error && <ErrorState message={error} onRetry={onRetry} />}
+          </div>
+        )}
+      </div>
+
+      {/* Neomorphic Search & Input Dock */}
+      {showInput && (
+        <ChatInput onSend={handleSendWrapper} disabled={isLoading} />
+      )}
 
       <style>{`
-        @keyframes menteePopIn {
+        @keyframes menteeSlideInCard {
           from {
             opacity: 0;
-            transform: scale(0.94) translateY(16px);
+            transform: translateX(40px) scale(0.98);
+          }
+          to {
+            opacity: 1;
+            transform: translateX(0) scale(1);
+          }
+        }
+        @keyframes menteeMobileSlideUp {
+          from {
+            opacity: 0;
+            transform: translateY(100%);
+          }
+          to {
+            opacity: 1;
+            transform: translateY(0);
+          }
+        }
+        @keyframes menteeHeroEnter {
+          from {
+            opacity: 0;
+            transform: scale(0.96) translateY(12px);
           }
           to {
             opacity: 1;
             transform: scale(1) translateY(0);
           }
         }
-        @media (max-width: 768px) {
-          .mentee-chat-window {
-            position: fixed !important;
-            top: 16px !important;
-            bottom: 86px !important;
-            right: 16px !important;
-            left: 16px !important;
-            width: auto !important;
-            height: auto !important;
-            max-height: calc(100vh - 102px) !important;
-            border-radius: 20px !important;
+        @keyframes menteeChatEnter {
+          from {
+            opacity: 0;
+            transform: translateY(16px);
+          }
+          to {
+            opacity: 1;
+            transform: translateY(0);
           }
         }
-        @media (max-width: 480px) {
-          .mentee-chat-window {
-            top: 12px !important;
-            bottom: 80px !important;
-            right: 12px !important;
-            left: 12px !important;
-            max-height: calc(100vh - 92px) !important;
-            border-radius: 18px !important;
+        @media (max-width: 1024px) and (min-width: 769px) {
+          .mentee-neomorphic-window {
+            width: min(720px, 85vw) !important;
           }
         }
       `}</style>

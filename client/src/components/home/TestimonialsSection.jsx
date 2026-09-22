@@ -3,89 +3,7 @@ import { FadeUp } from '../../hooks/useScrollReveal';
 import { ArrowLeft, ArrowRight, CheckCircle } from 'lucide-react';
 import { motion } from 'framer-motion';
 
-// ==============================================================
-// 1. TESTIMONIAL DATA (CLEAN WITHOUT IMAGE PLACEHOLDERS)
-// ==============================================================
-const initialTestimonialsData = [
-  {
-    id: 't1',
-    category: 'teacher',
-    type: 'text',
-    name: 'Subham Kumar Dash',
-    role: 'Verified Teacher',
-    location: 'IRC village, N3, Nayapalli',
-    verified: true,
-    rating: 5,
-    quote: "Friendly environment, very polite and hospitality is great.",
-    fullStory: "Friendly environment, very polite and hospitality is great. Onboarding and matching with student requests are fully transparent.",
-    createdAt: '2025-06-10'
-  },
-  {
-    id: 't2',
-    category: 'teacher',
-    type: 'text',
-    name: 'Akash Kumar Sahoo',
-    role: 'Verified Teacher',
-    location: 'Nayapalli, Beherasahi',
-    verified: true,
-    rating: 5,
-    quote: "Thank you, I felt very happy with all the respected staff & MD sir. This Environment is very friendly.",
-    fullStory: "Thank you, I felt very happy with all the respected staff & MD sir. This Environment is very friendly and supportive for tutors.",
-    createdAt: '2025-06-08'
-  },
-  {
-    id: 't3',
-    category: 'teacher',
-    type: 'text',
-    name: 'Sangram Rout',
-    role: 'Verified Teacher',
-    location: 'Jayadev Vihar, Bhubaneswar',
-    verified: true,
-    rating: 5,
-    quote: "Thank you everyone. Great opportunity. Friendly & polite behaviour. Good Initiative.",
-    fullStory: "Thank you everyone. Great opportunity. Friendly & polite behaviour. Good Initiative to match verified tutors with motivated families.",
-    createdAt: '2025-06-05'
-  },
-  {
-    id: 't4',
-    category: 'teacher',
-    type: 'text',
-    name: 'Vikas Ranjan Senapati',
-    role: 'Verified Teacher',
-    location: 'Bhubaneswar, Odisha',
-    verified: true,
-    rating: 5,
-    quote: "I would like to convey my thanks for such a wonderful initialization to bring a revolution in the education field.",
-    fullStory: "I would like to convey my thanks for such a wonderful initialization to bring a revolution in the education field, providing job security and transparency.",
-    createdAt: '2025-06-01'
-  },
-  {
-    id: 't5',
-    category: 'teacher',
-    type: 'text',
-    name: 'Pratismita Sahoo',
-    role: 'Verified Teacher',
-    location: 'Bajapur, Puri',
-    verified: true,
-    rating: 5,
-    quote: "Very friendly atmosphere, friendly and supportive staff. It's my first experience as a tutor and very excited for the journey. Thank you.",
-    fullStory: "Very friendly atmosphere, friendly and supportive staff. It's my first experience as a tutor and very excited for the journey. The onboarding guides were extremely helpful. Thank you.",
-    createdAt: '2025-05-28'
-  },
-  {
-    id: 't6',
-    category: 'teacher',
-    type: 'text',
-    name: 'Priyabrata Pradhan',
-    role: 'Verified Teacher',
-    location: 'Banamalipur, Balipatna, Khorda',
-    verified: true,
-    rating: 5,
-    quote: "Thank you whole team of MentR to guiding me for teaching sector. Very friendly and polite behavior of each staff.",
-    fullStory: "Thank you whole team of MentR to guiding me for teaching sector. Very friendly and polite behavior of each staff.",
-    createdAt: '2025-05-20'
-  }
-];
+import { testimonialsData as initialTestimonialsData } from '../../data/testimonialsData';
 
 export default function TestimonialsSection() {
   const [testimonials, setTestimonials] = useState(initialTestimonialsData);
@@ -262,7 +180,7 @@ export default function TestimonialsSection() {
                 userSelect: 'none'
               }}
             >
-              Teaching and Learning growing with The MentR
+              Teaching and Learning growing with TheMentR
             </h2>
           </FadeUp>
           <div
@@ -435,7 +353,7 @@ export default function TestimonialsSection() {
                 <span style={{ fontSize: 36, display: 'block', marginBottom: 12 }}>✨</span>
                 <h4 style={{ fontSize: 18, fontWeight: 700, color: '#0F172A', marginBottom: 8 }}>Reviews Coming Soon</h4>
                 <p style={{ fontSize: 14, color: '#64748B', maxWidth: 440, margin: '0 auto', lineHeight: 1.6 }}>
-                  Be the first to share your experience with The MentR!
+                  Be the first to share your experience with TheMentR!
                 </p>
               </div>
             </FadeUp>
@@ -561,7 +479,7 @@ export default function TestimonialsSection() {
                   Submit Your Feedback
                 </h3>
                 <p style={{ fontSize: isMobile ? 12.5 : 13.5, color: '#64748B', marginBottom: isMobile ? 14 : 24, lineHeight: 1.35, textAlign: 'left' }}>
-                  Share your experience with The MentR platform and home tuition services.
+                  Share your experience with TheMentR platform and home tuition services.
                 </p>
 
                 <div style={{ marginBottom: isMobile ? 12 : 18, textAlign: 'left' }}>

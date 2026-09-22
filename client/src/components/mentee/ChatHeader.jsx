@@ -1,176 +1,196 @@
-import { X, Sparkles, RefreshCw } from 'lucide-react';
+import { X, Sparkles, RefreshCw, ArrowLeft } from 'lucide-react';
 
 /**
  * ChatHeader Component
- * Top bar of the Mentee AI Chat Window.
+ * Clean, modern neomorphic top bar for Mentee AI Window.
  */
-export default function ChatHeader({ onClose, onReset }) {
+export default function ChatHeader({ onClose, onReset, isChatActive = false, onBackToWelcome = null }) {
   return (
     <div
       style={{
-        padding: '16px 20px',
-        background: 'linear-gradient(135deg, #0F172A 0%, #1E293B 100%)',
-        color: '#FFFFFF',
+        padding: '14px 20px',
         display: 'flex',
         alignItems: 'center',
         justifyContent: 'space-between',
-        borderBottom: '1px solid rgba(255, 255, 255, 0.08)',
-        borderTopLeftRadius: 24,
-        borderTopRightRadius: 24,
-        boxShadow: '0 4px 16px rgba(15, 23, 42, 0.06)'
+        borderBottom: '1px solid rgba(99, 102, 241, 0.08)',
+        background: 'rgba(255, 255, 255, 0.72)',
+        backdropFilter: 'blur(16px)',
+        WebkitBackdropFilter: 'blur(16px)',
+        borderTopLeftRadius: 'inherit',
+        borderTopRightRadius: 'inherit',
+        zIndex: 10
       }}
     >
-      {/* Left: Avatar + Title Info */}
-      <div style={{ display: 'flex', alignItems: 'center', gap: 12 }}>
-        {/* Mentee Avatar */}
-        <div
+      {/* Left: Back Button + Model / Branding Pill */}
+      <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
+        {/* Back Button (Prominent for Mobile & Desktop) */}
+        <button
+          onClick={onBackToWelcome || onClose}
+          aria-label="Back / Close"
+          title="Back"
+          className="mentee-header-back-btn"
           style={{
-            position: 'relative',
-            width: 40,
-            height: 40,
+            width: 38,
+            height: 38,
             borderRadius: '50%',
-            background: 'transparent',
+            background: '#FFFFFF',
+            border: '1.2px solid rgba(226, 232, 240, 0.9)',
             display: 'flex',
             alignItems: 'center',
             justifyContent: 'center',
-            color: '#FFFFFF',
-            boxShadow: '0 4px 12px rgba(0, 0, 0, 0.15)',
-            border: '2px solid rgba(255, 255, 255, 0.2)',
-            overflow: 'hidden'
+            color: '#334155',
+            cursor: 'pointer',
+            boxShadow: '2px 2px 8px rgba(163, 177, 210, 0.18), -2px -2px 8px rgba(255, 255, 255, 0.9)',
+            transition: 'all 0.2s cubic-bezier(0.16, 1, 0.3, 1)',
+            flexShrink: 0
+          }}
+          onMouseEnter={(e) => {
+            e.currentTarget.style.color = '#4338CA';
+            e.currentTarget.style.transform = 'scale(1.05)';
+            e.currentTarget.style.borderColor = 'rgba(99, 102, 241, 0.3)';
+          }}
+          onMouseLeave={(e) => {
+            e.currentTarget.style.color = '#334155';
+            e.currentTarget.style.transform = 'scale(1)';
+            e.currentTarget.style.borderColor = 'rgba(226, 232, 240, 0.9)';
           }}
         >
-          <img 
-            src={`${import.meta.env.BASE_URL}ChatGPT_Logo.webp`} 
-            alt="Mentee Logo" 
-            style={{ width: '100%', height: '100%', objectFit: 'cover', display: 'block' }} 
-            onError={(e) => {
-              e.target.style.display = 'none';
-              e.target.parentNode.style.background = 'linear-gradient(135deg, #4F7CFF 0%, #7469F8 100%)';
-              const el = document.createElement('span');
-              el.innerText = '✨';
-              el.style.fontSize = '16px';
-              e.target.parentNode.appendChild(el);
-            }}
-          />
-          {/* Online Dot */}
-          <span
-            style={{
-              position: 'absolute',
-              bottom: 0,
-              right: 0,
-              width: 10,
-              height: 10,
-              borderRadius: '50%',
-              background: '#10B981',
-              border: '2px solid #0F172A',
-              boxShadow: '0 0 6px rgba(16, 185, 129, 0.8)',
-              zIndex: 10
-            }}
-          />
-        </div>
+          <ArrowLeft size={18} strokeWidth={2.2} />
+        </button>
 
-        {/* Text */}
-        <div style={{ textAlign: 'left' }}>
-          <div style={{ display: 'flex', alignItems: 'center', gap: 6 }}>
-            <h4
-              style={{
-                fontFamily: 'var(--font-sans)',
-                fontSize: 15,
-                fontWeight: 700,
-                color: '#FFFFFF',
-                margin: 0,
-                letterSpacing: '-0.01em'
-              }}
-            >
-              Mentee
-            </h4>
-            <span
-              style={{
-                fontSize: 10,
-                fontWeight: 700,
-                color: '#4F7CFF',
-                background: 'rgba(79, 124, 255, 0.15)',
-                padding: '2px 6px',
-                borderRadius: 99,
-                letterSpacing: '0.04em'
-              }}
-            >
-              AI ADVISOR
-            </span>
-          </div>
-          <p
+        {/* Model Tag Pill */}
+        <div
+          style={{
+            display: 'inline-flex',
+            alignItems: 'center',
+            gap: 8,
+            padding: '5px 14px 5px 6px',
+            borderRadius: 99,
+            background: 'linear-gradient(135deg, rgba(99, 102, 241, 0.1) 0%, rgba(139, 92, 246, 0.16) 100%)',
+            border: '1.5px solid rgba(99, 102, 241, 0.22)',
+            boxShadow: '2px 2px 6px rgba(163, 177, 210, 0.16), -2px -2px 6px rgba(255, 255, 255, 0.9)',
+            cursor: 'default'
+          }}
+        >
+          <div
             style={{
-              fontFamily: 'var(--font-sans)',
-              fontSize: 12,
-              color: '#94A3B8',
-              margin: '2px 0 0 0'
-            }}
-          >
-            Your Personal Learning Guide
-          </p>
-        </div>
-      </div>
-
-      {/* Right Actions: Reset & Close */}
-      <div style={{ display: 'flex', alignItems: 'center', gap: 6 }}>
-        {onReset && (
-          <button
-            onClick={onReset}
-            title="Reset Chat"
-            style={{
-              background: 'rgba(255, 255, 255, 0.06)',
-              border: 'none',
+              width: 30,
+              height: 30,
               borderRadius: '50%',
-              width: 32,
-              height: 32,
+              overflow: 'hidden',
+              background: '#FFFFFF',
               display: 'flex',
               alignItems: 'center',
               justifyContent: 'center',
-              color: '#94A3B8',
+              boxShadow: '0 2px 6px rgba(99, 102, 241, 0.2)',
+              border: '1px solid rgba(99, 102, 241, 0.2)',
+              flexShrink: 0
+            }}
+          >
+            <img
+              src={`${import.meta.env.BASE_URL}Icon sized mascot.webp`}
+              alt="Mentee Icon"
+              style={{ width: '88%', height: '88%', objectFit: 'contain', display: 'block' }}
+            />
+          </div>
+          <span style={{ fontSize: 14.5, fontWeight: 800, color: '#3730A3', letterSpacing: '-0.015em' }}>
+            Mentee AI
+          </span>
+          <span
+            style={{
+              fontSize: 10.5,
+              fontWeight: 800,
+              color: '#059669',
+              background: 'rgba(16, 185, 129, 0.15)',
+              padding: '2px 6px',
+              borderRadius: 6,
+              marginLeft: 1
+            }}
+          >
+            v2.0
+          </span>
+        </div>
+      </div>
+
+      {/* Right Actions: Reset & Close / Back */}
+      <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
+        {onReset && isChatActive && (
+          <button
+            onClick={onReset}
+            title="New Chat / Reset"
+            style={{
+              display: 'inline-flex',
+              alignItems: 'center',
+              gap: 6,
+              padding: '7px 14px',
+              borderRadius: 99,
+              background: '#FFFFFF',
+              border: '1.2px solid rgba(226, 232, 240, 0.9)',
+              color: '#64748B',
+              fontSize: 12,
+              fontWeight: 600,
               cursor: 'pointer',
+              boxShadow: '3px 3px 8px rgba(163, 177, 210, 0.18), -3px -3px 8px rgba(255, 255, 255, 0.9)',
               transition: 'all 0.2s ease'
             }}
             onMouseEnter={(e) => {
-              e.currentTarget.style.color = '#FFFFFF';
-              e.currentTarget.style.background = 'rgba(255, 255, 255, 0.12)';
+              e.currentTarget.style.color = '#4338CA';
+              e.currentTarget.style.borderColor = 'rgba(99, 102, 241, 0.3)';
+              e.currentTarget.style.transform = 'translateY(-1px)';
             }}
             onMouseLeave={(e) => {
-              e.currentTarget.style.color = '#94A3B8';
-              e.currentTarget.style.background = 'rgba(255, 255, 255, 0.06)';
+              e.currentTarget.style.color = '#64748B';
+              e.currentTarget.style.borderColor = 'rgba(226, 232, 240, 0.9)';
+              e.currentTarget.style.transform = 'none';
             }}
           >
-            <RefreshCw size={15} />
+            <RefreshCw size={12} />
+            <span>New Chat</span>
           </button>
         )}
 
+        {/* Close Button (Cross / Back) */}
         <button
           onClick={onClose}
-          aria-label="Close Chat"
+          aria-label="Close Assistant"
+          title="Close (Esc)"
           style={{
-            background: 'rgba(255, 255, 255, 0.06)',
-            border: 'none',
+            width: 38,
+            height: 38,
             borderRadius: '50%',
-            width: 32,
-            height: 32,
+            background: '#FFFFFF',
+            border: '1.2px solid rgba(226, 232, 240, 0.9)',
             display: 'flex',
             alignItems: 'center',
             justifyContent: 'center',
-            color: '#94A3B8',
+            color: '#64748B',
             cursor: 'pointer',
+            boxShadow: '3px 3px 8px rgba(163, 177, 210, 0.18), -3px -3px 8px rgba(255, 255, 255, 0.9)',
             transition: 'all 0.2s ease'
           }}
           onMouseEnter={(e) => {
-            e.currentTarget.style.color = '#FFFFFF';
-            e.currentTarget.style.background = 'rgba(255, 255, 255, 0.12)';
+            e.currentTarget.style.color = '#EF4444';
+            e.currentTarget.style.background = '#FEF2F2';
+            e.currentTarget.style.borderColor = 'rgba(239, 68, 68, 0.2)';
+            e.currentTarget.style.transform = 'rotate(90deg)';
           }}
           onMouseLeave={(e) => {
-            e.currentTarget.style.color = '#94A3B8';
-            e.currentTarget.style.background = 'rgba(255, 255, 255, 0.06)';
+            e.currentTarget.style.color = '#64748B';
+            e.currentTarget.style.background = '#FFFFFF';
+            e.currentTarget.style.borderColor = 'rgba(226, 232, 240, 0.9)';
+            e.currentTarget.style.transform = 'none';
           }}
         >
           <X size={18} />
         </button>
       </div>
+
+      <style>{`
+        @keyframes spinSlow {
+          0% { transform: rotate(0deg); }
+          100% { transform: rotate(360deg); }
+        }
+      `}</style>
     </div>
   );
 }

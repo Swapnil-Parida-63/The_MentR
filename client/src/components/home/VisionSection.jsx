@@ -222,9 +222,9 @@ export default function VisionSection() {
               {/* Full vibrant 100% opacity illustration image */}
               <div style={{ position: 'relative', width: '100%', height: '240px', overflow: 'hidden' }}>
                 <picture style={{ width: '100%', height: '100%', display: 'block' }}>
-                  <source srcSet={`${import.meta.env.BASE_URL}Vision-Page-mobile.webp`} type="image/webp" />
+                  <source srcSet={`${import.meta.env.BASE_URL}Our vission-mobile.webp`} type="image/webp" />
                   <img 
-                    src={`${import.meta.env.BASE_URL}Vision-Page-mobile.webp`}
+                    src={`${import.meta.env.BASE_URL}Our vission-mobile.webp`}
                     alt="Vision Illustration"
                     loading="lazy"
                     width={768}
@@ -305,8 +305,8 @@ export default function VisionSection() {
                 externalHovered={visionImageHovered}
               />
               <EditorialImage
-                src={`${import.meta.env.BASE_URL}Vision-Page.webp`}
-                srcMobile={`${import.meta.env.BASE_URL}Vision-Page-mobile.webp`}
+                src={`${import.meta.env.BASE_URL}Our vission.webp`}
+                srcMobile={`${import.meta.env.BASE_URL}Our vission-mobile.webp`}
                 width={1200}
                 height={675}
                 aspectRatio="1672 / 941"
@@ -423,9 +423,9 @@ export default function VisionSection() {
               {/* Full vibrant 100% opacity illustration image */}
               <div style={{ position: 'relative', width: '100%', height: '240px', overflow: 'hidden' }}>
                 <picture style={{ width: '100%', height: '100%', display: 'block' }}>
-                  <source srcSet={`${import.meta.env.BASE_URL}Mission-Page-mobile.webp`} type="image/webp" />
+                  <source srcSet={`${import.meta.env.BASE_URL}Our mission-mobile.webp`} type="image/webp" />
                   <img 
-                    src={`${import.meta.env.BASE_URL}Mission-Page-mobile.webp`}
+                    src={`${import.meta.env.BASE_URL}Our mission-mobile.webp`}
                     alt="Mission Illustration"
                     loading="lazy"
                     width={768}
@@ -492,8 +492,8 @@ export default function VisionSection() {
               </svg>
 
               <EditorialImage
-                src={`${import.meta.env.BASE_URL}Mission-Page.webp`}
-                srcMobile={`${import.meta.env.BASE_URL}Mission-Page-mobile.webp`}
+                src={`${import.meta.env.BASE_URL}Our mission.webp`}
+                srcMobile={`${import.meta.env.BASE_URL}Our mission-mobile.webp`}
                 width={1200}
                 height={800}
                 aspectRatio="1536 / 1024"
@@ -571,9 +571,7 @@ export default function VisionSection() {
               textTransform: 'uppercase', color: '#6366F1',
               display: 'inline-flex', alignItems: 'center', gap: 8,
             }}>
-              <span style={{ display: 'inline-block', width: 24, height: 1, background: '#6366F1', verticalAlign: 'middle' }} />
               Our Journey So Far
-              <span style={{ display: 'inline-block', width: 24, height: 1, background: '#6366F1', verticalAlign: 'middle' }} />
             </span>
           </div>
 
@@ -761,16 +759,12 @@ function EditorialTextBlock({ eyebrow, eyebrowColor, heading, headingGradient, b
       <span style={{
         fontSize: 11, fontWeight: 700, letterSpacing: '0.16em',
         textTransform: 'uppercase', color: eyebrowColor,
-        display: 'inline-flex', alignItems: 'center', gap: 8,
+        display: 'inline-flex', alignItems: 'center',
         marginBottom: 22,
         opacity: inView ? 1 : 0,
         transform: inView ? 'translateY(0)' : 'translateY(12px)',
         transition: `opacity 0.8s ease ${delay + 80}ms, transform 0.8s ease ${delay + 80}ms`,
       }}>
-        <span style={{
-          display: 'inline-block', width: 20, height: 1.5,
-          background: eyebrowColor, verticalAlign: 'middle', borderRadius: 1,
-        }} />
         {eyebrow}
       </span>
 

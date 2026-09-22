@@ -185,7 +185,7 @@ export default function WhySection() {
               display: 'block',
               marginBottom: 16
             }}>
-              We are The MentR
+              We are TheMentR
             </span>
             
             <h2 
@@ -678,16 +678,16 @@ export default function WhySection() {
                   })}
                 </div>
 
-                           {/* Central "MentR Core" Live Engine Node */}
+                {/* Central "MentR Core" Live Engine Node */}
                 <motion.div 
                   whileHover={{ 
                     scale: 1.1, 
-                    boxShadow: '0 25px 60px rgba(124, 92, 255, 0.3), 0 0 20px rgba(79, 124, 255, 0.2), inset 0 0 20px rgba(255, 255, 255, 0.6)',
-                    borderColor: 'rgba(124, 92, 255, 0.65)'
+                    boxShadow: '0 25px 60px rgba(124, 92, 255, 0.35), 0 0 24px rgba(79, 124, 255, 0.25)',
+                    borderColor: 'rgba(124, 92, 255, 0.75)'
                   }}
                   animate={{
                     scale: hoveredModuleId ? 1.05 : [1, 1.02, 1],
-                    borderColor: hoveredModuleId ? 'rgba(124, 92, 255, 0.45)' : 'rgba(124, 92, 255, 0.35)'
+                    borderColor: hoveredModuleId ? 'rgba(124, 92, 255, 0.55)' : 'rgba(124, 92, 255, 0.4)'
                   }}
                   transition={{
                     scale: hoveredModuleId ? { type: 'spring', stiffness: 300, damping: 20 } : { repeat: Infinity, duration: 6, ease: "easeInOut" }
@@ -696,31 +696,28 @@ export default function WhySection() {
                     cursor: 'pointer',
                     transition: 'box-shadow 0.3s ease, border-color 0.3s ease',
                     position: 'absolute',
-                    width: 120,
-                    height: 120,
+                    width: 128,
+                    height: 128,
                     borderRadius: '50%',
-                    background: 'radial-gradient(circle at 35% 35%, #BAE6FD 0%, #C7D2FE 55%, #DDD6FE 100%)',
-                    border: '1.5px solid rgba(124, 92, 255, 0.35)',
-                    boxShadow: '0 20px 50px rgba(124, 92, 255, 0.18), 0 4px 16px rgba(15, 23, 42, 0.04), inset 0 0 20px rgba(255, 255, 255, 0.45)',
-                    backdropFilter: 'blur(16px)',
-                    WebkitBackdropFilter: 'blur(16px)',
+                    background: 'radial-gradient(circle at 35% 35%, #C7D2FE 0%, #DDD6FE 60%, #EEF2FF 100%)',
+                    border: '2.5px solid rgba(124, 92, 255, 0.55)',
+                    boxShadow: '0 20px 50px rgba(124, 92, 255, 0.25), 0 4px 16px rgba(15, 23, 42, 0.08), inset 0 0 20px rgba(255, 255, 255, 0.6)',
                     display: 'flex',
-                    flexDirection: 'column',
                     alignItems: 'center',
                     justifyContent: 'center',
                     zIndex: 5,
                     userSelect: 'none'
                   }}
                 >
-                  {/* Outer Pulsing ambient glows (Multiple layered delays) */}
+                  {/* Outer Pulsing ambient glows */}
                   <motion.div
                     animate={{ scale: [1, 1.35, 1], opacity: [0.35, 0, 0.35] }}
                     transition={{ repeat: Infinity, duration: 5, ease: "easeInOut" }}
                     style={{
                       position: 'absolute',
-                      inset: -12,
+                      inset: -14,
                       borderRadius: '50%',
-                      background: 'radial-gradient(circle, rgba(124, 92, 255, 0.12) 0%, transparent 70%)',
+                      background: 'radial-gradient(circle, rgba(124, 92, 255, 0.18) 0%, transparent 70%)',
                       filter: 'blur(6px)',
                       pointerEvents: 'none',
                       zIndex: -1
@@ -731,23 +728,10 @@ export default function WhySection() {
                     transition={{ repeat: Infinity, duration: 7, ease: "easeInOut", delay: 1 }}
                     style={{
                       position: 'absolute',
-                      inset: -24,
+                      inset: -26,
                       borderRadius: '50%',
-                      background: 'radial-gradient(circle, rgba(79, 124, 255, 0.08) 0%, transparent 70%)',
+                      background: 'radial-gradient(circle, rgba(79, 124, 255, 0.12) 0%, transparent 70%)',
                       filter: 'blur(8px)',
-                      pointerEvents: 'none',
-                      zIndex: -1
-                    }}
-                  />
-                  <motion.div
-                    animate={{ scale: [1, 1.8, 1], opacity: [0.15, 0, 0.15] }}
-                    transition={{ repeat: Infinity, duration: 9, ease: "easeInOut", delay: 2 }}
-                    style={{
-                      position: 'absolute',
-                      inset: -36,
-                      borderRadius: '50%',
-                      background: 'radial-gradient(circle, rgba(124, 92, 255, 0.05) 0%, transparent 70%)',
-                      filter: 'blur(10px)',
                       pointerEvents: 'none',
                       zIndex: -1
                     }}
@@ -761,7 +745,7 @@ export default function WhySection() {
                       position: 'absolute',
                       inset: -20,
                       borderRadius: '50%',
-                      border: '1.2px dashed rgba(124, 92, 255, 0.08)',
+                      border: '1.2px dashed rgba(124, 92, 255, 0.14)',
                       pointerEvents: 'none'
                     }}
                   />
@@ -770,48 +754,39 @@ export default function WhySection() {
                     transition={{ repeat: Infinity, duration: 60, ease: "linear" }}
                     style={{
                       position: 'absolute',
-                      inset: -40,
+                      inset: -38,
                       borderRadius: '50%',
-                      border: '1px dashed rgba(79, 124, 255, 0.06)',
+                      border: '1px dashed rgba(79, 124, 255, 0.1)',
                       pointerEvents: 'none'
                     }}
                   />
                   
-                  {/* Core micro-particles */}
-                  {[
-                    { id: 1, top: -10, left: 20, delay: 0 },
-                    { id: 2, top: 40, left: 120, delay: 1.5 },
-                    { id: 3, top: 110, left: 50, delay: 3 },
-                    { id: 4, top: 80, left: -20, delay: 0.5 },
-                  ].map(pt => (
-                    <motion.div
-                      key={`core-pt-${pt.id}`}
-                      animate={{
-                        x: [0, 8, -4, 0],
-                        y: [0, -10, 6, 0]
-                      }}
-                      transition={{
-                        repeat: Infinity,
-                        duration: 8,
-                        ease: "easeInOut",
-                        delay: pt.delay
-                      }}
+                  {/* Inner masked mascot container with balanced natural fitting */}
+                  <div
+                    style={{
+                      width: '100%',
+                      height: '100%',
+                      borderRadius: '50%',
+                      overflow: 'hidden',
+                      display: 'flex',
+                      alignItems: 'center',
+                      justifyContent: 'center',
+                      position: 'relative'
+                    }}
+                  >
+                    <img
+                      src={`${import.meta.env.BASE_URL}Icon sized mascot.webp`}
+                      alt="TheMentR Mascot"
+                      loading="eager"
                       style={{
-                        position: 'absolute',
-                        top: pt.top,
-                        left: pt.left,
-                        width: 3.5,
-                        height: 3.5,
-                        borderRadius: '50%',
-                        background: '#7C5CFF',
-                        opacity: 0.5,
-                        boxShadow: '0 0 6px #7C5CFF',
+                        width: '85%',
+                        height: '85%',
+                        objectFit: 'contain',
+                        display: 'block',
                         pointerEvents: 'none'
                       }}
                     />
-                  ))}
-                  
-                  <Logo height={52} showTm={true} style={{ pointerEvents: 'none' }} />
+                  </div>
                 </motion.div>
 
                 {/* Secondary Decorative Nodes (Pill badges, low opacity, connected off-screen) */}

@@ -102,9 +102,9 @@ export default function MessageBubble({ message, onActionClick }) {
             <User size={15} />
           ) : (
             <img 
-              src={`${import.meta.env.BASE_URL}ChatGPT_Logo.webp`} 
+              src={`${import.meta.env.BASE_URL}Icon sized mascot.webp`} 
               alt="Mentee Logo" 
-              style={{ width: '100%', height: '100%', objectFit: 'cover', display: 'block' }} 
+              style={{ width: '88%', height: '88%', objectFit: 'contain', display: 'block' }} 
               onError={(e) => {
                 e.target.style.display = 'none';
                 e.target.parentNode.style.background = 'linear-gradient(135deg, #4F7CFF 0%, #7469F8 100%)';
