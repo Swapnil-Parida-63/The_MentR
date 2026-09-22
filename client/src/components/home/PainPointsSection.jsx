@@ -309,8 +309,7 @@ export default function PainPointsSection() {
                   userSelect: 'none'
                 }}
               >
-                Multiple problems, only one solution.<br />
-                Here is TheMentR, where your search ends.
+                Finding the right teacher should not feel like luck.
               </motion.h3>
 
               {/* Collapsible paragraph - revealed on hover */}
