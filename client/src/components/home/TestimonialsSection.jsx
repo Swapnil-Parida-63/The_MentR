@@ -200,15 +200,9 @@ export default function TestimonialsSection() {
             </div>
         </div>
 
-        {/* Testimonial Filter Bar & Submit Feedback CTA */}
+        {/* Submit Feedback CTA */}
         <FadeUp delay={0.2}>
-          <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', gap: 16, marginBottom: 44, flexWrap: 'wrap' }}>
-            <div className="segmented-control">
-              <button onClick={() => setTypeFilter('all')} className={`filter-btn ${typeFilter === 'all' ? 'active' : ''}`}>All</button>
-              <button onClick={() => setTypeFilter('text')} className={`filter-btn ${typeFilter === 'text' ? 'active' : ''}`}>Text</button>
-              <button onClick={() => setTypeFilter('video')} className={`filter-btn ${typeFilter === 'video' ? 'active' : ''}`}>Video</button>
-            </div>
-
+          <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', marginBottom: 44 }}>
             <button
               type="button"
               onClick={() => {
@@ -220,7 +214,7 @@ export default function TestimonialsSection() {
                 setShowFeedbackModal(true);
               }}
               style={{
-                padding: '10px 22px',
+                padding: '10px 24px',
                 borderRadius: 99,
                 background: 'linear-gradient(135deg, #4F7CFF 0%, #7469F8 100%)',
                 color: '#FFFFFF',

@@ -285,7 +285,7 @@ export default function VerifyTeachersPage() {
               <Award size={22} color="#F59E0B" />
               <div style={{ textAlign: 'left' }}>
                 <div style={{ fontSize: 13, fontWeight: 800, color: '#FFF' }}>13+ Verified Teachers • 1,300+ Impact Hours</div>
-                <div style={{ fontSize: 11.5, color: '#94A3B8' }}>Bronze Crown Educators Recognition</div>
+                <div style={{ fontSize: 11.5, color: '#94A3B8' }}>Bronze Crown Teachers Recognition</div>
               </div>
             </div>
 

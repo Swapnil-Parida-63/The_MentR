@@ -251,7 +251,7 @@ export default function VisionSection() {
                   eyebrow="Our Vision"
                   eyebrowColor="#6366F1"
                   chipText="Future of Home Tuition"
-                  heading={<>Every student.<br />The right tutor.</>}
+                  heading={<>Every student.<br />The right teacher.</>}
                   headingGradient="linear-gradient(135deg, #1E293B 0%, #3730A3 100%)"
                   body="We envision a future where quality education is guided by purpose, not chance. Every learner deserves personalized mentorship, meaningful direction and measurable progress regardless of where they start."
                   pullQuote="Quality education is a right, not a privilege."
@@ -295,7 +295,7 @@ export default function VisionSection() {
                 eyebrow="Our Vision"
                 eyebrowColor="#6366F1"
                 chipText="✦ Future of Home Tuition"
-                heading={<>Every student.<br />The right tutor.</>}
+                heading={<>Every student.<br />The right teacher.</>}
                 headingGradient="linear-gradient(135deg, #1E293B 0%, #3730A3 100%)"
                 body="We envision a future where quality education is guided by purpose, not chance. Every learner deserves personalized mentorship, meaningful direction and measurable progress regardless of where they start."
                 pullQuote="Quality education is a right, not a privilege."
@@ -452,9 +452,9 @@ export default function VisionSection() {
                   eyebrow="Our Mission"
                   eyebrowColor="#8B5CF6"
                   chipText="Life-Changing Matches"
-                  heading={<>Every child understood.<br />Every tutor valued.</>}
+                  heading={<>Every child understood.<br />Every teacher valued.</>}
                   headingGradient="linear-gradient(135deg, #1E293B 0%, #6D28D9 100%)"
-                  body="We solve the overlooked challenges in learning: understanding the child, matching with the right educator and sustaining accountability over time. Because a great mentor changes the entire trajectory of a life."
+                  body="We solve the overlooked challenges in learning: understanding the child, matching with the right teacher and sustaining accountability over time. Because a great mentor changes the entire trajectory of a life."
                   pullQuote="The right match changes everything."
                   inView={missionInView}
                   metadata={['Verified Teachers', 'One-to-One Learning', 'Sustained Accountability']}
@@ -509,9 +509,9 @@ export default function VisionSection() {
                 eyebrow="Our Mission"
                 eyebrowColor="#8B5CF6"
                 chipText="✧ Life-Changing Matches"
-                heading={<>Every child understood.<br />Every tutor valued.</>}
+                heading={<>Every child understood.<br />Every teacher valued.</>}
                 headingGradient="linear-gradient(135deg, #1E293B 0%, #6D28D9 100%)"
-                body="We solve the overlooked challenges in learning: understanding the child, matching with the right educator and sustaining accountability over time. Because a great mentor changes the entire trajectory of a life."
+                body="We solve the overlooked challenges in learning: understanding the child, matching with the right teacher and sustaining accountability over time. Because a great mentor changes the entire trajectory of a life."
                 pullQuote="The right match changes everything."
                 inView={missionInView}
                 delay={200}
@@ -603,7 +603,7 @@ export default function VisionSection() {
               }}
             >
               {[
-                { year: '2012 Conceived', title: 'Planning & Research', desc: 'TheMentR was conceived with deep research into the gaps in India\'s home tutoring ecosystem, laying the foundation for a structured approach to education.', active: true, delay: 0 },
+                { year: '2012 Conceived', title: 'Planning & Research', desc: 'TheMentR was conceived with deep research into the gaps in India\'s home teaching ecosystem, laying the foundation for a structured approach to education.', active: true, delay: 0 },
                 { year: '2012-2022 R&D', title: 'Development Phase', desc: 'A decade of research, curriculum development, mentor training frameworks and ground-level testing across Bhubaneswar\'s personalized education system.', active: true, delay: 100 },
                 { year: '2023-2025 Launch', title: 'Platform Development', desc: 'TheMentR goes live, launching structured home assessments, the AVSAR programme and an Olympiad preparation track on our platform.', active: true, delay: 200 },
                 { year: '2025-2030 Roadmap', title: 'National Expansion', desc: '50 cities. 10,000+ verified teachers. AI-assisted matching, data-driven learning outcomes and a full national mentorship network, redefining the way India performs personal teaching and learning.', active: false, delay: 300 },

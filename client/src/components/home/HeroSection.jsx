@@ -349,7 +349,7 @@ function EcosystemAnalyticsGrid({ teacherCount, teachingHours, isMobile = false 
       iconColor: '#7C3AED',
       value: `${teachingHours.toFixed(1)}+`,
       label: 'Teaching Hours',
-      desc: 'Active hours of personalized 1-on-1 tutoring sessions.'
+      desc: 'Active hours of personalized 1-on-1 teaching sessions.'
     },
     {
       icon: <Target size={26} />,
@@ -543,7 +543,7 @@ export default function HeroSection() {
           >
             <img
               src={src}
-              alt={`TheMentR home tutor guiding student - story ${index + 1}`}
+              alt={`TheMentR home teacher guiding student - story ${index + 1}`}
               loading={index === 0 ? 'eager' : 'lazy'}
               fetchPriority={index === 0 ? 'high' : 'auto'}
               style={{

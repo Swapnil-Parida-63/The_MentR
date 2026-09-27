@@ -307,7 +307,7 @@ export default function Navbar() {
                               <div style={{ display: 'flex', flexDirection: 'column', gap: 6, paddingLeft: 8 }}>
                                 {[
                                   { title: 'TheMentR Parent App', desc: "Education doesn't feel like a burden, only when the parents stay informed.", targetId: 'showcase', tabId: 'parent' },
-                                  { title: 'TheMentR Teacher App', desc: 'Search for the verified home tutor ends here.', targetId: 'showcase', tabId: 'teacher' },
+                                  { title: 'TheMentR Teacher App', desc: 'Search for the verified home teacher ends here.', targetId: 'showcase', tabId: 'teacher' },
                                   { title: 'TheMentR Online App', desc: 'Connecting with you, no matter the location.', targetId: 'showcase', tabId: 'online' },
                                   { title: 'TheMentR Olympiad', desc: 'Growth can be felt only when evaluated', targetId: 'showcase', tabId: 'olympiad' }
                                 ].map(subItem => (
@@ -540,7 +540,7 @@ export default function Navbar() {
                       </button>
                       {[
                         { title: 'TheMentR Parent App', desc: "Education doesn't feel like a burden, only when the parents stay informed.", targetId: 'showcase', tabId: 'parent' },
-                        { title: 'TheMentR Teacher App', desc: 'Search for the verified home tutor ends here.', targetId: 'showcase', tabId: 'teacher' },
+                        { title: 'TheMentR Teacher App', desc: 'Search for the verified home teacher ends here.', targetId: 'showcase', tabId: 'teacher' },
                         { title: 'TheMentR Online App', desc: 'Connecting with you, no matter the location.', targetId: 'showcase', tabId: 'online' },
                         { title: 'TheMentR Olympiad', desc: 'Growth can be felt only when evaluated', targetId: 'showcase', tabId: 'olympiad' }
                       ].map(srv => (
@@ -731,10 +731,9 @@ export default function Navbar() {
           .glass-logo-badge:hover .logo-emblem-fill {
             filter: drop-shadow(0 4px 12px rgba(37, 99, 235, 0.4)) !important;
           }
-          .glass-logo-badge:hover .tm-badge-circle {
-            transform: scale(1.15) rotate(6deg) !important;
-            border-color: #2563EB !important;
-            box-shadow: 0 4px 12px rgba(37, 99, 235, 0.35) !important;
+          .glass-logo-badge:hover .tm-badge-text {
+            transform: scale(1.15) !important;
+            color: #1D4ED8 !important;
           }
         }
       `}</style>

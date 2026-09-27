@@ -32,7 +32,7 @@ export default function EmptyState({ onSelectPrompt, onClose, mobileStep = 'welc
     {
       id: 'teachers',
       title: 'Find a Teacher',
-      desc: '1-on-1 verified home and online tutors for CBSE & ICSE',
+      desc: '1-on-1 verified home and online teachers for CBSE & ICSE',
       color: '#2563EB',
       badgeBg: 'rgba(37, 99, 235, 0.12)',
       dotColor: '#93C5FD',
@@ -68,7 +68,7 @@ export default function EmptyState({ onSelectPrompt, onClose, mobileStep = 'welc
       color: '#4F7CFF',
       bg: 'rgba(79, 124, 255, 0.08)',
       title: 'Find Verified Teachers',
-      desc: 'Match with 1-on-1 home or online tutors for CBSE, ICSE & State Boards',
+      desc: 'Match with 1-on-1 home or online teachers for CBSE, ICSE & State Boards',
       prompt: 'Help me find a verified teacher for my child'
     },
     {

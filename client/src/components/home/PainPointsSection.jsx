@@ -35,8 +35,8 @@ export default function PainPointsSection() {
     },
     {
       id: 'fam-3',
-      title: 'Every wrong tutor costs',
-      description: 'Switching tutors repeatedly drains both time and valuable family resources.',
+      title: 'Every wrong teacher costs',
+      description: 'Switching teachers repeatedly drains both time and valuable family resources.',
       icon: Hourglass
     },
     {
@@ -240,36 +240,36 @@ export default function PainPointsSection() {
             ...(isMobile ? {
               background: '#FFFFFF',
               borderRadius: '28px',
-              padding: '28px 20px',
+              padding: '0 20px 24px 20px',
               border: '1.2px solid rgba(79, 124, 255, 0.12)',
               boxShadow: '0 8px 30px rgba(79, 124, 255, 0.06)',
               overflow: 'hidden'
             } : {})
           }}>
-            {/* Mobile Background Image - Parent Pain Points */}
+            {/* Mobile Top Illustration Banner */}
             {isMobile && (
               <div
                 style={{
-                  position: 'absolute',
-                  inset: 0,
-                  pointerEvents: 'none',
-                  zIndex: 0,
-                  borderRadius: '28px',
-                  overflow: 'hidden'
+                  margin: '0 -20px 20px -20px',
+                  background: 'linear-gradient(180deg, #EEF2FF 0%, #FFFFFF 100%)',
+                  padding: '20px 20px 10px',
+                  borderBottom: '1px solid rgba(79, 124, 255, 0.08)',
+                  display: 'flex',
+                  justifyContent: 'center',
+                  alignItems: 'center'
                 }}
               >
                 <img
-                  src={`${import.meta.env.BASE_URL}ChatGPT Image Aug 10, 2026, 05_05_57 AM.webp`}
-                  alt=""
+                  src={`${import.meta.env.BASE_URL}Parents-Pain-Point-mobile.webp`}
+                  alt="Parents challenges in finding verified teachers for students"
                   loading="lazy"
+                  decoding="async"
+                  width="720"
+                  height="480"
                   style={{
                     width: '100%',
-                    height: '100%',
-                    objectFit: 'cover',
-                    opacity: 0.65,
-                    mixBlendMode: 'multiply',
-                    WebkitMaskImage: 'radial-gradient(ellipse at center, rgba(0,0,0,1) 60%, rgba(0,0,0,0.2) 100%)',
-                    maskImage: 'radial-gradient(ellipse at center, rgba(0,0,0,1) 60%, rgba(0,0,0,0.2) 100%)'
+                    maxHeight: '200px',
+                    objectFit: 'contain'
                   }}
                 />
               </div>
@@ -338,57 +338,73 @@ export default function PainPointsSection() {
               {/* Parent Hotspots / Mobile list */}
               {isMobile ? (
                 /* Mobile Zig-zag list (Left aligned) */
-                <div style={{ display: 'flex', flexDirection: 'column', gap: '28px', marginTop: '36px' }}>
-                  {parentPoints.map(point => (
-                    <div key={point.id} style={{ display: 'flex', gap: '16px', alignItems: 'flex-start', textAlign: 'left' }}>
-                      <div style={{
-                        width: 44, height: 44, borderRadius: '50%',
-                        background: '#FFFFFF', border: '1px solid rgba(79, 124, 255, 0.1)',
-                        display: 'flex', alignItems: 'center', justifyContent: 'center',
-                        color: '#4F7CFF', flexShrink: 0,
-                        boxShadow: '0 4px 12px rgba(79, 124, 255, 0.05)'
-                      }}>
-                        <point.icon size={20} strokeWidth={2.2} />
-                      </div>
+                <div style={{ display: 'flex', flexDirection: 'column', gap: '14px', marginTop: '28px' }}>
+                  {parentPoints.map(point => {
+                    const isExpanded = expandedParentPoint === point.id;
+                    return (
                       <div 
-                        onClick={() => setExpandedParentPoint(expandedParentPoint === point.id ? null : point.id)}
+                        key={point.id} 
+                        onClick={() => setExpandedParentPoint(isExpanded ? null : point.id)}
                         style={{ 
-                          cursor: 'pointer', 
-                          userSelect: 'none', 
-                          flex: 1,
+                          display: 'flex', 
+                          gap: '14px', 
+                          alignItems: 'flex-start', 
+                          textAlign: 'left',
+                          background: isExpanded ? 'rgba(255, 255, 255, 0.98)' : 'rgba(255, 255, 255, 0.90)',
+                          backdropFilter: 'blur(12px)',
+                          WebkitBackdropFilter: 'blur(12px)',
+                          border: isExpanded ? '1.5px solid rgba(79, 124, 255, 0.28)' : '1px solid rgba(79, 124, 255, 0.12)',
+                          borderRadius: '16px',
+                          padding: '12px 14px',
+                          boxShadow: isExpanded ? '0 6px 20px rgba(79, 124, 255, 0.08)' : '0 2px 8px rgba(15, 23, 42, 0.03)',
+                          cursor: 'pointer',
+                          userSelect: 'none',
                           touchAction: 'manipulation',
-                          WebkitTapHighlightColor: 'transparent'
+                          WebkitTapHighlightColor: 'transparent',
+                          transition: 'all 0.2s ease'
                         }}
                       >
-                        <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
-                          <h4 style={{ margin: '0 0 4px', fontSize: 18, fontWeight: 700, color: '#1E293B' }}>{point.title}</h4>
-                          <span style={{ 
-                            fontSize: 16, 
-                            fontWeight: 'bold', 
-                            color: expandedParentPoint === point.id ? '#4F7CFF' : '#94A3B8',
-                            transition: 'transform 0.18s cubic-bezier(0.2, 0, 0, 1), color 0.15s ease',
-                            transform: expandedParentPoint === point.id ? 'rotate(45deg)' : 'rotate(0deg)',
-                            display: 'inline-block',
-                            lineHeight: 1
-                          }}>+</span>
+                        <div style={{
+                          width: 40, height: 40, borderRadius: '50%',
+                          background: isExpanded ? '#EFF6FF' : '#F8FAFC', 
+                          border: '1px solid rgba(79, 124, 255, 0.15)',
+                          display: 'flex', alignItems: 'center', justifyContent: 'center',
+                          color: '#4F7CFF', flexShrink: 0,
+                          boxShadow: '0 2px 6px rgba(79, 124, 255, 0.08)'
+                        }}>
+                          <point.icon size={18} strokeWidth={2.2} />
                         </div>
-                        <div 
-                          style={{ 
-                            maxHeight: expandedParentPoint === point.id ? '160px' : '0px',
-                            opacity: expandedParentPoint === point.id ? 1 : 0,
-                            overflow: 'hidden',
-                            transition: 'max-height 0.18s cubic-bezier(0, 0, 0.2, 1), opacity 0.15s ease-out',
-                            willChange: 'max-height, opacity',
-                            transform: 'translateZ(0)'
-                          }}
-                        >
-                          <p style={{ margin: '4px 0 0', fontSize: 13.5, lineHeight: 1.5, color: '#64748B' }}>
-                            {point.description}
-                          </p>
+                        <div style={{ flex: 1 }}>
+                          <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: 8 }}>
+                            <h4 style={{ margin: 0, fontSize: 16, fontWeight: 700, color: '#0F172A', lineHeight: 1.3 }}>{point.title}</h4>
+                            <span style={{ 
+                              fontSize: 16, 
+                              fontWeight: 'bold', 
+                              color: isExpanded ? '#4F7CFF' : '#64748B',
+                              transition: 'transform 0.18s cubic-bezier(0.2, 0, 0, 1), color 0.15s ease',
+                              transform: isExpanded ? 'rotate(45deg)' : 'rotate(0deg)',
+                              display: 'inline-block',
+                              lineHeight: 1
+                            }}>+</span>
+                          </div>
+                          <div 
+                            style={{ 
+                              maxHeight: isExpanded ? '160px' : '0px',
+                              opacity: isExpanded ? 1 : 0,
+                              overflow: 'hidden',
+                              transition: 'max-height 0.2s cubic-bezier(0, 0, 0.2, 1), opacity 0.18s ease-out',
+                              willChange: 'max-height, opacity',
+                              transform: 'translateZ(0)'
+                            }}
+                          >
+                            <p style={{ margin: '8px 0 2px', fontSize: 13.5, lineHeight: 1.55, color: '#1E293B', fontWeight: 500 }}>
+                              {point.description}
+                            </p>
+                          </div>
                         </div>
                       </div>
-                    </div>
-                  ))}
+                    );
+                  })}
                 </div>
               ) : (
                 /* Desktop Hotspots Row - always visible */
@@ -495,9 +511,12 @@ export default function PainPointsSection() {
             >
               <div style={{ position: 'relative', width: '100%', display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
                 <motion.img 
-                  src={`${import.meta.env.BASE_URL}ChatGPT Image Jul 31, 2026, 01_55_40 AM.webp`}
-                  alt="Families searching and lost in educational choices"
+                  src={`${import.meta.env.BASE_URL}Parents Pain Point.webp`}
+                  alt="Parents searching and finding verified home teachers with TheMentR"
                   loading="lazy"
+                  decoding="async"
+                  width="1536"
+                  height="1024"
                   whileHover={{ 
                     scale: 1.02,
                     y: -5
@@ -683,9 +702,12 @@ export default function PainPointsSection() {
             >
               <div style={{ position: 'relative', width: '100%', display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
                 <motion.img 
-                  src={`${import.meta.env.BASE_URL}ChatGPT Image Jul 31, 2026, 01_57_32 AM.webp`}
-                  alt="Brilliant educators waiting to be discovered"
+                  src={`${import.meta.env.BASE_URL}Teachers Pain Point.webp`}
+                  alt="Exceptional teachers gaining professional recognition and matched students with TheMentR"
                   loading="lazy"
+                  decoding="async"
+                  width="1536"
+                  height="1024"
                   whileHover={{ 
                     scale: 1.02,
                     y: -5
@@ -724,7 +746,7 @@ export default function PainPointsSection() {
                 >
                   <Award size={16} style={{ color: '#7B61FF' }} />
                   <div>
-                    <div style={{ fontSize: 11, fontWeight: 700, color: '#1E293B' }}>Elite Educator Rank</div>
+                    <div style={{ fontSize: 11, fontWeight: 700, color: '#1E293B' }}>Elite Teacher Rank</div>
                     <div style={{ fontSize: 9, color: '#64748B' }}>Top 2% Vetted Talents</div>
                   </div>
                 </motion.div>
@@ -811,43 +833,43 @@ export default function PainPointsSection() {
           )}
 
           <div style={{
-            textAlign: isMobile ? 'right' : 'left',
+            textAlign: 'left',
             maxWidth: 480,
             justifySelf: isMobile ? 'stretch' : 'end',
             position: 'relative',
             ...(isMobile ? {
               background: '#FFFFFF',
               borderRadius: '28px',
-              padding: '28px 20px',
+              padding: '0 20px 24px 20px',
               border: '1.2px solid rgba(123, 97, 255, 0.12)',
               boxShadow: '0 8px 30px rgba(123, 97, 255, 0.06)',
               overflow: 'hidden'
             } : {})
           }}>
-            {/* Mobile Background Image - Teacher Pain Points */}
+            {/* Mobile Top Illustration Banner */}
             {isMobile && (
               <div
                 style={{
-                  position: 'absolute',
-                  inset: 0,
-                  pointerEvents: 'none',
-                  zIndex: 0,
-                  borderRadius: '28px',
-                  overflow: 'hidden'
+                  margin: '0 -20px 20px -20px',
+                  background: 'linear-gradient(180deg, #F5F2FF 0%, #FFFFFF 100%)',
+                  padding: '20px 20px 10px',
+                  borderBottom: '1px solid rgba(123, 97, 255, 0.08)',
+                  display: 'flex',
+                  justifyContent: 'center',
+                  alignItems: 'center'
                 }}
               >
                 <img
-                  src={`${import.meta.env.BASE_URL}ChatGPT Image Aug 10, 2026, 05_02_57 AM.webp`}
-                  alt=""
+                  src={`${import.meta.env.BASE_URL}Teachers-Pain-Point-mobile.webp`}
+                  alt="Great teachers deserved to be discovered and valued"
                   loading="lazy"
+                  decoding="async"
+                  width="720"
+                  height="480"
                   style={{
                     width: '100%',
-                    height: '100%',
-                    objectFit: 'cover',
-                    opacity: 0.65,
-                    mixBlendMode: 'multiply',
-                    WebkitMaskImage: 'radial-gradient(ellipse at center, rgba(0,0,0,1) 60%, rgba(0,0,0,0.2) 100%)',
-                    maskImage: 'radial-gradient(ellipse at center, rgba(0,0,0,1) 60%, rgba(0,0,0,0.2) 100%)'
+                    maxHeight: '200px',
+                    objectFit: 'contain'
                   }}
                 />
               </div>
@@ -915,58 +937,74 @@ export default function PainPointsSection() {
 
               {/* Educator Hotspots / Mobile list */}
               {isMobile ? (
-                /* Mobile Zig-zag list (Right aligned) */
-                <div style={{ display: 'flex', flexDirection: 'column', gap: '28px', marginTop: '36px' }}>
-                  {educatorPoints.map(point => (
-                    <div key={point.id} style={{ display: 'flex', gap: '16px', alignItems: 'flex-start', flexDirection: 'row-reverse', textAlign: 'right' }}>
-                      <div style={{
-                        width: 44, height: 44, borderRadius: '50%',
-                        background: '#FFFFFF', border: '1px solid rgba(123, 97, 255, 0.1)',
-                        display: 'flex', alignItems: 'center', justifyContent: 'center',
-                        color: '#7B61FF', flexShrink: 0,
-                        boxShadow: '0 4px 12px rgba(123, 97, 255, 0.05)'
-                      }}>
-                        <point.icon size={20} strokeWidth={2.2} />
-                      </div>
+                /* Mobile list */
+                <div style={{ display: 'flex', flexDirection: 'column', gap: '14px', marginTop: '28px' }}>
+                  {educatorPoints.map(point => {
+                    const isExpanded = expandedTeacherPoint === point.id;
+                    return (
                       <div 
-                        onClick={() => setExpandedTeacherPoint(expandedTeacherPoint === point.id ? null : point.id)}
+                        key={point.id} 
+                        onClick={() => setExpandedTeacherPoint(isExpanded ? null : point.id)}
                         style={{ 
-                          cursor: 'pointer', 
-                          userSelect: 'none', 
-                          flex: 1,
+                          display: 'flex', 
+                          gap: '14px', 
+                          alignItems: 'flex-start', 
+                          textAlign: 'left',
+                          background: isExpanded ? 'rgba(255, 255, 255, 0.98)' : 'rgba(255, 255, 255, 0.90)',
+                          backdropFilter: 'blur(12px)',
+                          WebkitBackdropFilter: 'blur(12px)',
+                          border: isExpanded ? '1.5px solid rgba(123, 97, 255, 0.28)' : '1px solid rgba(123, 97, 255, 0.12)',
+                          borderRadius: '16px',
+                          padding: '12px 14px',
+                          boxShadow: isExpanded ? '0 6px 20px rgba(123, 97, 255, 0.08)' : '0 2px 8px rgba(15, 23, 42, 0.03)',
+                          cursor: 'pointer',
+                          userSelect: 'none',
                           touchAction: 'manipulation',
-                          WebkitTapHighlightColor: 'transparent'
+                          WebkitTapHighlightColor: 'transparent',
+                          transition: 'all 0.2s ease'
                         }}
                       >
-                        <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
-                          <span style={{ 
-                            fontSize: 16, 
-                            fontWeight: 'bold', 
-                            color: expandedTeacherPoint === point.id ? '#7B61FF' : '#94A3B8',
-                            transition: 'transform 0.18s cubic-bezier(0.2, 0, 0, 1), color 0.15s ease',
-                            transform: expandedTeacherPoint === point.id ? 'rotate(45deg)' : 'rotate(0deg)',
-                            display: 'inline-block',
-                            lineHeight: 1
-                          }}>+</span>
-                          <h4 style={{ margin: '0 0 4px', fontSize: 18, fontWeight: 700, color: '#1E293B' }}>{point.title}</h4>
+                        <div style={{
+                          width: 40, height: 40, borderRadius: '50%',
+                          background: isExpanded ? '#F5F3FF' : '#F8FAFC', 
+                          border: '1px solid rgba(123, 97, 255, 0.15)',
+                          display: 'flex', alignItems: 'center', justifyContent: 'center',
+                          color: '#7B61FF', flexShrink: 0,
+                          boxShadow: '0 2px 6px rgba(123, 97, 255, 0.08)'
+                        }}>
+                          <point.icon size={18} strokeWidth={2.2} />
                         </div>
-                        <div 
-                          style={{ 
-                            maxHeight: expandedTeacherPoint === point.id ? '160px' : '0px',
-                            opacity: expandedTeacherPoint === point.id ? 1 : 0,
-                            overflow: 'hidden',
-                            transition: 'max-height 0.18s cubic-bezier(0, 0, 0.2, 1), opacity 0.15s ease-out',
-                            willChange: 'max-height, opacity',
-                            transform: 'translateZ(0)'
-                          }}
-                        >
-                          <p style={{ margin: '4px 0 0', fontSize: 13.5, lineHeight: 1.5, color: '#64748B' }}>
-                            {point.description}
-                          </p>
+                        <div style={{ flex: 1 }}>
+                          <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: 8 }}>
+                            <h4 style={{ margin: 0, fontSize: 16, fontWeight: 700, color: '#0F172A', lineHeight: 1.3 }}>{point.title}</h4>
+                            <span style={{ 
+                              fontSize: 16, 
+                              fontWeight: 'bold', 
+                              color: isExpanded ? '#7B61FF' : '#64748B',
+                              transition: 'transform 0.18s cubic-bezier(0.2, 0, 0, 1), color 0.15s ease',
+                              transform: isExpanded ? 'rotate(45deg)' : 'rotate(0deg)',
+                              display: 'inline-block',
+                              lineHeight: 1
+                            }}>+</span>
+                          </div>
+                          <div 
+                            style={{ 
+                              maxHeight: isExpanded ? '160px' : '0px',
+                              opacity: isExpanded ? 1 : 0,
+                              overflow: 'hidden',
+                              transition: 'max-height 0.2s cubic-bezier(0, 0, 0.2, 1), opacity 0.18s ease-out',
+                              willChange: 'max-height, opacity',
+                              transform: 'translateZ(0)'
+                            }}
+                          >
+                            <p style={{ margin: '8px 0 2px', fontSize: 13.5, lineHeight: 1.55, color: '#1E293B', fontWeight: 500 }}>
+                              {point.description}
+                            </p>
+                          </div>
                         </div>
                       </div>
-                    </div>
-                  ))}
+                    );
+                  })}
                 </div>
               ) : (
                 /* Desktop Hotspots Row - always visible */

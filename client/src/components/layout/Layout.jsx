@@ -14,15 +14,12 @@ export default function Layout() {
   const isPricingPage = location.pathname === '/pricing';
   const isVerifyPage = location.pathname.startsWith('/verify');
 
-  const mainStyle = isLandingPage
-    ? { flex: 1, position: 'relative', zIndex: 1 }
-    : { 
-        flex: 1, 
-        position: 'relative', 
-        zIndex: 1, 
-        background: '#8f95f6',
-        minHeight: '100vh'
-      };
+  const mainStyle = { 
+    flex: 1, 
+    position: 'relative', 
+    zIndex: 1, 
+    minHeight: '100vh'
+  };
 
   return (
     <ClickSpark sparkColor="#4F7CFF" sparkSize={10} sparkRadius={24} sparkCount={8} duration={400}>

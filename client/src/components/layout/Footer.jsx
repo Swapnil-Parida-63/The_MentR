@@ -1,5 +1,5 @@
 import { Link, useNavigate } from 'react-router-dom';
-import { FaInstagram, FaLinkedinIn, FaXTwitter, FaFacebookF, FaWhatsapp, FaEnvelope } from 'react-icons/fa6';
+import { FaInstagram, FaLinkedinIn, FaXTwitter, FaFacebookF, FaWhatsapp, FaEnvelope, FaYoutube } from 'react-icons/fa6';
 import Logo from '../common/Logo';
 import { useModal } from '../../context/ModalContext';
 
@@ -22,6 +22,7 @@ export default function Footer() {
   const socialLinks = [
     { icon: <FaEnvelope size={15} />, label: 'Email', href: 'mailto:contact@thementr.com' },
     { icon: <FaWhatsapp size={15} />, label: 'WhatsApp', href: 'https://wa.me/919668562631' },
+    { icon: <FaYoutube size={15} />, label: 'YouTube', href: 'https://www.youtube.com/@TheMentRNetwork' },
     { icon: <FaInstagram size={15} />, label: 'Instagram', href: 'https://www.instagram.com/thementrnetwork?igsh=MWRkOWh4eWI0ODg5dA==' },
     { icon: <FaLinkedinIn size={15} />, label: 'LinkedIn', href: 'https://www.linkedin.com/company/thementrnetwork/' },
     { icon: <FaXTwitter size={15} />, label: 'Twitter', href: 'https://x.com/TheMentRNetwork' },

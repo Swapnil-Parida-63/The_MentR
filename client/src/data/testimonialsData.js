@@ -26,7 +26,7 @@ export const testimonialsData = [
     verified: true,
     rating: 5,
     quote: "Thank you, I felt very happy with all the respected staff & MD sir. This Environment is very friendly.",
-    fullStory: "Thank you, I felt very happy with all the respected staff & MD sir. This Environment is very friendly and supportive for tutors.",
+    fullStory: "Thank you, I felt very happy with all the respected staff & MD sir. This Environment is very friendly and supportive for teachers.",
     createdAt: '2025-06-08'
   },
   {
@@ -39,7 +39,7 @@ export const testimonialsData = [
     verified: true,
     rating: 5,
     quote: "Thank you everyone. Great opportunity. Friendly & polite behaviour. Good Initiative.",
-    fullStory: "Thank you everyone. Great opportunity. Friendly & polite behaviour. Good Initiative to match verified tutors with motivated families.",
+    fullStory: "Thank you everyone. Great opportunity. Friendly & polite behaviour. Good Initiative to match verified teachers with motivated families.",
     createdAt: '2025-06-05'
   },
   {
@@ -64,8 +64,8 @@ export const testimonialsData = [
     location: 'Bajapur, Puri',
     verified: true,
     rating: 5,
-    quote: "Very friendly atmosphere, friendly and supportive staff. It's my first experience as a tutor and very excited for the journey. Thank you.",
-    fullStory: "Very friendly atmosphere, friendly and supportive staff. It's my first experience as a tutor and very excited for the journey. The onboarding guides were extremely helpful. Thank you.",
+    quote: "Very friendly atmosphere, friendly and supportive staff. It's my first experience as a teacher and very excited for the journey. Thank you.",
+    fullStory: "Very friendly atmosphere, friendly and supportive staff. It's my first experience as a teacher and very excited for the journey. The onboarding guides were extremely helpful. Thank you.",
     createdAt: '2025-05-28'
   },
   {

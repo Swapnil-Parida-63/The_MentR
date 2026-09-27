@@ -726,7 +726,7 @@ export default function AvsarSection({ isStandalonePage = false }) {
                   style={{ overflow: 'hidden' }}
                 >
                   <p style={{ fontSize: 13, color: '#64748B', lineHeight: 1.6, margin: 0 }}>
-                    Actively teaching across multiple boards and learning formats. Every educator earns their place through our 7-stage rigorous evaluation.
+                    Actively teaching across multiple boards and learning formats. Every teacher earns their place through our 7-stage rigorous evaluation.
                   </p>
                 </motion.div>
               </div>
@@ -736,7 +736,8 @@ export default function AvsarSection({ isStandalonePage = false }) {
             <div style={{
               display: 'grid',
               gridTemplateColumns: 'repeat(3, 1fr)',
-              gap: '30px'
+              gap: '30px',
+              alignItems: 'stretch'
             }}>
               
               {/* Card 1: 96% Ring chart */}
@@ -746,17 +747,16 @@ export default function AvsarSection({ isStandalonePage = false }) {
                 style={{
                   background: '#FFFFFF',
                   borderRadius: '24px',
-                  padding: '28px 30px',
+                  padding: '24px 28px',
                   border: '1.2px solid rgba(99, 102, 241, 0.1)',
                   boxShadow: hoveredCard === 'satisfaction' 
                     ? '0 20px 40px rgba(99, 102, 241, 0.05)' 
                     : '0 4px 15px rgba(10, 22, 40, 0.01)',
                   display: 'flex',
                   flexDirection: 'column',
-                  gap: '12px',
-                  justifyContent: 'center',
+                  gap: '10px',
+                  justifyContent: 'flex-start',
                   minHeight: '170px',
-                  height: '170px',
                   boxSizing: 'border-box',
                   transition: 'all 0.35s cubic-bezier(0.16, 1, 0.3, 1)'
                 }}
@@ -784,13 +784,13 @@ export default function AvsarSection({ isStandalonePage = false }) {
                 <motion.div
                   initial={{ opacity: 0, height: 0, marginTop: 0 }}
                   animate={hoveredCard === 'satisfaction'
-                    ? { opacity: 1, height: 'auto', marginTop: 12 }
+                    ? { opacity: 1, height: 'auto', marginTop: 10 }
                     : { opacity: 0, height: 0, marginTop: 0 }
                   }
                   transition={{ duration: 0.35, ease: 'easeOut' }}
                   style={{ overflow: 'hidden' }}
                 >
-                  <p style={{ fontSize: 13.5, color: '#64748B', lineHeight: 1.6, margin: 0 }}>
+                  <p style={{ fontSize: 13.5, color: '#475569', lineHeight: 1.55, margin: 0, fontWeight: 450 }}>
                     96% of parents say they would confidently recommend TheMentR to another family.
                   </p>
                 </motion.div>
@@ -803,17 +803,16 @@ export default function AvsarSection({ isStandalonePage = false }) {
                 style={{
                   background: '#FFFFFF',
                   borderRadius: '24px',
-                  padding: '28px 30px',
+                  padding: '24px 28px',
                   border: '1.2px solid rgba(99, 102, 241, 0.1)',
                   boxShadow: hoveredCard === 'rating' 
                     ? '0 20px 40px rgba(99, 102, 241, 0.05)' 
                     : '0 4px 15px rgba(10, 22, 40, 0.01)',
                   display: 'flex',
                   flexDirection: 'column',
-                  gap: '12px',
-                  justifyContent: 'center',
+                  gap: '10px',
+                  justifyContent: 'flex-start',
                   minHeight: '170px',
-                  height: '170px',
                   boxSizing: 'border-box',
                   transition: 'all 0.35s cubic-bezier(0.16, 1, 0.3, 1)'
                 }}
@@ -841,13 +840,13 @@ export default function AvsarSection({ isStandalonePage = false }) {
                 <motion.div
                   initial={{ opacity: 0, height: 0, marginTop: 0 }}
                   animate={hoveredCard === 'rating'
-                    ? { opacity: 1, height: 'auto', marginTop: 12 }
+                    ? { opacity: 1, height: 'auto', marginTop: 10 }
                     : { opacity: 0, height: 0, marginTop: 0 }
                   }
                   transition={{ duration: 0.35, ease: 'easeOut' }}
                   style={{ overflow: 'hidden' }}
                 >
-                  <p style={{ fontSize: 13.5, color: '#64748B', lineHeight: 1.6, margin: 0 }}>
+                  <p style={{ fontSize: 13.5, color: '#475569', lineHeight: 1.55, margin: 0, fontWeight: 450 }}>
                     Maintained through continuous parent reviews and quality monitoring of learning journeys.
                   </p>
                 </motion.div>
@@ -869,7 +868,6 @@ export default function AvsarSection({ isStandalonePage = false }) {
                   flexDirection: 'column',
                   justifyContent: 'center',
                   minHeight: '170px',
-                  height: '170px',
                   boxSizing: 'border-box',
                   transition: 'all 0.35s cubic-bezier(0.16, 1, 0.3, 1)',
                   position: 'relative',

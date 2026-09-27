@@ -82,31 +82,24 @@ export default function Logo({
         style={{ display: 'none' }}
       />
 
-      {/* Clearer, Crisp TM Trademark Badge */}
+      {/* Clean TM Trademark Badge (No Circle) */}
       {showTm && (
         <span
-          className="tm-badge-circle"
+          className="tm-badge-text"
           style={{
             position: 'absolute',
-            top: shouldUseBackground ? 7 : 1,
-            right: shouldUseBackground ? 9 : 0,
-            width: 10,
-            height: 10,
-            borderRadius: '50%',
-            background: 'rgba(255, 255, 255, 0.96)',
-            border: '1px solid #2563EB',
-            color: '#1D4ED8',
-            fontSize: '5.5px',
+            top: shouldUseBackground ? 6 : 1,
+            right: shouldUseBackground ? 8 : 1,
+            color: '#2563EB',
+            fontSize: '7.5px',
             fontWeight: 850,
             fontFamily: 'var(--font-sans, system-ui, sans-serif)',
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'center',
-            boxShadow: '0 1.5px 4px rgba(37, 99, 235, 0.22)',
             lineHeight: 1,
             zIndex: 3,
             transition: 'all 0.2s ease',
-            pointerEvents: 'none'
+            pointerEvents: 'none',
+            userSelect: 'none',
+            letterSpacing: '0.02em'
           }}
           title="Registered Trademark"
         >

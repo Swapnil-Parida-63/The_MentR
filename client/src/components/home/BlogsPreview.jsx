@@ -36,7 +36,7 @@ export default function BlogsPreview() {
             </FadeUp>
             <FadeUp delay={0.2}>
               <p className="journal-subtitle">
-                Research, expert advice and practical learning strategies for students, parents and educators.
+                Research, expert advice and practical learning strategies for students, parents and teachers.
               </p>
             </FadeUp>
           </div>
@@ -138,7 +138,7 @@ export default function BlogsPreview() {
                   articleId: 8,
                   tagClass: 'tag-parents', 
                   tagText: 'Parents', 
-                  title: 'How do I hire the right home tutor in Bhubaneswar?', 
+                  title: 'How do I hire the right home teacher in Bhubaneswar?', 
                   desc: 'Find verified subject experts, personalised learning, and structured mentorship with TheMentR in Bhubaneswar.', 
                   time: '6 min read' 
                 },

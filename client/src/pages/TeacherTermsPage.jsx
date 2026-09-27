@@ -270,7 +270,7 @@ export default function TermsPage() {
 
               <h3 style={{ fontSize: 20, fontWeight: 700, color: '#0F172A', marginTop: 28, marginBottom: 12 }}>2. WHO WE ARE</h3>
               <p>
-                BUDIN Candor Private Limited is a company incorporated under the Companies Act, 2013, with its registered office in Odisha, India. We operate TheMentR, an educational technology platform that connects verified tutors with students from KG to PG levels across India.
+                BUDIN Candor Private Limited is a company incorporated under the Companies Act, 2013, with its registered office in Odisha, India. We operate TheMentR, an educational technology platform that connects verified teachers with students from KG to PG levels across India.
                 <br />
                 Our Brand Tagline: "Where Learning meets its Purpose..."
                 <br /><br />
@@ -300,7 +300,7 @@ export default function TermsPage() {
               <ul style={{ paddingLeft: 24, marginBottom: 16 }}>
                 <li>Website: www.thementr.com and associated domains</li>
                 <li>Mobile Applications: TheMentR app (iOS and Android)</li>
-                <li>Web Application: Tutoring platform</li>
+                <li>Web Application: Teaching platform</li>
                 <li>Related Services: Payment processing, customer support, marketing communications</li>
               </ul>
 
@@ -392,7 +392,7 @@ export default function TermsPage() {
               <p><strong>Service Delivery:</strong></p>
               <ul style={{ paddingLeft: 24, marginBottom: 16 }}>
                 <li>Matching teachers with appropriate students based on subjects, location and preferences</li>
-                <li>Facilitating online and offline tutoring sessions</li>
+                <li>Facilitating online and offline teaching sessions</li>
                 <li>Processing payments and maintaining transaction records</li>
                 <li>Providing customer support and resolving disputes</li>
               </ul>
@@ -1270,10 +1270,10 @@ export default function TermsPage() {
               <p>Service Delivery Modes:</p>
               <ul style={{ paddingLeft: 24, marginBottom: 16 }}>
                 <li>Online Sessions: Video-based interactive classes with digital tools.</li>
-                <li>Offline Sessions: In-person tutoring at agreed locations.</li>
+                <li>Offline Sessions: In-person teaching at agreed locations.</li>
                 <li>Hybrid Learning: Combination of online and offline sessions.</li>
                 <li>Group Classes: Small group sessions for cost-effective learning.</li>
-                <li>Individual Attention: One-on-one personalized tutoring.</li>
+                <li>Individual Attention: One-on-one personalized teaching.</li>
               </ul>
 
               <h4 style={{ fontSize: 16, fontWeight: 700, color: '#1E293B', marginTop: 16 }}>6.2 Platform Features and Technology</h4>
@@ -1518,7 +1518,7 @@ export default function TermsPage() {
 
               <h4 style={{ fontSize: 16, fontWeight: 700, color: '#1E293B', marginTop: 16 }}>10.3 Prohibited Activities</h4>
               <div style={{ background: '#FEF2F2', border: '1px solid #FCA5A5', padding: 20, borderRadius: 12, marginBottom: 16 }}>
-                <strong>No Private Direct Deals:</strong> Parents must not enter into direct private financial negotiations, payouts, or tutoring arrangements with matched TheMentR teachers. Off-platform deals void all child safety monitoring, background checks, and brand guarantees.
+                <strong>No Private Direct Deals:</strong> Parents must not enter into direct private financial negotiations, payouts, or teaching arrangements with matched TheMentR teachers. Off-platform deals void all child safety monitoring, background checks, and brand guarantees.
               </div>
 
               <h3 style={{ fontSize: 20, fontWeight: 700, color: '#0F172A', marginTop: 28, marginBottom: 12 }}>11. ONLINE SAFETY AND SECURITY</h3>
@@ -2446,7 +2446,7 @@ export default function TermsPage() {
               </ul>
 
               <h4 style={{ fontSize: 16, fontWeight: 700, color: '#1E293B', marginTop: 16 }}>8.3 Structured Payment and Benefit System</h4>
-              <p>Unlike informal tutoring arrangements, ‘TheMentR’ provides:</p>
+              <p>Unlike informal teaching arrangements, ‘TheMentR’ provides:</p>
               <p><strong>Formal Payment Structure:</strong></p>
               <ul style={{ paddingLeft: 24, marginBottom: 16 }}>
                 <li>Monthly direct bank transfers on fixed dates of the following month</li>

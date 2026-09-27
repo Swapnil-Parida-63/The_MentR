@@ -86,7 +86,7 @@ const nodeDetails = {
   support: {
     title: 'Support & Success',
     subtitle: 'Parent-Teacher Care',
-    desc: 'Resolving questions, supporting tutors and ensuring maximum program satisfaction.',
+    desc: 'Resolving questions, supporting teachers and ensuring maximum program satisfaction.',
     icon: Headphones,
     iconColor: '#06B6D4',
     bgColor: '#ECFEFF',
@@ -99,7 +99,7 @@ const nodeDetails = {
   teachers: {
     title: 'Verified Teachers',
     subtitle: 'Service Providers',
-    desc: 'Educators vetted through background checks, demos and subject-matter evaluations.',
+    desc: 'Teachers vetted through background checks, demos and subject-matter evaluations.',
     icon: UserCheck,
     iconColor: '#10B981',
     bgColor: '#ECFDF5',
@@ -231,7 +231,7 @@ export default function OrganogramSection() {
                 }}
               >
                 <p style={{ color: 'var(--color-text-secondary)', fontSize: 14, lineHeight: 1.6, margin: 0 }}>
-                  See how MentR brings together leadership, expert teams, technology and educators to create a seamless learning experience.
+                  See how MentR brings together leadership, expert teams, technology and teachers to create a seamless learning experience.
                 </p>
               </div>
             </div>

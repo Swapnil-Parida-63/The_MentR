@@ -9,13 +9,13 @@ export default function SitemapPage() {
   const sitemapSections = [
     {
       title: 'Core Platform & Services',
-      description: 'Main offerings, home tutor matching, and diagnostic learning tools.',
+      description: 'Main offerings, home teacher matching, and diagnostic learning tools.',
       icon: Compass,
       links: [
         {
           name: 'Home',
           path: '/',
-          description: 'Platform overview, 100% background-checked tutors, and core learning values.',
+          description: 'Platform overview, 100% background-checked teachers, and core learning values.',
           icon: Home
         },
         {

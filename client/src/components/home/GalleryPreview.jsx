@@ -22,7 +22,7 @@ const hallOfFameItems = [
     title: "Teacher Onboarding Cohort",
     category: "Teachers",
     year: "2026",
-    subtitle: "Empowering Educators",
+    subtitle: "Empowering Teachers",
     description: "Welcoming our next cohort of verified teachers across India with comprehensive demo sessions."
   },
   {

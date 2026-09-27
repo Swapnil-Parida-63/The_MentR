@@ -466,14 +466,23 @@ export default function FormsSection() {
       <div className="container">
         {!isMobile && <FadeUp><div className="eyebrow">GET STARTED</div></FadeUp>}
         <FadeUp delay={0.1} duration={0.8} y={isMobile ? 8 : 24}>
-          <h2 style={{ fontSize: isMobile ? '22px' : 'clamp(32px, 3.5vw, 44px)', marginBottom: isMobile ? 6 : 16, fontFamily: 'var(--font-display)', fontWeight: 500, color: '#1D2433', textAlign: 'center' }}>
+          <h2 style={{ 
+            fontSize: isMobile ? '22px' : 'clamp(32px, 3.5vw, 44px)', 
+            marginBottom: isMobile ? 12 : 44, 
+            position: 'relative',
+            zIndex: 10,
+            fontFamily: 'var(--font-display)', 
+            fontWeight: 500, 
+            color: '#1D2433', 
+            textAlign: 'center' 
+          }}>
             {isMobile ? 'Get Started' : "Let's build your learning journey"}
           </h2>
         </FadeUp>
 
         <FadeUp delay={0.3} y={16}>
-          <div style={{ borderRadius: 28, maxWidth: 960, margin: '0 auto' }}>
-            <BorderGlow borderRadius={28} backgroundColor="#FFFFFF">
+          <div style={{ borderRadius: 28, maxWidth: 960, margin: '0 auto', position: 'relative', zIndex: 1 }}>
+            <BorderGlow borderRadius={28} backgroundColor="#FFFFFF" hoverLift={false}>
               <div className="editorial-form-grid">
               
               {/* Form Surface */}
@@ -912,7 +921,7 @@ export default function FormsSection() {
 
                 <div style={{ marginTop: isMobile ? 16 : 32, display: 'flex', flexDirection: 'column', gap: isMobile ? 10 : 16 }}>
                   {[
-                    { icon: '🎓', title: 'Curated Tutors', desc: 'Top verified teachers approved' },
+                    { icon: '🎓', title: 'Curated Teachers', desc: 'Top verified teachers approved' },
                     { icon: '🛡️', title: 'Personalized Matching', desc: 'Customized learning profiles' },
                     { icon: '📊', title: 'Direct Outcomes', desc: 'Structured feedback and reporting' }
                   ].map((item, idx) => (

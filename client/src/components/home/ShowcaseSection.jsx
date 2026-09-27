@@ -20,7 +20,7 @@ const ParentScreen = ({ index }) => {
     <div style={{ width: '100%', height: '100%', overflow: 'hidden', background: '#0F172A', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
       <img 
         src={images[index]} 
-        alt={`TheMentR Parent App - Tutor tracking interface ${index + 1}`} 
+        alt={`TheMentR Parent App - Teacher tracking interface ${index + 1}`} 
         loading="lazy"
         width="575"
         height="1280"
@@ -243,7 +243,7 @@ const OnlineScreen = () => {
         <div style={{ display: 'flex', flexDirection: 'column', gap: 10 }}>
           {/* Teacher Stream */}
           <div style={{ flexGrow: 1, background: '#1E293B', borderRadius: 12, overflow: 'hidden', position: 'relative', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-            <div style={{ position: 'absolute', bottom: 6, left: 6, background: 'rgba(0,0,0,0.5)', color: '#FFF', padding: '2px 6px', borderRadius: 4, fontSize: 8 }}>Tutor: Amit S.</div>
+            <div style={{ position: 'absolute', bottom: 6, left: 6, background: 'rgba(0,0,0,0.5)', color: '#FFF', padding: '2px 6px', borderRadius: 4, fontSize: 8 }}>Teacher: Amit S.</div>
             <div style={{ fontSize: 24 }}>👨‍🏫</div>
           </div>
           {/* Student Stream */}
@@ -715,7 +715,7 @@ export default function ShowcaseSection({ isStandalonePage = false }) {
                 className="details-title"
                 style={{ color: '#1E293B', cursor: isMobile ? 'pointer' : 'default', userSelect: 'none' }}
               >
-                Everything that a tutor desires and deserves.
+                Everything that a teacher desires and deserves.
               </h3>
               {(!isMobile || isShowcaseDescExpanded) && (
                 <p className="details-desc">
@@ -1336,7 +1336,8 @@ export default function ShowcaseSection({ isStandalonePage = false }) {
           width: 100%;
           max-width: 100%;
           overflow-x: auto;
-          padding-bottom: 12px;
+          overflow-y: visible;
+          padding: 18px 12px 18px;
           scrollbar-width: none;
         }
         .connector-flow-responsive::-webkit-scrollbar {
@@ -1347,6 +1348,7 @@ export default function ShowcaseSection({ isStandalonePage = false }) {
           align-items: center;
           gap: 8px;
           flex-shrink: 0;
+          padding: 4px 0;
         }
         .connector-node {
           background: #FFFFFF;
@@ -1357,10 +1359,11 @@ export default function ShowcaseSection({ isStandalonePage = false }) {
           text-align: left;
           flex-shrink: 0;
           white-space: nowrap;
-          transition: transform 0.2s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.2s ease;
+          transition: transform 0.25s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.25s ease;
+          cursor: pointer;
         }
         .connector-node:hover {
-          transform: translateY(-2px);
+          transform: translateY(-4px);
         }
         .node-title {
           font-family: var(--font-sans);
@@ -1498,8 +1501,8 @@ export default function ShowcaseSection({ isStandalonePage = false }) {
             flex-direction: row;
             justify-content: flex-start;
             overflow-x: auto;
-            gap: 4px;
-            padding: 8px 16px;
+            gap: 6px;
+            padding: 16px 16px 18px;
             scrollbar-width: none;
             -webkit-overflow-scrolling: touch;
           }

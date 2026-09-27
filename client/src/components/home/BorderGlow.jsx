@@ -66,6 +66,9 @@ const BorderGlow = ({
   animated = false,
   colors = ['#00b0ff', '#ffffff', '#00b0ff'],
   fillOpacity = 0.5,
+  hoverLift = true,
+  hoverTranslateY = -14,
+  hoverScale = 1.03,
 }) => {
   const cardRef = useRef(null);
   const [isHovered, setIsHovered] = useState(false);
@@ -190,7 +193,9 @@ const BorderGlow = ({
       style={{
         background: isLightBg ? 'linear-gradient(180deg, #FFFFFF 0%, #FBFCFF 100%)' : backgroundColor,
         borderRadius: `${borderRadius || 24}px`,
-        transform: showHoverEffects ? 'translateY(-14px) scale(1.03) translate3d(0, 0, 0.01px)' : 'translateY(0) scale(1) translate3d(0, 0, 0.01px)',
+        transform: (showHoverEffects && hoverLift) 
+          ? `translateY(${hoverTranslateY}px) scale(${hoverScale}) translate3d(0, 0, 0.01px)` 
+          : 'translateY(0) scale(1) translate3d(0, 0, 0.01px)',
         boxShadow: isLightBg 
           ? (showHoverEffects 
               ? '0 8px 16px rgba(15,23,42,0.06), 0 20px 50px rgba(15,23,42,0.12), inset 0 1px 1px rgba(255,255,255,0.8)' 

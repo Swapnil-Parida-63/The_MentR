@@ -1,6 +1,6 @@
 /**
  * @file verifiedTeachers.js
- * @description Master dataset of verified TheMentR educators with 100+ teaching hours.
+ * @description Master dataset of verified TheMentR teachers with 100+ teaching hours.
  * Ordered according to official recognition photos.
  * PRIVACY NOTICE: Private contact phone numbers and personal emails are omitted.
  */
@@ -16,7 +16,7 @@ export const verifiedTeachers = [
     location: 'Bhubaneswar, Odisha',
     joinedDate: 'August 2022',
     rating: 4.98,
-    bio: 'Dedicated primary and secondary grade educator with 100+ hours of teaching excellence.',
+    bio: 'Dedicated primary and secondary grade teacher with 100+ hours of teaching excellence.',
     image: '/teachers/kashish-sahoo.webp',
     thumbnail: '/teachers/kashish-sahoo-thumb.webp'
   },
@@ -44,7 +44,7 @@ export const verifiedTeachers = [
     location: 'Cuttack, Odisha',
     joinedDate: 'September 2023',
     rating: 4.86,
-    bio: 'Engaging primary grade tutor focused on building fundamental clarity and regular study habits.',
+    bio: 'Engaging primary grade teacher focused on building fundamental clarity and regular study habits.',
     image: '/teachers/dibya-bharati-das.webp',
     thumbnail: '/teachers/dibya-bharati-das-thumb.webp'
   },
@@ -72,7 +72,7 @@ export const verifiedTeachers = [
     location: 'Khordha, Odisha',
     joinedDate: 'May 2023',
     rating: 4.88,
-    bio: 'Patient and encouraging primary educator providing well-rounded academic guidance.',
+    bio: 'Patient and encouraging primary teacher providing well-rounded academic guidance.',
     image: '/teachers/chittaranjan-pradhan.webp',
     thumbnail: '/teachers/chittaranjan-pradhan-thumb.webp'
   },
@@ -86,7 +86,7 @@ export const verifiedTeachers = [
     location: 'Bhubaneswar, Odisha',
     joinedDate: 'February 2022',
     rating: 4.99,
-    bio: 'Dedicated educator and valued mentor in TheMentR network.',
+    bio: 'Dedicated teacher and valued mentor in TheMentR network.',
     image: '/teachers/ashesh-kumar-parida.webp',
     thumbnail: '/teachers/ashesh-kumar-parida-thumb.webp'
   },
@@ -100,7 +100,7 @@ export const verifiedTeachers = [
     location: 'Berhampur, Odisha',
     joinedDate: 'November 2022',
     rating: 4.97,
-    bio: 'Verified educator known for conceptual physics coaching and secondary mathematics mastery.',
+    bio: 'Verified teacher known for conceptual physics coaching and secondary mathematics mastery.',
     image: '/teachers/brajamohan-behera.webp',
     thumbnail: '/teachers/brajamohan-behera-thumb.webp'
   },
@@ -156,7 +156,7 @@ export const verifiedTeachers = [
     location: 'Cuttack, Odisha',
     joinedDate: 'April 2023',
     rating: 4.91,
-    bio: 'Science educator empowering senior students with clear biological concepts and active recall methods.',
+    bio: 'Science teacher empowering senior students with clear biological concepts and active recall methods.',
     image: '/teachers/shraddha-shree-sahu.webp',
     thumbnail: '/teachers/shraddha-shree-sahu-thumb.webp'
   },
@@ -170,7 +170,7 @@ export const verifiedTeachers = [
     location: 'Bhubaneswar, Odisha',
     joinedDate: 'October 2023',
     rating: 4.85,
-    bio: 'Versatile primary school educator building comprehensive learning clarity in fundamental subjects.',
+    bio: 'Versatile primary school teacher building comprehensive learning clarity in fundamental subjects.',
     image: '/teachers/sk-muksud-allam.webp',
     thumbnail: '/teachers/sk-muksud-allam-thumb.webp'
   },
@@ -184,7 +184,7 @@ export const verifiedTeachers = [
     location: 'Puri, Odisha',
     joinedDate: 'June 2023',
     rating: 4.92,
-    bio: 'Dedicated educator focused on language comprehension and social studies for primary and secondary students.',
+    bio: 'Dedicated teacher focused on language comprehension and social studies for primary and secondary students.',
     image: '/teachers/swagatika-dash.webp',
     thumbnail: '/teachers/swagatika-dash-thumb.webp'
   }

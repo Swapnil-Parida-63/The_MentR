@@ -55,6 +55,7 @@ export const getOrganizationSchema = () => ({
     }
   ],
   'sameAs': [
+    'https://www.youtube.com/@TheMentRNetwork',
     'https://www.instagram.com/thementrnetwork',
     'https://www.linkedin.com/company/thementrnetwork/',
     'https://x.com/TheMentRNetwork',
@@ -108,7 +109,7 @@ export const getTutoringServiceSchema = () => ({
   'provider': {
     '@id': SCHEMA_IDS.organization,
   },
-  'description': 'Connecting students and parents with fully background-checked, qualified home tutors for K-12 (CBSE, ICSE, IGCSE, State Boards) with 1-on-1 personalized guidance.',
+  'description': 'Connecting students and parents with fully background-checked, qualified home teachers for K-12 (CBSE, ICSE, IGCSE, State Boards) with 1-on-1 personalized guidance.',
   'areaServed': {
     '@type': 'Country',
     'name': 'India',
@@ -124,7 +125,7 @@ export const getAssessmentServiceSchema = () => ({
   'provider': {
     '@id': SCHEMA_IDS.localBusiness,
   },
-  'description': 'Comprehensive 60-90 minute at-home diagnostic learning assessment to evaluate student academic requirements before tutor assignment.',
+  'description': 'Comprehensive 60-90 minute at-home diagnostic learning assessment to evaluate student academic requirements before teacher assignment.',
   'areaServed': {
     '@type': 'Country',
     'name': 'India',
@@ -137,7 +138,7 @@ export const getAssessmentServiceSchema = () => ({
 export const VISIBLE_CONTACT_FAQS = [
   {
     q: 'Who can apply to become a teacher with TheMentR?',
-    a: 'Any individual holding a minimum qualification of 10+2, ITI, Diploma, or higher degrees (B.Sc., B.Ed., M.Ed., M.Sc., M.Tech, LLB, M. Com., BA, MA, B.Com., PhD, etc.) may apply. Recruitment is skill-based and inclusive; both freshers and experienced educators are welcome.',
+    a: 'Any individual holding a minimum qualification of 10+2, ITI, Diploma, or higher degrees (B.Sc., B.Ed., M.Ed., M.Sc., M.Tech, LLB, M. Com., BA, MA, B.Com., PhD, etc.) may apply. Recruitment is skill-based and inclusive; both freshers and experienced teachers are welcome.',
   },
   {
     q: 'How do students join TheMentR?',
@@ -156,8 +157,8 @@ export const VISIBLE_CONTACT_FAQS = [
     a: 'TheMentR provides group insurance, mobile phone allowance, reward bonuses, banking assistance (loan eligibility, credit cards), verified badge and Experience Certificate in addition to regular pay.',
   },
   {
-    q: 'How does TheMentR ensure the quality and safety of tutors?',
-    a: 'Every tutor undergoes multi-step verification including government ID checks, degree authentication, background screening, demo teaching assessments, reference checks and ongoing feedback monitoring.',
+    q: 'How does TheMentR ensure the quality and safety of teachers?',
+    a: 'Every teacher undergoes multi-step verification including government ID checks, degree authentication, background screening, demo teaching assessments, reference checks and ongoing feedback monitoring.',
   },
   {
     q: 'What is the fee range for tuition through TheMentR?',
