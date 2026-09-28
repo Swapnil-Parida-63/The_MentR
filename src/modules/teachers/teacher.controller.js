@@ -10,9 +10,10 @@ baseController.create = asyncHandler(async (req, res) => {
   const item = await teacherService.create(req.body);
 
   // Perform non-blocking background POST request to the external webhook
-  const webhookUrl = env.TEACHER_FORM_WEBHOOK_URL || "https://script.google.com/macros/s/AKfycbwCedySKcFbpDWouWO_z3CQPDc2H6bi5aZ_HUC8hp-IoDJN3gYlZUycr6NWXq110az3OQ/exec";
+  const webhookUrl = env.TEACHER_FORM_WEBHOOK_URL || env.PARENT_FORM_WEBHOOK_URL || "https://script.google.com/macros/s/AKfycbwYnCMaJx7Cmq3lY0G7RulmrMpH2j-aXL1GGO5iq5sCS2JN7Dw-Js4z1rPgZbuU3Kgi/exec";
   
   const payload = {
+    type: "teacher",
     email: item.email || "",
     fullName: `${item.firstName || ''} ${item.lastName || ''}`.trim(),
     fatherName: item.fatherName || "",
@@ -20,15 +21,15 @@ baseController.create = asyncHandler(async (req, res) => {
     dob: item.dob ? new Date(item.dob).toISOString().split('T')[0] : "",
     address: item.currentAddress || "",
     motherName: item.motherName || "",
-    boardsToTeach: item.boardsToTeach ? item.boardsToTeach.join(', ') : "",
-    boardsAlreadyTaught: item.boardsAlreadyTaught ? item.boardsAlreadyTaught.join(', ') : "",
-    classesToTeach: item.classesToTeach ? item.classesToTeach.join(', ') : "",
-    classesAlreadyTaught: item.classesAlreadyTaught ? item.classesAlreadyTaught.join(', ') : "",
-    subjectsToTeach: item.subjectsToTeach ? item.subjectsToTeach.join(', ') : "",
-    subjectsPreviouslyTaught: item.subjectsPreviouslyTaught ? item.subjectsPreviouslyTaught.join(', ') : "",
-    mediumOfInstruction: item.mediumOfInstruction ? item.mediumOfInstruction.join(', ') : "",
+    boardsToTeach: Array.isArray(item.boardsToTeach) ? item.boardsToTeach.join(', ') : (item.boardsToTeach || ""),
+    boardsAlreadyTaught: Array.isArray(item.boardsAlreadyTaught) ? item.boardsAlreadyTaught.join(', ') : (item.boardsAlreadyTaught || ""),
+    classesToTeach: Array.isArray(item.classesToTeach) ? item.classesToTeach.join(', ') : (item.classesToTeach || ""),
+    classesAlreadyTaught: Array.isArray(item.classesAlreadyTaught) ? item.classesAlreadyTaught.join(', ') : (item.classesAlreadyTaught || ""),
+    subjectsToTeach: Array.isArray(item.subjectsToTeach) ? item.subjectsToTeach.join(', ') : (item.subjectsToTeach || ""),
+    subjectsPreviouslyTaught: Array.isArray(item.subjectsPreviouslyTaught) ? item.subjectsPreviouslyTaught.join(', ') : (item.subjectsPreviouslyTaught || ""),
+    mediumOfInstruction: Array.isArray(item.mediumOfInstruction) ? item.mediumOfInstruction.join(', ') : (item.mediumOfInstruction || ""),
     mostComfortableMedium: item.mostComfortableMedium || "",
-    preferredLocations: item.preferredLocations ? item.preferredLocations.join(', ') : ""
+    preferredLocations: Array.isArray(item.preferredLocations) ? item.preferredLocations.join(', ') : (item.preferredLocations || "")
   };
 
   fetch(webhookUrl, {

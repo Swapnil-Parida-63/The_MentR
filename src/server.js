@@ -9,7 +9,7 @@ async function bootstrap() {
   await connectDatabase();
 
   server = app.listen(env.PORT, () => {
-    // TheMentR API server running
+    // TheMentR API server running on port 5000
     console.log(`TheMentR API running on port ${env.PORT}`);
   });
 }
