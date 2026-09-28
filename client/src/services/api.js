@@ -1,7 +1,9 @@
 import axios from 'axios';
 
+const apiBase = import.meta.env.VITE_API_URL || '';
+
 const api = axios.create({
-  baseURL: '/api/v1',
+  baseURL: `${apiBase}/api/v1`,
   headers: { 'Content-Type': 'application/json' },
 });
 
@@ -82,6 +84,10 @@ export const seoAPI = {
 
 export const faqAPI = {
   getAll: (params) => api.get('/faqs', { params }),
+};
+
+export const menteeAPI = {
+  chat: (data) => api.post('/mentee/chat', data),
 };
 
 export const aiAPI = {

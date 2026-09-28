@@ -9,7 +9,7 @@ async function bootstrap() {
   await connectDatabase();
 
   server = app.listen(env.PORT, () => {
-    // Mentee AI Subsystem Server on Port 5000
+    // TheMentR API server running
     console.log(`TheMentR API running on port ${env.PORT}`);
   });
 }

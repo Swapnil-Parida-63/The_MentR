@@ -24,7 +24,7 @@ function errorHandler(error, _req, res, _next) {
   const statusCode = error.statusCode || 500;
   const payload = {
     success: false,
-    message: statusCode === 500 ? 'Internal server error' : error.message
+    message: statusCode === 500 && !error.isOperational ? 'Internal server error' : error.message
   };
 
   if (error.details) payload.details = error.details;

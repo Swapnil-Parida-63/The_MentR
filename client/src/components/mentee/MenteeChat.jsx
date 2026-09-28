@@ -1,7 +1,7 @@
 import { useState, useRef, useEffect, lazy, Suspense } from 'react';
 import ChatLauncher from './ChatLauncher';
 const ChatWindow = lazy(() => import('./ChatWindow'));
-import { aiAPI } from '../../services/api';
+import { menteeAPI } from '../../services/api';
 
 const INITIAL_GREETING = `Hello! 👋
 
@@ -13,7 +13,7 @@ How can I help you today?`;
 
 /**
  * MenteeChat Root Component
- * State manager connecting Mentee UI to `/api/v1/ai/chat` placeholder backend service.
+ * State manager connecting Mentee UI to backend `/api/mentee/chat`.
  */
 export default function MenteeChat() {
   const [isOpen, setIsOpen] = useState(false);
@@ -50,28 +50,19 @@ export default function MenteeChat() {
     setError(null);
 
     try {
-      // Format conversation history for AI provider
-      const historyPayload = messages.map((m) => ({
-        role: m.role,
-        content: m.content
-      }));
-
-      // Send chat completion request to backend endpoint `/api/v1/ai/chat`
-      const res = await aiAPI.chat({
-        sessionId: sessionIdRef.current,
-        message: text.trim(),
-        history: historyPayload,
-        channel: 'website'
+      // Send chat message to Mentee backend endpoint
+      const res = await menteeAPI.chat({
+        message: text.trim()
       });
 
       const replyContent =
-        res.data?.data?.reply ||
         res.data?.reply ||
+        res.data?.data?.reply ||
         "Thank you for contacting Mentee! I'm here to help you navigate MentR.";
 
       const suggestedActions =
-        res.data?.data?.suggestedActions ||
         res.data?.suggestedActions ||
+        res.data?.data?.suggestedActions ||
         [];
 
       const assistantMsg = {
@@ -85,7 +76,8 @@ export default function MenteeChat() {
       setMessages((prev) => [...prev, assistantMsg]);
     } catch (err) {
       console.error('[Mentee AI API Error]:', err);
-      setError("I'm having trouble connecting right now. Please try again in a moment.");
+      const serverMsg = err.response?.data?.message;
+      setError(serverMsg || "I'm having trouble connecting right now. Please try again in a moment.");
     } finally {
       setIsLoading(false);
     }

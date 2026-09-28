@@ -401,20 +401,21 @@ export default function FormsSection() {
     setDemoSubmitting(true);
     try {
       await parentAPI.submit({
-        parentName: demoParentName,
-        phone: demoPhone,
-        studentName: demoStudentName,
+        parentName: demoParentName.trim(),
+        phone: demoPhone.trim(),
+        studentName: demoStudentName.trim(),
         board: demoBoardStr,
         class: demoClassStr,
-        location: demoLocation,
+        location: demoLocation.trim(),
         specificSubject: demoGuidanceSubjects.join(', ') || 'General Guidance',
         agreedToTerms: true
       });
       setDemoSubmitted(true);
       showToast("🎉 Interest received! Our team will contact uh soon.");
     } catch (err) {
-      console.error(err);
-      setDemoSubmitted(true);
+      console.error('Demo submit error:', err);
+      const errMsg = err.response?.data?.message || "Failed to submit demo request. Please check all fields and try again.";
+      showToast(`⚠️ ${errMsg}`);
     } finally {
       setDemoSubmitting(false);
     }
@@ -433,20 +434,23 @@ export default function FormsSection() {
     setTeacherSubmitting(true);
     try {
       await teachersAPI.apply({
-        firstName: teacherFirstName,
-        lastName: teacherLastName,
-        email: teacherEmail,
-        phone: teacherPhone,
+        firstName: teacherFirstName.trim(),
+        lastName: teacherLastName.trim(),
+        email: teacherEmail.trim(),
+        phone: teacherPhone.trim(),
         dob: teacherDob,
-        address: teacherAddress,
-        fatherName: teacherFatherName,
-        motherName: teacherMotherName,
+        currentAddress: teacherAddress.trim(),
+        address: teacherAddress.trim(),
+        fatherName: teacherFatherName.trim(),
+        motherName: teacherMotherName.trim(),
         boardsToTeach,
         boardsAlreadyTaught,
         classesToTeach,
         classesAlreadyTaught,
-        subjectToTeach,
-        subjectPreviouslyTaught,
+        subjectsToTeach: subjectToTeach,
+        subjectToTeach: subjectToTeach,
+        subjectsPreviouslyTaught: subjectPreviouslyTaught,
+        subjectPreviouslyTaught: subjectPreviouslyTaught,
         mediumOfInstruction,
         mostComfortableMedium,
         agreedToTerms: true
@@ -454,8 +458,9 @@ export default function FormsSection() {
       setTeacherSubmitted(true);
       showToast("🎉 Teacher application submitted successfully!");
     } catch (err) {
-      console.error(err);
-      setTeacherSubmitted(true);
+      console.error('Teacher submit error:', err);
+      const errMsg = err.response?.data?.message || "Failed to submit application. Please check all fields and try again.";
+      showToast(`⚠️ ${errMsg}`);
     } finally {
       setTeacherSubmitting(false);
     }

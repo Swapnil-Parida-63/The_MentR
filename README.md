@@ -65,3 +65,55 @@ List endpoints support:
 - Parent requirements can be submitted publicly.
 - Verified teacher discovery is public through TheMentR Online.
 - Payment and chatbot endpoints intentionally return coming-soon messages only.
+
+## Mentee AI Chatbot (OpenAI Integration)
+
+Mentee is the AI educational assistant for TheMentR powered by OpenAI.
+
+### 1. Dependencies Installed
+- Official OpenAI Node.js SDK: `openai` (`^7.23.0`)
+
+### 2. Required Environment Variables
+Configure these in your backend `.env` file:
+```env
+OPENAI_API_KEY=your_openai_api_key_here
+OPENAI_MODEL=gpt-5.6-luna
+```
+> **Action Required**: Paste your OpenAI API key into `OPENAI_API_KEY` in the backend `.env` file.
+
+### 3. Model Configuration
+- Current Default Model: **`gpt-5.6-luna`** (configurable via `OPENAI_MODEL`)
+
+### 4. Running the Backend
+```bash
+# Start backend server with live reload
+npm run dev
+```
+
+### 5. Mentee Chat Endpoint & Format
+- **Endpoint**: `POST /api/mentee/chat` (also available via `POST /api/v1/mentee/chat`)
+- **Headers**: `Content-Type: application/json`
+
+**Request Body:**
+```json
+{
+  "message": "What is photosynthesis?"
+}
+```
+
+**Response Format:**
+```json
+{
+  "success": true,
+  "reply": "Photosynthesis is the process by which green plants..."
+}
+```
+
+### 6. Testing Mentee in Development
+Run this `curl` command in your terminal:
+```bash
+curl -X POST http://localhost:5000/api/mentee/chat \
+  -H "Content-Type: application/json" \
+  -d "{\"message\": \"What is photosynthesis?\"}"
+```
+

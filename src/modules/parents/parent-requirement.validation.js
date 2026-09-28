@@ -3,18 +3,19 @@ const { REQUIREMENT_STATUSES } = require('../../constants/enums');
 const { idParamSchema, listQuerySchema } = require('../../validations/common.validation');
 
 const parentRequirementBody = z.object({
-  parentName: z.string().min(2).max(120),
+  parentName: z.string().min(1).max(120),
   phone: z.string().min(7).max(20),
-  email: z.string().email().or(z.string().max(0)).optional(), // allow empty string or optional
-  location: z.string().min(2).max(120).optional(),
-  studentName: z.string().min(2).max(120),
-  specificSubject: z.string().max(120).optional(),
-  board: z.string().min(1).max(80),
-  class: z.string().min(1).max(40),
-  subjects: z.array(z.string().min(1)).optional().default([]),
+  email: z.string().email().or(z.literal('')).optional(),
+  location: z.string().max(255).optional().or(z.literal('')),
+  studentName: z.string().max(255).optional().or(z.literal('')),
+  specificSubject: z.string().max(255).optional().or(z.literal('')),
+  board: z.string().min(1).max(255),
+  class: z.string().min(1).max(255),
+  subjects: z.array(z.string()).or(z.string().transform(s => s ? [s] : [])).optional().default([]),
   learningMode: z.enum(['Online', 'Offline', 'Hybrid']).default('Offline'),
-  preferredTiming: z.string().min(1).max(120).optional(),
-  additionalNotes: z.string().max(2000).optional(),
+  preferredTiming: z.string().max(255).optional().or(z.literal('')),
+  additionalNotes: z.string().max(2000).optional().or(z.literal('')),
+  agreedToTerms: z.boolean().optional(),
   status: z.enum(REQUIREMENT_STATUSES).default('New')
 });
 
