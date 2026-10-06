@@ -2,8 +2,8 @@ import React, { useEffect, useRef } from 'react';
 
 export function useScrollReveal(options = {}) {
   const {
-    threshold = 0.45, // Trigger threshold for desktop
-    y = 24,
+    threshold = 0.05, // Trigger threshold for desktop (immediate reveal once entering viewport)
+    y = 20,
     easing = 'cubic-bezier(0.16, 1, 0.3, 1)' // Premium Stripe/Apple easeOutExpo
   } = options;
 
@@ -68,7 +68,7 @@ export function useScrollReveal(options = {}) {
   return ref;
 }
 
-export function FadeUp({ children, delay = 0, y = 24, duration = 0.7, threshold = 0.45, className = '', style = {} }) {
+export function FadeUp({ children, delay = 0, y = 20, duration = 0.7, threshold = 0.05, className = '', style = {} }) {
   const ref = useScrollReveal({ y, duration, delay, threshold });
   return React.createElement('div', {
     ref,

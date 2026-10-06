@@ -547,20 +547,18 @@ export default function BlogsPage() {
           <div>
             {/* Back to list button */}
             <div style={{ textAlign: 'left', marginBottom: 32 }}>
-              <FadeUp>
-                <button 
-                  onClick={() => setSelectedArticle(null)}
-                  className="journal-back-btn"
-                  style={{ cursor: 'pointer', background: '#FFFFFF', border: '1px solid rgba(15, 23, 42, 0.08)' }}
-                >
-                  <ArrowLeft size={14} className="back-arrow" /> Back to Journal
-                </button>
-              </FadeUp>
+              <button 
+                onClick={() => setSelectedArticle(null)}
+                className="journal-back-btn"
+                style={{ cursor: 'pointer', background: '#FFFFFF', border: '1px solid rgba(15, 23, 42, 0.08)' }}
+              >
+                <ArrowLeft size={14} className="back-arrow" /> Back to Journal
+              </button>
             </div>
 
             {/* Premium Article Layout */}
             <div style={{ maxWidth: 740, margin: '0 auto', textAlign: 'left' }}>
-              <FadeUp>
+              <div>
                 <div style={{ display: 'flex', gap: 12, alignItems: 'center', marginBottom: 16 }}>
                   <span className={`card-tag ${selectedArticle.tagClass}`} style={{ fontSize: 12, padding: '6px 14px' }}>{selectedArticle.tag}</span>
                   <span style={{ fontSize: 13, color: '#64748B' }}>{selectedArticle.time}</span>
@@ -656,174 +654,163 @@ export default function BlogsPage() {
                     <p>{selectedArticle.desc}</p>
                   )}
                 </div>
-              </FadeUp>
+              </div>
             </div>
           </div>
         ) : (
           <div>
             {/* Navigation Breadcrumb */}
             <div style={{ textAlign: 'left' }}>
-              <FadeUp>
-                <Link to="/" className="journal-back-btn">
-                  <ArrowLeft size={14} className="back-arrow" /> Back to Home
-                </Link>
-              </FadeUp>
+              <Link to="/" className="journal-back-btn">
+                <ArrowLeft size={14} className="back-arrow" /> Back to Home
+              </Link>
             </div>
 
             {/* Page Header */}
             <div className="journal-page-header">
-              <FadeUp delay={0.05}><div className="journal-page-eyebrow">TheMentR JOURNAL</div></FadeUp>
-              <FadeUp delay={0.1}>
-                <h1 className="journal-page-title">
-                  Education, <span className="serif-italic">examined.</span>
-                </h1>
-              </FadeUp>
-              <FadeUp delay={0.15}>
-                <p className="journal-page-subtitle">
-                  Research, practical learning strategies and educational insights for parents, teachers and students.
-                </p>
-              </FadeUp>
+              <div className="journal-page-eyebrow">TheMentR JOURNAL</div>
+              <h1 className="journal-page-title">
+                Education, <span className="serif-italic">examined.</span>
+              </h1>
+              <p className="journal-page-subtitle">
+                Research, practical learning strategies and educational insights for parents, teachers and students.
+              </p>
 
               {/* Category Chips Filters */}
-              <FadeUp delay={0.2}>
-                <div className="category-chips-container">
-                  {categories.map(cat => (
-                    <button
-                      key={cat}
-                      onClick={() => setActiveCategory(cat)}
-                      className={`category-chip ${activeCategory === cat ? 'active' : ''}`}
-                    >
-                      {cat}
-                    </button>
-                  ))}
-                </div>
-              </FadeUp>
+              <div className="category-chips-container">
+                {categories.map(cat => (
+                  <button
+                    key={cat}
+                    onClick={() => setActiveCategory(cat)}
+                    className={`category-chip ${activeCategory === cat ? 'active' : ''}`}
+                  >
+                    {cat}
+                  </button>
+                ))}
+              </div>
             </div>
 
             {/* ============================================================== */}
             {/* HERO FEATURED STORY (All Category Only) */}
             {/* ============================================================== */}
             {heroArticle && (
-              <FadeUp delay={0.25}>
-                <div 
-                  className="journal-hero-card" 
-                  style={{ cursor: 'pointer' }}
-                  onClick={() => setSelectedArticle(heroArticle)}
-                >
-              <div className="hero-cover-wrapper">
-                <div className="noise-grain" />
-                <div className="hero-glow" />
-                <CoverIllustration type={heroArticle.coverType} />
-              </div>
-              <div className="hero-card-content">
-                <span className={`card-tag ${heroArticle.tagClass}`}>{heroArticle.tag}</span>
-                <h2 className="hero-card-title">{heroArticle.title}</h2>
-                <p className="hero-card-desc">{heroArticle.desc}</p>
-                <div className="card-divider" />
-                <div className="card-metadata">
-                  <span className="meta-item"><User size={13} /> By TheMentR Research</span>
-                  <span className="meta-dot">•</span>
-                  <span className="meta-item"><Clock size={13} /> {heroArticle.time}</span>
-                  <span className="meta-dot">•</span>
-                  <span className="meta-item"><Calendar size={13} /> {heroArticle.date}</span>
+              <div 
+                className="journal-hero-card" 
+                style={{ cursor: 'pointer' }}
+                onClick={() => setSelectedArticle(heroArticle)}
+              >
+                <div className="hero-cover-wrapper">
+                  <div className="noise-grain" />
+                  <div className="hero-glow" />
+                  <CoverIllustration type={heroArticle.coverType} />
                 </div>
-              </div>
-            </div>
-          </FadeUp>
-        )}
-
-        {/* ============================================================== */}
-        {/* ARTICLES DYNAMIC GRID */}
-        {/* ============================================================== */}
-        <div className="journal-grid">
-          {gridArticles.map((art, idx) => {
-            const isWide = activeCategory === 'All' && art.wide;
-            return (
-              <FadeUp key={art.id} delay={0.1 + (idx * 0.05)}>
-                <div 
-                  className={`journal-card ${isWide ? 'journal-card-wide' : ''}`}
-                  style={{ cursor: 'pointer' }}
-                  onClick={() => setSelectedArticle(art)}
-                >
-                  <div className="cover-image-wrapper">
-                    <div className="noise-grain" />
-                    <CoverIllustration type={art.coverType} />
-                  </div>
-                  
-                  <div className="card-body">
-                    <div className="card-top">
-                      <span className={`card-tag ${art.tagClass}`}>{art.tag}</span>
-                      <ArrowUpRight size={16} className="card-arrow" />
-                    </div>
-                    
-                    <h3 className="card-title">{art.title}</h3>
-                    <p className="card-desc">{art.desc}</p>
-                    
-                    <div className="card-divider" />
-                    
-                    <div className="card-metadata">
-                      <span className="meta-item"><Clock size={12} /> {art.time}</span>
-                      <span className="meta-dot">•</span>
-                      <span className="meta-item"><Calendar size={12} /> {art.date}</span>
-                    </div>
+                <div className="hero-card-content">
+                  <span className={`card-tag ${heroArticle.tagClass}`}>{heroArticle.tag}</span>
+                  <h2 className="hero-card-title">{heroArticle.title}</h2>
+                  <p className="hero-card-desc">{heroArticle.desc}</p>
+                  <div className="card-divider" />
+                  <div className="card-metadata">
+                    <span className="meta-item"><User size={13} /> By TheMentR Research</span>
+                    <span className="meta-dot">•</span>
+                    <span className="meta-item"><Clock size={13} /> {heroArticle.time}</span>
+                    <span className="meta-dot">•</span>
+                    <span className="meta-item"><Calendar size={13} /> {heroArticle.date}</span>
                   </div>
                 </div>
-              </FadeUp>
-            );
-          })}
-        </div>
-
-        {/* ============================================================== */}
-        {/* EDITORIAL CTA SECTION */}
-        {/* ============================================================== */}
-        <FadeUp>
-          <div className="journal-cta-section">
-            <div style={{
-              position: 'absolute',
-              width: '500px',
-              height: '500px',
-              borderRadius: '50%',
-              background: 'radial-gradient(circle, rgba(79, 124, 255, 0.035) 0%, transparent 70%)',
-              bottom: '-20%',
-              right: '-10%',
-              pointerEvents: 'none',
-              zIndex: 0
-            }} />
-            
-            <div className="journal-cta-grid">
-              
-              {/* Subscribe Card */}
-              <div className="journal-cta-card">
-                <h3 className="cta-card-title">Subscribe to the Journal</h3>
-                <p className="cta-card-desc">Get quarterly research studies, diagnostic frameworks and expert guides sent straight to your inbox.</p>
-                <form className="cta-subscribe-form" onSubmit={(e) => e.preventDefault()}>
-                  <input type="email" placeholder="Enter your email" className="cta-input" required />
-                  <button type="submit" className="cta-btn-submit">Subscribe</button>
-                </form>
               </div>
+            )}
 
-              {/* Assessment Card */}
-              <div className="journal-cta-card highlight-card">
-                <h3 className="cta-card-title" style={{ color: '#FFFFFF' }}>Looking for the right mentor?</h3>
-                <p className="cta-card-desc" style={{ color: 'rgba(255, 255, 255, 0.75)' }}>Begin with our diagnostic assessment visit. We map foundations, focus, and match the perfect certified educator.</p>
-                <div style={{ marginTop: 24 }}>
-                  <button 
-                    onClick={() => {
-                      localStorage.setItem('activeFormTab', 'assessment');
-                      localStorage.setItem('highlightForm', 'true');
-                      window.location.href = '/#contact-forms';
-                    }} 
-                    className="cta-btn-link"
+            {/* ============================================================== */}
+            {/* ARTICLES DYNAMIC GRID */}
+            {/* ============================================================== */}
+            <div className="journal-grid">
+              {gridArticles.map((art) => {
+                const isWide = activeCategory === 'All' && art.wide;
+                return (
+                  <div 
+                    key={art.id}
+                    className={`journal-card ${isWide ? 'journal-card-wide' : ''}`}
+                    style={{ cursor: 'pointer' }}
+                    onClick={() => setSelectedArticle(art)}
                   >
-                    Book Assessment Visit <span className="arrow">→</span>
-                  </button>
+                    <div className="cover-image-wrapper">
+                      <div className="noise-grain" />
+                      <CoverIllustration type={art.coverType} />
+                    </div>
+                    
+                    <div className="card-body">
+                      <div className="card-top">
+                        <span className={`card-tag ${art.tagClass}`}>{art.tag}</span>
+                        <ArrowUpRight size={16} className="card-arrow" />
+                      </div>
+                      
+                      <h3 className="card-title">{art.title}</h3>
+                      <p className="card-desc">{art.desc}</p>
+                      
+                      <div className="card-divider" />
+                      
+                      <div className="card-metadata">
+                        <span className="meta-item"><Clock size={12} /> {art.time}</span>
+                        <span className="meta-dot">•</span>
+                        <span className="meta-item"><Calendar size={12} /> {art.date}</span>
+                      </div>
+                    </div>
+                  </div>
+                );
+              })}
+            </div>
+
+            {/* ============================================================== */}
+            {/* EDITORIAL CTA SECTION */}
+            {/* ============================================================== */}
+            <FadeUp threshold={0.01}>
+              <div className="journal-cta-section">
+                <div style={{
+                  position: 'absolute',
+                  width: '500px',
+                  height: '500px',
+                  borderRadius: '50%',
+                  background: 'radial-gradient(circle, rgba(79, 124, 255, 0.035) 0%, transparent 70%)',
+                  bottom: '-20%',
+                  right: '-10%',
+                  pointerEvents: 'none',
+                  zIndex: 0
+                }} />
+                
+                <div className="journal-cta-grid">
+                  
+                  {/* Subscribe Card */}
+                  <div className="journal-cta-card">
+                    <h3 className="cta-card-title">Subscribe to the Journal</h3>
+                    <p className="cta-card-desc">Get quarterly research studies, diagnostic frameworks and expert guides sent straight to your inbox.</p>
+                    <form className="cta-subscribe-form" onSubmit={(e) => e.preventDefault()}>
+                      <input type="email" placeholder="Enter your email" className="cta-input" required />
+                      <button type="submit" className="cta-btn-submit">Subscribe</button>
+                    </form>
+                  </div>
+
+                  {/* Assessment Card */}
+                  <div className="journal-cta-card highlight-card">
+                    <h3 className="cta-card-title" style={{ color: '#FFFFFF' }}>Looking for the right mentor?</h3>
+                    <p className="cta-card-desc" style={{ color: 'rgba(255, 255, 255, 0.75)' }}>Begin with our diagnostic assessment visit. We map foundations, focus, and match the perfect certified educator.</p>
+                    <div style={{ marginTop: 24 }}>
+                      <button 
+                        onClick={() => {
+                          localStorage.setItem('activeFormTab', 'assessment');
+                          localStorage.setItem('highlightForm', 'true');
+                          window.location.href = '/#contact-forms';
+                        }} 
+                        className="cta-btn-link"
+                      >
+                        Book Assessment Visit <span className="arrow">→</span>
+                      </button>
+                    </div>
+                  </div>
                 </div>
               </div>
-            </div>
+            </FadeUp>
           </div>
-        </FadeUp>
-      </div>
-      )}
+        )}
 
       </div>
 

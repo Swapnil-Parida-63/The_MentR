@@ -25,14 +25,29 @@ export default function MenteeChat() {
   const sessionIdRef = useRef(`session_${Date.now()}_${Math.random().toString(36).substr(2, 6)}`);
 
   // Conversation state stored locally in component state
-  const [messages, setMessages] = useState([
-    {
-      id: 'msg_welcome',
-      role: 'assistant',
-      content: INITIAL_GREETING,
-      timestamp: new Date().toISOString()
+  const [messages, setMessages] = useState([]);
+
+  // Lock background body scroll completely when Mentee chat is open
+  useEffect(() => {
+    if (isOpen) {
+      const originalOverflow = document.body.style.overflow;
+      const originalOverscroll = document.body.style.overscrollBehavior;
+      const originalPaddingRight = document.body.style.paddingRight;
+      
+      const scrollbarWidth = window.innerWidth - document.documentElement.clientWidth;
+      document.body.style.overflow = 'hidden';
+      document.body.style.overscrollBehavior = 'none';
+      if (scrollbarWidth > 0) {
+        document.body.style.paddingRight = `${scrollbarWidth}px`;
+      }
+
+      return () => {
+        document.body.style.overflow = originalOverflow;
+        document.body.style.overscrollBehavior = originalOverscroll;
+        document.body.style.paddingRight = originalPaddingRight;
+      };
     }
-  ]);
+  }, [isOpen]);
 
   const handleSendMessage = async (text) => {
     if (!text || !text.trim() || isLoading) return;
@@ -91,14 +106,8 @@ export default function MenteeChat() {
     sessionIdRef.current = `session_${Date.now()}_${Math.random().toString(36).substr(2, 6)}`;
     setError(null);
     setIsLoading(false);
-    setMessages([
-      {
-        id: `msg_welcome_${Date.now()}`,
-        role: 'assistant',
-        content: INITIAL_GREETING,
-        timestamp: new Date().toISOString()
-      }
-    ]);
+    setLastUserPrompt('');
+    setMessages([]);
   };
 
   const handleRetry = () => {
@@ -132,7 +141,8 @@ export default function MenteeChat() {
             backdropFilter: 'blur(3px)',
             WebkitBackdropFilter: 'blur(3px)',
             zIndex: 100001,
-            animation: 'menteeFadeIn 0.25s ease-out'
+            animation: 'menteeFadeIn 0.25s ease-out',
+            overscrollBehavior: 'none'
           }}
         />
       )}

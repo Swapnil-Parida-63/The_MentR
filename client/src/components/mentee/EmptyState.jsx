@@ -1,9 +1,9 @@
 import { useState, useEffect } from 'react';
-import { ArrowRight, Sparkles, UserCheck, Award, Compass, MessageSquare, BookOpen, HelpCircle, ArrowLeft } from 'lucide-react';
+import { UserCheck, Award, Compass, MessageSquare, HelpCircle, ArrowLeft, ArrowRight } from 'lucide-react';
 
 /**
  * EmptyState / Hero & Discovery Component
- * Supports both Desktop Neomorphic Hero and Mobile Multi-Step App Flow (Welcome -> Discovery).
+ * Supports both Desktop Neomorphic Hero with charming educational doodles and Mobile Multi-Step App Flow.
  */
 export default function EmptyState({ onSelectPrompt, onClose, mobileStep = 'welcome', setMobileStep }) {
   const [isMobile, setIsMobile] = useState(false);
@@ -17,7 +17,7 @@ export default function EmptyState({ onSelectPrompt, onClose, mobileStep = 'welc
     return () => window.removeEventListener('resize', checkMobile);
   }, []);
 
-  // 2x2 Grid Categories matching Screenshot 2
+  // 2x2 Grid Categories for mobile
   const mobileCategories = [
     {
       id: 'doubts',
@@ -90,7 +90,7 @@ export default function EmptyState({ onSelectPrompt, onClose, mobileStep = 'welc
   ];
 
   // ----------------------------------------------------
-  // MOBILE VIEW 1: WELCOME SCREEN (Screenshot 1)
+  // MOBILE VIEW 1: WELCOME SCREEN
   // ----------------------------------------------------
   if (isMobile && mobileStep === 'welcome') {
     return (
@@ -141,7 +141,6 @@ export default function EmptyState({ onSelectPrompt, onClose, mobileStep = 'welc
 
         {/* Center Character Area */}
         <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', margin: 'auto 0 16px' }}>
-          {/* Animated 3D Standing Mascot */}
           <div
             style={{
               position: 'relative',
@@ -175,8 +174,7 @@ export default function EmptyState({ onSelectPrompt, onClose, mobileStep = 'welc
                 width: 'auto',
                 objectFit: 'contain',
                 display: 'block',
-                filter: 'drop-shadow(0 20px 40px rgba(99, 102, 241, 0.28))',
-                animation: 'mascotFloat 3.5s ease-in-out infinite alternate'
+                filter: 'drop-shadow(0 20px 40px rgba(99, 102, 241, 0.28))'
               }}
             />
           </div>
@@ -292,12 +290,6 @@ export default function EmptyState({ onSelectPrompt, onClose, mobileStep = 'welc
               outline: 'none',
               transition: 'transform 0.2s ease, box-shadow 0.2s ease'
             }}
-            onTouchStart={(e) => {
-              e.currentTarget.style.transform = 'scale(0.98)';
-            }}
-            onTouchEnd={(e) => {
-              e.currentTarget.style.transform = 'scale(1)';
-            }}
           >
             <span
               style={{
@@ -332,7 +324,7 @@ export default function EmptyState({ onSelectPrompt, onClose, mobileStep = 'welc
   }
 
   // ----------------------------------------------------
-  // MOBILE VIEW 2: INTERACTIVE DISCOVERY SCREEN (Screenshot 2)
+  // MOBILE VIEW 2: INTERACTIVE DISCOVERY SCREEN
   // ----------------------------------------------------
   if (isMobile && mobileStep === 'discovery') {
     return (
@@ -419,12 +411,6 @@ export default function EmptyState({ onSelectPrompt, onClose, mobileStep = 'welc
                   outline: 'none',
                   transition: 'transform 0.2s ease, box-shadow 0.2s ease'
                 }}
-                onTouchStart={(e) => {
-                  e.currentTarget.style.transform = 'scale(0.97)';
-                }}
-                onTouchEnd={(e) => {
-                  e.currentTarget.style.transform = 'scale(1)';
-                }}
               >
                 {/* Top Row: Soft Pastel Accent Orb + Icon */}
                 <div
@@ -499,35 +485,122 @@ export default function EmptyState({ onSelectPrompt, onClose, mobileStep = 'welc
         maxWidth: 780,
         margin: '0 auto',
         width: '100%',
+        position: 'relative',
         animation: 'heroFadeIn 0.5s cubic-bezier(0.16, 1, 0.3, 1) both'
       }}
     >
-      {/* 3D Animated Mascot Character */}
+      {/* ═══════════════════════════════════════════════════════ */}
+      {/* PLAYFUL EDUCATIONAL BACKGROUND DOODLES                  */}
+      {/* ═══════════════════════════════════════════════════════ */}
+      <svg
+        aria-hidden="true"
+        style={{
+          position: 'absolute',
+          inset: 0,
+          width: '100%',
+          height: '100%',
+          pointerEvents: 'none',
+          zIndex: 0,
+          overflow: 'visible'
+        }}
+      >
+        {/* 1. Paper Airplane Top-Right with curved dashed loop */}
+        <g transform="translate(620, 25) scale(0.9)" style={{ opacity: 0.35 }}>
+          <path
+            d="M -180 80 C -120 40, -60 110, -10 30"
+            stroke="#818CF8"
+            strokeWidth="1.5"
+            strokeDasharray="4 4"
+            fill="none"
+          />
+          {/* Paper airplane body */}
+          <path
+            d="M -10 30 L 25 10 L 10 42 L 5 28 Z"
+            fill="rgba(99, 102, 241, 0.15)"
+            stroke="#6366F1"
+            strokeWidth="1.8"
+            strokeLinejoin="round"
+          />
+          <path d="M 5 28 L 25 10" stroke="#6366F1" strokeWidth="1.2" />
+        </g>
+
+        {/* 2. Top-Left Sparkle Clusters & "Dream Big" Doodle */}
+        <g transform="translate(90, 40)" style={{ opacity: 0.35 }}>
+          {/* 4-point Sparkle */}
+          <path d="M 15 0 Q 15 10 25 10 Q 15 10 15 20 Q 15 10 5 10 Q 15 10 15 0 Z" fill="#818CF8" />
+          <path d="M 45 25 Q 45 30 50 30 Q 45 30 45 35 Q 45 30 40 30 Q 45 30 45 25 Z" fill="#38BDF8" />
+          {/* Hand-drawn swirl */}
+          <path d="M -10 35 C 5 25, 20 45, 35 30" stroke="#7C3AED" strokeWidth="1.5" strokeLinecap="round" strokeDasharray="3 3" fill="none" />
+        </g>
+
+        {/* 3. Upper Left "A+" Stamp Doodle */}
+        <g transform="translate(130, 95) scale(0.85)" style={{ opacity: 0.3 }}>
+          <circle cx="18" cy="18" r="16" stroke="#6366F1" strokeWidth="1.5" strokeDasharray="3 3" fill="none" />
+          <text x="10" y="24" fontFamily="'Space Grotesk', system-ui, sans-serif" fontSize="16" fontWeight="bold" fill="#6366F1">A+</text>
+        </g>
+
+        {/* 4. Upper Right Lightbulb Idea Doodle */}
+        <g transform="translate(635, 110) scale(0.9)" style={{ opacity: 0.35 }}>
+          <circle cx="15" cy="15" r="8" stroke="#F59E0B" strokeWidth="1.8" fill="rgba(245, 158, 11, 0.1)" />
+          <path d="M 12 23 H 18" stroke="#F59E0B" strokeWidth="1.8" strokeLinecap="round" />
+          {/* Rays */}
+          <line x1="15" y1="3" x2="15" y2="0" stroke="#F59E0B" strokeWidth="1.8" strokeLinecap="round" />
+          <line x1="24" y1="6" x2="27" y2="3" stroke="#F59E0B" strokeWidth="1.8" strokeLinecap="round" />
+          <line x1="6" y1="6" x2="3" y2="3" stroke="#F59E0B" strokeWidth="1.8" strokeLinecap="round" />
+          <line x1="27" y1="15" x2="30" y2="15" stroke="#F59E0B" strokeWidth="1.8" strokeLinecap="round" />
+        </g>
+
+        {/* 5. Mid-Left Math Symbols: ∑ & π */}
+        <g transform="translate(75, 180)" style={{ opacity: 0.3 }}>
+          <text x="0" y="0" fontFamily="'Space Grotesk', system-ui, sans-serif" fontSize="20" fontWeight="bold" fill="#3B82F6">∑</text>
+          <text x="25" y="30" fontFamily="'Space Grotesk', system-ui, sans-serif" fontSize="18" fontWeight="bold" fill="#8B5CF6">π</text>
+        </g>
+
+        {/* 6. Mid-Right Science Atom Orbit Doodle */}
+        <g transform="translate(650, 195) scale(0.85)" style={{ opacity: 0.3 }}>
+          <ellipse cx="18" cy="18" rx="18" ry="7" stroke="#10B981" strokeWidth="1.4" fill="none" transform="rotate(30 18 18)" />
+          <ellipse cx="18" cy="18" rx="18" ry="7" stroke="#3B82F6" strokeWidth="1.4" fill="none" transform="rotate(-30 18 18)" />
+          <circle cx="18" cy="18" r="3" fill="#10B981" />
+        </g>
+
+        {/* 7. Lower Left Little Book Doodle */}
+        <g transform="translate(110, 240) scale(0.85)" style={{ opacity: 0.28 }}>
+          <path d="M 0 10 Q 12 5 24 10 Q 36 5 48 10 L 48 26 Q 36 21 24 26 Q 12 21 0 26 Z" stroke="#6366F1" strokeWidth="1.6" fill="rgba(99, 102, 241, 0.08)" />
+          <line x1="24" y1="10" x2="24" y2="26" stroke="#6366F1" strokeWidth="1.4" />
+        </g>
+
+        {/* 8. Sparkle Accents near cards */}
+        <g transform="translate(620, 275)" style={{ opacity: 0.35 }}>
+          <path d="M 10 0 Q 10 6 16 6 Q 10 6 10 12 Q 10 6 4 6 Q 10 6 10 0 Z" fill="#EC4899" />
+          <circle cx="28" cy="14" r="2" fill="#F59E0B" />
+        </g>
+      </svg>
+
+      {/* 3D Mascot Character (No hover jump/zoom) */}
       <div
         className="mascot-orb-wrapper"
         style={{
           position: 'relative',
           marginBottom: 16,
-          cursor: 'pointer',
-          transition: 'transform 0.4s cubic-bezier(0.16, 1, 0.3, 1)'
+          cursor: 'default',
+          zIndex: 1
         }}
       >
-        {/* Pulsing Soft Aura Layers */}
+        {/* Soft Ambient Aura */}
         <div
           className="mascot-orb-aura"
           style={{
             position: 'absolute',
             inset: -40,
             borderRadius: '50%',
-            background: 'radial-gradient(circle, rgba(139, 92, 246, 0.42) 0%, rgba(99, 102, 241, 0.22) 50%, transparent 70%)',
+            background: 'radial-gradient(circle, rgba(139, 92, 246, 0.38) 0%, rgba(99, 102, 241, 0.18) 50%, transparent 70%)',
             filter: 'blur(42px)',
             animation: 'auraPulse 3.5s ease-in-out infinite alternate',
-            zIndex: 0,
-            transition: 'all 0.4s ease'
+            zIndex: 0
           }}
         />
 
-        {/* Full Sized Mascot Graphic */}
+        {/* Mascot Graphic */}
         <div
           className="mascot-graphic-container"
           style={{
@@ -535,9 +608,7 @@ export default function EmptyState({ onSelectPrompt, onClose, mobileStep = 'welc
             zIndex: 1,
             display: 'flex',
             alignItems: 'center',
-            justifyContent: 'center',
-            animation: 'mascotFloat 4s ease-in-out infinite alternate',
-            transition: 'all 0.35s cubic-bezier(0.16, 1, 0.3, 1)'
+            justifyContent: 'center'
           }}
         >
           <img
@@ -550,15 +621,14 @@ export default function EmptyState({ onSelectPrompt, onClose, mobileStep = 'welc
               maxHeight: 310,
               objectFit: 'contain',
               display: 'block',
-              filter: 'drop-shadow(0 26px 52px rgba(139, 92, 246, 0.36))',
-              transition: 'all 0.35s cubic-bezier(0.16, 1, 0.3, 1)'
+              filter: 'drop-shadow(0 26px 52px rgba(139, 92, 246, 0.36))'
             }}
           />
         </div>
       </div>
 
       {/* Greeting Typography */}
-      <div style={{ marginBottom: 20 }}>
+      <div style={{ marginBottom: 20, position: 'relative', zIndex: 1 }}>
         <p
           style={{
             fontFamily: 'var(--font-sans)',
@@ -596,7 +666,9 @@ export default function EmptyState({ onSelectPrompt, onClose, mobileStep = 'welc
           gridTemplateColumns: 'repeat(auto-fit, minmax(190px, 1fr))',
           gap: 10,
           width: '100%',
-          marginTop: 4
+          marginTop: 4,
+          position: 'relative',
+          zIndex: 1
         }}
       >
         {desktopPromptCards.map((card, idx) => {
@@ -607,7 +679,7 @@ export default function EmptyState({ onSelectPrompt, onClose, mobileStep = 'welc
               onClick={() => onSelectPrompt(card.prompt)}
               className="neomorphic-prompt-card"
               style={{
-                background: 'rgba(255, 255, 255, 0.85)',
+                background: 'rgba(255, 255, 255, 0.88)',
                 border: '1.2px solid rgba(255, 255, 255, 0.95)',
                 borderRadius: 15,
                 padding: '10px 14px',
@@ -674,23 +746,9 @@ export default function EmptyState({ onSelectPrompt, onClose, mobileStep = 'welc
           from { opacity: 0; transform: translateY(12px); }
           to { opacity: 1; transform: translateY(0); }
         }
-        @keyframes mascotFloat {
-          0% { transform: translateY(0px) scale(1); }
-          100% { transform: translateY(-8px) scale(1.02); }
-        }
         @keyframes auraPulse {
           0% { opacity: 0.6; transform: scale(0.96); }
-          100% { opacity: 1; transform: scale(1.08); }
-        }
-        .mascot-orb-wrapper:hover .mascot-main-img {
-          transform: scale(1.06) translateY(-6px) rotate(1.5deg);
-          filter: drop-shadow(0 34px 68px rgba(139, 92, 246, 0.45)) !important;
-        }
-        .mascot-orb-wrapper:hover .mascot-orb-aura {
-          opacity: 1 !important;
-          transform: scale(1.2) !important;
-          filter: blur(50px) !important;
-          background: radial-gradient(circle, rgba(139, 92, 246, 0.55) 0%, rgba(99, 102, 241, 0.3) 50%, transparent 70%) !important;
+          100% { opacity: 0.9; transform: scale(1.04); }
         }
         .neomorphic-prompt-card:hover {
           transform: translateY(-3px);

@@ -1,1233 +1,1048 @@
-import { useState, useEffect, useRef } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
-import { 
-  Check, 
-  ArrowRight,
-  Monitor,
-  Home,
-  GraduationCap,
-  Lightbulb,
-  Laptop,
-  BookMarked,
-  Shield,
-  Star,
-  Zap
-} from 'lucide-react';
+import { useState, useEffect } from 'react';
+import { motion } from 'framer-motion';
 
-// Premium monochrome vector SVGs with interactive classes
+// Premium colorful vector SVGs with complete viewBox safety and grounding
 const illustrations = {
   teachers: (
-    <svg width="110" height="110" viewBox="0 0 120 120" fill="none" style={{ overflow: 'visible' }}>
-      <circle cx="60" cy="50" r="32" stroke="rgba(79, 124, 255, 0.08)" strokeWidth="1" strokeDasharray="3 3" />
-      <circle cx="60" cy="50" r="42" stroke="rgba(79, 124, 255, 0.05)" strokeWidth="1" />
-      
-      {/* User outline */}
-      <path d="M 60 26 C 68.28 26 75 32.72 75 41 C 75 49.28 68.28 56 60 56 C 51.72 56 45 49.28 45 41 C 45 32.72 51.72 26 60 26 Z" stroke="#4F7CFF" strokeWidth="1.8" strokeLinecap="round" fill="#FFFFFF" />
-      <path d="M 33 82 C 33 69.85 42.85 60 55 60 L 65 60 C 77.15 60 87 69.85 87 82 L 87 88 L 33 88 Z" stroke="#4F7CFF" strokeWidth="1.8" strokeLinejoin="round" fill="#FFFFFF" />
-      
-      {/* Interactive Shield checkmark badge */}
-      <g className="teach-badge" style={{ transformOrigin: '82px 54px', transition: 'transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275)' }}>
-        <circle cx="82" cy="54" r="13" fill="#FFFFFF" stroke="#10B981" strokeWidth="1.8" />
-        <path d="M 78 54 L 81 57 L 86 51" stroke="#10B981" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
+    <svg width="150" height="130" viewBox="0 0 160 140" fill="none" style={{ overflow: 'visible', maxWidth: '100%' }}>
+      <defs>
+        <radialGradient id="teacher-glow" cx="60%" cy="50%" r="55%">
+          <stop offset="0%" stopColor="#38BDF8" stopOpacity="0.32" />
+          <stop offset="60%" stopColor="#BAE6FD" stopOpacity="0.12" />
+          <stop offset="100%" stopColor="#FFFFFF" stopOpacity="0" />
+        </radialGradient>
+      </defs>
+      <circle cx="85" cy="70" r="60" fill="url(#teacher-glow)" />
+
+      {/* Decorative dashed outer orbit */}
+      <circle cx="80" cy="65" r="44" stroke="#0284C7" strokeWidth="1.2" strokeDasharray="3 3" opacity="0.22" />
+
+      {/* User Avatar */}
+      <circle cx="80" cy="46" r="16" stroke="#0284C7" strokeWidth="2.5" fill="#FFFFFF" />
+      <path
+        d="M 48 94 C 48 76, 62 68, 80 68 C 98 68, 112 76, 112 94"
+        stroke="#0284C7"
+        strokeWidth="2.5"
+        strokeLinecap="round"
+        fill="#FFFFFF"
+      />
+
+      {/* Verification Checkmark Badge */}
+      <g className="teach-badge" style={{ transformOrigin: '100px 62px', transition: 'transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275)' }}>
+        <circle cx="100" cy="62" r="12" fill="#FFFFFF" stroke="#10B981" strokeWidth="2.5" />
+        <path d="M 95 62 L 99 66 L 106 58" stroke="#10B981" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" />
       </g>
+
+      {/* Sparkles */}
+      <path d="M 126 28 Q 126 34 132 34 Q 126 34 126 40 Q 126 34 120 34 Q 126 34 126 28 Z" fill="#38BDF8" />
+      <path d="M 34 82 Q 34 87 39 87 Q 34 87 34 92 Q 34 87 29 87 Q 34 87 34 82 Z" fill="#818CF8" />
+      <path d="M 136 68 Q 136 71 139 71 Q 136 71 136 74 Q 136 71 133 71 Q 136 71 136 68 Z" fill="#34D399" />
     </svg>
   ),
+
   assessment: (
-    <svg width="105" height="105" viewBox="0 0 120 120" fill="none" style={{ overflow: 'visible' }}>
-      <rect x="35" y="25" width="50" height="70" rx="8" stroke="#7C5CFF" strokeWidth="1.8" fill="#FFFFFF" />
-      
-      {/* Clipboard clip */}
-      <path className="assess-clip" d="M 50 25 L 50 20 C 50 18.5 51.5 17 53 17 L 67 17 C 68.5 17 70 18.5 70 20 L 70 25" stroke="#7C5CFF" strokeWidth="1.8" strokeLinecap="round" fill="#FFFFFF" style={{ transition: 'transform 0.3s ease' }} />
-      
-      {/* Lines inside clipboard */}
-      <path d="M 45 42 L 68 42" stroke="rgba(124, 92, 255, 0.4)" strokeWidth="1.8" strokeLinecap="round" />
-      <path d="M 45 54 L 75 54" stroke="#7C5CFF" strokeWidth="1.8" strokeLinecap="round" />
-      <path d="M 45 66 L 62 66" stroke="rgba(124, 92, 255, 0.4)" strokeWidth="1.8" strokeLinecap="round" />
-      <path d="M 45 78 L 70 78" stroke="#7C5CFF" strokeWidth="1.8" strokeLinecap="round" />
-      
-      {/* Tiny check indicators */}
-      <circle className="assess-dot-1" cx="43" cy="54" r="2.5" fill="#7C5CFF" style={{ transition: 'transform 0.3s ease', transformOrigin: '43px 54px' }} />
-      <circle className="assess-dot-2" cx="43" cy="78" r="2.5" fill="#7C5CFF" style={{ transition: 'transform 0.3s ease', transformOrigin: '43px 78px' }} />
+    <svg width="125" height="115" viewBox="0 0 135 125" fill="none" style={{ overflow: 'visible', maxWidth: '100%' }}>
+      <defs>
+        <radialGradient id="assess-glow" cx="60%" cy="50%" r="55%">
+          <stop offset="0%" stopColor="#818CF8" stopOpacity="0.3" />
+          <stop offset="60%" stopColor="#C7D2FE" stopOpacity="0.1" />
+          <stop offset="100%" stopColor="#FFFFFF" stopOpacity="0" />
+        </radialGradient>
+      </defs>
+      <circle cx="70" cy="62" r="52" fill="url(#assess-glow)" />
+
+      {/* Clipboard */}
+      <g className="assess-board" style={{ transition: 'transform 0.35s ease' }}>
+        <rect x="34" y="18" width="50" height="72" rx="7" stroke="#6366F1" strokeWidth="2.4" fill="#FFFFFF" />
+
+        {/* Clip top */}
+        <path
+          d="M 47 18 V 13 C 47 11.5 48.5 10 50.5 10 H 67.5 C 69.5 10 71 11.5 71 13 V 18"
+          stroke="#6366F1"
+          strokeWidth="2.4"
+          strokeLinecap="round"
+          fill="#FFFFFF"
+        />
+
+        {/* Checklist items */}
+        <path d="M 43 36 L 46 39 L 51 33" stroke="#6366F1" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
+        <line x1="56" y1="36" x2="74" y2="36" stroke="#6366F1" strokeWidth="2" strokeLinecap="round" />
+
+        <path d="M 43 50 L 46 53 L 51 47" stroke="#6366F1" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
+        <line x1="56" y1="50" x2="70" y2="50" stroke="#818CF8" strokeWidth="2" strokeLinecap="round" opacity="0.65" />
+
+        <path d="M 43 64 L 46 67 L 51 61" stroke="#6366F1" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
+        <line x1="56" y1="64" x2="74" y2="64" stroke="#6366F1" strokeWidth="2" strokeLinecap="round" />
+
+        <line x1="43" y1="76" x2="63" y2="76" stroke="#818CF8" strokeWidth="2" strokeLinecap="round" opacity="0.45" />
+      </g>
+
+      {/* Sparkles */}
+      <path d="M 102 52 Q 102 57 107 57 Q 102 57 102 62 Q 102 57 97 57 Q 102 57 102 52 Z" fill="#F43F5E" />
+      <path d="M 92 16 Q 92 19 95 19 Q 92 19 92 22 Q 92 19 89 19 Q 92 19 92 16 Z" fill="#60A5FA" />
     </svg>
   ),
+
   matching: (
-    <svg width="145" height="145" viewBox="0 0 160 160" fill="none" style={{ overflow: 'visible' }}>
-      {/* Central mentR Logo Node */}
-      <g className="match-center" style={{ transformOrigin: '80px 80px', transition: 'transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275), filter 0.4s ease' }}>
-        <circle cx="80" cy="80" r="20" stroke="#10B981" strokeWidth="2" fill="#FFFFFF" />
-        <circle cx="80" cy="80" r="16" fill="rgba(16, 185, 129, 0.04)" />
-        {/* Stylized M logo for mentR */}
-        <path d="M 70 87 L 70 74 L 80 81 L 90 74 L 90 87" stroke="#4F7CFF" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round" fill="none" />
+    <svg width="180" height="130" viewBox="0 0 190 130" fill="none" style={{ overflow: 'visible', maxWidth: '100%' }}>
+      <defs>
+        <radialGradient id="matching-glow" cx="50%" cy="50%" r="55%">
+          <stop offset="0%" stopColor="#34D399" stopOpacity="0.25" />
+          <stop offset="45%" stopColor="#60A5FA" stopOpacity="0.15" />
+          <stop offset="100%" stopColor="#FFFFFF" stopOpacity="0" />
+        </radialGradient>
+      </defs>
+      <ellipse cx="95" cy="65" rx="85" ry="58" fill="url(#matching-glow)" />
+
+      {/* Left Student Avatar (Blue) */}
+      <g className="match-person-left" style={{ transition: 'transform 0.35s ease' }}>
+        <circle cx="36" cy="48" r="11" stroke="#0284C7" strokeWidth="2.5" fill="#FFFFFF" />
+        <path d="M 16 86 C 16 73, 25 66, 36 66 C 47 66, 56 73, 56 86" stroke="#0284C7" strokeWidth="2.5" strokeLinecap="round" fill="#FFFFFF" />
       </g>
 
-      {/* Left Node: Teacher */}
-      <g className="match-teacher" style={{ transformOrigin: '32px 80px', transition: 'transform 0.4s ease' }}>
-        {/* Teacher outline */}
-        <circle cx="32" cy="68" r="7.5" stroke="#4F7CFF" strokeWidth="1.8" fill="#FFFFFF" />
-        <path d="M 18 94 C 18 84, 24 80, 32 80 C 40 80, 46 84, 46 94 Z" stroke="#4F7CFF" strokeWidth="1.8" fill="#FFFFFF" />
-        {/* Tiny graduation cap */}
-        <path d="M 25 61 L 32 58 L 39 61 L 32 64 Z" stroke="#4F7CFF" strokeWidth="1.5" fill="#FFFFFF" />
-        <path d="M 32 64 L 32 68" stroke="#4F7CFF" strokeWidth="1.2" />
+      {/* Dashed connector line Left */}
+      <path className="match-line-left" d="M 58 70 C 68 65, 70 65, 76 67" stroke="#60A5FA" strokeWidth="2" strokeDasharray="3 3" strokeLinecap="round" />
+
+      {/* Center TheMentR Logo Node */}
+      <g className="match-center-node" style={{ transformOrigin: '95px 65px', transition: 'transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275)' }}>
+        <circle cx="95" cy="65" r="23" fill="#FFFFFF" stroke="#0284C7" strokeWidth="2.5" />
+        <circle cx="95" cy="65" r="19" fill="rgba(2, 132, 199, 0.05)" />
+        {/* Two dots above M */}
+        <circle cx="88" cy="57" r="2.2" fill="#0284C7" />
+        <circle cx="102" cy="57" r="2.2" fill="#0284C7" />
+        {/* M Icon */}
+        <path d="M 83 74 L 88 62 L 95 69 L 102 62 L 107 74" stroke="#0284C7" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" fill="none" />
       </g>
 
-      {/* Right Node: Parent & Child */}
-      <g className="match-parent" style={{ transformOrigin: '128px 80px', transition: 'transform 0.4s ease' }}>
-        {/* Parent outline */}
-        <circle cx="124" cy="68" r="7.5" stroke="#7C5CFF" strokeWidth="1.8" fill="#FFFFFF" />
-        <path d="M 110 94 C 110 84, 116 80, 124 80 C 132 80, 132 94, 132 94" stroke="#7C5CFF" strokeWidth="1.8" fill="#FFFFFF" />
-        {/* Child outline */}
-        <circle cx="136" cy="74" r="5" stroke="#7C5CFF" strokeWidth="1.5" fill="#FFFFFF" />
-        <path d="M 128 94 C 128 86, 131 83, 136 83 C 141 83, 144 86, 144 94" stroke="#7C5CFF" strokeWidth="1.5" fill="#FFFFFF" />
+      {/* Dashed connector line Right */}
+      <path className="match-line-right" d="M 114 67 C 122 65, 124 65, 134 70" stroke="#7C3AED" strokeWidth="2" strokeDasharray="3 3" strokeLinecap="round" />
+
+      {/* Right Mentor Avatar (Purple) */}
+      <g className="match-person-right" style={{ transition: 'transform 0.35s ease' }}>
+        <circle cx="154" cy="48" r="11" stroke="#7C3AED" strokeWidth="2.5" fill="#FFFFFF" />
+        <path d="M 134 86 C 134 73, 143 66, 154 66 C 165 66, 174 73, 174 86" stroke="#7C3AED" strokeWidth="2.5" strokeLinecap="round" fill="#FFFFFF" />
       </g>
 
-      {/* Interactive connection lines */}
-      <path className="match-line-left" d="M 46 80 C 52 76, 54 76, 60 80" stroke="#4F7CFF" strokeWidth="1.8" strokeLinecap="round" strokeDasharray="3 3" />
-      <path className="match-line-right" d="M 100 80 C 104 84, 108 84, 112 80" stroke="#7C5CFF" strokeWidth="1.8" strokeLinecap="round" strokeDasharray="3 3" />
-
-      {/* Background Radar Rings */}
-      <circle className="radar-circle" cx="80" cy="80" r="28" stroke="rgba(16, 185, 129, 0.08)" strokeWidth="1" style={{ transition: 'transform 0.4s ease', transformOrigin: '80px 80px' }} />
+      {/* Yellow energy lightning accents */}
+      <path d="M 158 26 L 162 33 L 158 35 L 163 43" stroke="#F59E0B" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
+      {/* Pink accent sparks */}
+      <line x1="24" y1="36" x2="18" y2="31" stroke="#EC4899" strokeWidth="2" strokeLinecap="round" />
+      <line x1="18" y1="43" x2="11" y2="43" stroke="#EC4899" strokeWidth="2" strokeLinecap="round" />
     </svg>
   ),
+
   safe: (
-    <svg width="105" height="105" viewBox="0 0 120 120" fill="none" style={{ overflow: 'visible' }}>
-      {/* Shield Outline */}
-      <path d="M 60 20 L 92 30 C 92 64, 76 86, 60 96 C 44 86, 28 64, 28 30 Z" stroke="#10B981" strokeWidth="1.8" fill="#FFFFFF" strokeLinejoin="round" />
-      
-      {/* Locked Emblem */}
-      <g className="safe-lock" style={{ transformOrigin: '60px 60px', transition: 'transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275)' }}>
-        <rect x="50" y="52" width="20" height="16" rx="3" stroke="#10B981" strokeWidth="1.8" fill="#FFFFFF" />
-        <path d="M 54 52 L 54 44 C 54 40.5, 57 38, 60 38 C 63 38, 66 40.5, 66 44 L 66 52" stroke="#10B981" strokeWidth="1.8" strokeLinecap="round" />
+    <svg width="125" height="115" viewBox="0 0 135 125" fill="none" style={{ overflow: 'visible', maxWidth: '100%' }}>
+      <defs>
+        <radialGradient id="safe-glow" cx="60%" cy="50%" r="55%">
+          <stop offset="0%" stopColor="#FB7185" stopOpacity="0.28" />
+          <stop offset="60%" stopColor="#FECDD3" stopOpacity="0.1" />
+          <stop offset="100%" stopColor="#FFFFFF" stopOpacity="0" />
+        </radialGradient>
+      </defs>
+      <circle cx="70" cy="62" r="52" fill="url(#safe-glow)" />
+
+      {/* Shield Outline in Coral */}
+      <path
+        d="M 70 20 L 98 30 C 98 62, 83 82, 70 92 C 57 82, 42 62, 42 30 Z"
+        stroke="#F43F5E"
+        strokeWidth="2.5"
+        strokeLinejoin="round"
+        fill="#FFFFFF"
+      />
+
+      {/* Lock in center */}
+      <g className="safe-lock-icon" style={{ transformOrigin: '70px 56px', transition: 'transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275)' }}>
+        <rect x="60" y="50" width="20" height="16" rx="3.5" stroke="#F43F5E" strokeWidth="2.2" fill="#FFFFFF" />
+        <path d="M 64 50 V 43 C 64 39.5 67 37 70 37 C 73 37 76 39.5 76 43 V 50" stroke="#F43F5E" strokeWidth="2.2" strokeLinecap="round" />
+        <circle cx="70" cy="58" r="1.8" fill="#F43F5E" />
       </g>
-      
-      <circle cx="60" cy="60" r="45" stroke="rgba(16, 185, 129, 0.08)" strokeWidth="1" strokeDasharray="3 3" />
+
+      {/* Coral Sparkle Stars */}
+      <path d="M 108 30 Q 108 35 113 35 Q 108 35 108 40 Q 108 35 103 35 Q 108 35 108 30 Z" fill="#F43F5E" />
+      <path d="M 32 68 Q 32 72 36 72 Q 32 72 32 76 Q 32 72 28 72 Q 32 72 32 68 Z" fill="#FB7185" />
     </svg>
   ),
+
   board: (
-    <svg width="105" height="105" viewBox="0 0 120 120" fill="none" style={{ overflow: 'visible' }}>
-      <g transform="translate(10, -5)">
-        {/* Book 3 (Bottom) */}
-        <path d="M 30 75 L 70 85 L 90 70 L 50 60 Z" stroke="#4F7CFF" strokeWidth="1.8" fill="#FFFFFF" />
-        <path d="M 30 75 L 30 83 L 70 93 L 70 85" stroke="#4F7CFF" strokeWidth="1.8" fill="#FFFFFF" strokeLinejoin="round" />
-        <path d="M 70 85 L 70 93 L 90 78 L 90 70" stroke="#4F7CFF" strokeWidth="1.8" fill="#FFFFFF" strokeLinejoin="round" opacity="0.6" />
-        
-        {/* Book 2 (Middle) */}
-        <path className="book-mid" d="M 30 55 L 70 65 L 90 50 L 50 40 Z" stroke="#7C5CFF" strokeWidth="1.8" fill="#FFFFFF" style={{ transition: 'transform 0.3s ease' }} />
-        <path className="book-mid" d="M 30 55 L 30 63 L 70 73 L 70 65" stroke="#7C5CFF" strokeWidth="1.8" fill="#FFFFFF" strokeLinejoin="round" style={{ transition: 'transform 0.3s ease' }} />
-        <path className="book-mid" d="M 70 65 L 70 73 L 90 58 L 90 50" stroke="#7C5CFF" strokeWidth="1.8" fill="#FFFFFF" strokeLinejoin="round" opacity="0.6" style={{ transition: 'transform 0.3s ease' }} />
+    <svg width="125" height="115" viewBox="0 0 135 125" fill="none" style={{ overflow: 'visible', maxWidth: '100%' }}>
+      <defs>
+        <radialGradient id="board-glow" cx="60%" cy="50%" r="55%">
+          <stop offset="0%" stopColor="#38BDF8" stopOpacity="0.28" />
+          <stop offset="60%" stopColor="#BAE6FD" stopOpacity="0.1" />
+          <stop offset="100%" stopColor="#FFFFFF" stopOpacity="0" />
+        </radialGradient>
+      </defs>
+      <circle cx="70" cy="62" r="52" fill="url(#board-glow)" />
 
-        {/* Book 1 (Top) */}
-        <path className="book-top" d="M 30 35 L 70 45 L 90 30 L 50 20 Z" stroke="#10B981" strokeWidth="1.8" fill="#FFFFFF" style={{ transition: 'transform 0.3s ease' }} />
-        <path className="book-top" d="M 30 35 L 30 43 L 70 53 L 70 45" stroke="#10B981" strokeWidth="1.8" fill="#FFFFFF" strokeLinejoin="round" style={{ transition: 'transform 0.3s ease' }} />
-        <path className="book-top" d="M 70 45 L 70 53 L 90 38 L 90 30" stroke="#10B981" strokeWidth="1.8" fill="#FFFFFF" strokeLinejoin="round" opacity="0.6" style={{ transition: 'transform 0.3s ease' }} />
+      {/* Stack of Isometric Colorful Books */}
+      <g transform="translate(5, 5)">
+        {/* Book 3 - Bottom (Mint/Emerald) */}
+        <g className="book-bottom">
+          <path d="M 28 74 L 68 84 L 94 70 L 54 60 Z" fill="#ECFDF5" stroke="#10B981" strokeWidth="2.2" strokeLinejoin="round" />
+          <path d="M 28 74 V 81 L 68 91 V 84 Z" fill="#10B981" stroke="#10B981" strokeWidth="2" strokeLinejoin="round" />
+          <path d="M 68 84 L 68 91 L 94 77 V 70 Z" fill="#059669" stroke="#059669" strokeWidth="1.5" strokeLinejoin="round" />
+        </g>
+
+        {/* Book 2 - Middle (Purple) */}
+        <g className="book-mid" style={{ transition: 'transform 0.3s ease' }}>
+          <path d="M 28 56 L 68 66 L 94 52 L 54 42 Z" fill="#F3E8FF" stroke="#7C3AED" strokeWidth="2.2" strokeLinejoin="round" />
+          <path d="M 28 56 V 63 L 68 73 V 66 Z" fill="#7C3AED" stroke="#7C3AED" strokeWidth="2" strokeLinejoin="round" />
+          <path d="M 68 66 L 68 73 L 94 59 V 52 Z" fill="#6D28D9" stroke="#6D28D9" strokeWidth="1.5" strokeLinejoin="round" />
+        </g>
+
+        {/* Book 1 - Top (Blue) */}
+        <g className="book-top" style={{ transition: 'transform 0.3s ease' }}>
+          <path d="M 28 38 L 68 48 L 94 34 L 54 24 Z" fill="#EFF6FF" stroke="#0284C7" strokeWidth="2.2" strokeLinejoin="round" />
+          <path d="M 28 38 V 45 L 68 55 V 48 Z" fill="#0284C7" stroke="#0284C7" strokeWidth="2" strokeLinejoin="round" />
+          <path d="M 68 48 L 68 55 L 94 41 V 34 Z" fill="#0369A1" stroke="#0369A1" strokeWidth="1.5" strokeLinejoin="round" />
+        </g>
       </g>
+
+      {/* Sparkles around books */}
+      <line x1="22" y1="32" x2="16" y2="26" stroke="#0284C7" strokeWidth="2" strokeLinecap="round" />
+      <line x1="26" y1="24" x2="26" y2="16" stroke="#0284C7" strokeWidth="2" strokeLinecap="round" />
+      <path d="M 106 72 Q 106 76 110 76 Q 106 76 106 80 Q 106 76 102 76 Q 106 76 106 72 Z" fill="#10B981" />
     </svg>
   ),
+
   onetoone: (
-    <svg width="140" height="140" viewBox="0 0 160 160" fill="none" style={{ overflow: 'visible' }}>
-      <path d="M 30 110 L 130 110" stroke="#7C5CFF" strokeWidth="1.8" strokeLinecap="round" />
-      <path d="M 45 110 L 45 130" stroke="#7C5CFF" strokeWidth="1.5" />
-      <path d="M 115 110 L 115 130" stroke="#7C5CFF" strokeWidth="1.5" />
+    <svg width="180" height="130" viewBox="0 0 190 130" fill="none" style={{ overflow: 'visible', maxWidth: '100%' }}>
+      <defs>
+        <radialGradient id="onetoone-glow" cx="60%" cy="50%" r="55%">
+          <stop offset="0%" stopColor="#A855F7" stopOpacity="0.25" />
+          <stop offset="60%" stopColor="#E9D5FF" stopOpacity="0.1" />
+          <stop offset="100%" stopColor="#FFFFFF" stopOpacity="0" />
+        </radialGradient>
+      </defs>
+      <ellipse cx="100" cy="65" rx="85" ry="58" fill="url(#onetoone-glow)" />
 
-      {/* Mentor (Left) */}
-      <circle cx="55" cy="65" r="10" stroke="#7C5CFF" strokeWidth="1.8" fill="#FFFFFF" />
-      <path d="M 38 110 C 38 90, 45 80, 55 80 C 65 80, 72 90, 72 110" stroke="#7C5CFF" strokeWidth="1.8" fill="#FFFFFF" />
+      {/* Grounding desk baseline */}
+      <line x1="18" y1="94" x2="165" y2="94" stroke="#7C3AED" strokeWidth="2" strokeLinecap="round" opacity="0.3" />
 
-      {/* Student (Right) */}
-      <circle cx="105" cy="72" r="8" stroke="#7C5CFF" strokeWidth="1.8" fill="#FFFFFF" />
-      <path d="M 92 110 C 92 94, 98 86, 105 86 C 112 86, 118 94, 118 110" stroke="#7C5CFF" strokeWidth="1.8" fill="#FFFFFF" />
-
-      {/* Glowing light bulb / Inspiration line in center */}
-      <g className="one-bulb" transform="translate(80, 32)" style={{ transition: 'transform 0.3s ease, filter 0.3s ease', transformOrigin: '0px 18px' }}>
-        <line x1="0" y1="0" x2="0" y2="12" stroke="#10B981" strokeWidth="1.8" strokeLinecap="round" />
-        <circle cx="0" cy="18" r="4" fill="#10B981" />
-        <line x1="-8" y1="18" x2="-14" y2="18" stroke="#10B981" strokeWidth="1.2" opacity="0.6" />
-        <line x1="8" y1="18" x2="14" y2="18" stroke="#10B981" strokeWidth="1.2" opacity="0.6" />
-        <line x1="-5" y1="11" x2="-10" y2="6" stroke="#10B981" strokeWidth="1.2" opacity="0.6" />
-        <line x1="5" y1="11" x2="10" y2="6" stroke="#10B981" strokeWidth="1.2" opacity="0.6" />
-      </g>
-    </svg>
-  ),
-  online: (
-    <svg width="180" height="120" viewBox="0 0 200 140" fill="none" style={{ overflow: 'visible' }}>
-      <rect x="65" y="45" width="70" height="46" rx="4" stroke="#4F7CFF" strokeWidth="1.8" fill="#FFFFFF" />
-      <path d="M 50 91 L 150 91" stroke="#4F7CFF" strokeWidth="2.5" strokeLinecap="round" />
-      
-      {/* Left House */}
-      <g transform="translate(15, 35)">
-        <rect x="0" y="15" width="28" height="24" rx="2" stroke="rgba(79, 124, 255, 0.4)" strokeWidth="1.5" fill="#FFFFFF" />
-        <path d="M -4 16 L 14 2 L 32 16" stroke="rgba(79, 124, 255, 0.4)" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
-        <circle cx="14" cy="27" r="3" stroke="rgba(79, 124, 255, 0.4)" strokeWidth="1.5" />
+      {/* Tutor on Left (with laptop) */}
+      <g className="tutor-figure" style={{ transition: 'transform 0.35s ease' }}>
+        <circle cx="56" cy="46" r="12" stroke="#7C3AED" strokeWidth="2.5" fill="#FFFFFF" />
+        <path d="M 32 94 C 32 76, 42 68, 56 68 C 70 68, 80 76, 80 94" stroke="#7C3AED" strokeWidth="2.5" strokeLinecap="round" fill="#FFFFFF" />
+        {/* Laptop base & screen */}
+        <path d="M 50 94 L 68 94" stroke="#7C3AED" strokeWidth="2.5" strokeLinecap="round" />
+        <path d="M 54 94 L 58 81 L 68 81" stroke="#7C3AED" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round" />
       </g>
 
-      {/* Right Classroom */}
-      <g transform="translate(155, 35)">
-        <rect x="0" y="10" width="30" height="28" rx="2" stroke="rgba(79, 124, 255, 0.4)" strokeWidth="1.5" fill="#FFFFFF" />
-        <path d="M -2 10 L 15 -2 L 32 10" stroke="rgba(79, 124, 255, 0.4)" strokeWidth="1.5" strokeLinecap="round" />
+      {/* Student on Right */}
+      <g className="student-figure" style={{ transition: 'transform 0.35s ease' }}>
+        <circle cx="126" cy="54" r="10" stroke="#7C3AED" strokeWidth="2.5" fill="#FFFFFF" />
+        <path d="M 106 94 C 106 80, 114 74, 126 74 C 138 74, 146 80, 146 94" stroke="#7C3AED" strokeWidth="2.5" strokeLinecap="round" fill="#FFFFFF" />
       </g>
 
-      {/* Connection curves */}
-      <path className="online-curve-1" d="M 43 55 C 55 45, 60 45, 68 52" stroke="#4F7CFF" strokeWidth="1.5" strokeDasharray="3 3" />
-      <path className="online-curve-2" d="M 132 52 C 140 45, 145 45, 157 55" stroke="#4F7CFF" strokeWidth="1.5" strokeDasharray="3 3" />
+      {/* Glowing Idea Lightbulb above student */}
+      <g className="one-bulb" style={{ transformOrigin: '126px 24px', transition: 'transform 0.3s ease, filter 0.3s ease' }}>
+        {/* Light rays */}
+        <line x1="126" y1="10" x2="126" y2="4" stroke="#F59E0B" strokeWidth="2.2" strokeLinecap="round" />
+        <line x1="136" y1="14" x2="142" y2="9" stroke="#F59E0B" strokeWidth="2.2" strokeLinecap="round" />
+        <line x1="116" y1="14" x2="110" y2="9" stroke="#F59E0B" strokeWidth="2.2" strokeLinecap="round" />
+
+        {/* Bulb circle & base */}
+        <circle cx="126" cy="24" r="7" stroke="#F59E0B" strokeWidth="2.2" fill="#FEF3C7" />
+        <path d="M 123 31 H 129" stroke="#F59E0B" strokeWidth="2" strokeLinecap="round" />
+      </g>
+
+      {/* Pink accent dashes on left */}
+      <line x1="24" y1="46" x2="18" y2="42" stroke="#EC4899" strokeWidth="2" strokeLinecap="round" />
+      <line x1="22" y1="54" x2="16" y2="58" stroke="#EC4899" strokeWidth="2" strokeLinecap="round" />
     </svg>
   )
 };
 
 export default function ServicesSection() {
-  const [isMobile, setIsMobile] = useState(window.innerWidth < 1024);
+  const [isMobile, setIsMobile] = useState(false);
   const [hoveredCard, setHoveredCard] = useState(null);
-  const [expandedOfferIdx, setExpandedOfferIdx] = useState(0);
-  const [isHeaderDescExpanded, setIsHeaderDescExpanded] = useState(false);
 
   useEffect(() => {
-    const handleResize = () => setIsMobile(window.innerWidth < 1024);
+    const handleResize = () => setIsMobile(window.innerWidth < 960);
+    handleResize();
     window.addEventListener('resize', handleResize);
     return () => window.removeEventListener('resize', handleResize);
   }, []);
 
-  const offers = [
-    {
-      id: 0,
-      num: '01',
-      sym: '✓',
-      title: 'Verified Teachers',
-      subtitle: 'Every teacher passes our',
-      details: (
-        <div style={{ display: 'flex', flexDirection: 'column', gap: 8, marginTop: 12 }}>
-          {['Identity Verification', 'Demo Class & Knowledge Test', 'Continuous Reviews'].map(check => (
-            <div key={check} style={{ display: 'flex', alignItems: 'center', gap: 8, fontSize: 13, fontWeight: 550, color: '#334155' }}>
-              <span style={{ color: '#10B981', display: 'flex' }}>✓</span>
-              <span>{check}</span>
-            </div>
-          ))}
-        </div>
-      )
-    },
-    {
-      id: 1,
-      num: '02',
-      sym: '◉',
-      title: 'Assessment First',
-      subtitle: 'We analyze learning gaps before matching starts.',
-      details: (
-        <div style={{ display: 'flex', flexDirection: 'column', gap: 10, marginTop: 12, position: 'relative', paddingLeft: 8 }}>
-          <div style={{ position: 'absolute', left: 8, top: 4, bottom: 4, width: 1.2, background: 'rgba(124, 92, 255, 0.15)' }} />
-          {[
-            { step: '1', text: 'Home evaluation visit' },
-            { step: '2', text: 'Diagnostic analysis report' }
-          ].map(item => (
-            <div key={item.step} style={{ display: 'flex', alignItems: 'center', gap: 10, fontSize: 13, fontWeight: 550, color: '#334155', zIndex: 1 }}>
-              <span style={{ width: 17, height: 17, borderRadius: '50%', background: '#7C5CFF', color: 'white', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 10 }}>{item.step}</span>
-              <span>{item.text}</span>
-            </div>
-          ))}
-        </div>
-      )
-    },
-    {
-      id: 2,
-      num: '03',
-      sym: '✦',
-      title: 'Intelligent Matching',
-      subtitle: 'Aligned by syllabus board, personality, and pace.',
-      details: (
-        <div style={{ display: 'flex', flexDirection: 'column', gap: 8, marginTop: 12 }}>
-          <span style={{ fontSize: 9, fontWeight: 750, color: '#4F7CFF', letterSpacing: '0.05em', textTransform: 'uppercase', display: 'block', marginBottom: 2 }}>Featured Priority</span>
-          <div style={{ display: 'flex', flexWrap: 'wrap', gap: 5 }}>
-            {['Board Alignment', 'Synergy Index 98%'].map(tag => (
-              <span key={tag} style={{ fontSize: 11, fontWeight: 600, color: '#4F7CFF', background: 'rgba(79, 124, 255, 0.06)', padding: '3px 8px', borderRadius: 6 }}>
-                {tag}
-              </span>
-            ))}
-          </div>
-        </div>
-      )
-    },
-    {
-      id: 3,
-      num: '04',
-      sym: '🛡',
-      title: 'Safe Learning',
-      subtitle: 'Complete transparency and peace of mind.',
-      details: (
-        <div style={{ display: 'flex', flexDirection: 'column', gap: 8, marginTop: 12 }}>
-          {['Background Vetted', 'Lesson Log Transparency'].map(item => (
-            <div key={item} style={{ display: 'flex', alignItems: 'center', gap: 8, fontSize: 13, fontWeight: 550, color: '#334155' }}>
-              <span style={{ color: '#10B981', display: 'flex' }}>✓</span>
-              <span>{item}</span>
-            </div>
-          ))}
-        </div>
-      )
-    },
-    {
-      id: 4,
-      num: '05',
-      sym: '☷',
-      title: 'Board Flexibility',
-      subtitle: 'Curriculums matching major Indian school boards.',
-      details: (
-        <div style={{ display: 'flex', flexWrap: 'wrap', gap: 5, marginTop: 12 }}>
-          {['CBSE', 'ICSE', 'IGCSE', 'State Board'].map(board => (
-            <span key={board} style={{ fontSize: 11, fontWeight: 600, color: '#334155', background: '#F1F5F9', padding: '3px 8px', borderRadius: 6 }}>
-              {board}
-            </span>
-          ))}
-        </div>
-      )
-    },
-    {
-      id: 5,
-      num: '06',
-      sym: '★',
-      title: 'One-to-One Learning',
-      subtitle: "Designed around your child's exact learning pace.",
-      details: (
-        <div style={{ display: 'flex', gap: 10, marginTop: 12 }}>
-          <div style={{ borderLeft: '2.5px solid #7C5CFF', paddingLeft: 6 }}>
-            <div style={{ fontSize: 16, fontWeight: 800, color: '#1E293B' }}>100%</div>
-            <div style={{ fontSize: 10, color: '#64748B', fontWeight: 650 }}>Student Focus</div>
-          </div>
-        </div>
-      )
-    },
-    {
-      id: 6,
-      num: '07',
-      sym: '⇄',
-      title: 'Online + Offline',
-      subtitle: 'Seamlessly switch modes under the same teachers.',
-      details: (
-        <div style={{ display: 'flex', flexDirection: 'column', gap: 4, fontSize: 13, fontWeight: 550, marginTop: 12 }}>
-          <div style={{ display: 'flex', alignItems: 'center', gap: 8, color: '#334155' }}>
-            <span style={{ color: '#4F7CFF', fontSize: '14px' }}>⌂</span>
-            <span>In-person home tuition</span>
-          </div>
-        </div>
-      )
-    }
-  ];
-
   return (
-    <section 
-      id="services" 
-      style={{ 
-        background: 'linear-gradient(180deg, rgba(143, 149, 246, 0.42) 0%, #E3E8FF 50%, #FFFFFF 100%)', 
-        padding: isMobile ? '40px 0' : '50px 0',
+    <section
+      id="services"
+      style={{
+        background: 'linear-gradient(180deg, #F0F4FF 0%, #F8FAFC 50%, #FFFFFF 100%)',
+        padding: isMobile ? '56px 0' : '88px 0',
         position: 'relative',
         overflow: 'hidden'
       }}
     >
-      
-      {/* FLOATING DECORATIVE BACKGROUND ICONS */}
-      <motion.div 
-        animate={{ y: [0, -10, 0] }}
-        transition={{ repeat: Infinity, duration: 6, ease: "easeInOut" }}
-        style={{ position: 'absolute', top: '15%', left: '4%', opacity: 0.05, color: '#4F7CFF', pointerEvents: 'none' }}
-      >
-        <Shield size={44} strokeWidth={1.5} />
-      </motion.div>
+      {/* Soft ambient background blur circles */}
+      <div
+        style={{
+          position: 'absolute',
+          top: '5%',
+          left: '-5%',
+          width: '450px',
+          height: '450px',
+          borderRadius: '50%',
+          background: 'radial-gradient(circle, rgba(186, 230, 253, 0.35) 0%, transparent 70%)',
+          filter: 'blur(50px)',
+          pointerEvents: 'none'
+        }}
+      />
+      <div
+        style={{
+          position: 'absolute',
+          bottom: '10%',
+          right: '-5%',
+          width: '500px',
+          height: '500px',
+          borderRadius: '50%',
+          background: 'radial-gradient(circle, rgba(233, 213, 255, 0.35) 0%, transparent 70%)',
+          filter: 'blur(60px)',
+          pointerEvents: 'none'
+        }}
+      />
 
-      <motion.div 
-        animate={{ y: [0, 8, 0] }}
-        transition={{ repeat: Infinity, duration: 5.5, ease: "easeInOut" }}
-        style={{ position: 'absolute', top: '22%', right: '6%', opacity: 0.04, color: '#7C5CFF', pointerEvents: 'none' }}
-      >
-        <GraduationCap size={48} strokeWidth={1.5} />
-      </motion.div>
-
-      <motion.div 
-        animate={{ y: [0, -12, 0] }}
-        transition={{ repeat: Infinity, duration: 7, ease: "easeInOut" }}
-        style={{ position: 'absolute', top: '55%', left: '3%', opacity: 0.05, color: '#10B981', pointerEvents: 'none' }}
-      >
-        <Lightbulb size={46} strokeWidth={1.5} />
-      </motion.div>
-
-      <motion.div 
-        animate={{ y: [0, 10, 0] }}
-        transition={{ repeat: Infinity, duration: 6.5, ease: "easeInOut" }}
-        style={{ position: 'absolute', top: '65%', right: '4%', opacity: 0.04, color: '#7C5CFF', pointerEvents: 'none' }}
-      >
-        <BookMarked size={42} strokeWidth={1.5} />
-      </motion.div>
-
-      <motion.div 
-        animate={{ y: [0, -8, 0] }}
-        transition={{ repeat: Infinity, duration: 5, ease: "easeInOut" }}
-        style={{ position: 'absolute', bottom: '12%', left: '7%', opacity: 0.04, color: '#4F7CFF', pointerEvents: 'none' }}
-      >
-        <Laptop size={44} strokeWidth={1.5} />
-      </motion.div>
-
-      <div className="container">
-        
+      <div className="container" style={{ position: 'relative', zIndex: 1 }}>
         {/* Section Header */}
-        <div style={{ textAlign: 'left', marginBottom: isMobile ? '32px' : '52px' }}>
-          <span style={{
-            fontFamily: 'var(--font-sans)',
-            fontWeight: 650,
-            fontSize: 12,
-            color: '#4F7CFF',
-            letterSpacing: '0.14em',
-            textTransform: 'uppercase',
-            display: 'block',
-            marginBottom: 10
-          }}>
-            What We Offer
-          </span>
-          <h2 
-            onClick={() => isMobile && setIsHeaderDescExpanded(!isHeaderDescExpanded)}
+        <div style={{ textAlign: 'left', marginBottom: isMobile ? '32px' : '48px' }}>
+          <span
             style={{
-              fontFamily: 'var(--font-display)',
-              fontWeight: 800,
-              fontSize: isMobile ? 'clamp(28px, 7vw, 36px)' : 'clamp(38px, 3vw, 46px)',
-              lineHeight: 1.15,
-              letterSpacing: '-0.03em',
-              color: '#1E293B',
-              margin: '0 0 12px',
-              cursor: isMobile ? 'pointer' : 'default',
-              userSelect: 'none'
+              fontFamily: 'var(--font-sans)',
+              fontWeight: 700,
+              fontSize: 13,
+              color: '#3B82F6',
+              letterSpacing: '0.14em',
+              textTransform: 'uppercase',
+              display: 'inline-block',
+              marginBottom: 10,
+              background: 'rgba(59, 130, 246, 0.08)',
+              padding: '4px 12px',
+              borderRadius: 100
             }}
           >
-            Every advantage, built in.<br />
-            So we don't leave matching to guesswork.
-          </h2>
-          <motion.div
-            initial={isMobile ? { opacity: 0, height: 0, marginTop: 0 } : { opacity: 1, height: 'auto' }}
-            animate={!isMobile || isHeaderDescExpanded ? { opacity: 1, height: 'auto' } : { opacity: 0, height: 0 }}
-            transition={{ duration: 0.3, ease: 'easeOut' }}
-            style={{ overflow: 'hidden' }}
+            What We Offer
+          </span>
+          <h2
+            style={{
+              fontFamily: 'var(--font-hero, var(--font-sans))',
+              fontWeight: 800,
+              fontSize: isMobile ? 'clamp(28px, 6vw, 36px)' : 'clamp(36px, 3.2vw, 46px)',
+              lineHeight: 1.18,
+              letterSpacing: '-0.025em',
+              color: '#0F172A',
+              margin: '0 0 12px'
+            }}
           >
-            <p style={{
+            Every advantage, built in.
+          </h2>
+          <p
+            style={{
               fontFamily: 'var(--font-sans)',
               fontWeight: 400,
-              fontSize: 14.5,
+              fontSize: 15,
               color: '#64748B',
-              lineHeight: 1.55,
+              lineHeight: 1.6,
               maxWidth: '560px',
               margin: 0
-            }}>
-              Our integrated learning ecosystem harmonizes diagnosis, teacher verification, smart matching, and continuous accountability for a complete educational experience.
-            </p>
-          </motion.div>
+            }}
+          >
+            Our integrated learning ecosystem harmonizes diagnosis, teacher verification, smart matching, and continuous accountability for complete peace of mind.
+          </p>
         </div>
 
         {/* ------------------------------------------------------------- */}
-        {/* MOBILE LAYOUT: SNAP CAROUSEL WITH SWIPE INDICATORS           */}
+        {/* COLORFUL BENTO GRID (DESKTOP & MOBILE RESPONSIVE)             */}
         {/* ------------------------------------------------------------- */}
-        {isMobile ? (
-          <div style={{ display: 'flex', flexDirection: 'column', gap: '8px', padding: '0 4px', marginTop: '24px' }}>
-            {offers.map(offer => {
-              const isExpanded = expandedOfferIdx === offer.id;
-              return (
-                <div 
-                  key={offer.id} 
-                  style={{ 
-                    borderBottom: '1px solid rgba(79, 124, 255, 0.1)', 
-                    paddingBottom: '16px', 
-                    paddingTop: '16px' 
+        <div
+          style={{
+            display: 'grid',
+            gridTemplateColumns: isMobile ? '1fr' : 'repeat(3, 1fr)',
+            gap: isMobile ? '18px' : '22px'
+          }}
+        >
+          {/* ========================================================= */}
+          {/* CARD 1: Verified Teachers (Spans 2 Columns on Desktop)   */}
+          {/* ========================================================= */}
+          <motion.div
+            onMouseEnter={() => setHoveredCard('teachers')}
+            onMouseLeave={() => setHoveredCard(null)}
+            className="bento-card card-teachers"
+            style={{
+              gridColumn: isMobile ? 'span 1' : 'span 2',
+              background: '#FFFFFF',
+              borderRadius: 24,
+              border: '1.2px solid rgba(186, 230, 253, 0.8)',
+              boxShadow:
+                hoveredCard === 'teachers'
+                  ? '0 20px 35px -8px rgba(56, 189, 248, 0.2), 0 4px 12px -2px rgba(0, 0, 0, 0.03)'
+                  : '0 8px 24px -4px rgba(15, 23, 42, 0.04), 0 2px 6px -1px rgba(15, 23, 42, 0.02)',
+              padding: isMobile ? '24px 20px' : '28px 32px',
+              display: 'flex',
+              flexDirection: isMobile ? 'column' : 'row',
+              justifyContent: 'space-between',
+              alignItems: 'center',
+              minHeight: isMobile ? 'auto' : 220,
+              position: 'relative',
+              overflow: 'hidden',
+              cursor: 'default',
+              transform: hoveredCard === 'teachers' ? 'translateY(-3px)' : 'translateY(0)',
+              transition: 'all 0.35s cubic-bezier(0.16, 1, 0.3, 1)'
+            }}
+          >
+            {/* Soft Cyan Mesh Glow */}
+            <div
+              style={{
+                position: 'absolute',
+                top: 0,
+                right: 0,
+                bottom: 0,
+                width: isMobile ? '100%' : '55%',
+                background: 'radial-gradient(ellipse at 80% 50%, rgba(186, 230, 253, 0.45) 0%, rgba(224, 242, 254, 0.2) 50%, transparent 80%)',
+                pointerEvents: 'none',
+                zIndex: 0
+              }}
+            />
+
+            {/* Left Content */}
+            <div style={{ flex: 1, minWidth: isMobile ? '100%' : '55%', zIndex: 1, marginBottom: isMobile ? 16 : 0 }}>
+              <h3 style={{ fontFamily: 'var(--font-sans)', fontWeight: 800, fontSize: 20, color: '#0F172A', margin: '0 0 6px' }}>
+                Verified Teachers
+              </h3>
+              <p style={{ fontFamily: 'var(--font-sans)', fontWeight: 400, fontSize: 14, color: '#64748B', lineHeight: 1.45, margin: '0 0 16px' }}>
+                Every teacher passes our multi-stage verification process.
+              </p>
+
+              {/* Checklist */}
+              <div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
+                {['Identity Verification', 'Demo Class & Knowledge Test', 'Continuous Reviews'].map((item) => (
+                  <div key={item} style={{ display: 'flex', alignItems: 'center', gap: 10, fontSize: 13.5, fontWeight: 600, color: '#1E293B' }}>
+                    <span
+                      style={{
+                        width: 18,
+                        height: 18,
+                        borderRadius: '50%',
+                        background: '#10B981',
+                        display: 'flex',
+                        alignItems: 'center',
+                        justifyContent: 'center',
+                        color: '#FFFFFF',
+                        fontSize: 11,
+                        fontWeight: 800,
+                        flexShrink: 0
+                      }}
+                    >
+                      ✓
+                    </span>
+                    <span>{item}</span>
+                  </div>
+                ))}
+              </div>
+            </div>
+
+            {/* Right Graphic */}
+            <div
+              style={{
+                flexShrink: 0,
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                width: isMobile ? '100%' : 160,
+                height: 130,
+                zIndex: 1
+              }}
+            >
+              <motion.div animate={{ y: hoveredCard === 'teachers' ? -4 : 0 }} transition={{ duration: 0.35 }}>
+                {illustrations.teachers}
+              </motion.div>
+            </div>
+          </motion.div>
+
+          {/* ========================================================= */}
+          {/* CARD 2: Assessment First (Spans 1 Column on Desktop)      */}
+          {/* ========================================================= */}
+          <motion.div
+            onMouseEnter={() => setHoveredCard('assessment')}
+            onMouseLeave={() => setHoveredCard(null)}
+            className="bento-card card-assessment"
+            style={{
+              gridColumn: 'span 1',
+              background: '#FFFFFF',
+              borderRadius: 24,
+              border: '1.2px solid rgba(199, 210, 254, 0.8)',
+              boxShadow:
+                hoveredCard === 'assessment'
+                  ? '0 20px 35px -8px rgba(129, 140, 248, 0.2), 0 4px 12px -2px rgba(0, 0, 0, 0.03)'
+                  : '0 8px 24px -4px rgba(15, 23, 42, 0.04), 0 2px 6px -1px rgba(15, 23, 42, 0.02)',
+              padding: isMobile ? '24px 20px' : '28px 26px',
+              display: 'flex',
+              flexDirection: 'column',
+              justifyContent: 'space-between',
+              minHeight: isMobile ? 'auto' : 220,
+              position: 'relative',
+              overflow: 'hidden',
+              cursor: 'default',
+              transform: hoveredCard === 'assessment' ? 'translateY(-3px)' : 'translateY(0)',
+              transition: 'all 0.35s cubic-bezier(0.16, 1, 0.3, 1)'
+            }}
+          >
+            {/* Soft Lavender Mesh Glow */}
+            <div
+              style={{
+                position: 'absolute',
+                top: 0,
+                right: 0,
+                bottom: 0,
+                width: '75%',
+                background: 'radial-gradient(ellipse at 85% 50%, rgba(224, 231, 255, 0.55) 0%, rgba(238, 242, 255, 0.2) 50%, transparent 80%)',
+                pointerEvents: 'none',
+                zIndex: 0
+              }}
+            />
+
+            <div style={{ zIndex: 1, width: '100%' }}>
+              <h3 style={{ fontFamily: 'var(--font-sans)', fontWeight: 800, fontSize: 20, color: '#0F172A', margin: '0 0 6px' }}>
+                Assessment First
+              </h3>
+              <p style={{ fontFamily: 'var(--font-sans)', fontWeight: 400, fontSize: 14, color: '#64748B', lineHeight: 1.45, margin: '0 0 14px' }}>
+                We analyze learning gaps before match starts.
+              </p>
+
+              {/* Step indicator flow */}
+              <div style={{ display: 'inline-flex', alignItems: 'center', gap: 6, flexWrap: 'wrap' }}>
+                <div style={{ display: 'flex', alignItems: 'center', gap: 6 }}>
+                  <span
+                    style={{
+                      width: 20,
+                      height: 20,
+                      borderRadius: '50%',
+                      background: '#4F46E5',
+                      color: '#FFFFFF',
+                      display: 'flex',
+                      alignItems: 'center',
+                      justifyContent: 'center',
+                      fontSize: 11,
+                      fontWeight: 700
+                    }}
+                  >
+                    1
+                  </span>
+                  <span style={{ fontSize: 13, fontWeight: 700, color: '#1E293B' }}>Evaluate</span>
+                </div>
+
+                <span style={{ color: '#818CF8', fontWeight: 700, margin: '0 2px' }}>→</span>
+
+                <div style={{ display: 'flex', alignItems: 'center', gap: 6 }}>
+                  <span
+                    style={{
+                      width: 20,
+                      height: 20,
+                      borderRadius: '50%',
+                      background: '#6366F1',
+                      color: '#FFFFFF',
+                      display: 'flex',
+                      alignItems: 'center',
+                      justifyContent: 'center',
+                      fontSize: 11,
+                      fontWeight: 700
+                    }}
+                  >
+                    2
+                  </span>
+                  <span style={{ fontSize: 13, fontWeight: 700, color: '#1E293B' }}>Map</span>
+                </div>
+              </div>
+            </div>
+
+            {/* Illustration placement */}
+            <div
+              style={{
+                display: 'flex',
+                justifyContent: 'flex-end',
+                alignItems: 'center',
+                width: '100%',
+                height: 110,
+                marginTop: 6,
+                zIndex: 1
+              }}
+            >
+              <motion.div animate={{ y: hoveredCard === 'assessment' ? -4 : 0 }} transition={{ duration: 0.35 }}>
+                {illustrations.assessment}
+              </motion.div>
+            </div>
+          </motion.div>
+
+          {/* ========================================================= */}
+          {/* CARD 3: Personalized Matching (Spans 2 Columns on Desktop) */}
+          {/* ========================================================= */}
+          <motion.div
+            onMouseEnter={() => setHoveredCard('matching')}
+            onMouseLeave={() => setHoveredCard(null)}
+            className="bento-card card-matching"
+            style={{
+              gridColumn: isMobile ? 'span 1' : 'span 2',
+              background: '#FFFFFF',
+              borderRadius: 24,
+              border: '1.2px solid rgba(167, 243, 208, 0.7)',
+              boxShadow:
+                hoveredCard === 'matching'
+                  ? '0 22px 40px -8px rgba(52, 211, 153, 0.2), 0 4px 12px -2px rgba(0, 0, 0, 0.03)'
+                  : '0 8px 24px -4px rgba(15, 23, 42, 0.04), 0 2px 6px -1px rgba(15, 23, 42, 0.02)',
+              padding: isMobile ? '24px 20px' : '28px 32px',
+              display: 'flex',
+              flexDirection: isMobile ? 'column' : 'row',
+              justifyContent: 'space-between',
+              alignItems: 'center',
+              minHeight: isMobile ? 'auto' : 240,
+              position: 'relative',
+              overflow: 'hidden',
+              cursor: 'default',
+              transform: hoveredCard === 'matching' ? 'translateY(-3px)' : 'translateY(0)',
+              transition: 'all 0.35s cubic-bezier(0.16, 1, 0.3, 1)'
+            }}
+          >
+            {/* Mint / Cyan Mesh Glow */}
+            <div
+              style={{
+                position: 'absolute',
+                top: 0,
+                right: 0,
+                bottom: 0,
+                width: isMobile ? '100%' : '60%',
+                background: 'radial-gradient(ellipse at 80% 50%, rgba(167, 243, 208, 0.4) 0%, rgba(186, 230, 253, 0.25) 50%, transparent 80%)',
+                pointerEvents: 'none',
+                zIndex: 0
+              }}
+            />
+
+            {/* Left Content */}
+            <div style={{ flex: 1, minWidth: isMobile ? '100%' : '55%', zIndex: 1, marginBottom: isMobile ? 16 : 0 }}>
+              {/* Badge Tag */}
+              <div
+                style={{
+                  display: 'inline-flex',
+                  alignItems: 'center',
+                  gap: 6,
+                  padding: '4px 10px',
+                  borderRadius: 100,
+                  background: 'rgba(2, 132, 199, 0.08)',
+                  border: '1px solid rgba(2, 132, 199, 0.15)',
+                  marginBottom: 10
+                }}
+              >
+                <span style={{ width: 6, height: 6, borderRadius: '50%', background: '#10B981' }} />
+                <span style={{ fontSize: 10, fontWeight: 800, color: '#0284C7', letterSpacing: '0.06em', textTransform: 'uppercase' }}>
+                  FEATURED MATCH PRIORITY
+                </span>
+              </div>
+
+              <h3 style={{ fontFamily: 'var(--font-sans)', fontWeight: 800, fontSize: 20, color: '#0F172A', margin: '0 0 6px' }}>
+                Personalized Matching
+              </h3>
+              <p style={{ fontFamily: 'var(--font-sans)', fontWeight: 400, fontSize: 14, color: '#64748B', lineHeight: 1.45, margin: '0 0 16px' }}>
+                We align board expertise, teaching style, and student personality parameters to ensure the best match for your child.
+              </p>
+
+              {/* Chips */}
+              <div style={{ display: 'flex', flexWrap: 'wrap', gap: 8 }}>
+                <span
+                  style={{
+                    fontSize: 12,
+                    fontWeight: 650,
+                    color: '#1D4ED8',
+                    background: '#EFF6FF',
+                    border: '1px solid #DBEAFE',
+                    padding: '5px 12px',
+                    borderRadius: 8
                   }}
                 >
-                  {/* List Item Row Header */}
-                  <div 
-                    onClick={() => setExpandedOfferIdx(isExpanded ? null : offer.id)}
-                    style={{ 
-                      display: 'flex', 
-                      alignItems: 'center', 
-                      justifyContent: 'space-between',
-                      cursor: 'pointer',
-                      userSelect: 'none',
-                      touchAction: 'manipulation',
-                      WebkitTapHighlightColor: 'transparent'
-                    }}
-                  >
-                    <div style={{ display: 'flex', alignItems: 'center', gap: '16px' }}>
-                      {/* Number */}
-                      <span style={{ 
-                        fontSize: '13px', 
-                        fontFamily: 'var(--font-mono)', 
-                        color: 'rgba(79, 124, 255, 0.5)', 
-                        fontWeight: 'bold' 
-                      }}>
-                        {offer.num}
-                      </span>
-                      {/* Accent symbol */}
-                      <span style={{ 
-                        fontSize: '15px', 
-                        color: isExpanded ? '#4F7CFF' : 'rgba(79, 124, 255, 0.6)', 
-                        fontWeight: 'bold',
-                        transition: 'color 0.18s ease'
-                      }}>
-                        {offer.sym}
-                      </span>
-                      {/* Title */}
-                      <span style={{ 
-                        fontSize: '16px', 
-                        fontWeight: 750, 
-                        color: isExpanded ? '#4F7CFF' : '#1E293B',
-                        transition: 'color 0.18s ease'
-                      }}>
-                        {offer.title}
-                      </span>
-                    </div>
-                    {/* Expand/collapse icon indicator */}
-                    <span style={{ 
-                      fontSize: '18px', 
-                      fontWeight: 'bold', 
-                      color: isExpanded ? '#4F7CFF' : '#64748B',
-                      transition: 'color 0.18s ease, transform 0.18s cubic-bezier(0.2, 0, 0, 1)',
-                      transform: isExpanded ? 'rotate(45deg)' : 'rotate(0deg)',
-                      display: 'inline-block'
-                    }}>
-                      +
-                    </span>
-                  </div>
-
-                  {/* Expanded Body Content */}
-                  <div 
-                    style={{ 
-                      maxHeight: isExpanded ? '300px' : '0px',
-                      opacity: isExpanded ? 1 : 0,
-                      overflow: 'hidden',
-                      paddingLeft: '48px',
-                      paddingTop: isExpanded ? '12px' : '0px',
-                      transition: 'max-height 0.18s cubic-bezier(0, 0, 0.2, 1), opacity 0.15s ease-out, padding-top 0.18s ease',
-                      willChange: 'max-height, opacity',
-                      transform: 'translateZ(0)'
-                    }}
-                  >
-                    <p style={{ 
-                      fontSize: '14px', 
-                      color: '#64748B', 
-                      lineHeight: '1.5', 
-                      margin: 0 
-                    }}>
-                      {offer.subtitle}
-                    </p>
-                    {offer.details}
-                  </div>
-                </div>
-              );
-            })}
-          </div>
-        ) : (
-          /* ------------------------------------------------------------- */
-          /* DESKTOP LAYOUT: PREMIUM ASYMMETRIC BENTO GRID MASONRY         */
-          /* ------------------------------------------------------------- */
-          <div style={{
-            display: 'grid',
-            gridTemplateColumns: 'repeat(3, 1fr)',
-            gap: '20px'
-          }}>
-            
-            {/* ROW 1 CARD 1: Verified Teachers (Spans 2 Columns) */}
-            <motion.div
-              onMouseEnter={() => setHoveredCard('teachers')}
-              onMouseLeave={() => setHoveredCard(null)}
-              className="card-hover"
-              style={{
-                gridColumn: 'span 2',
-                background: '#FFFFFF',
-                borderRadius: 20,
-                border: '1.2px solid rgba(79, 124, 255, 0.14)',
-                boxShadow: hoveredCard === 'teachers' 
-                  ? '0 15px 30px rgba(79, 124, 255, 0.06)' 
-                  : '0 4px 10px rgba(10, 22, 40, 0.01)',
-                padding: '24px 28px',
-                display: 'flex',
-                justifyContent: 'space-between',
-                alignItems: 'center',
-                height: 220,
-                position: 'relative',
-                overflow: 'hidden',
-                cursor: 'pointer',
-                y: hoveredCard === 'teachers' ? -3 : 0,
-                transition: 'all 0.35s cubic-bezier(0.16, 1, 0.3, 1)'
-              }}
-            >
-              {/* SaaS Dot Grid Fill */}
-              <div className="saas-grid-fill" />
-
-              {/* Left Content */}
-              <div style={{ maxWidth: '65%', display: 'flex', flexDirection: 'column', height: '100%', justifyContent: 'space-between', zIndex: 1 }}>
-                <div>
-                  <h4 style={{ fontFamily: 'var(--font-sans)', fontWeight: 800, fontSize: 18, color: '#1E293B', margin: '0 0 4px' }}>Verified Teachers</h4>
-                  <p style={{ fontFamily: 'var(--font-sans)', fontWeight: 400, fontSize: 13.5, color: '#64748B', lineHeight: 1.45, margin: '0 0 14px' }}>
-                    Every teacher passes our
-                  </p>
-                  
-                  <div style={{ display: 'flex', flexDirection: 'column', gap: 6 }}>
-                    {['Identity Verification', 'Demo Class & Knowledge Test', 'Continuous Reviews'].map((check) => (
-                      <div key={check} style={{ display: 'flex', alignItems: 'center', gap: 8, fontSize: 12.5, fontWeight: 600, color: '#1E293B' }}>
-                        <Check size={14} style={{ color: '#10B981' }} />
-                        <span>{check}</span>
-                      </div>
-                    ))}
-                  </div>
-                </div>
+                  Board Alignment
+                </span>
+                <span
+                  style={{
+                    fontSize: 12,
+                    fontWeight: 650,
+                    color: '#7E22CE',
+                    background: '#FAF5FF',
+                    border: '1px solid #F3E8FF',
+                    padding: '5px 12px',
+                    borderRadius: 8
+                  }}
+                >
+                  Synergy Index 98.4%
+                </span>
+                <span
+                  style={{
+                    fontSize: 12,
+                    fontWeight: 650,
+                    color: '#15803D',
+                    background: '#F0FDF4',
+                    border: '1px solid #DCFCE7',
+                    padding: '5px 12px',
+                    borderRadius: 8
+                  }}
+                >
+                  Pedagogical Fit
+                </span>
               </div>
+            </div>
 
-              {/* Right Illustration container */}
-              <div style={{
-                position: 'relative',
+            {/* Right Graphic */}
+            <div
+              style={{
+                flexShrink: 0,
                 display: 'flex',
                 alignItems: 'center',
                 justifyContent: 'center',
-                width: 110,
-                height: '100%',
+                width: isMobile ? '100%' : 180,
+                height: 130,
                 zIndex: 1
-              }}>
-                <div style={{
-                  position: 'absolute',
-                  width: 100,
-                  height: 100,
-                  background: 'radial-gradient(circle, rgba(79, 124, 255, 0.1) 0%, transparent 70%)',
-                  filter: 'blur(8px)',
-                  opacity: hoveredCard === 'teachers' ? 1 : 0.6,
-                  transition: 'opacity 0.35s ease'
-                }} />
-                
-                {/* Secondary visible doodles (Math symbols and sparkles) */}
-                <div style={{ position: 'absolute', top: 5, left: -25, opacity: 0.35, color: '#4F7CFF', fontSize: 11, fontWeight: 800 }}>A+</div>
-                <div style={{ position: 'absolute', bottom: 15, left: -10, opacity: 0.3, color: '#10B981', fontSize: 13, fontWeight: 800 }}>✓</div>
-                <div style={{ position: 'absolute', bottom: 25, right: -15, opacity: 0.25, color: '#4F7CFF' }}><Star size={8} fill="#4F7CFF" /></div>
-
-                <motion.div
-                  animate={{ y: hoveredCard === 'teachers' ? -4 : 0 }}
-                  transition={{ duration: 0.35 }}
-                >
-                  {illustrations.teachers}
-                </motion.div>
-              </div>
-            </motion.div>
-
-            {/* ROW 1 CARD 2: Assessment (Spans 1 Column) */}
-            <motion.div
-              onMouseEnter={() => setHoveredCard('assessment')}
-              onMouseLeave={() => setHoveredCard(null)}
-              className="card-hover"
-              style={{
-                gridColumn: 'span 1',
-                background: '#FFFFFF',
-                borderRadius: 20,
-                border: '1.2px solid rgba(124, 92, 255, 0.14)',
-                boxShadow: hoveredCard === 'assessment' 
-                  ? '0 15px 30px rgba(124, 92, 255, 0.06)' 
-                  : '0 4px 10px rgba(10, 22, 40, 0.01)',
-                padding: '24px 26px',
-                display: 'flex',
-                flexDirection: 'column',
-                justifyContent: 'space-between',
-                height: 220,
-                position: 'relative',
-                overflow: 'hidden',
-                cursor: 'pointer',
-                y: hoveredCard === 'assessment' ? -3 : 0,
-                transition: 'all 0.35s cubic-bezier(0.16, 1, 0.3, 1)'
               }}
             >
-              {/* SaaS Dot Grid Fill */}
-              <div className="saas-grid-fill" />
+              <motion.div animate={{ y: hoveredCard === 'matching' ? -4 : 0 }} transition={{ duration: 0.35 }}>
+                {illustrations.matching}
+              </motion.div>
+            </div>
+          </motion.div>
 
-              <div style={{ zIndex: 1 }}>
-                <h4 style={{ fontFamily: 'var(--font-sans)', fontWeight: 800, fontSize: 18, color: '#1E293B', margin: '0 0 4px' }}>Assessment First</h4>
-                <p style={{ fontFamily: 'var(--font-sans)', fontWeight: 400, fontSize: 13.5, color: '#64748B', lineHeight: 1.45, margin: '0 0 12px' }}>
-                  We analyze learning gaps before match starts.
-                </p>
-                
-                {/* Horizontal Step timeline widget */}
-                <div style={{ display: 'flex', alignItems: 'center', gap: 6, marginTop: 2 }}>
-                  {[
-                    { step: '1', label: 'Evaluate' },
-                    { step: '2', label: 'Map' }
-                  ].map((item, i) => (
-                    <div key={item.step} style={{ display: 'flex', alignItems: 'center', gap: 4 }}>
-                      <span style={{ 
-                        width: 17, 
-                        height: 17, 
-                        borderRadius: '50%', 
-                        background: '#7C5CFF', 
-                        color: 'white', 
-                        display: 'flex', 
-                        alignItems: 'center', 
+          {/* ========================================================= */}
+          {/* CARD 4: Safe Learning (Spans 1 Column on Desktop)         */}
+          {/* ========================================================= */}
+          <motion.div
+            onMouseEnter={() => setHoveredCard('safe')}
+            onMouseLeave={() => setHoveredCard(null)}
+            className="bento-card card-safe"
+            style={{
+              gridColumn: 'span 1',
+              background: '#FFFFFF',
+              borderRadius: 24,
+              border: '1.2px solid rgba(254, 205, 211, 0.8)',
+              boxShadow:
+                hoveredCard === 'safe'
+                  ? '0 20px 35px -8px rgba(251, 113, 133, 0.2), 0 4px 12px -2px rgba(0, 0, 0, 0.03)'
+                  : '0 8px 24px -4px rgba(15, 23, 42, 0.04), 0 2px 6px -1px rgba(15, 23, 42, 0.02)',
+              padding: isMobile ? '24px 20px' : '28px 26px',
+              display: 'flex',
+              flexDirection: 'column',
+              justifyContent: 'space-between',
+              minHeight: isMobile ? 'auto' : 240,
+              position: 'relative',
+              overflow: 'hidden',
+              cursor: 'default',
+              transform: hoveredCard === 'safe' ? 'translateY(-3px)' : 'translateY(0)',
+              transition: 'all 0.35s cubic-bezier(0.16, 1, 0.3, 1)'
+            }}
+          >
+            {/* Soft Peach / Coral Mesh Glow */}
+            <div
+              style={{
+                position: 'absolute',
+                top: 0,
+                right: 0,
+                bottom: 0,
+                width: '75%',
+                background: 'radial-gradient(ellipse at 85% 50%, rgba(254, 226, 226, 0.55) 0%, rgba(255, 237, 213, 0.3) 50%, transparent 80%)',
+                pointerEvents: 'none',
+                zIndex: 0
+              }}
+            />
+
+            <div style={{ zIndex: 1, width: '100%' }}>
+              <h3 style={{ fontFamily: 'var(--font-sans)', fontWeight: 800, fontSize: 20, color: '#0F172A', margin: '0 0 6px' }}>
+                Safe Learning
+              </h3>
+              <p style={{ fontFamily: 'var(--font-sans)', fontWeight: 400, fontSize: 14, color: '#64748B', lineHeight: 1.45, margin: '0 0 16px' }}>
+                Complete transparency and peace of mind.
+              </p>
+
+              {/* Checklist */}
+              <div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
+                {['Background Vetted', 'Lesson Log Transparency'].map((item) => (
+                  <div key={item} style={{ display: 'flex', alignItems: 'center', gap: 10, fontSize: 13.5, fontWeight: 600, color: '#1E293B' }}>
+                    <span
+                      style={{
+                        width: 18,
+                        height: 18,
+                        borderRadius: '50%',
+                        background: '#FFE4E6',
+                        display: 'flex',
+                        alignItems: 'center',
                         justifyContent: 'center',
-                        fontSize: 10,
-                        fontWeight: 700
-                      }}>
-                        {item.step}
-                      </span>
-                      <span style={{ fontSize: 11, fontWeight: 650, color: '#475569' }}>{item.label}</span>
-                      {i < 1 && <ArrowRight size={8} style={{ color: 'rgba(124, 92, 255, 0.3)' }} />}
-                    </div>
-                  ))}
-                </div>
-              </div>
-
-              {/* Illustration placement */}
-              <div style={{
-                position: 'absolute',
-                right: -8,
-                bottom: -12,
-                width: 105,
-                height: 105,
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'center',
-                zIndex: 1
-              }}>
-                <div style={{
-                  position: 'absolute',
-                  width: 90,
-                  height: 90,
-                  background: 'radial-gradient(circle, rgba(124, 92, 255, 0.1) 0%, transparent 70%)',
-                  filter: 'blur(7px)',
-                  opacity: hoveredCard === 'assessment' ? 1 : 0.6
-                }} />
-                
-                {/* Secondary visible doodles */}
-                <div style={{ position: 'absolute', top: -10, left: 10, opacity: 0.35, color: '#7C5CFF' }}><Star size={8} fill="#7C5CFF" /></div>
-                <div style={{ position: 'absolute', top: 5, left: -25, opacity: 0.3, color: '#7C5CFF', fontSize: 13, fontWeight: 800 }}>%</div>
-
-                <motion.div
-                  animate={{ y: hoveredCard === 'assessment' ? -4 : 0 }}
-                  transition={{ duration: 0.35 }}
-                >
-                  {illustrations.assessment}
-                </motion.div>
-              </div>
-            </motion.div>
-
-            {/* ROW 2 CARD 1: Personalized Matching (Featured priority - Spans 2 Columns) */}
-            <motion.div
-              onMouseEnter={() => setHoveredCard('matching')}
-              onMouseLeave={() => setHoveredCard(null)}
-              className="card-hover"
-              style={{
-                gridColumn: 'span 2',
-                background: '#FFFFFF',
-                borderRadius: 20,
-                border: hoveredCard === 'matching' 
-                  ? '1.5px solid #4F7CFF' 
-                  : '1.2px solid rgba(79, 124, 255, 0.18)',
-                boxShadow: hoveredCard === 'matching' 
-                  ? '0 20px 40px rgba(79, 124, 255, 0.08)' 
-                  : '0 4px 10px rgba(10, 22, 40, 0.015)',
-                padding: '28px 36px',
-                display: 'flex',
-                justifyContent: 'space-between',
-                alignItems: 'center',
-                height: 250,
-                position: 'relative',
-                overflow: 'hidden',
-                cursor: 'pointer',
-                y: hoveredCard === 'matching' ? -4 : 0,
-                transition: 'all 0.4s cubic-bezier(0.16, 1, 0.3, 1)'
-              }}
-            >
-              {/* SaaS Dot Grid Fill */}
-              <div className="saas-grid-fill" />
-
-              {/* Left Content */}
-              <div style={{ maxWidth: '65%', display: 'flex', flexDirection: 'column', height: '100%', justifyContent: 'space-between', zIndex: 1 }}>
-                <div>
-                  <div style={{
-                    display: 'inline-flex',
-                    alignItems: 'center',
-                    gap: 5,
-                    padding: '3px 10px',
-                    borderRadius: 100,
-                    background: 'rgba(79, 124, 255, 0.06)',
-                    border: '1px solid rgba(79, 124, 255, 0.1)',
-                    marginBottom: 8
-                  }}>
-                    <span style={{ width: 5, height: 5, borderRadius: '50%', background: '#4F7CFF' }} />
-                    <span style={{ fontSize: 9.5, fontWeight: 750, color: '#4F7CFF', letterSpacing: '0.05em', textTransform: 'uppercase' }}>Featured Match Priority</span>
-                  </div>
-                  
-                  <h4 style={{ fontFamily: 'var(--font-sans)', fontWeight: 800, fontSize: 20, color: '#1E293B', margin: '0 0 6px' }}>Personalized Matching</h4>
-                  <p style={{ fontFamily: 'var(--font-sans)', fontWeight: 400, fontSize: 14, color: '#64748B', lineHeight: 1.5, margin: '0 0 16px' }}>
-                    We align board expertise, teaching style, and student personality parameters to ensure compatibility.
-                  </p>
-                  
-                  <div style={{ display: 'flex', flexWrap: 'wrap', gap: 6 }}>
-                    {['Board Alignment', 'Synergy Index 98.4%', 'Pedagogical Fit'].map((tag) => (
-                      <span key={tag} style={{
+                        color: '#E11D48',
                         fontSize: 11,
-                        fontWeight: 650,
-                        color: '#4F7CFF',
-                        background: 'rgba(79, 124, 255, 0.05)',
-                        padding: '5px 10px',
-                        borderRadius: 8,
-                        border: '1px solid rgba(79, 124, 255, 0.06)'
-                      }}>
-                        {tag}
-                      </span>
-                    ))}
-                  </div>
-                </div>
-              </div>
-
-              {/* Right Illustration container */}
-              <div style={{
-                position: 'relative',
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'center',
-                width: 145,
-                height: '100%',
-                marginRight: -10,
-                zIndex: 1
-              }}>
-                <div style={{
-                  position: 'absolute',
-                  width: 130,
-                  height: 130,
-                  background: 'radial-gradient(circle, rgba(79, 124, 255, 0.12) 0%, transparent 70%)',
-                  filter: 'blur(10px)',
-                  opacity: hoveredCard === 'matching' ? 1 : 0.6,
-                  transition: 'opacity 0.35s ease'
-                }} />
-                
-                {/* Secondary visible doodles (Venn diagram arcs and target stars) */}
-                <div style={{ position: 'absolute', top: 5, left: -25, opacity: 0.35, color: '#4F7CFF' }}><Star size={8} fill="#4F7CFF" /></div>
-                <div style={{ position: 'absolute', bottom: 10, left: -10, opacity: 0.3, color: '#7C5CFF' }}><Star size={6} fill="#7C5CFF" /></div>
-                <div style={{ position: 'absolute', top: 15, right: -15, opacity: 0.25, color: '#10B981', fontSize: 14, fontWeight: 700 }}>+</div>
-
-                <motion.div
-                  animate={{ y: hoveredCard === 'matching' ? -6 : 0 }}
-                  transition={{ duration: 0.35 }}
-                >
-                  {illustrations.matching}
-                </motion.div>
-              </div>
-            </motion.div>
-
-            {/* ROW 2 CARD 2: Safe Learning (Spans 1 Column) */}
-            <motion.div
-              onMouseEnter={() => setHoveredCard('safe')}
-              onMouseLeave={() => setHoveredCard(null)}
-              className="card-hover"
-              style={{
-                gridColumn: 'span 1',
-                background: '#FFFFFF',
-                borderRadius: 20,
-                border: '1.2px solid rgba(16, 185, 129, 0.14)',
-                boxShadow: hoveredCard === 'safe' 
-                  ? '0 15px 30px rgba(16, 185, 129, 0.06)' 
-                  : '0 4px 10px rgba(10, 22, 40, 0.01)',
-                padding: '28px 26px',
-                display: 'flex',
-                flexDirection: 'column',
-                justifyContent: 'space-between',
-                height: 250,
-                position: 'relative',
-                overflow: 'hidden',
-                cursor: 'pointer',
-                y: hoveredCard === 'safe' ? -3 : 0,
-                transition: 'all 0.35s cubic-bezier(0.16, 1, 0.3, 1)'
-              }}
-            >
-              {/* SaaS Dot Grid Fill */}
-              <div className="saas-grid-fill" />
-
-              <div style={{ zIndex: 1 }}>
-                <h4 style={{ fontFamily: 'var(--font-sans)', fontWeight: 800, fontSize: 18, color: '#1E293B', margin: '0 0 4px' }}>Safe Learning</h4>
-                <p style={{ fontFamily: 'var(--font-sans)', fontWeight: 400, fontSize: 13.5, color: '#64748B', lineHeight: 1.45, margin: '0 0 14px' }}>
-                  Complete transparency and peace of mind.
-                </p>
-                <div style={{ display: 'flex', flexDirection: 'column', gap: 6 }}>
-                  {['Background Vetted', 'Lesson Log Transparency'].map((item) => (
-                    <div key={item} style={{ display: 'flex', alignItems: 'center', gap: 6, fontSize: 12.5, fontWeight: 650, color: '#1E293B' }}>
-                      <Check size={14} style={{ color: '#10B981' }} />
-                      <span>{item}</span>
-                    </div>
-                  ))}
-                </div>
-              </div>
-
-              {/* Illustration */}
-              <div style={{
-                position: 'absolute',
-                right: -10,
-                bottom: -12,
-                width: 105,
-                height: 105,
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'center',
-                zIndex: 1
-              }}>
-                <div style={{
-                  position: 'absolute',
-                  width: 90,
-                  height: 90,
-                  background: 'radial-gradient(circle, rgba(16, 185, 129, 0.1) 0%, transparent 70%)',
-                  filter: 'blur(7px)',
-                  opacity: hoveredCard === 'safe' ? 1 : 0.6
-                }} />
-                
-                {/* Secondary visible doodles */}
-                <div style={{ position: 'absolute', top: -5, left: 10, opacity: 0.35, color: '#10B981' }}><Star size={8} fill="#10B981" /></div>
-                <div style={{ position: 'absolute', bottom: 35, left: -20, opacity: 0.3, color: '#10B981', fontSize: 13, fontWeight: 800 }}>★</div>
-
-                <motion.div
-                  animate={{ y: hoveredCard === 'safe' ? -4 : 0 }}
-                  transition={{ duration: 0.35 }}
-                >
-                  {illustrations.safe}
-                </motion.div>
-              </div>
-            </motion.div>
-
-            {/* ROW 3 CARD 1: Board Flexibility (Spans 1 Column) */}
-            <motion.div
-              onMouseEnter={() => setHoveredCard('board')}
-              onMouseLeave={() => setHoveredCard(null)}
-              className="card-hover"
-              style={{
-                gridColumn: 'span 1',
-                background: '#FFFFFF',
-                borderRadius: 20,
-                border: '1.2px solid rgba(79, 124, 255, 0.14)',
-                boxShadow: hoveredCard === 'board' 
-                  ? '0 15px 30px rgba(79, 124, 255, 0.06)' 
-                  : '0 4px 10px rgba(10, 22, 40, 0.01)',
-                padding: '26px 26px',
-                display: 'flex',
-                flexDirection: 'column',
-                justifyContent: 'space-between',
-                height: 230,
-                position: 'relative',
-                overflow: 'hidden',
-                cursor: 'pointer',
-                y: hoveredCard === 'board' ? -3 : 0,
-                transition: 'all 0.35s cubic-bezier(0.16, 1, 0.3, 1)'
-              }}
-            >
-              {/* SaaS Dot Grid Fill */}
-              <div className="saas-grid-fill" />
-
-              <div style={{ zIndex: 1 }}>
-                <h4 style={{ fontFamily: 'var(--font-sans)', fontWeight: 800, fontSize: 18, color: '#1E293B', margin: '0 0 4px' }}>Board Flexibility</h4>
-                <p style={{ fontFamily: 'var(--font-sans)', fontWeight: 400, fontSize: 13.5, color: '#64748B', lineHeight: 1.45, margin: '0 0 12px' }}>
-                  Customized curriculums matching major boards.
-                </p>
-                <div style={{ display: 'flex', flexWrap: 'wrap', gap: 5 }}>
-                  {['CBSE', 'ICSE', 'IGCSE', 'State Board'].map(board => (
-                    <span key={board} style={{ fontSize: 11, fontWeight: 650, color: '#334155', background: '#F1F5F9', padding: '3px 8px', borderRadius: 6 }}>
-                      {board}
+                        fontWeight: 800,
+                        flexShrink: 0
+                      }}
+                    >
+                      ✓
                     </span>
-                  ))}
-                </div>
+                    <span>{item}</span>
+                  </div>
+                ))}
               </div>
+            </div>
 
-              {/* Illustration */}
-              <div style={{
+            {/* Illustration placement */}
+            <div
+              style={{
+                display: 'flex',
+                justifyContent: 'flex-end',
+                alignItems: 'center',
+                width: '100%',
+                height: 110,
+                marginTop: 6,
+                zIndex: 1
+              }}
+            >
+              <motion.div animate={{ y: hoveredCard === 'safe' ? -4 : 0 }} transition={{ duration: 0.35 }}>
+                {illustrations.safe}
+              </motion.div>
+            </div>
+          </motion.div>
+
+          {/* ========================================================= */}
+          {/* CARD 5: Board Flexibility (Spans 1 Column on Desktop)     */}
+          {/* ========================================================= */}
+          <motion.div
+            onMouseEnter={() => setHoveredCard('board')}
+            onMouseLeave={() => setHoveredCard(null)}
+            className="bento-card card-board"
+            style={{
+              gridColumn: 'span 1',
+              background: '#FFFFFF',
+              borderRadius: 24,
+              border: '1.2px solid rgba(186, 230, 253, 0.8)',
+              boxShadow:
+                hoveredCard === 'board'
+                  ? '0 20px 35px -8px rgba(56, 189, 248, 0.2), 0 4px 12px -2px rgba(0, 0, 0, 0.03)'
+                  : '0 8px 24px -4px rgba(15, 23, 42, 0.04), 0 2px 6px -1px rgba(15, 23, 42, 0.02)',
+              padding: isMobile ? '24px 20px' : '28px 26px',
+              display: 'flex',
+              flexDirection: 'column',
+              justifyContent: 'space-between',
+              minHeight: isMobile ? 'auto' : 240,
+              position: 'relative',
+              overflow: 'hidden',
+              cursor: 'default',
+              transform: hoveredCard === 'board' ? 'translateY(-3px)' : 'translateY(0)',
+              transition: 'all 0.35s cubic-bezier(0.16, 1, 0.3, 1)'
+            }}
+          >
+            {/* Soft Sky Blue Mesh Glow */}
+            <div
+              style={{
                 position: 'absolute',
-                right: -8,
-                bottom: -12,
-                width: 105,
-                height: 105,
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'center',
-                zIndex: 1
-              }}>
-                <div style={{
-                  position: 'absolute',
-                  width: 90,
-                  height: 90,
-                  background: 'radial-gradient(circle, rgba(79, 124, 255, 0.1) 0%, transparent 70%)',
-                  filter: 'blur(7px)',
-                  opacity: hoveredCard === 'board' ? 1 : 0.6
-                }} />
-                
-                {/* Secondary visible doodles */}
-                <div style={{ position: 'absolute', top: -5, left: 10, opacity: 0.35, color: '#4F7CFF' }}><Star size={8} fill="#4F7CFF" /></div>
-                <div style={{ position: 'absolute', bottom: 35, left: -20, opacity: 0.3, color: '#7C5CFF', fontSize: 13, fontWeight: 800 }}>📖</div>
+                top: 0,
+                right: 0,
+                bottom: 0,
+                width: '75%',
+                background: 'radial-gradient(ellipse at 85% 50%, rgba(224, 242, 254, 0.6) 0%, rgba(240, 249, 255, 0.3) 50%, transparent 80%)',
+                pointerEvents: 'none',
+                zIndex: 0
+              }}
+            />
 
-                <motion.div
-                  animate={{ y: hoveredCard === 'board' ? -4 : 0 }}
-                  transition={{ duration: 0.35 }}
-                >
-                  {illustrations.board}
-                </motion.div>
+            <div style={{ zIndex: 1, width: '100%' }}>
+              <h3 style={{ fontFamily: 'var(--font-sans)', fontWeight: 800, fontSize: 20, color: '#0F172A', margin: '0 0 6px' }}>
+                Board Flexibility
+              </h3>
+              <p style={{ fontFamily: 'var(--font-sans)', fontWeight: 400, fontSize: 14, color: '#64748B', lineHeight: 1.45, margin: '0 0 16px' }}>
+                Customized curriculums matching major boards.
+              </p>
+
+              {/* Board Chips */}
+              <div style={{ display: 'flex', flexWrap: 'wrap', gap: 6 }}>
+                {['CBSE', 'ICSE', 'IGCSE', 'State Board'].map((board) => (
+                  <span
+                    key={board}
+                    style={{
+                      fontSize: 12,
+                      fontWeight: 700,
+                      color: '#334155',
+                      background: '#F1F5F9',
+                      border: '1px solid #E2E8F0',
+                      padding: '4px 10px',
+                      borderRadius: 6
+                    }}
+                  >
+                    {board}
+                  </span>
+                ))}
               </div>
-            </motion.div>
+            </div>
 
-            {/* ROW 3 CARD 2: One-to-One Learning (Featured priority - Spans 2 Columns) */}
-            <motion.div
-              onMouseEnter={() => setHoveredCard('onetoone')}
-              onMouseLeave={() => setHoveredCard(null)}
-              className="card-hover"
+            {/* Illustration placement */}
+            <div
               style={{
-                gridColumn: 'span 2',
-                background: '#FFFFFF',
-                borderRadius: 20,
-                border: hoveredCard === 'onetoone' 
-                  ? '1.5px solid #7C5CFF' 
-                  : '1.2px solid rgba(124, 92, 255, 0.18)',
-                boxShadow: hoveredCard === 'onetoone' 
-                  ? '0 20px 40px rgba(124, 92, 255, 0.08)' 
-                  : '0 4px 10px rgba(10, 22, 40, 0.015)',
-                padding: '26px 36px',
                 display: 'flex',
-                justifyContent: 'space-between',
+                justifyContent: 'flex-end',
                 alignItems: 'center',
-                height: 230,
-                position: 'relative',
-                overflow: 'hidden',
-                cursor: 'pointer',
-                y: hoveredCard === 'onetoone' ? -4 : 0,
-                transition: 'all 0.4s cubic-bezier(0.16, 1, 0.3, 1)'
+                width: '100%',
+                height: 110,
+                marginTop: 6,
+                zIndex: 1
               }}
             >
-              {/* SaaS Dot Grid Fill */}
-              <div className="saas-grid-fill" />
+              <motion.div animate={{ y: hoveredCard === 'board' ? -4 : 0 }} transition={{ duration: 0.35 }}>
+                {illustrations.board}
+              </motion.div>
+            </div>
+          </motion.div>
 
-              {/* Left Content */}
-              <div style={{ maxWidth: '65%', display: 'flex', flexDirection: 'column', height: '100%', justifyContent: 'space-between', zIndex: 1 }}>
-                <div>
-                  <div style={{
-                    display: 'inline-flex',
-                    alignItems: 'center',
-                    gap: 5,
-                    padding: '3px 10px',
-                    borderRadius: 100,
-                    background: 'rgba(124, 92, 255, 0.06)',
-                    border: '1px solid rgba(124, 92, 255, 0.1)',
-                    marginBottom: 8
-                  }}>
-                    <span style={{ width: 5, height: 5, borderRadius: '50%', background: '#7C5CFF' }} />
-                    <span style={{ fontSize: 9.5, fontWeight: 750, color: '#7C5CFF', letterSpacing: '0.05em', textTransform: 'uppercase' }}>Tradition needs excellence</span>
-                  </div>
-                  
-                  <h4 style={{ fontFamily: 'var(--font-sans)', fontWeight: 800, fontSize: 20, color: '#1E293B', margin: '0 0 6px' }}>One-to-One Learning</h4>
-                  <p style={{ fontFamily: 'var(--font-sans)', fontWeight: 400, fontSize: 14, color: '#64748B', lineHeight: 1.5, margin: '0 0 14px' }}>
-                    Designed around your child's exact learning pace. No batches.
-                  </p>
-                  
-                  <div style={{ display: 'flex', gap: 16 }}>
-                    <div style={{ borderLeft: '2.5px solid #7C5CFF', paddingLeft: 8 }}>
-                      <div style={{ fontSize: 17, fontWeight: 855, color: '#1E293B', lineHeight: 1.1 }}>100%</div>
-                      <div style={{ fontSize: 10.5, color: '#64748B', fontWeight: 650, marginTop: 1 }}>Focused Attention</div>
-                    </div>
-                    <div style={{ borderLeft: '2.5px solid #10B981', paddingLeft: 8 }}>
-                      <div style={{ fontSize: 17, fontWeight: 855, color: '#1E293B', lineHeight: 1.1 }}>Adaptive</div>
-                      <div style={{ fontSize: 10.5, color: '#64748B', fontWeight: 650, marginTop: 1 }}>Personal Speed</div>
-                    </div>
-                  </div>
-                </div>
+          {/* ========================================================= */}
+          {/* CARD 6: One-to-One Learning (Spans 2 Columns on Desktop)  */}
+          {/* ========================================================= */}
+          <motion.div
+            onMouseEnter={() => setHoveredCard('onetoone')}
+            onMouseLeave={() => setHoveredCard(null)}
+            className="bento-card card-onetoone"
+            style={{
+              gridColumn: isMobile ? 'span 1' : 'span 2',
+              background: '#FFFFFF',
+              borderRadius: 24,
+              border: '1.2px solid rgba(233, 213, 255, 0.8)',
+              boxShadow:
+                hoveredCard === 'onetoone'
+                  ? '0 22px 40px -8px rgba(168, 85, 247, 0.2), 0 4px 12px -2px rgba(0, 0, 0, 0.03)'
+                  : '0 8px 24px -4px rgba(15, 23, 42, 0.04), 0 2px 6px -1px rgba(15, 23, 42, 0.02)',
+              padding: isMobile ? '24px 20px' : '28px 32px',
+              display: 'flex',
+              flexDirection: isMobile ? 'column' : 'row',
+              justifyContent: 'space-between',
+              alignItems: 'center',
+              minHeight: isMobile ? 'auto' : 240,
+              position: 'relative',
+              overflow: 'hidden',
+              cursor: 'default',
+              transform: hoveredCard === 'onetoone' ? 'translateY(-3px)' : 'translateY(0)',
+              transition: 'all 0.35s cubic-bezier(0.16, 1, 0.3, 1)'
+            }}
+          >
+            {/* Soft Violet Mesh Glow */}
+            <div
+              style={{
+                position: 'absolute',
+                top: 0,
+                right: 0,
+                bottom: 0,
+                width: isMobile ? '100%' : '60%',
+                background: 'radial-gradient(ellipse at 80% 50%, rgba(233, 213, 255, 0.45) 0%, rgba(243, 232, 255, 0.2) 50%, transparent 80%)',
+                pointerEvents: 'none',
+                zIndex: 0
+              }}
+            />
+
+            {/* Left Content */}
+            <div style={{ flex: 1, minWidth: isMobile ? '100%' : '55%', zIndex: 1, marginBottom: isMobile ? 16 : 0 }}>
+              {/* Badge Tag */}
+              <div
+                style={{
+                  display: 'inline-flex',
+                  alignItems: 'center',
+                  gap: 6,
+                  padding: '4px 10px',
+                  borderRadius: 100,
+                  background: 'rgba(124, 58, 237, 0.08)',
+                  border: '1px solid rgba(124, 58, 237, 0.15)',
+                  marginBottom: 10
+                }}
+              >
+                <span style={{ width: 6, height: 6, borderRadius: '50%', background: '#7C3AED' }} />
+                <span style={{ fontSize: 10, fontWeight: 800, color: '#7C3AED', letterSpacing: '0.06em', textTransform: 'uppercase' }}>
+                  TRADITION NEEDS EXCELLENCE
+                </span>
               </div>
 
-              {/* Right Illustration container */}
-              <div style={{
-                position: 'relative',
+              <h3 style={{ fontFamily: 'var(--font-sans)', fontWeight: 800, fontSize: 20, color: '#0F172A', margin: '0 0 6px' }}>
+                One-to-One Learning
+              </h3>
+              <p style={{ fontFamily: 'var(--font-sans)', fontWeight: 400, fontSize: 14, color: '#64748B', lineHeight: 1.45, margin: '0 0 16px' }}>
+                Designed around your child's exact learning pace. No batches.
+              </p>
+
+              {/* Stats Indicators */}
+              <div style={{ display: 'flex', gap: 20 }}>
+                <div style={{ borderLeft: '3px solid #7C3AED', paddingLeft: 10 }}>
+                  <div style={{ fontSize: 18, fontWeight: 800, color: '#0F172A', lineHeight: 1.1 }}>100%</div>
+                  <div style={{ fontSize: 11, color: '#64748B', fontWeight: 600, marginTop: 2 }}>Focused Attention</div>
+                </div>
+                <div style={{ borderLeft: '3px solid #10B981', paddingLeft: 10 }}>
+                  <div style={{ fontSize: 18, fontWeight: 800, color: '#0F172A', lineHeight: 1.1 }}>Adaptive</div>
+                  <div style={{ fontSize: 11, color: '#64748B', fontWeight: 600, marginTop: 2 }}>Personal Speed</div>
+                </div>
+              </div>
+            </div>
+
+            {/* Right Graphic */}
+            <div
+              style={{
+                flexShrink: 0,
                 display: 'flex',
                 alignItems: 'center',
                 justifyContent: 'center',
-                width: 140,
-                height: '100%',
-                marginRight: -10,
+                width: isMobile ? '100%' : 180,
+                height: 130,
                 zIndex: 1
-              }}>
-                <div style={{
-                  position: 'absolute',
-                  width: 130,
-                  height: 130,
-                  background: 'radial-gradient(circle, rgba(124, 92, 255, 0.14) 0%, transparent 70%)',
-                  filter: 'blur(10px)',
-                  opacity: hoveredCard === 'onetoone' ? 1 : 0.6,
-                  transition: 'opacity 0.35s ease'
-                }} />
-                
-                {/* Secondary visible doodles */}
-                <div style={{ position: 'absolute', top: 5, left: -20, opacity: 0.35, color: '#7C5CFF' }}><Star size={8} fill="#7C5CFF" /></div>
-                <div style={{ position: 'absolute', bottom: 10, left: -10, opacity: 0.3, color: '#10B981' }}><Star size={6} fill="#10B981" /></div>
-                <div style={{ position: 'absolute', top: 25, right: -15, opacity: 0.25, color: '#10B981', fontSize: 14, fontWeight: 700 }}>💡</div>
-
-                <motion.div
-                  animate={{ y: hoveredCard === 'onetoone' ? -6 : 0 }}
-                  transition={{ duration: 0.35 }}
-                >
-                  {illustrations.onetoone}
-                </motion.div>
-              </div>
-            </motion.div>
-
-            {/* ROW 4 CARD: Online + Offline (Spans full 3 columns) */}
-            <motion.div
-              onMouseEnter={() => setHoveredCard('online')}
-              onMouseLeave={() => setHoveredCard(null)}
-              className="card-hover"
-              style={{
-                gridColumn: 'span 3',
-                background: '#FFFFFF',
-                borderRadius: 20,
-                border: '1.2px solid rgba(79, 124, 255, 0.14)',
-                boxShadow: hoveredCard === 'online' 
-                  ? '0 15px 32px rgba(79, 124, 255, 0.06)' 
-                  : '0 4px 10px rgba(10, 22, 40, 0.01)',
-                padding: '28px 36px',
-                display: 'flex',
-                justifyContent: 'space-between',
-                alignItems: 'center',
-                height: 200,
-                position: 'relative',
-                overflow: 'hidden',
-                cursor: 'pointer',
-                y: hoveredCard === 'online' ? -3 : 0,
-                transition: 'all 0.35s cubic-bezier(0.16, 1, 0.3, 1)'
               }}
             >
-              {/* SaaS Dot Grid Fill */}
-              <div className="saas-grid-fill" />
-
-              {/* Left Content */}
-              <div style={{ maxWidth: '65%', zIndex: 1 }}>
-                <h4 style={{ fontFamily: 'var(--font-sans)', fontWeight: 800, fontSize: 20, color: '#1E293B', margin: '0 0 4px' }}>Online + Offline Learning</h4>
-                <p style={{ fontFamily: 'var(--font-sans)', fontWeight: 400, fontSize: 14, color: '#64748B', lineHeight: 1.5, margin: '0 0 16px', maxWidth: '480px' }}>
-                  Seamlessly switch modes under the same verified teachers. Learn at home or learn virtually, choice is yours.
-                </p>
-                <div style={{ display: 'flex', gap: 20 }}>
-                  <div style={{ display: 'flex', alignItems: 'center', gap: 6, fontSize: 13, fontWeight: 650, color: '#1E293B' }}>
-                    <Home size={16} style={{ color: '#4F7CFF' }} />
-                    <span>In-person home tuition</span>
-                  </div>
-                  <div style={{ display: 'flex', alignItems: 'center', gap: 6, fontSize: 13, fontWeight: 650, color: '#1E293B' }}>
-                    <Monitor size={16} style={{ color: '#4F7CFF' }} />
-                    <span>Interactive virtual classes</span>
-                  </div>
-                </div>
-              </div>
-
-              {/* Right Illustration */}
-              <div style={{
-                position: 'relative',
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'center',
-                width: 180,
-                height: '100%',
-                marginRight: 20,
-                zIndex: 1
-              }}>
-                <div style={{
-                  position: 'absolute',
-                  width: 160,
-                  height: 120,
-                  background: 'radial-gradient(circle, rgba(79, 124, 255, 0.1) 0%, transparent 70%)',
-                  filter: 'blur(8px)',
-                  opacity: hoveredCard === 'online' ? 1 : 0.6
-                }} />
-                
-                {/* Secondary visible doodles */}
-                <div style={{ position: 'absolute', top: 5, left: -10, opacity: 0.35, color: '#4F7CFF' }}><Star size={8} fill="#4F7CFF" /></div>
-                <div style={{ position: 'absolute', bottom: 15, right: -15, opacity: 0.3, color: '#4F7CFF' }}><Star size={6} fill="#4F7CFF" /></div>
-                <div style={{ position: 'absolute', top: 25, right: -25, opacity: 0.2, color: '#10B981', fontSize: 13, fontWeight: 800 }}>WiFi</div>
-
-                <motion.div
-                  animate={{ y: hoveredCard === 'online' ? -4 : 0 }}
-                  transition={{ duration: 0.35 }}
-                >
-                  {illustrations.online}
-                </motion.div>
-              </div>
-            </motion.div>
-
-          </div>
-        )}
-
+              <motion.div animate={{ y: hoveredCard === 'onetoone' ? -4 : 0 }} transition={{ duration: 0.35 }}>
+                {illustrations.onetoone}
+              </motion.div>
+            </div>
+          </motion.div>
+        </div>
       </div>
-      
-      {/* Dynamic Global Hover and Animation Styles */}
-      <style>{`
-        .mobile-swipe-carousel::-webkit-scrollbar {
-          display: none;
-        }
-        
-        /* SaaS Dot Grid Background decoration pattern */
-        .saas-grid-fill {
-          position: absolute;
-          inset: 0;
-          background-image: radial-gradient(rgba(79, 124, 255, 0.09) 1px, transparent 1.2px);
-          background-size: 14px 14px;
-          opacity: 0.85;
-          pointer-events: none;
-          z-index: 0;
-        }
 
-        /* Dash animation for connectors */
+      {/* Interactive Micro-animation Styles */}
+      <style>{`
         @keyframes dashflow {
           to {
             stroke-dashoffset: -20;
           }
         }
 
-        /* 1. Verified Teachers - Badge pop animation on hover */
-        .card-hover:hover .teach-badge {
-          transform: scale(1.2) rotate(3deg);
+        /* 1. Verified Teachers: Checkmark Pop */
+        .card-teachers:hover .teach-badge {
+          transform: scale(1.18) rotate(4deg);
         }
 
-        /* 2. Assessment - Clip lift and checkmark scale */
-        .card-hover:hover .assess-clip {
-          transform: translateY(-3px);
-        }
-        .card-hover:hover .assess-dot-1 {
-          transform: scale(1.35);
-          fill: #10B981;
-        }
-        .card-hover:hover .assess-dot-2 {
-          transform: scale(1.35);
-          fill: #10B981;
+        /* 2. Assessment: Clipboard Lift */
+        .card-assessment:hover .assess-board {
+          transform: translateY(-4px);
         }
 
-        /* 3. Matching - Dashed connector flow and node attraction */
-        .card-hover:hover .match-line-left {
+        /* 3. Matching: Connected dashed lines flow & center node scale */
+        .card-matching:hover .match-line-left,
+        .card-matching:hover .match-line-right {
           animation: dashflow 1.2s linear infinite;
         }
-        .card-hover:hover .match-line-right {
-          animation: dashflow 1.2s linear infinite;
-        }
-        .card-hover:hover .match-teacher {
-          transform: translateX(3px);
-        }
-        .card-hover:hover .match-parent {
-          transform: translateX(-3px);
-        }
-        .card-hover:hover .match-center {
+        .card-matching:hover .match-center-node {
           transform: scale(1.12);
-          filter: drop-shadow(0 0 8px rgba(16, 185, 129, 0.5));
         }
-        .card-hover:hover .radar-circle {
-          transform: scale(1.15);
+        .card-matching:hover .match-person-left {
+          transform: translateX(4px);
         }
-
-        /* 4. Safe Learning - Lock loop rotation check */
-        .card-hover:hover .safe-lock {
-          transform: translateY(-4px) scale(1.05);
+        .card-matching:hover .match-person-right {
+          transform: translateX(-4px);
         }
 
-        /* 5. Board Flexibility - Book stack displacement */
-        .card-hover:hover .book-top {
-          transform: translateY(-6px);
-        }
-        .card-hover:hover .book-mid {
-          transform: translateY(-3px);
+        /* 4. Safe Learning: Shield Lock Jiggle */
+        .card-safe:hover .safe-lock-icon {
+          transform: scale(1.15) translateY(-2px);
         }
 
-        /* 6. One-to-One - Lightbulb scale & pulse glow */
-        .card-hover:hover .one-bulb {
+        /* 5. Board Flexibility: Book Stack Levitation */
+        .card-board:hover .book-top {
+          transform: translateY(-5px);
+        }
+        .card-board:hover .book-mid {
+          transform: translateY(-2px);
+        }
+
+        /* 6. One-to-One: Lightbulb Pulse */
+        .card-onetoone:hover .one-bulb {
           transform: scale(1.22);
-          filter: drop-shadow(0 0 6px rgba(16, 185, 129, 0.85));
-        }
-
-        /* 7. Online + Offline - Connector wave animation */
-        .card-hover:hover .online-curve-1 {
-          animation: dashflow 1s linear infinite;
-        }
-        .card-hover:hover .online-curve-2 {
-          animation: dashflow 1s linear infinite;
+          filter: drop-shadow(0 0 8px rgba(245, 158, 11, 0.85));
         }
       `}</style>
     </section>

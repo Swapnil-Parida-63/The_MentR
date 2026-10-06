@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import ChatHeader from './ChatHeader';
 import MessageList from './MessageList';
 import EmptyState from './EmptyState';
@@ -8,8 +8,8 @@ import ChatInput from './ChatInput';
 
 /**
  * ChatWindow Component
- * Seamlessly delivers Full-Screen Mobile Takeover (matching reference UI) and
- * Sleek Neomorphic Pop-up Card on Desktop.
+ * Seamlessly delivers Full-Screen Mobile Takeover and Sleek Neomorphic Pop-up Card on Desktop
+ * with automatic smooth scrolling to the latest message as the chat grows.
  */
 export default function ChatWindow({
   messages,
@@ -24,6 +24,9 @@ export default function ChatWindow({
   const [isMobile, setIsMobile] = useState(false);
   const [mobileStep, setMobileStep] = useState('welcome'); // 'welcome' | 'discovery'
 
+  const scrollContainerRef = useRef(null);
+  const messagesEndRef = useRef(null);
+
   useEffect(() => {
     const checkMobile = () => {
       setIsMobile(window.innerWidth < 768);
@@ -35,6 +38,32 @@ export default function ChatWindow({
 
   // Check if conversation has any user message
   const hasUserMessages = messages.some((m) => m.role === 'user');
+
+  // Auto-scroll to the bottom whenever messages change, when loading starts/stops, or on errors
+  const scrollToBottom = (behavior = 'smooth') => {
+    if (messagesEndRef.current) {
+      messagesEndRef.current.scrollIntoView({ behavior, block: 'end' });
+    }
+    if (scrollContainerRef.current) {
+      scrollContainerRef.current.scrollTo({
+        top: scrollContainerRef.current.scrollHeight,
+        behavior
+      });
+    }
+  };
+
+  useEffect(() => {
+    if (hasUserMessages || isLoading) {
+      scrollToBottom('smooth');
+      // Extra timed passes to ensure any loaded images/content heights are accounted for
+      const t1 = setTimeout(() => scrollToBottom('smooth'), 60);
+      const t2 = setTimeout(() => scrollToBottom('smooth'), 180);
+      return () => {
+        clearTimeout(t1);
+        clearTimeout(t2);
+      };
+    }
+  }, [messages, isLoading, error, hasUserMessages]);
 
   // Handle back button on mobile
   const handleBack = () => {
@@ -52,10 +81,10 @@ export default function ChatWindow({
     onSend(text);
   };
 
-  // Determine if top header should be shown (hidden on mobile welcome screen per reference)
+  // Determine if top header should be shown
   const showHeader = !isMobile || mobileStep !== 'welcome' || hasUserMessages;
 
-  // Determine if bottom input dock should be shown (hidden on mobile welcome screen)
+  // Determine if bottom input dock should be shown
   const showInput = !isMobile || mobileStep !== 'welcome' || hasUserMessages;
 
   return (
@@ -84,6 +113,8 @@ export default function ChatWindow({
         display: 'flex',
         flexDirection: 'column',
         overflow: 'hidden',
+        overscrollBehavior: 'contain',
+        WebkitOverscrollBehavior: 'contain',
         animation: isMobile
           ? 'menteeMobileSlideUp 0.35s cubic-bezier(0.16, 1, 0.3, 1) both'
           : 'menteeSlideInCard 0.35s cubic-bezier(0.16, 1, 0.3, 1) both'
@@ -99,16 +130,22 @@ export default function ChatWindow({
         />
       )}
 
-      {/* Main Content Area */}
+      {/* Main Content & Scroll Container */}
       <div
+        ref={scrollContainerRef}
+        className="mentee-content-scroller"
         style={{
           flex: 1,
           display: 'flex',
           flexDirection: 'column',
           overflowY: 'auto',
           position: 'relative',
-          padding: isMobile ? '0' : '8px 0',
-          scrollbarWidth: 'thin'
+          padding: isMobile ? '0' : '4px 0',
+          scrollbarWidth: 'thin',
+          overscrollBehavior: 'contain',
+          overscrollBehaviorY: 'contain',
+          WebkitOverscrollBehavior: 'contain',
+          scrollBehavior: 'smooth'
         }}
       >
         {!hasUserMessages ? (
@@ -120,7 +157,7 @@ export default function ChatWindow({
               display: 'flex',
               alignItems: 'center',
               justifyContent: 'center',
-              height: '100%',
+              minHeight: '100%',
               animation: 'menteeHeroEnter 0.45s cubic-bezier(0.16, 1, 0.3, 1) both'
             }}
           >
@@ -139,7 +176,7 @@ export default function ChatWindow({
               flex: 1,
               display: 'flex',
               flexDirection: 'column',
-              padding: isMobile ? '12px 14px 6px' : '0 12px',
+              padding: isMobile ? '8px 10px 4px' : '0 12px',
               animation: 'menteeChatEnter 0.45s cubic-bezier(0.16, 1, 0.3, 1) both'
             }}
           >
@@ -147,13 +184,16 @@ export default function ChatWindow({
 
             {/* Typing Indicator */}
             {isLoading && (
-              <div style={{ padding: '0 24px 8px' }}>
+              <div style={{ padding: '4px 18px 8px' }}>
                 <TypingIndicator />
               </div>
             )}
 
             {/* Error Alert */}
             {error && <ErrorState message={error} onRetry={onRetry} />}
+
+            {/* Bottom Anchor to ensure complete auto-scrolling */}
+            <div ref={messagesEndRef} style={{ height: 16, flexShrink: 0 }} />
           </div>
         )}
       </div>
@@ -164,6 +204,10 @@ export default function ChatWindow({
       )}
 
       <style>{`
+        .mentee-content-scroller {
+          overscroll-behavior: contain !important;
+          overscroll-behavior-y: contain !important;
+        }
         @keyframes menteeSlideInCard {
           from {
             opacity: 0;

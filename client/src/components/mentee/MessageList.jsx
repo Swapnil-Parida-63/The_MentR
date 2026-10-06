@@ -1,34 +1,20 @@
-import { useEffect, useRef } from 'react';
 import MessageBubble from './MessageBubble';
 
 /**
  * MessageList Component
- * Scrollable list containing conversation message bubbles and auto-scrolling logic.
+ * Renders conversation message bubbles seamlessly within the parent scrollable container.
  */
 export default function MessageList({ messages = [], onActionClick }) {
-  const containerRef = useRef(null);
-
-  useEffect(() => {
-    if (containerRef.current) {
-      containerRef.current.scrollTo({
-        top: containerRef.current.scrollHeight,
-        behavior: 'smooth'
-      });
-    }
-  }, [messages]);
-
   return (
     <div
-      ref={containerRef}
+      className="mentee-messages-wrapper"
       style={{
-        flex: 1,
-        padding: '16px 16px 8px 16px',
-        overflowY: 'auto',
-        WebkitOverflowScrolling: 'touch',
         display: 'flex',
         flexDirection: 'column',
-        willChange: 'scroll-position',
-        transform: 'translateZ(0)'
+        gap: 12,
+        padding: '12px 14px 4px',
+        width: '100%',
+        boxSizing: 'border-box'
       }}
     >
       {messages.map((msg, index) => (

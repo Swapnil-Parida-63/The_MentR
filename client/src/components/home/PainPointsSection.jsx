@@ -500,38 +500,83 @@ export default function PainPointsSection() {
               initial={{ opacity: 0, x: 20 }}
               whileInView={{ opacity: 1, x: 0 }}
               viewport={{ once: true }}
-              transition={{ duration: 0.8, delay: 0.1 }}
+              whileHover={{ 
+                scale: 1.04, 
+                y: -10, 
+                rotate: -1.2 
+              }}
+              transition={{ 
+                duration: 0.8, delay: 0.1,
+                scale: { type: "spring", stiffness: 450, damping: 20 },
+                y: { type: "spring", stiffness: 450, damping: 20 },
+                rotate: { type: "spring", stiffness: 450, damping: 20 }
+              }}
               style={{
                 display: 'flex',
                 justifyContent: 'center',
                 alignItems: 'center',
                 padding: '0 24px',
-                position: 'relative'
+                position: 'relative',
+                zIndex: 5
               }}
             >
-              <div style={{ position: 'relative', width: '100%', display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
-                <motion.img 
-                  src={`${import.meta.env.BASE_URL}Parents Pain Point.webp`}
-                  alt="Parents searching and finding verified home teachers with TheMentR"
-                  loading="lazy"
-                  decoding="async"
-                  width="1536"
-                  height="1024"
-                  whileHover={{ 
-                    scale: 1.02,
-                    y: -5
-                  }}
-                  transition={{ type: "spring", stiffness: 300, damping: 22 }}
-                  style={{
-                    width: '100%',
-                    height: 'auto',
-                    maxHeight: 440,
-                    objectFit: 'contain',
-                    mixBlendMode: 'multiply',
-                    cursor: 'pointer',
-                    zIndex: 2
-                  }}
-                />
+              {/* Dynamic ambient glow */}
+              <div style={{
+                position: 'absolute',
+                inset: '-60px',
+                background: 'radial-gradient(circle at 50% 50%, rgba(79, 124, 255, 0.25) 0%, rgba(79, 124, 255, 0.06) 45%, transparent 70%)',
+                filter: 'blur(16px)',
+                pointerEvents: 'none',
+                zIndex: 0
+              }} />
+
+              <div style={{
+                position: 'relative',
+                background: 'rgba(255, 255, 255, 0.45)',
+                backdropFilter: 'blur(20px)',
+                WebkitBackdropFilter: 'blur(20px)',
+                borderRadius: '28px',
+                border: '1.5px solid rgba(255, 255, 255, 0.7)',
+                boxShadow: '0 20px 50px rgba(15, 23, 42, 0.05), inset 0 0 0 1.5px rgba(255, 255, 255, 0.25)',
+                padding: '24px',
+                width: '85%',
+                maxWidth: '480px',
+                margin: '0 auto',
+                overflow: 'hidden',
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                zIndex: 1
+              }}>
+                {/* Soft edge blend overlay to blur/blend the image boundaries inside the glass frame */}
+                <div style={{
+                  position: 'absolute',
+                  inset: 0,
+                  boxShadow: 'inset 0 0 24px 12px rgba(255,255,255,1)',
+                  pointerEvents: 'none',
+                  zIndex: 2,
+                  borderRadius: '28px'
+                }} />
+                <picture style={{ width: '100%', display: 'block', position: 'relative', zIndex: 1 }}>
+                  <img 
+                    src={`${import.meta.env.BASE_URL}Parents Pain Point.webp`}
+                    alt="Parents searching and finding verified home teachers with TheMentR"
+                    loading="lazy"
+                    decoding="async"
+                    width="1536"
+                    height="1024"
+                    style={{
+                      position: 'relative',
+                      zIndex: 1,
+                      width: '100%',
+                      height: 'auto',
+                      display: 'block',
+                      mixBlendMode: 'multiply',
+                      borderRadius: '16px',
+                      transition: 'all 0.3s ease'
+                    }}
+                  />
+                </picture>
               </div>
             </motion.div>
           )}
@@ -590,37 +635,78 @@ export default function PainPointsSection() {
               whileInView={{ opacity: 1, x: 0 }}
               viewport={{ once: true }}
               transition={{ duration: 0.8, delay: 0.1 }}
+              whileHover={{ 
+                scale: 1.03,
+                y: -6,
+                rotate: -0.5
+              }}
               style={{
                 display: 'flex',
                 justifyContent: 'center',
                 alignItems: 'center',
                 padding: '0 24px',
-                position: 'relative'
+                position: 'relative',
+                cursor: 'pointer',
+                zIndex: 5
               }}
             >
-              <div style={{ position: 'relative', width: '100%', display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
-                <motion.img 
-                  src={`${import.meta.env.BASE_URL}Teachers Pain Point.webp`}
-                  alt="Exceptional teachers gaining professional recognition and matched students with TheMentR"
-                  loading="lazy"
-                  decoding="async"
-                  width="1536"
-                  height="1024"
-                  whileHover={{ 
-                    scale: 1.02,
-                    y: -5
-                  }}
-                  transition={{ type: "spring", stiffness: 300, damping: 22 }}
-                  style={{
-                    width: '100%',
-                    height: 'auto',
-                    maxHeight: 440,
-                    objectFit: 'contain',
-                    mixBlendMode: 'multiply',
-                    cursor: 'pointer',
-                    zIndex: 2
-                  }}
-                />
+              {/* Dynamic ambient glow */}
+              <div style={{
+                position: 'absolute',
+                inset: '-60px',
+                background: 'radial-gradient(circle at 50% 50%, rgba(123, 97, 255, 0.25) 0%, rgba(123, 97, 255, 0.06) 45%, transparent 70%)',
+                filter: 'blur(16px)',
+                pointerEvents: 'none',
+                zIndex: 0
+              }} />
+
+              <div style={{
+                position: 'relative',
+                background: 'rgba(255, 255, 255, 0.45)',
+                backdropFilter: 'blur(20px)',
+                WebkitBackdropFilter: 'blur(20px)',
+                borderRadius: '28px',
+                border: '1.5px solid rgba(255, 255, 255, 0.7)',
+                boxShadow: '0 20px 50px rgba(15, 23, 42, 0.05), inset 0 0 0 1.5px rgba(255, 255, 255, 0.25)',
+                padding: '24px',
+                width: '85%',
+                maxWidth: '480px',
+                margin: '0 auto',
+                overflow: 'hidden',
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                zIndex: 1
+              }}>
+                {/* Soft edge blend overlay to blur/blend the image boundaries inside the glass frame */}
+                <div style={{
+                  position: 'absolute',
+                  inset: 0,
+                  boxShadow: 'inset 0 0 24px 12px rgba(255,255,255,1)',
+                  pointerEvents: 'none',
+                  zIndex: 2,
+                  borderRadius: '28px'
+                }} />
+                <picture style={{ width: '100%', display: 'block', position: 'relative', zIndex: 1 }}>
+                  <img 
+                    src={`${import.meta.env.BASE_URL}Teachers Pain Point.webp`}
+                    alt="Exceptional teachers gaining professional recognition and matched students with TheMentR"
+                    loading="lazy"
+                    decoding="async"
+                    width="1536"
+                    height="1024"
+                    style={{
+                      position: 'relative',
+                      zIndex: 1,
+                      width: '100%',
+                      height: 'auto',
+                      display: 'block',
+                      mixBlendMode: 'multiply',
+                      borderRadius: '16px',
+                      transition: 'all 0.3s ease'
+                    }}
+                  />
+                </picture>
               </div>
             </motion.div>
           )}
