@@ -1,4 +1,4 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://thementr.com/sitemap.xml
+Sitemap: https://www.thementr.com/sitemap.xml

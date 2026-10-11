@@ -33,7 +33,7 @@ export default function SEO({
   const currentPath = path || canonical || location.pathname;
   const canonicalUrl = currentPath.startsWith('http')
     ? currentPath
-    : `${DEFAULT_SEO.baseUrl}${currentPath === '/' ? '' : currentPath}`;
+    : `${DEFAULT_SEO.baseUrl}${currentPath === '/' ? '/' : currentPath}`;
 
   return (
     <Helmet>

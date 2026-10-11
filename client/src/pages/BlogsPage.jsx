@@ -783,7 +783,7 @@ export default function BlogsPage() {
     title: selectedArticle.metaTitle || `${selectedArticle.title} | TheMentR Blog`,
     description: selectedArticle.metaDescription || selectedArticle.desc,
     keywords: selectedArticle.keywords || `${selectedArticle.tag}, TheMentR blog, ${selectedArticle.title}`,
-    canonical: `https://thementr.com/blogs/${selectedArticle.slug || selectedArticle.id}`,
+    canonical: `https://www.thementr.com/blogs/${selectedArticle.slug || selectedArticle.id}`,
     ogType: 'article'
   } : PAGE_SEO.blogs;
 
@@ -807,19 +807,19 @@ export default function BlogsPage() {
           'author': {
             '@type': 'Organization',
             'name': 'TheMentR Research Team',
-            'url': 'https://thementr.com'
+            'url': 'https://www.thementr.com'
           },
           'publisher': {
             '@type': 'Organization',
             'name': 'TheMentR',
             'logo': {
               '@type': 'ImageObject',
-              'url': 'https://thementr.com/mentR_Logo.png'
+              'url': 'https://www.thementr.com/mentR_Logo.png'
             }
           },
           'mainEntityOfPage': {
             '@type': 'WebPage',
-            '@id': `https://thementr.com/blogs/${selectedArticle.slug || selectedArticle.id}`
+            '@id': `https://www.thementr.com/blogs/${selectedArticle.slug || selectedArticle.id}`
           }
         } : PAGE_SCHEMAS.blogs} 
       />

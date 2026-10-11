@@ -4,13 +4,13 @@
 
 ## Main Pages
 
-- [Home](https://thementr.com/): Where Learning Meets Purpose — 100% verified home tutors and diagnostic assessments.
-- [Pricing](https://thementr.com/pricing): Transparent home tuition packages across Classes 1–12, CBSE, ICSE, IGCSE & State Boards.
-- [AVSAR Assessment](https://thementr.com/avsar): In-home 60–90 minute diagnostic assessment visits and student evaluation reports.
-- [Ecosystem](https://thementr.com/ecosystem): Integrated Parent, Teacher, and Olympiad prep mobile applications.
-- [Educational Journal](https://thementr.com/blogs): Expert study guidance, parenting tips, and K-12 learning insights.
-- [Contact Us](https://thementr.com/contact): 24/7 customer support, toll-free helpline, and assessment booking inquiry.
-- [HTML Sitemap](https://thementr.com/sitemap): Complete website directory and section navigation.
+- [Home](https://www.thementr.com/): Where Learning Meets Purpose — 100% verified home tutors and diagnostic assessments.
+- [Pricing](https://www.thementr.com/pricing): Transparent home tuition packages across Classes 1–12, CBSE, ICSE, IGCSE & State Boards.
+- [AVSAR Assessment](https://www.thementr.com/avsar): In-home 60–90 minute diagnostic assessment visits and student evaluation reports.
+- [Ecosystem](https://www.thementr.com/ecosystem): Integrated Parent, Teacher, and Olympiad prep mobile applications.
+- [Educational Journal](https://www.thementr.com/blogs): Expert study guidance, parenting tips, and K-12 learning insights.
+- [Contact Us](https://www.thementr.com/contact): 24/7 customer support, toll-free helpline, and assessment booking inquiry.
+- [HTML Sitemap](https://www.thementr.com/sitemap): Complete website directory and section navigation.
 
 ## Core Services
 
@@ -28,4 +28,4 @@
 
 ## Policies & Legal
 
-- [Terms of Service & Privacy Policy](https://thementr.com/terms): Complete legal center covering Teacher Agreements, Parent Code of Conduct, and Data Privacy.
+- [Terms of Service & Privacy Policy](https://www.thementr.com/terms): Complete legal center covering Teacher Agreements, Parent Code of Conduct, and Data Privacy.

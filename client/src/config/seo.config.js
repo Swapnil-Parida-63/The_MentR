@@ -1,10 +1,10 @@
 export const DEFAULT_SEO = {
   siteName: 'TheMentR',
-  baseUrl: 'https://thementr.com',
+  baseUrl: 'https://www.thementr.com',
   defaultTitle: 'TheMentR | Where Learning Meets Purpose',
   defaultDescription: 'TheMentR is a next-gen education platform connecting verified home teachers, motivated students, and parents with structured learning, diagnostic assessments, and full curriculum mapping.',
   defaultKeywords: 'home teacher, verified teachers, CBSE tuition, ICSE teacher, diagnostic assessment, home learning, TheMentR, home tuition India',
-  defaultImage: 'https://thementr.com/mentR_Logo.png',
+  defaultImage: 'https://www.thementr.com/mentR_Logo.png',
   defaultRobots: 'index, follow',
   twitterHandle: '@TheMentR'
 };
