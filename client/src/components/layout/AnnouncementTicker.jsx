@@ -10,14 +10,12 @@ export default function AnnouncementTicker() {
   if (tickerDismissed) return null;
 
   const tickerItems = [
-    "Live Updates ★ Updates coming soon stay tuned",
+    "Live Updates ★ We are hiring part-time/ full-time teachers from all over Odisha for one-to-one Home Tuitions in Cuttack and Bhubaneswar for the up-coming academic calendar. Fill in the details in the 'Join as a Teacher' form in our website. Hurry up!! First come First Service!!",
     "Toll Free Helpline: 1800 889 2388 (All Days)",
-    "Live Updates ★ Updates coming soon stay tuned",
+    "Live Updates ★ We are hiring part-time/ full-time teachers from all over Odisha for one-to-one Home Tuitions in Cuttack and Bhubaneswar for the up-coming academic calendar. Fill in the details in the 'Join as a Teacher' form in our website. Hurry up!! First come First Service!!",
     "Toll Free: 1800 889 2388 (9:30 AM - 5:30 PM)",
-    "Live Updates ★ Updates coming soon stay tuned",
-    "Toll Free Helpline: 1800 889 2388 (All Days)",
-    "Live Updates ★ Updates coming soon stay tuned",
-    "Toll Free: 1800 889 2388"
+    "Live Updates ★ We are hiring part-time/ full-time teachers from all over Odisha for one-to-one Home Tuitions in Cuttack and Bhubaneswar for the up-coming academic calendar. Fill in the details in the 'Join as a Teacher' form in our website. Hurry up!! First come First Service!!",
+    "Toll Free Helpline: 1800 889 2388 (All Days)"
   ];
 
   return (
@@ -330,19 +328,43 @@ export default function AnnouncementTicker() {
                 </span>
               </div>
 
-              <div style={{ display: 'inline-flex', alignItems: 'center', gap: 6, background: 'rgba(245, 158, 11, 0.12)', border: '1px solid rgba(245, 158, 11, 0.25)', padding: '4px 12px', borderRadius: 99, fontSize: 11, fontWeight: 800, color: '#D97706', marginBottom: 10 }}>
-                <Sparkles size={12} /> STAY TUNED
+              <div style={{ display: 'inline-flex', alignItems: 'center', gap: 6, background: 'rgba(16, 185, 129, 0.12)', border: '1px solid rgba(16, 185, 129, 0.25)', padding: '4px 12px', borderRadius: 99, fontSize: 11, fontWeight: 800, color: '#059669', marginBottom: 12 }}>
+                <Sparkles size={12} /> TEACHER HIRING OPEN
               </div>
 
-              <h4 style={{ fontSize: 17, fontWeight: 800, color: '#0F172A', margin: '0 0 8px', fontFamily: 'var(--font-sans)' }}>
-                Updates coming soon stay tuned
+              <h4 style={{ fontSize: 18, fontWeight: 800, color: '#0F172A', margin: '0 0 10px', fontFamily: 'var(--font-sans)', lineHeight: 1.35 }}>
+                We are hiring teachers across Odisha!
               </h4>
 
-              <p style={{ fontSize: 13, color: '#64748B', lineHeight: 1.55, maxWidth: 360, margin: '0 0 20px' }}>
-                We are actively preparing new features, live announcements and official platform updates for parents, students and teachers.
+              <p style={{ fontSize: 13.5, color: '#475569', lineHeight: 1.65, maxWidth: 410, margin: '0 0 22px', textAlign: 'center' }}>
+                We are hiring part-time/ full-time teachers from all over Odisha for one-to-one Home Tuitions in Cuttack and Bhubaneswar for the up-coming academic calendar. Fill in the details in the 'Join as a Teacher' form in our website. Hurry up!! First come First Service!!
               </p>
 
-              <div style={{ display: 'flex', gap: 10, width: '100%', justifyContent: 'center' }}>
+              <div style={{ display: 'flex', gap: 10, width: '100%', justifyContent: 'center', flexWrap: 'wrap' }}>
+                <button
+                  onClick={() => {
+                    setModalOpen(false);
+                    openModal('teacher');
+                  }}
+                  style={{
+                    display: 'inline-flex',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    gap: 6,
+                    background: 'linear-gradient(135deg, #10B981 0%, #059669 100%)',
+                    color: '#FFFFFF',
+                    border: 'none',
+                    padding: '11px 22px',
+                    borderRadius: 99,
+                    fontSize: 13,
+                    fontWeight: 700,
+                    cursor: 'pointer',
+                    boxShadow: '0 4px 14px rgba(5, 150, 105, 0.28)',
+                    transition: 'all 0.2s ease'
+                  }}
+                >
+                  Join as a Teacher <ArrowRight size={14} />
+                </button>
                 <a
                   href="tel:18008892388"
                   style={{
@@ -350,44 +372,19 @@ export default function AnnouncementTicker() {
                     alignItems: 'center',
                     justifyContent: 'center',
                     gap: 6,
-                    background: '#0284C7',
-                    color: '#FFFFFF',
-                    border: 'none',
-                    padding: '10px 20px',
+                    background: '#F1F5F9',
+                    color: '#1E293B',
+                    border: '1px solid rgba(15, 23, 42, 0.08)',
+                    padding: '11px 18px',
                     borderRadius: 99,
                     fontSize: 13,
                     fontWeight: 700,
                     textDecoration: 'none',
-                    boxShadow: '0 4px 14px rgba(2, 132, 199, 0.3)',
                     transition: 'all 0.2s ease'
                   }}
                 >
                   Call Toll Free
                 </a>
-                <button
-                  onClick={() => {
-                    setModalOpen(false);
-                    openModal('demo');
-                  }}
-                  style={{
-                    display: 'inline-flex',
-                    alignItems: 'center',
-                    justifyContent: 'center',
-                    gap: 6,
-                    background: 'linear-gradient(135deg, #3B82F6 0%, #2563EB 100%)',
-                    color: '#FFFFFF',
-                    border: 'none',
-                    padding: '10px 20px',
-                    borderRadius: 99,
-                    fontSize: 13,
-                    fontWeight: 700,
-                    cursor: 'pointer',
-                    boxShadow: '0 4px 14px rgba(37, 99, 235, 0.28)',
-                    transition: 'all 0.2s ease'
-                  }}
-                >
-                  Book a Demo <ArrowRight size={14} />
-                </button>
               </div>
             </div>
           </div>
@@ -399,7 +396,7 @@ export default function AnnouncementTicker() {
         .ticker-scroll-track {
           display: inline-flex;
           white-space: nowrap;
-          animation: tickerMarquee 26s linear infinite;
+          animation: tickerMarquee 45s linear infinite;
           will-change: transform;
           transform: translateZ(0);
         }

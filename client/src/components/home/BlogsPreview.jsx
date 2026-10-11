@@ -135,31 +135,34 @@ export default function BlogsPreview() {
             <div className="supporting-articles-stack">
               {[
                 { 
+                  articleId: 11,
+                  slug: 'finding-the-right-tuition-starts-with-right-tutor',
+                  tagClass: 'tag-parents', 
+                  tagText: 'Parents', 
+                  title: 'Finding The Right Tuition Starts With Choosing The Right Tutor', 
+                  desc: 'Discover how the right home tutor in Bhubaneswar builds confidence, improves academic performance, and supports personalised learning success.', 
+                  time: '6 min read' 
+                },
+                { 
+                  articleId: 10,
+                  slug: 'finding-the-right-tutor-for-child-mistakes-to-avoid',
+                  tagClass: 'tag-parents', 
+                  tagText: 'Parents', 
+                  title: 'Finding the Right Tutor for Child: 7 Mistakes Every Parent Should Avoid', 
+                  desc: 'Avoid common tutor selection mistakes. Discover how personalised tutoring and academic guidance in Bhubaneswar boost success.', 
+                  time: '7 min read' 
+                },
+                { 
                   articleId: 8,
+                  slug: 'how-do-i-hire-the-right-home-teacher-in-bhubaneswar',
                   tagClass: 'tag-parents', 
                   tagText: 'Parents', 
                   title: 'How do I hire the right home teacher in Bhubaneswar?', 
                   desc: 'Find verified subject experts, personalised learning, and structured mentorship with TheMentR in Bhubaneswar.', 
                   time: '6 min read' 
                 },
-                { 
-                  articleId: 2,
-                  tagClass: 'tag-olympiad', 
-                  tagText: 'Olympiad', 
-                  title: 'How to prepare for IMO Stage 1 in 60 days', 
-                  desc: 'A structured week-by-week plan for Math Olympiad prep.', 
-                  time: '5 min read' 
-                },
-                { 
-                  articleId: 3,
-                  tagClass: 'tag-parents', 
-                  tagText: 'Parents', 
-                  title: 'The assessment visit: what to expect', 
-                  desc: 'Before we match any student, we listen.', 
-                  time: '4 min read' 
-                },
               ].map((b) => (
-                <Link to="/blogs" state={{ articleId: b.articleId }} key={b.title} style={{ textDecoration: 'none', color: 'inherit', display: 'block' }}>
+                <Link to={b.slug ? `/blogs/${b.slug}` : "/blogs"} state={{ articleId: b.articleId }} key={b.title} style={{ textDecoration: 'none', color: 'inherit', display: 'block' }}>
                   <div className="journal-supporting-card" style={{ cursor: 'pointer' }}>
                     <div className="supporting-card-inner">
                       <div className="supporting-card-header">

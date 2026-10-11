@@ -27,7 +27,15 @@
       "dest": "client/$1/$2"
     },
     {
-      "src": "/(.*\\.(webp|png|jpg|jpeg|svg|ico|woff2|woff|ttf))$",
+      "src": "/sitemap.xml",
+      "dest": "client/sitemap.xml"
+    },
+    {
+      "src": "/robots.txt",
+      "dest": "client/robots.txt"
+    },
+    {
+      "src": "/(.*\\.(webp|png|jpg|jpeg|svg|ico|woff2|woff|ttf|xml|txt))$",
       "dest": "client/$1"
     },
     {

@@ -1,11 +1,52 @@
 import { useState, useEffect } from 'react';
-import { Link, useLocation } from 'react-router-dom';
+import { Link, useLocation, useParams, useNavigate } from 'react-router-dom';
 import { FadeUp } from '../hooks/useScrollReveal';
 import { Clock, Calendar, User, ArrowLeft, ArrowUpRight } from 'lucide-react';
 import SEO from '../components/common/SEO';
 import { PAGE_SEO } from '../config/seo.config';
 import { PAGE_SCHEMAS } from '../config/schema.config';
 import Breadcrumbs from '../components/common/Breadcrumbs';
+
+/**
+ * Lightweight helper to parse inline markdown (bold text and links)
+ */
+function parseInlineMarkdown(text) {
+  if (!text) return '';
+  const regex = /(\*\*.*?\*\*|\[.*?\]\(.*?\))/g;
+  const parts = text.split(regex);
+  return parts.map((part, idx) => {
+    if (part.startsWith('**') && part.endsWith('**')) {
+      return <strong key={idx} style={{ fontWeight: 700, color: '#0F172A' }}>{part.slice(2, -2)}</strong>;
+    }
+    const linkMatch = part.match(/^\[(.*?)\]\((.*?)\)$/);
+    if (linkMatch) {
+      const linkText = linkMatch[1];
+      const href = linkMatch[2];
+      const isExternal = href.startsWith('http') || href.startsWith('mailto:');
+      return (
+        <a
+          key={idx}
+          href={href}
+          target={isExternal && !href.startsWith('mailto:') ? '_blank' : undefined}
+          rel={isExternal && !href.startsWith('mailto:') ? 'noopener noreferrer' : undefined}
+          style={{
+            color: '#4F7CFF',
+            fontWeight: 600,
+            textDecoration: 'underline',
+            textUnderlineOffset: '3px',
+            transition: 'color 0.2s ease',
+          }}
+          onMouseEnter={(e) => (e.currentTarget.style.color = '#2563EB')}
+          onMouseLeave={(e) => (e.currentTarget.style.color = '#4F7CFF')}
+        >
+          {linkText}
+        </a>
+      );
+    }
+    return part;
+  });
+}
+
 
 // ==============================================================
 // 1. COVER ILLUSTRATIONS (Minimalist Vector Art)
@@ -467,24 +508,264 @@ Home tuition offers face-to-face interaction and immediate in-person support. On
 
 #### How quickly do improvements happen with private teaching?
 The most dramatic change in student performance is probably achieved within a few weeks when the sessions are held regularly, the student is actively involved in learning, and instruction is well organised.`
+    },
+    {
+      id: 10,
+      slug: 'finding-the-right-tutor-for-child-mistakes-to-avoid',
+      tag: 'Parents',
+      tagClass: 'tag-parents',
+      title: "Finding the Right Tutor for Child: 7 Mistakes Every Parent Should Avoid",
+      metaTitle: "Finding the Right Tutor: 7 Mistakes Parents Should Avoid",
+      metaDescription: "Avoid common tutor selection mistakes. Discover how personalised tutoring, academic guidance, and home tutors in Bhubaneswar boost success.",
+      desc: "Avoid common tutor selection mistakes. Discover how personalised tutoring, academic guidance, and home tutors in Bhubaneswar boost success.",
+      time: "7 min read",
+      date: "October 2026",
+      coverType: 'parents',
+      keywords: "home tutor in Bhubaneswar, private home tutor in Bhubaneswar, find tutors near Bhubaneswar, student learning support services, personalised tutoring solutions, academic guidance for children",
+      content: `### Finding the Right Tutor for Child: 7 Mistakes Every Parent Should Avoid
+
+All parents strive for their children to do well. But many kids suffer from an uncomfortable lack of self-confidence without realising it, and are not confident in their knowledge or even afraid to study. Marks are starting to decline, enthusiasm is fading, and learning is no longer fun and games but a headache. That's precisely why it is essential to pick the appropriate tutor these days.
+
+Many parents hasten the process and end up choosing the wrong tutor. A tutor doesn't only teach subjects, that's all. A tutor moulds self-assurance, learning strategies and emotional development. From finding a [home tutor in Bhubaneswar](https://www.thementr.com/) to choosing advanced learning platforms, your choice can transform your child’s learning.
+
+#### Table of Contents
+- Are parents choosing the wrong student learning support services for their children?
+- The 7 Critical Mistakes Parents Should Avoid
+- How do personalised tutoring solutions transform children’s confidence?
+- Is expert academic guidance for children becoming every parent’s priority?
+- Structured Comparison: Generic Tuition vs Personalised Mentoring
+- Frequently Asked Questions (FAQs)
+
+### Are parents choosing the wrong student learning support services for their children?
+
+Yes, some parents take this into consideration rather than progress or achievement. Learning-to-learn services for students should enable children to appreciate the concept, ask questions wholeheartedly and to once again enjoy learning. It's important for parents not to make these common mistakes:
+
+1. The only consideration when hiring tutors is the cost of their services
+2. Lacking a sense of caring and understanding of the child's learning style
+3. Not knowing how they teach in any particular way (overlooking teaching methodology)
+4. Not choosing teachers because they don't look at the way they provide instruction
+5. Avoiding just grading, getting students empowered with confidence-building
+6. Not getting in touch with tutors regularly; children who are having difficulty indicate a lack of personalised attention.
+7. Disregarding emotional adaptability, patience, and long-term compatibility beyond mere syllabus completion
+
+Without guidance, a child may be doing well in the short term, and yet the pressure and stress build up. The right tutor will put the child at ease, encouraging them, rather than judging them.
+
+The reasons for opting for private home tutor in Bhubaneswar are that, in the present time, children are not allowed to be linked to a single person. It also enables a tutor to recognise weak areas and work on them promptly and patiently.
+
+### How Do Personalised Tutoring Solutions Transform Children's Confidence?
+
+Children have various learning styles; some are visual and need to see it, while others are more practical and need repeated explanation. That was something that has not been offered in traditional classrooms; it can help here; it's just about finding the right tutoring solutions for you.
+
+There is only one personal tutor, and they work with the child at their own pace, strengths and fears. Evaluating children by comparing them with others can help them assess themselves against their own potential.
+
+Children are confident, as they clearly understand the concepts, respond to questions in class, engage in discussions and complete classwork without fear of failure.
+
+Parents also observe that things are different at home. Children's behaviour is made more peaceful, joyful and cooperative. In addition to academic improvement, emotional change is key.
+
+Both parents and children today seek tutors near Bhubaneswar because they want learning to be supportive, accessible, and reliable, and to feel close to them. Parents don't like robot-teaching parents. They'd like mentors who really care about their child's growth.
+
+An experienced home tutor in Bhubaneswar can be a cornerstone of a child's academic success during tough times.
+
+### Is expert academic guidance for children becoming every parent’s priority?
+
+Absolutely. Things have changed for today's parents. Nowadays, parents are aware of children's academic stress, distraction, social comparison stress and emotional stress since their childhood. That's why it's more important than ever that expert academic instruction be a priority for kids in just about every family.
+
+Parents have stopped settling and are no longer accepting school-run-hassion's standard approaches to teaching and learning. They seek structured support, conceptual understanding, emotional support and potential growth in their academic skills.
+
+The quality of the tutor doing the chapters is certainly not the only measure of their usefulness. They instil the values of discipline and problem-solving, confidence and time management. Children will retain these attributes throughout their lifetime.
+
+Hence, the demand for private home tutors in Bhubaneswar continues to grow rapidly. Parents want tutors to have insight into the current issues and learning difficulties their kids are experiencing and to develop tailor-made solutions for individual children.
+
+Likewise, many families are eager to [find tutors in Bhubaneswar](https://www.thementr.com/) to help their kids get timely support without additional anxiety or the pressure of travelling for tutoring.
+
+A happy child will not be afraid of studying when feeling emotionally supported and supported in learning.
+
+### Structured Comparison: Generic Tuition vs. Personalised Mentoring
+
+tr - td(Evaluation Dimension) td(Unverified Market Tuition) td(TheMentR Mentorship Approach)
+tr - td(Selection Basis) td(Lowest fee / nearest location only) td(Verified credentials & diagnostic student-mentor fit)
+tr - td(Instructional Style) td(Rigid, one-size-fits-all rote teaching) td(Tailored to child's visual, practical or auditory pace)
+tr - td(Emotional Health) td(Grading pressure & stressful comparisons) td(Empowerment, patience & confidence-building)
+tr - td(Parent Visibility) td(Inconsistent updates & no clear goals) td(Structured 30-day milestones and progress reports)
+tr - td(Enduring Value) td(Short-term exam cramming) td(Lifelong discipline, problem solving and clarity)
+
+### Conclusion
+
+One of the most critical decisions that you will have to make while you are helping your kid with schoolwork is selecting the appropriate tutor. From the wrong tutor, you can find yourself feeling pressured and/or confused; from the right tutor, you can find yourself feeling confident and curious, and learning rather than studying.
+
+It is not just about tutoring lessons; it's about offering the best tutors. They represent and encourage children to believe that anything is possible for them.
+
+When it comes to finding the best person-to-person tutor or a dependable home tutor in Bhubaneswar, always focus on your kid's comfort, emotional well-being, and learning style. Get started now and connect with us at [contact@thementr.com](mailto:contact@thementr.com) to find a purpose that suits your child through an effective [mentoring journey](https://www.thementr.com/). At times, one caring mentor can turn a child's life upside down.
+
+### FAQs
+
+#### How to find the ideal home tutor for my child?
+Talk to the tutors about your child to find out which areas they have trained in before to help build your child's confidence, rather than focusing solely on marks.
+
+#### Why is it so crucial to have individual tutoring solutions?
+Personal tutoring solutions provide one-to-one support and enable learning at their own pace without stress.
+
+#### Will private home tuitions in Bhubaneswar be beneficial?
+Yes, a private home tutor in Bhubaneswar provides personalised academic care, flexibility in timings and focused learning assistance.`
+    },
+    {
+      id: 11,
+      slug: 'finding-the-right-tuition-starts-with-right-tutor',
+      tag: 'Parents',
+      tagClass: 'tag-parents',
+      title: "Finding The Right Tuition Starts With Choosing The Right Tutor",
+      metaTitle: "How The Right Home Tutor Builds Confidence And Results",
+      metaDescription: "Discover how the right home tutor in Bhubaneswar builds confidence, improves academic performance, and supports personalized learning success.",
+      desc: "Discover how the right home tutor in Bhubaneswar builds confidence, improves academic performance, and supports personalized learning success.",
+      time: "6 min read",
+      date: "October 2026",
+      coverType: 'parents',
+      keywords: "home tutor in Bhubaneswar, private home tutor in Bhubaneswar, find tutors near Bhubaneswar, best home tutor in Bhubaneswar for personalised learning, experienced private home tutor in Bhubaneswar for school students, find tutors nearby Bhubaneswar for academic support and confidence building",
+      content: `### Finding The Right Tuition Starts With Choosing The Right Tutor
+
+All children have different learning styles. Some children ask questions, and others say nothing, even when they are quite inwardly struggling. It's painful as a parent to see your child lose their confidence in learning. Stress is rising, and suddenly learning becomes a source of burnout rather than growth.
+
+This is the reason why parents might want to opt for the right [home tutor in Bhubaneswar](https://www.thementr.com/) rather than one they believe in by chance.
+
+Families today don't always look for training courses. They are looking for guidance, emotional support and confidence-building, as well as personalised learning experiences that will provide opportunities for their development. Having the right tutor really makes a world of difference in how a child thinks, studies and does academic work.
+
+#### Table of Contents
+- Can a home tutor in Bhubaneswar help your child choose the right tuition path?
+- Why is a private home tutor in Bhubaneswar becoming parents’ first choice?
+- How do parents find tutors near Bhubaneswar they can truly trust?
+- Essential Factors Beyond Hourly Price When Evaluating a Home Tutor
+- Comparison: Commercial Batch Tuition vs. TheMentR Personalised Model
+- Summary & How to Get Started
+- Frequently Asked Questions (FAQs)
+
+### Can a home tutor in Bhubaneswar help your child choose the right tuition path?
+
+Absolutely. A good tutor can do much more than just pass on chapters from books. A tutor knows a child's strengths, weaknesses and fears, as well as how the child learns.
+
+Parents today aren't just looking for a good home tutor in Bhubaneswar, but for those who are best at personalised home tutoring services. Children are reluctant to approach the teacher's desk when many are in the classroom. However, one-to-one learning sessions foster a sense of security, being heard and feeling comfortable around their facilitators.
+
+A dedicated tutor can help a child discern whether they need conceptual clarification, need to improve work habits, or need to focus more or be more emotionally motivated to attend school. Such individualised support directs children in the right direction in their learning.
+
+No matter the level of convenience or the amount of fees, parents should not select the tuition price alone. Rather, they need to consider such factors as:
+- Teaching style
+- Communication skills
+- Patience and empathy
+- Subject expertise
+- Ability to build confidence — right answer to the wrong question
+- Personalised learning methods
+
+This fosters children's adaptability, absorbs their attention, and significantly enhances their performance. Children feel understood without being judged, which naturally increases their adaptability, deepens their focus and improves their performance.
+
+### Why is a private home tutor in Bhubaneswar becoming parents’ first choice?
+
+Successful parents know that all of their children are different. One of the primary factors contributing to the growing need for [experienced private home tutor in Bhubaneswar for school students](https://www.thementr.com/) is the rising demand for dedicated individual attention.
+
+Private Tutoring is a distraction-free environment where children are given their full attention. A tutor will be able to make the lesson fun for the learner and adapt it to their pace, unlike big centres. Some children may require repeated explanations. Others require concrete experience or a bit of an emotional jolt to get them re-confident in their abilities. A private tutor adjusts their teaching methods.
+
+Home tuition is also more sought after among parents, as it saves them time wasted on travelling to tuition classes and reduces unnecessary academic stress. Children are not taken away from their familiar surroundings, in which they are at ease and learning. Perhaps more so, academic performance improvements usually go hand in hand with an enhanced sense of well-being as a result of personalised tutoring.
+
+Once the kids were afraid of maths, they started solving their maths problems on their own. Avoidant readers began to listen and actively participate in class discussions. Emotional changes are significant for parents.
+
+The [best home tutor in Bhubaneswar for personalised learning](https://www.thementr.com/) enhances grades along with other benefits. They encourage children to regain self-confidence. This confidence is then carried over to all other aspects of life.
+
+### How do parents find tutors near Bhubaneswar they can truly trust?
+
+Indeed, parents nowadays have become much more vigilant in their choice of tutors. Families have come to expect that educational platforms will allow them to both search for tutors in their vicinity in Bhubaneswar and access educational solutions that build their confidence and provide support.
+
+More than parroting is now required of parents for academic improvement, which is merely an expediency. They desire a continuing process of learning, development and consistent mentoring for their children.
+
+A reliable tutor brings uniformity, discipline and motivation to a child's day-to-day life. They support and reinforce children when they fail and celebrate them when they succeed, even when it is something small.
+
+However, parents looking to [find tutors near Bhubaneswar](https://www.thementr.com/) for academic support and confidence-building seek other qualifications when they come into contact with them in the local vicinity of Bhubaneswar. They look for someone who understands kids on an emotional level and understands how to diminish school anxiety.
+
+When youngsters feel safe and secure, they do their best. Motivating rather than criticising can positively affect a child's future in their tutoring classes.
+
+That's why the demand for an educated, [experienced private home tutor in Bhubaneswar for school students](https://www.thementr.com/) is growing rapidly among today's families. Parents prefer a mentor more than a teacher.
+
+### Comparison: Commercial Batch Tuition vs. TheMentR Personalised Model
+
+tr - td(Key Learning Aspect) td(Commercial Batch Coaching) td(TheMentR Personalised Model)
+tr - td(Learning Environment) td(Crowded rooms, high peer pressure) td(Quiet, focused, one-on-one home comfort)
+tr - td(Learning Pace) td(Fixed batch curriculum timeline) td(Personalised pace targeting individual weak spots)
+tr - td(Asking Questions) td(Hesitation, fear of peer embarrassment) td(Open, judgment-free conceptual discussion)
+tr - td(Commute & Fatigue) td(Tiring daily commutes across traffic) td(Zero travel stress, productive home routine)
+tr - td(Holistic Mentorship) td(Solely syllabus completion) td(Emotional resilience, confidence and life discipline)
+
+### Summary
+
+Choosing a tutor right from the start is crucial, as external evaluations can so easily transform a child's academic trajectory, mindset, and confidence.
+
+No matter if you're looking for the best home tutor in Bhubaneswar for effective learning or looking to find tutors near Bhubaneswar for academic problems and to boost your child's confidence, keep your child's comfort and emotional health first. [Get personalised attention](https://www.thementr.com/) for your child. For any queries, contact us at +919668562631 or email [contact@thementr.com](mailto:contact@thementr.com).
+
+A good tutor does not just go through the syllabus given. They challenge children's ordinary fears and conventional inhibitions, prompting them to ask questions, face challenges and rejoice in learning once again. On occasion, one caring teacher or mentor is the catalyst who inspires a child to see himself as a capable individual.
+
+### Frequently Asked Questions (FAQs)
+
+#### What is the advantage of selecting a private home tutor?
+A private tutor provides focused care and attention, learning plans and emotional support to children, which goes a long way toward improving their learning speed.
+
+#### What are the advantages of one-on-one tutoring for kids?
+One-to-one tuition is adapted to the child’s pace of learning, building confidence and understanding.
+
+#### How do parents find local tutors to help their kids?
+Parents can also look at a tutor’s experience to find trustworthy learning apps and tutors who work on both studies and self-confidence.`
     }
 ];
 
 const categories = ['All', 'Parents', 'Teachers', 'Olympiad', 'Study Tips', 'Research', 'Success Stories'];
 
 export default function BlogsPage() {
+  const { slug } = useParams();
+  const navigate = useNavigate();
+  const location = useLocation();
   const [activeCategory, setActiveCategory] = useState('All');
   const [selectedArticle, setSelectedArticle] = useState(null);
-  const location = useLocation();
 
   useEffect(() => {
+    if (slug) {
+      const art = articles.find(a => a.slug === slug || String(a.id) === slug);
+      if (art) {
+        setSelectedArticle(art);
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+        return;
+      }
+    }
     if (location.state && location.state.articleId) {
       const art = articles.find(a => a.id === location.state.articleId);
       if (art) {
         setSelectedArticle(art);
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+        return;
       }
     }
-  }, [location.state]);
+    const searchParams = new URLSearchParams(location.search);
+    const querySlug = searchParams.get('slug');
+    if (querySlug) {
+      const art = articles.find(a => a.slug === querySlug || String(a.id) === querySlug);
+      if (art) {
+        setSelectedArticle(art);
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+        return;
+      }
+    }
+    if (!slug) {
+      setSelectedArticle(null);
+    }
+  }, [slug, location.state, location.search]);
+
+  const handleSelectArticle = (art) => {
+    setSelectedArticle(art);
+    if (art.slug) {
+      navigate(`/blogs/${art.slug}`);
+    }
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  };
+
+  const handleBackToList = () => {
+    setSelectedArticle(null);
+    navigate('/blogs');
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  };
 
   // Filter articles based on active chip
   const filteredArticles = activeCategory === 'All'
@@ -496,11 +777,13 @@ export default function BlogsPage() {
   const gridArticles = activeCategory === 'All'
     ? filteredArticles.filter(a => !a.featured)
     : filteredArticles;
+
   // Dynamic SEO metadata resolution when an article is open vs list view
   const currentSeo = selectedArticle ? {
-    title: `${selectedArticle.title} | TheMentR Blog`,
-    description: selectedArticle.desc,
-    keywords: `${selectedArticle.tag}, TheMentR blog, ${selectedArticle.title}`,
+    title: selectedArticle.metaTitle || `${selectedArticle.title} | TheMentR Blog`,
+    description: selectedArticle.metaDescription || selectedArticle.desc,
+    keywords: selectedArticle.keywords || `${selectedArticle.tag}, TheMentR blog, ${selectedArticle.title}`,
+    canonical: `https://thementr.com/blogs/${selectedArticle.slug || selectedArticle.id}`,
     ogType: 'article'
   } : PAGE_SEO.blogs;
 
@@ -513,7 +796,33 @@ export default function BlogsPage() {
       position: 'relative', 
       overflow: 'hidden' 
     }}>
-      <SEO {...currentSeo} schema={PAGE_SCHEMAS.blogs} />
+      <SEO 
+        {...currentSeo} 
+        schema={selectedArticle ? {
+          '@context': 'https://schema.org',
+          '@type': 'BlogPosting',
+          'headline': selectedArticle.title,
+          'description': selectedArticle.metaDescription || selectedArticle.desc,
+          'datePublished': selectedArticle.date,
+          'author': {
+            '@type': 'Organization',
+            'name': 'TheMentR Research Team',
+            'url': 'https://thementr.com'
+          },
+          'publisher': {
+            '@type': 'Organization',
+            'name': 'TheMentR',
+            'logo': {
+              '@type': 'ImageObject',
+              'url': 'https://thementr.com/mentR_Logo.png'
+            }
+          },
+          'mainEntityOfPage': {
+            '@type': 'WebPage',
+            '@id': `https://thementr.com/blogs/${selectedArticle.slug || selectedArticle.id}`
+          }
+        } : PAGE_SCHEMAS.blogs} 
+      />
       
       {/* Background ambient accents */}
       <div style={{
@@ -540,15 +849,14 @@ export default function BlogsPage() {
       }} />
 
       <div className="container" style={{ position: 'relative', zIndex: 1 }}>
-        <Breadcrumbs items={selectedArticle ? [{ name: 'Home', url: '/' }, { name: 'Blogs', url: '/blogs' }, { name: selectedArticle.title, url: '/blogs' }] : [{ name: 'Home', url: '/' }, { name: 'Blogs', url: '/blogs' }]} />
-        
+        <Breadcrumbs items={selectedArticle ? [{ name: 'Home', url: '/' }, { name: 'Blogs', url: '/blogs' }, { name: selectedArticle.title, url: `/blogs/${selectedArticle.slug || selectedArticle.id}` }] : [{ name: 'Home', url: '/' }, { name: 'Blogs', url: '/blogs' }]} />
         
         {selectedArticle ? (
           <div>
             {/* Back to list button */}
             <div style={{ textAlign: 'left', marginBottom: 32 }}>
               <button 
-                onClick={() => setSelectedArticle(null)}
+                onClick={handleBackToList}
                 className="journal-back-btn"
                 style={{ cursor: 'pointer', background: '#FFFFFF', border: '1px solid rgba(15, 23, 42, 0.08)' }}
               >
@@ -602,12 +910,12 @@ export default function BlogsPage() {
 
                         if (rows.length > 0) {
                           return (
-                            <div key={pIdx} style={{ overflowX: 'auto', margin: '24px 0', border: '1.2px solid rgba(15, 23, 42, 0.08)', borderRadius: 16, background: '#FFFFFF', boxShadow: '0 4px 15px rgba(15, 23, 42, 0.01)' }}>
+                            <div key={pIdx} style={{ overflowX: 'auto', margin: '28px 0', border: '1.2px solid rgba(15, 23, 42, 0.08)', borderRadius: 16, background: '#FFFFFF', boxShadow: '0 4px 15px rgba(15, 23, 42, 0.01)' }}>
                               <table style={{ width: '100%', borderCollapse: 'collapse', fontSize: 14, fontFamily: 'var(--font-sans)' }}>
                                 <thead>
                                   <tr style={{ background: '#F8FAFC', borderBottom: '1px solid rgba(15, 23, 42, 0.08)' }}>
                                     {rows[0].map((headerText, hIdx) => (
-                                      <th key={hIdx} style={{ padding: '14px 20px', fontWeight: 700, color: '#1E293B', textAlign: 'left' }}>{headerText}</th>
+                                      <th key={hIdx} style={{ padding: '14px 20px', fontWeight: 700, color: '#1E293B', textAlign: 'left' }}>{parseInlineMarkdown(headerText)}</th>
                                     ))}
                                   </tr>
                                 </thead>
@@ -619,8 +927,8 @@ export default function BlogsPage() {
                                           padding: '14px 20px', 
                                           color: cIdx === 0 ? '#1E293B' : '#475569', 
                                           fontWeight: cIdx === 0 ? 600 : 400,
-                                          lineHeight: 1.5 
-                                        }}>{cellText}</td>
+                                          lineHeight: 1.55 
+                                        }}>{parseInlineMarkdown(cellText)}</td>
                                       ))}
                                     </tr>
                                   ))}
@@ -631,16 +939,33 @@ export default function BlogsPage() {
                         }
                       }
                       if (paragraph.startsWith('### ')) {
-                        return <h2 key={pIdx} style={{ fontFamily: 'var(--font-hero)', fontSize: 24, fontWeight: 800, color: '#0F172A', marginTop: 36, marginBottom: 16 }}>{paragraph.replace('### ', '')}</h2>;
+                        return <h2 key={pIdx} style={{ fontFamily: 'var(--font-hero)', fontSize: 24, fontWeight: 800, color: '#0F172A', marginTop: 38, marginBottom: 16, lineHeight: 1.3 }}>{parseInlineMarkdown(paragraph.replace('### ', ''))}</h2>;
                       }
                       if (paragraph.startsWith('#### ')) {
-                        return <h3 key={pIdx} style={{ fontFamily: 'var(--font-hero)', fontSize: 20, fontWeight: 800, color: '#0F172A', marginTop: 28, marginBottom: 12 }}>{paragraph.replace('#### ', '')}</h3>;
+                        return <h3 key={pIdx} style={{ fontFamily: 'var(--font-hero)', fontSize: 20, fontWeight: 800, color: '#0F172A', marginTop: 28, marginBottom: 12, lineHeight: 1.35 }}>{parseInlineMarkdown(paragraph.replace('#### ', ''))}</h3>;
                       }
-                      if (paragraph.startsWith('- ')) {
+                      // Numbered lists
+                      if (/^\d+\.\s/.test(paragraph.trim())) {
+                        const items = paragraph.split('\n').filter(l => l.trim().length > 0);
                         return (
-                          <ul key={pIdx} style={{ paddingLeft: 20, marginBottom: 20, listStyleType: 'disc' }}>
-                            {paragraph.split('\n').map((li, liIdx) => (
-                              <li key={liIdx} style={{ marginBottom: 8 }}>{li.replace('- ', '')}</li>
+                          <ol key={pIdx} style={{ paddingLeft: 24, marginBottom: 24, listStyleType: 'decimal' }}>
+                            {items.map((item, iIdx) => (
+                              <li key={iIdx} style={{ marginBottom: 10, lineHeight: 1.75, color: '#334155' }}>
+                                {parseInlineMarkdown(item.replace(/^\d+\.\s*/, ''))}
+                              </li>
+                            ))}
+                          </ol>
+                        );
+                      }
+                      // Bullet lists
+                      if (paragraph.startsWith('- ') || paragraph.startsWith('• ')) {
+                        const items = paragraph.split('\n').filter(l => l.trim().length > 0);
+                        return (
+                          <ul key={pIdx} style={{ paddingLeft: 24, marginBottom: 24, listStyleType: 'disc' }}>
+                            {items.map((li, liIdx) => (
+                              <li key={liIdx} style={{ marginBottom: 8, lineHeight: 1.75, color: '#334155' }}>
+                                {parseInlineMarkdown(li.replace(/^[-•]\s*/, ''))}
+                              </li>
                             ))}
                           </ul>
                         );
@@ -648,7 +973,7 @@ export default function BlogsPage() {
                       if (paragraph.startsWith('***')) {
                         return <hr key={pIdx} style={{ border: 'none', borderTop: '1px solid rgba(15,23,42,0.08)', margin: '40px 0' }} />;
                       }
-                      return <p key={pIdx} style={{ marginBottom: 24 }}>{paragraph}</p>;
+                      return <p key={pIdx} style={{ marginBottom: 24, lineHeight: 1.85, color: '#334155' }}>{parseInlineMarkdown(paragraph)}</p>;
                     })
                   ) : (
                     <p>{selectedArticle.desc}</p>
@@ -697,7 +1022,7 @@ export default function BlogsPage() {
               <div 
                 className="journal-hero-card" 
                 style={{ cursor: 'pointer' }}
-                onClick={() => setSelectedArticle(heroArticle)}
+                onClick={() => handleSelectArticle(heroArticle)}
               >
                 <div className="hero-cover-wrapper">
                   <div className="noise-grain" />
@@ -731,7 +1056,7 @@ export default function BlogsPage() {
                     key={art.id}
                     className={`journal-card ${isWide ? 'journal-card-wide' : ''}`}
                     style={{ cursor: 'pointer' }}
-                    onClick={() => setSelectedArticle(art)}
+                    onClick={() => handleSelectArticle(art)}
                   >
                     <div className="cover-image-wrapper">
                       <div className="noise-grain" />
