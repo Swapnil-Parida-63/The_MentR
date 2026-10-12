@@ -296,7 +296,8 @@ function HeroEcosystemImage() {
       justifyContent: 'center',
       alignItems: 'center',
       padding: '0px',
-      overflow: 'visible'
+      overflow: 'visible',
+      background: 'radial-gradient(circle at 60% 50%, rgba(79, 124, 255, 0.12) 0%, rgba(241, 247, 255, 0.45) 50%, transparent 75%)'
     }}>
       <picture style={{ width: '100%', display: 'flex', justifyContent: 'center' }}>
         <source srcSet={`${import.meta.env.BASE_URL}Why it works.webp`} type="image/webp" />
@@ -766,7 +767,7 @@ export default function HeroSection() {
           minHeight: 'auto', 
           display: 'flex', 
           alignItems: 'center', 
-          background: 'linear-gradient(180deg, #FFFFFF 0%, #E3E8FF 50%, rgba(143, 149, 246, 0.42) 100%)', 
+          background: 'linear-gradient(180deg, #F8FAFF 0%, #FFFFFF 40%, #F1F7FF 100%)', 
           position: 'relative', 
           overflow: 'hidden', 
           padding: isMobile ? '40px 0 20px' : '50px 0 30px',
@@ -780,7 +781,7 @@ export default function HeroSection() {
           left: '-5%',
           width: '40vw',
           height: '40vw',
-          background: 'radial-gradient(circle, rgba(59, 130, 246, 0.06) 0%, transparent 70%)',
+          background: 'radial-gradient(circle, rgba(79, 124, 255, 0.05) 0%, transparent 70%)',
           filter: 'blur(90px)',
           zIndex: 1,
           pointerEvents: 'none'
@@ -792,7 +793,7 @@ export default function HeroSection() {
           right: '-5%',
           width: '45vw',
           height: '45vw',
-          background: 'radial-gradient(circle, rgba(124, 58, 237, 0.06) 0%, transparent 70%)',
+          background: 'radial-gradient(circle, rgba(116, 105, 248, 0.035) 0%, transparent 70%)',
           filter: 'blur(100px)',
           zIndex: 1,
           pointerEvents: 'none'

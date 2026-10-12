@@ -235,7 +235,7 @@ export default function AvsarSection({ isStandalonePage = false }) {
     <section
       id="avsar"
       style={{
-        background: 'linear-gradient(180deg, #F0F4FF 0%, #F8FAFC 50%, #FFFFFF 100%)',
+        background: 'linear-gradient(180deg, #F8FAFF 0%, #FFFFFF 50%, #F8FAFF 100%)',
         padding: isMobile ? '40px 0 60px' : isStandalonePage ? '10px 0 80px' : '70px 0 90px',
         position: 'relative',
         overflow: 'hidden',
@@ -251,7 +251,7 @@ export default function AvsarSection({ isStandalonePage = false }) {
           width: '500px',
           height: '500px',
           borderRadius: '50%',
-          background: 'radial-gradient(circle, rgba(199, 210, 254, 0.3) 0%, transparent 70%)',
+          background: 'radial-gradient(circle, rgba(79, 124, 255, 0.07) 0%, transparent 70%)',
           filter: 'blur(60px)',
           pointerEvents: 'none'
         }}
@@ -264,7 +264,7 @@ export default function AvsarSection({ isStandalonePage = false }) {
           width: '450px',
           height: '450px',
           borderRadius: '50%',
-          background: 'radial-gradient(circle, rgba(167, 243, 208, 0.3) 0%, transparent 70%)',
+          background: 'radial-gradient(circle, rgba(116, 105, 248, 0.05) 0%, transparent 70%)',
           filter: 'blur(60px)',
           pointerEvents: 'none'
         }}
@@ -363,7 +363,7 @@ export default function AvsarSection({ isStandalonePage = false }) {
                 right: 0,
                 bottom: 0,
                 width: '60%',
-                background: 'radial-gradient(ellipse at 85% 20%, rgba(224, 231, 255, 0.45) 0%, rgba(240, 249, 255, 0.2) 50%, transparent 80%)',
+                background: 'radial-gradient(ellipse at 85% 20%, rgba(244, 240, 255, 0.75) 0%, rgba(241, 247, 255, 0.4) 50%, transparent 80%)',
                 pointerEvents: 'none',
                 zIndex: 0
               }}
@@ -641,10 +641,10 @@ export default function AvsarSection({ isStandalonePage = false }) {
               gridColumn: 'span 1',
               background: '#FFFFFF',
               borderRadius: 24,
-              border: '1.2px solid rgba(167, 243, 208, 0.7)',
+              border: '1.2px solid rgba(116, 105, 248, 0.22)',
               boxShadow:
                 hoveredCard === 'parentRec'
-                  ? '0 20px 35px -8px rgba(52, 211, 153, 0.2), 0 4px 12px -2px rgba(0, 0, 0, 0.03)'
+                  ? '0 20px 35px -8px rgba(116, 105, 248, 0.15), 0 4px 12px -2px rgba(0, 0, 0, 0.03)'
                   : '0 8px 24px -4px rgba(15, 23, 42, 0.04), 0 2px 6px -1px rgba(15, 23, 42, 0.02)',
               padding: isMobile ? '24px 20px' : '26px 26px',
               display: 'flex',
@@ -658,7 +658,7 @@ export default function AvsarSection({ isStandalonePage = false }) {
               transition: 'all 0.35s cubic-bezier(0.16, 1, 0.3, 1)'
             }}
           >
-            {/* Soft Mint Mesh Glow */}
+            {/* Soft Violet Mesh Glow */}
             <div
               style={{
                 position: 'absolute',
@@ -666,7 +666,7 @@ export default function AvsarSection({ isStandalonePage = false }) {
                 right: 0,
                 bottom: 0,
                 width: '75%',
-                background: 'radial-gradient(ellipse at 85% 85%, rgba(209, 250, 229, 0.5) 0%, rgba(236, 253, 245, 0.2) 50%, transparent 80%)',
+                background: 'radial-gradient(ellipse at 85% 85%, rgba(116, 105, 248, 0.09) 0%, rgba(244, 240, 255, 0.35) 50%, transparent 80%)',
                 pointerEvents: 'none',
                 zIndex: 0
               }}
@@ -676,12 +676,12 @@ export default function AvsarSection({ isStandalonePage = false }) {
             <div style={{ display: 'flex', alignItems: 'center', gap: 14, zIndex: 1 }}>
               <div style={{ position: 'relative', width: 54, height: 54, flexShrink: 0 }}>
                 <svg width="54" height="54" viewBox="0 0 40 40" style={{ transform: 'rotate(-90deg)' }}>
-                  <circle cx="20" cy="20" r="16" stroke="rgba(16, 185, 129, 0.12)" strokeWidth="3.6" fill="none" />
+                  <circle cx="20" cy="20" r="16" stroke="rgba(79, 124, 255, 0.12)" strokeWidth="3.6" fill="none" />
                   <motion.circle
                     cx="20"
                     cy="20"
                     r="16"
-                    stroke="#10B981"
+                    stroke="#4F7CFF"
                     strokeWidth="3.6"
                     strokeDasharray="100.5"
                     initial={{ strokeDashoffset: 100.5 }}

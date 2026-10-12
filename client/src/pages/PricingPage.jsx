@@ -360,7 +360,7 @@ export default function PricingPage() {
     setStep(2);
   };
 
-  const handleStep2Submit = (e) => {
+  const handleStep2Submit = async (e) => {
     e.preventDefault();
     setErrorMsg("");
 
@@ -369,7 +369,54 @@ export default function PricingPage() {
       return;
     }
 
-    setStep(3);
+    setSubmitting(true);
+
+    const leadPayload = {
+      fullName: fullName.trim(),
+      phone: phone.trim(),
+      email: email.trim(),
+      isParent: Boolean(isParent),
+      boards: selectedBoards,
+      classes: selectedClasses,
+      subjects: selectedSubjects.length > 0 ? selectedSubjects : ["All Subjects"],
+      categories: getApplicableCategories(),
+      selectedPriceCode: "",
+      selectedPriceRange: ""
+    };
+
+    try {
+      await pricingAPI.submit(leadPayload);
+    } catch (err) {
+      console.warn("Backend API submit failed, attempting direct Google Sheet fallback:", err);
+      try {
+        await fetch("https://script.google.com/macros/s/AKfycbzieZGJ6EQCIAW81fS4v98VD8kYNoTcA8gub6q2ucBKnrcmH-rjfcgse4vnX9aeg_xZ/exec", {
+          method: "POST",
+          mode: "no-cors",
+          headers: { "Content-Type": "text/plain;charset=utf-8" },
+          body: JSON.stringify({
+            type: "pricing_response",
+            fullName: leadPayload.fullName,
+            name: leadPayload.fullName,
+            parentName: leadPayload.fullName,
+            phone: leadPayload.phone,
+            email: leadPayload.email,
+            isParent: "Yes",
+            boards: leadPayload.boards.join(', '),
+            board: leadPayload.boards.join(', '),
+            classes: leadPayload.classes.join(', '),
+            class: leadPayload.classes.join(', '),
+            subjects: leadPayload.subjects.join(', '),
+            subject: leadPayload.subjects.join(', '),
+            categories: leadPayload.categories.join(', ')
+          })
+        });
+      } catch (fallbackErr) {
+        console.error("Direct webhook fallback failed:", fallbackErr);
+      }
+    } finally {
+      setSubmitting(false);
+      setStep(3);
+    }
   };
 
   const [showScrollArrow, setShowScrollArrow] = useState(false);
@@ -439,30 +486,62 @@ export default function PricingPage() {
     const codesStr = selectedPrices.map(p => p.code).join(', ');
     const rangesStr = selectedPrices.map(p => p.range).join('; ');
 
+    const finalPayload = {
+      fullName: fullName.trim(),
+      phone: phone.trim(),
+      email: email.trim(),
+      isParent: Boolean(isParent),
+      boards: selectedBoards,
+      classes: selectedClasses,
+      subjects: selectedSubjects.length > 0 ? selectedSubjects : ["All Subjects"],
+      categories: getApplicableCategories(),
+      selectedPriceCode: codesStr,
+      selectedPriceRange: rangesStr
+    };
+
     try {
-      await pricingAPI.submit({
-        fullName,
-        phone,
-        email,
-        isParent,
-        boards: selectedBoards,
-        classes: selectedClasses,
-        subjects: selectedSubjects,
-        categories: getApplicableCategories(),
-        selectedPriceCode: codesStr,
-        selectedPriceRange: rangesStr
-      });
+      await pricingAPI.submit(finalPayload);
       setIsSuccess(true);
     } catch (err) {
-      console.error(err);
-      setErrorMsg("❌ Connection error. Please try again.");
+      console.warn("Backend API final submit failed, attempting direct Google Sheet fallback:", err);
+      try {
+        await fetch("https://script.google.com/macros/s/AKfycbzieZGJ6EQCIAW81fS4v98VD8kYNoTcA8gub6q2ucBKnrcmH-rjfcgse4vnX9aeg_xZ/exec", {
+          method: "POST",
+          mode: "no-cors",
+          headers: { "Content-Type": "text/plain;charset=utf-8" },
+          body: JSON.stringify({
+            type: "pricing_response",
+            fullName: finalPayload.fullName,
+            name: finalPayload.fullName,
+            parentName: finalPayload.fullName,
+            phone: finalPayload.phone,
+            email: finalPayload.email,
+            isParent: "Yes",
+            boards: finalPayload.boards.join(', '),
+            board: finalPayload.boards.join(', '),
+            classes: finalPayload.classes.join(', '),
+            class: finalPayload.classes.join(', '),
+            subjects: finalPayload.subjects.join(', '),
+            subject: finalPayload.subjects.join(', '),
+            categories: finalPayload.categories.join(', '),
+            selectedPriceCode: codesStr,
+            selectedPriceRange: rangesStr,
+            priceCode: codesStr,
+            priceRange: rangesStr
+          })
+        });
+        setIsSuccess(true);
+      } catch (fallbackErr) {
+        console.error("Direct webhook fallback failed:", fallbackErr);
+        setErrorMsg("❌ Connection error. Please try again.");
+      }
     } finally {
       setSubmitting(false);
     }
   };
 
   return (
-    <div style={{ background: 'transparent', minHeight: '100vh', position: 'relative', overflow: 'hidden', padding: isMobile ? '95px 12px 140px' : '140px 0 160px' }}>
+    <div style={{ background: 'linear-gradient(180deg, #F8FAFF 0%, #FFFFFF 50%, #F1F7FF 100%)', minHeight: '100vh', position: 'relative', overflow: 'hidden', padding: isMobile ? '95px 12px 140px' : '140px 0 160px' }}>
       <SEO {...PAGE_SEO.pricing} schema={PAGE_SCHEMAS.pricing} />
       
       {/* Background radial atmosphere */}
@@ -782,6 +861,13 @@ export default function PricingPage() {
                   groups={CLASS_GROUPS}
                   selectedValues={selectedClasses}
                   onChange={setSelectedClasses}
+                />
+
+                <MultiSelectDropdown 
+                  label="Subject (Optional)"
+                  options={SUBJECTS}
+                  selectedValues={selectedSubjects}
+                  onChange={setSelectedSubjects}
                 />
 
                 {/* Navigation Buttons */}

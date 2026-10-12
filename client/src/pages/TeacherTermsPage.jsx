@@ -37,7 +37,7 @@ export default function TermsPage() {
   };
 
   return (
-    <div className="subpage-wrapper legal-reduced-font" style={{ minHeight: '100vh', background: 'linear-gradient(180deg, #F0F5FF 0%, #EBF2FE 100%)', paddingBottom: 100 }}>
+    <div className="subpage-wrapper legal-reduced-font" style={{ minHeight: '100vh', background: 'linear-gradient(180deg, #FFFFFF 0%, #F8FAFF 50%, #F1F7FF 100%)', paddingBottom: 100 }}>
       <SEO {...termsSeo} schema={PAGE_SCHEMAS.terms} />
       <style>{`
         .legal-reduced-font h1 {

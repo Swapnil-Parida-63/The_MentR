@@ -117,7 +117,7 @@ export default function GalleryPreview({ background = 'var(--color-neutral)' }) 
   const currentFocusedItem = focusedIndex !== null ? activeFocusedList[focusedIndex] : null;
 
   return (
-    <section id="gallery" className="section" style={{ background: finalBg === 'transparent' ? 'linear-gradient(180deg, #FFFFFF 0%, #E3E8FF 50%, rgba(143, 149, 246, 0.42) 100%)' : finalBg, overflow: 'hidden', padding: isMobile ? '50px 0' : '90px 0' }}>
+    <section id="gallery" className="section" style={{ background: finalBg === 'transparent' ? 'linear-gradient(180deg, #F8FAFF 0%, #FFFFFF 50%, #F1F7FF 100%)' : finalBg, overflow: 'hidden', padding: isMobile ? '50px 0' : '90px 0' }}>
       <div className="container" style={{ maxWidth: '1200px', margin: '0 auto' }}>
 
         {/* EDITORIAL SECTION HEADER */}

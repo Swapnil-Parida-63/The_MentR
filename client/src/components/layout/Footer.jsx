@@ -55,9 +55,18 @@ export default function Footer() {
     },
     {
       title: 'Careers',
+      badge: 'Urgent',
+      onClick: () => openModal('career'),
       links: [
-        { label: 'Open Roles', onClick: () => openModal('comingSoon', { title: 'Open Roles' }) },
-        { label: 'Internships', onClick: () => openModal('comingSoon', { title: 'Internships' }) }
+        { 
+          label: 'Open Roles', 
+          count: 'Urgent',
+          onClick: () => openModal('career') 
+        },
+        { 
+          label: 'Internships', 
+          onClick: () => openModal('comingSoon', { title: 'Internships' }) 
+        }
       ]
     },
     {
@@ -73,7 +82,7 @@ export default function Footer() {
   ];
 
   return (
-    <footer style={{ background: 'var(--color-navy)', color: 'white', padding: '80px 0 32px' }}>
+    <footer style={{ background: 'var(--color-navy)', color: 'white', padding: '80px 0 32px', borderTop: '1px solid rgba(79, 124, 255, 0.15)' }}>
       <div className="container">
         <div style={{ display: 'grid', gridTemplateColumns: '1.6fr 1fr 1fr 1fr 1fr 1fr', gap: 40, marginBottom: 60 }} className="footer-grid-responsive">
           {/* Brand */}
@@ -113,9 +122,46 @@ export default function Footer() {
           {/* Columns */}
           {footerCols.map(col => (
             <div key={col.title}>
-              <h5 style={{ fontFamily: 'var(--font-sans)', fontSize: 13, fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.08em', color: 'rgba(255,255,255,0.4)', marginBottom: 20 }}>
-                {col.title}
-              </h5>
+              <div style={{ display: 'flex', alignItems: 'center', gap: 8, marginBottom: 20 }}>
+                <h5 
+                  onClick={col.onClick}
+                  style={{ 
+                    fontFamily: 'var(--font-sans)', 
+                    fontSize: 13, 
+                    fontWeight: 700, 
+                    textTransform: 'uppercase', 
+                    letterSpacing: '0.08em', 
+                    color: 'rgba(255,255,255,0.4)', 
+                    margin: 0,
+                    cursor: col.onClick ? 'pointer' : 'default',
+                    transition: 'color 0.2s ease'
+                  }}
+                  onMouseEnter={e => { if (col.onClick) e.target.style.color = '#FFFFFF'; }}
+                  onMouseLeave={e => { if (col.onClick) e.target.style.color = 'rgba(255,255,255,0.4)'; }}
+                >
+                  {col.title}
+                </h5>
+                {col.badge && (
+                  <span 
+                    onClick={col.onClick}
+                    style={{
+                      fontSize: 9.5,
+                      fontWeight: 800,
+                      textTransform: 'uppercase',
+                      letterSpacing: '0.05em',
+                      background: 'rgba(79, 124, 255, 0.22)',
+                      color: '#93C5FD',
+                      border: '1px solid rgba(79, 124, 255, 0.35)',
+                      padding: '2px 7px',
+                      borderRadius: 99,
+                      lineHeight: 1.2,
+                      cursor: col.onClick ? 'pointer' : 'default'
+                    }}
+                  >
+                    {col.badge}
+                  </span>
+                )}
+              </div>
               <ul style={{ listStyle: 'none', display: 'flex', flexDirection: 'column', gap: 12, padding: 0, margin: 0 }}>
                 {col.links.map(link => (
                   <li key={link.label} style={{ display: 'flex' }}>
@@ -126,18 +172,37 @@ export default function Footer() {
                           background: 'none',
                           border: 'none',
                           padding: 0,
-                          fontSize: 14,
+                          fontSize: 13.5,
                           color: 'rgba(255,255,255,0.65)',
                           textAlign: 'left',
                           cursor: 'pointer',
                           fontFamily: 'var(--font-sans)',
-                          transition: 'color 0.3s',
-                          outline: 'none'
+                          transition: 'color 0.25s ease',
+                          outline: 'none',
+                          display: 'inline-flex',
+                          alignItems: 'center',
+                          gap: 6,
+                          lineHeight: 1.45
                         }}
-                        onMouseEnter={e => e.target.style.color = 'white'}
-                        onMouseLeave={e => e.target.style.color = 'rgba(255,255,255,0.65)'}
+                        onMouseEnter={e => e.currentTarget.style.color = '#FFFFFF'}
+                        onMouseLeave={e => e.currentTarget.style.color = 'rgba(255,255,255,0.65)'}
                       >
-                        {link.label}
+                        <span>{link.label}</span>
+                        {link.count && (
+                          <span style={{
+                            fontSize: 10.5,
+                            fontWeight: 700,
+                            color: '#93C5FD',
+                            background: 'rgba(79, 124, 255, 0.18)',
+                            border: '1px solid rgba(79, 124, 255, 0.3)',
+                            padding: '1px 6px',
+                            borderRadius: 99,
+                            flexShrink: 0,
+                            lineHeight: 1.2
+                          }}>
+                            {link.count}
+                          </span>
+                        )}
                       </button>
                     ) : (
                       <Link 
@@ -145,8 +210,8 @@ export default function Footer() {
                         target={link.target}
                         rel={link.target === '_blank' ? 'noopener noreferrer' : undefined}
                         onClick={!link.to ? (e) => e.preventDefault() : undefined}
-                        style={{ fontSize: 14, color: 'rgba(255,255,255,0.65)', textDecoration: 'none', transition: 'color 0.3s' }}
-                        onMouseEnter={e => e.target.style.color = 'white'}
+                        style={{ fontSize: 13.5, color: 'rgba(255,255,255,0.65)', textDecoration: 'none', transition: 'color 0.25s ease', lineHeight: 1.45 }}
+                        onMouseEnter={e => e.target.style.color = '#FFFFFF'}
                         onMouseLeave={e => e.target.style.color = 'rgba(255,255,255,0.65)'}
                       >
                         {link.label}

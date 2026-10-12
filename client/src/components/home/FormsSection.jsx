@@ -467,7 +467,7 @@ export default function FormsSection() {
   };
 
   return (
-    <section id="contact-forms" className="section" style={{ background: 'linear-gradient(180deg, #FFFFFF 0%, #E3E8FF 50%, rgba(143, 149, 246, 0.42) 100%)', padding: isMobile ? '16px 0 40px' : '100px 0' }}>
+    <section id="contact-forms" className="section" style={{ background: 'linear-gradient(180deg, #F1F7FF 0%, #EDF2FF 50%, #F1F7FF 100%)', padding: isMobile ? '16px 0 40px' : '100px 0' }}>
       <div className="container">
         {!isMobile && <FadeUp><div className="eyebrow">GET STARTED</div></FadeUp>}
         <FadeUp delay={0.1} duration={0.8} y={isMobile ? 8 : 24}>

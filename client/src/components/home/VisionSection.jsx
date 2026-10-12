@@ -161,7 +161,7 @@ export default function VisionSection() {
         onMouseLeave={handleVisionMouseLeave}
         style={{
           ...sectionBase,
-          background: 'linear-gradient(180deg, rgba(143, 149, 246, 0.42) 0%, #E3E8FF 50%, #FFFFFF 100%)',
+          background: 'linear-gradient(180deg, #FFFFFF 0%, #F8FAFF 50%, #F1F7FF 100%)',
           padding: isMobile ? '40px 0 30px' : '50px 0 40px',
         }}
       >
@@ -362,7 +362,7 @@ export default function VisionSection() {
         onMouseLeave={handleMissionMouseLeave}
         style={{
           ...sectionBase,
-          background: 'linear-gradient(180deg, #FFFFFF 0%, #E3E8FF 50%, rgba(143, 149, 246, 0.42) 100%)',
+          background: 'linear-gradient(180deg, #F1F7FF 0%, #FFFFFF 50%, #F8FAFF 100%)',
           padding: isMobile ? '40px 0 40px' : '50px 0 50px',
         }}
       >
@@ -539,7 +539,7 @@ export default function VisionSection() {
         ref={timelineRef}
         style={{
           ...sectionBase,
-          background: 'linear-gradient(180deg, #FFFFFF 0%, #E0E7FF 50%, #C7D2FE 100%)',
+          background: 'linear-gradient(180deg, #FFFFFF 0%, #F1F7FF 50%, #EDF2FF 100%)',
           padding: isMobile ? '40px 0 30px' : '50px 0 40px',
         }}
       >

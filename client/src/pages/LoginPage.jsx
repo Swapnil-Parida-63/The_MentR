@@ -27,11 +27,11 @@ export default function LoginPage() {
   };
 
   return (
-    <div style={{ minHeight: '100vh', display: 'flex', alignItems: 'center', justifyContent: 'center', background: 'var(--color-neutral)', padding: 24 }}>
+    <div style={{ minHeight: '100vh', display: 'flex', alignItems: 'center', justifyContent: 'center', background: 'linear-gradient(180deg, #F8FAFF 0%, #F1F7FF 100%)', padding: 24 }}>
       <SEO {...PAGE_SEO.login} />
       <BorderGlow
         borderRadius={32}
-        backgroundColor="#edece7"
+        backgroundColor="#FFFFFF"
         style={{ width: '100%', maxWidth: 420 }}
       >
         <div style={{ padding: 48, cursor: 'default' }}>

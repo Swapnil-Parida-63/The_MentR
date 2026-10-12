@@ -176,7 +176,7 @@ export default function OrganogramSection() {
 
 
   return (
-    <section id="organogram" className="section" style={{ background: 'linear-gradient(180deg, rgba(143, 149, 246, 0.42) 0%, #E3E8FF 50%, #FFFFFF 100%)', padding: isMobile ? '60px 0' : '40px 0', minHeight: isMobile ? 'auto' : 'calc(100vh - 90px)', display: 'flex', flexDirection: 'column', justifyContent: 'center', position: 'relative', overflow: 'hidden' }}>
+    <section id="organogram" className="section" style={{ background: '#EDF2FF', padding: isMobile ? '60px 0' : '40px 0', minHeight: isMobile ? 'auto' : 'calc(100vh - 90px)', display: 'flex', flexDirection: 'column', justifyContent: 'center', position: 'relative', overflow: 'hidden' }}>
       
       {/* Background ambient radial glow */}
       <div style={{
@@ -479,8 +479,11 @@ export default function OrganogramSection() {
                 <div style={{
                   width: '100%',
                   marginTop: '36px',
-                  padding: '24px 16px 12px',
-                  borderTop: '1px dashed rgba(99, 102, 241, 0.18)',
+                  padding: '22px 18px',
+                  background: '#FFFFFF',
+                  borderRadius: 20,
+                  border: '1px solid rgba(79, 124, 255, 0.12)',
+                  boxShadow: '0 4px 16px rgba(15, 23, 42, 0.04)',
                   textAlign: 'left'
                 }}>
                   <div style={{ display: 'flex', alignItems: 'center', gap: 10, marginBottom: 6 }}>
@@ -825,9 +828,9 @@ export default function OrganogramSection() {
             {/* COLUMN 2: DESKTOP FLOATING INFO PANEL */}
             <div style={{ 
               borderRadius: '24px',
-              background: 'rgba(255, 255, 255, 0.82)',
-              border: '1px solid rgba(59, 130, 246, 0.08)',
-              boxShadow: '0 10px 30px rgba(15, 23, 42, 0.02)',
+              background: '#FFFFFF',
+              border: '1px solid rgba(79, 124, 255, 0.14)',
+              boxShadow: '0 12px 32px rgba(15, 23, 42, 0.05)',
               backdropFilter: 'blur(16px)',
               padding: '24px 28px',
               minHeight: 330,

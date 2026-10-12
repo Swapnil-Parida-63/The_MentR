@@ -20,5 +20,6 @@ router.use('/chatbot', require('./modules/chatbot/chatbot.routes'));
 router.use('/ai', require('./modules/ai/ai.routes'));
 router.use('/mentee', require('./modules/mentee/mentee.routes'));
 router.use('/pricing-leads', require('./modules/pricing/pricing-lead.routes'));
+router.use('/career-leads', require('./modules/career/career-lead.routes'));
 
 module.exports = router;

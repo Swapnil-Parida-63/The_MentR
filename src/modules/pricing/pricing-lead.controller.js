@@ -9,13 +9,7 @@ const baseController = createCrudController(pricingLeadService);
 baseController.create = asyncHandler(async (req, res) => {
   const item = await pricingLeadService.create(req.body);
 
-  // Collect target webhooks (pricing webhook + parent webhook fallback)
-  const webhooks = Array.from(new Set([
-    env.PRICING_FORM_WEBHOOK_URL,
-    env.PARENT_FORM_WEBHOOK_URL,
-    "https://script.google.com/macros/s/AKfycbzieZGJ6EQCIAW81fS4v98VD8kYNoTcA8gub6q2ucBKnrcmH-rjfcgse4vnX9aeg_xZ/exec",
-    "https://script.google.com/macros/s/AKfycbwYnCMaJx7Cmq3lY0G7RulmrMpH2j-aXL1GGO5iq5sCS2JN7Dw-Js4z1rPgZbuU3Kgi/exec"
-  ].filter(Boolean)));
+  const webhookUrl = env.PRICING_FORM_WEBHOOK_URL || "https://script.google.com/macros/s/AKfycbzieZGJ6EQCIAW81fS4v98VD8kYNoTcA8gub6q2ucBKnrcmH-rjfcgse4vnX9aeg_xZ/exec";
 
   const boardsStr = Array.isArray(item.boards) ? item.boards.join(', ') : (item.boards || "");
   const classesStr = Array.isArray(item.classes) ? item.classes.join(', ') : (item.classes || "");
@@ -29,7 +23,7 @@ baseController.create = asyncHandler(async (req, res) => {
     parentName: item.fullName || "",
     phone: item.phone || "",
     email: item.email || "",
-    isParent: item.isParent !== undefined ? (item.isParent ? "Yes" : "No") : "No",
+    isParent: item.isParent ? "Yes" : "No",
     board: boardsStr,
     boards: boardsStr,
     class: classesStr,
@@ -43,21 +37,21 @@ baseController.create = asyncHandler(async (req, res) => {
     priceRange: item.selectedPriceRange || ""
   };
 
-  webhooks.forEach((url) => {
-    fetch(url, {
-      method: "POST",
-      headers: { "Content-Type": "text/plain;charset=utf-8" },
-      body: JSON.stringify(payload),
-      redirect: "follow"
-    })
-      .then(async (response) => {
-        const responseBody = await response.text();
-        console.log(`Successfully forwarded pricing lead to webhook (${url}). Status: ${response.status}, Response: ${responseBody}`);
-      })
-      .catch((error) => {
-        console.error(`Error forwarding pricing lead to webhook (${url}): ${error.message}`);
+  if (webhookUrl) {
+    try {
+      const response = await fetch(webhookUrl, {
+        method: "POST",
+        headers: { "Content-Type": "text/plain;charset=utf-8" },
+        body: JSON.stringify(payload),
+        redirect: "follow",
+        signal: AbortSignal.timeout(6000)
       });
-  });
+      const responseBody = await response.text();
+      console.log(`Successfully forwarded pricing lead to webhook (${webhookUrl}). Status: ${response.status}, Response: ${responseBody}`);
+    } catch (error) {
+      console.error(`Error forwarding pricing lead to webhook (${webhookUrl}): ${error.message}`);
+    }
+  }
 
   res.status(201).json({ success: true, data: item });
 });

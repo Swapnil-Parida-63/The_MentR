@@ -2,7 +2,7 @@ import { useState, useEffect, useRef } from 'react';
 import { gsap } from 'gsap';
 import { useModal } from '../../context/ModalContext';
 import BorderGlow from './BorderGlow';
-import { parentAPI, teachersAPI } from '../../services/api';
+import { parentAPI, teachersAPI, careerAPI } from '../../services/api';
 
 const boardOptions = ['Odisha State Board', 'SSVM (Odisha)', 'CHSE (Odisha)', 'ICSE', 'CBSE', 'IGCSE'];
 const classOptions = Array.from({ length: 12 }, (_, i) => `Class ${i + 1}`);
@@ -11,6 +11,45 @@ const subjectsList = ['All Subjects', 'Mathematics', 'Science', 'Physics', 'Chem
 const teacherBoardOptions = ['Odisha State Board', 'SSVM (Odisha)', 'CHSE (Odisha)', 'ICSE', 'CBSE', 'IGCSE'];
 const teacherClassOptions = ['Class 1–5', 'Class 6–8', 'Class 9–10', 'Class 11–12'];
 const mediumOptions = ['English', 'Hindi', 'Odia', 'Bengali', 'Bilingual'];
+
+export const URGENT_CAREER_ROLES = [
+  {
+    id: 'bde',
+    title: 'Business Development Executive',
+    openings: 6,
+    department: 'Business Development',
+    location: 'Bhubaneswar, Odisha',
+    type: 'Full Time',
+    desc: 'Drive student and parent outreach, partner with local schools, and drive adoption of TheMentR personalised tutoring programs.'
+  },
+  {
+    id: 'tce',
+    title: 'Tele Calling Executive',
+    openings: 2,
+    department: 'Admissions & Parent Relations',
+    location: 'Bhubaneswar, Odisha',
+    type: 'Full Time',
+    desc: 'Consult parents on tuition plans, explain AVSAR assessment visits, and coordinate one-to-one home teacher matchings.'
+  },
+  {
+    id: 'bdm',
+    title: 'Business Development Manager',
+    openings: 2,
+    department: 'Growth & Strategy',
+    location: 'Bhubaneswar, Odisha',
+    type: 'Full Time',
+    desc: 'Oversee outreach operations, mentor the business development team, and execute institutional partnerships across Odisha.'
+  },
+  {
+    id: 'sme',
+    title: 'Social Media Executive',
+    openings: 1,
+    department: 'Marketing & Brand',
+    location: 'Bhubaneswar, Odisha',
+    type: 'Full Time',
+    desc: 'Manage social channels, produce compelling educational content, craft awareness campaigns, and build TheMentR community.'
+  }
+];
 
 // Underline Input Field Component
 function UnderlineField({ label, type = "text", placeholder, value, onChange, required = false, isMobile = false }) {
@@ -366,6 +405,15 @@ export default function FormModal() {
   const [csSubmitting, setCsSubmitting] = useState(false);
   const [csSubmitted, setCsSubmitted] = useState(false);
 
+  // Career Modal States
+  const [selectedCareerRole, setSelectedCareerRole] = useState(null);
+  const [careerName, setCareerName] = useState('');
+  const [careerPhone, setCareerPhone] = useState('');
+  const [careerEmail, setCareerEmail] = useState('');
+  const [careerExperience, setCareerExperience] = useState('');
+  const [careerSubmitting, setCareerSubmitting] = useState(false);
+  const [careerSubmitted, setCareerSubmitted] = useState(false);
+
   useEffect(() => {
     const handleResize = () => setIsMobile(window.innerWidth < 1024);
     window.addEventListener('resize', handleResize);
@@ -376,6 +424,14 @@ export default function FormModal() {
     if (activeModal) {
       if (activeModal === 'teacher') setActiveTab('teacher');
       else if (activeModal === 'parent') setActiveTab('demo');
+      else if (activeModal === 'career') {
+        if (modalConfig?.role) {
+          const matched = URGENT_CAREER_ROLES.find(r => r.title.toLowerCase() === modalConfig.role.toLowerCase());
+          setSelectedCareerRole(matched || { title: modalConfig.role, openings: modalConfig.openings || 1, department: 'Immediate Hiring', location: 'Bhubaneswar, Odisha', type: 'Full Time', desc: 'Urgent hiring requirement at TheMentR.' });
+        } else {
+          setSelectedCareerRole(null);
+        }
+      }
 
       document.body.style.overflow = 'hidden';
       gsap.fromTo(overlayRef.current, { opacity: 0 }, { opacity: 1, duration: 0.3, ease: 'power2.out' });
@@ -385,6 +441,12 @@ export default function FormModal() {
       setCsSubmitted(false);
       setCsName('');
       setCsPhone('');
+      setSelectedCareerRole(null);
+      setCareerSubmitted(false);
+      setCareerName('');
+      setCareerPhone('');
+      setCareerEmail('');
+      setCareerExperience('');
     }
     return () => { document.body.style.overflow = 'unset'; };
   }, [activeModal]);
@@ -432,6 +494,89 @@ export default function FormModal() {
       setCsSubmitted(true);
     } finally {
       setCsSubmitting(false);
+    }
+  };
+
+  // Career form submit (for urgent career openings)
+  const handleCareerSubmit = async (e) => {
+    e.preventDefault();
+    if (careerSubmitting) return;
+
+    if (!careerName.trim()) {
+      alert("⚠️ Please enter your full name.");
+      return;
+    }
+    if (!/^\d{10}$/.test(careerPhone.trim())) {
+      alert("⚠️ Mobile number must contain 10 digits.");
+      return;
+    }
+    if (!careerEmail.trim()) {
+      alert("⚠️ Please enter your email address.");
+      return;
+    }
+
+    setCareerSubmitting(true);
+    const targetRole = selectedCareerRole || (modalConfig?.role ? { title: modalConfig.role, openings: modalConfig.openings } : null);
+    const roleTitle = targetRole?.title || modalConfig?.title || 'General Opening';
+    const roleOpenings = targetRole?.openings || 1;
+    const roleDept = targetRole?.department || 'Operations';
+    const roleLoc = targetRole?.location || 'Bhubaneswar, Odisha';
+
+    const careerPayload = {
+      fullName: careerName.trim(),
+      phone: careerPhone.trim(),
+      email: careerEmail.trim(),
+      role: roleTitle,
+      openings: roleOpenings,
+      department: roleDept,
+      location: roleLoc,
+      experience: careerExperience.trim()
+    };
+
+    const webhookPayload = {
+      type: "career",
+      formType: "career",
+      sheet: "Career Leads",
+      sheetName: "Career Leads",
+      fullName: careerPayload.fullName,
+      name: careerPayload.fullName,
+      phone: careerPayload.phone,
+      email: careerPayload.email,
+      role: careerPayload.role,
+      appliedRole: careerPayload.role,
+      openings: careerPayload.openings,
+      department: careerPayload.department,
+      location: careerPayload.location,
+      experience: careerPayload.experience,
+      isParent: "Career Applicant",
+      board: careerPayload.role,
+      boards: careerPayload.role,
+      class: `${careerPayload.openings} Openings`,
+      classes: `${careerPayload.openings} Openings`,
+      subject: careerPayload.experience || "Not specified",
+      subjects: careerPayload.experience || "Not specified",
+      categories: "Career Lead"
+    };
+
+    try {
+      await careerAPI.submit(careerPayload);
+      setCareerSubmitted(true);
+    } catch (err) {
+      console.warn("Backend API submit failed, sending direct fallback to Google Sheet webhook:", err);
+      try {
+        await fetch("https://script.google.com/macros/s/AKfycbzieZGJ6EQCIAW81fS4v98VD8kYNoTcA8gub6q2ucBKnrcmH-rjfcgse4vnX9aeg_xZ/exec", {
+          method: "POST",
+          mode: "no-cors",
+          headers: { "Content-Type": "text/plain;charset=utf-8" },
+          body: JSON.stringify(webhookPayload)
+        });
+        setCareerSubmitted(true);
+      } catch (webhookErr) {
+        console.error("Direct webhook fallback failed:", webhookErr);
+        alert("❌ Submission error. Please try again.");
+      }
+    } finally {
+      setCareerSubmitting(false);
     }
   };
 
@@ -619,7 +764,7 @@ export default function FormModal() {
 
         {/* Lead modal flow */}
         {activeModal === 'lead' ? (
-          <div style={{ padding: isMobile ? '20px 16px' : '36px 32px', overflowY: 'auto' }}>
+          <div className="hide-scrollbar" style={{ padding: isMobile ? '20px 16px' : '36px 32px', overflowY: 'auto', scrollbarWidth: 'none', msOverflowStyle: 'none' }}>
             {leadSubmitted ? (
               <div style={{ textAlign: 'center', padding: '24px 12px' }}>
                 <div style={{ fontSize: 44, marginBottom: 12 }}>🎉</div>
@@ -658,7 +803,7 @@ export default function FormModal() {
           </div>
         ) : activeModal === 'comingSoon' ? (
           /* Coming Soon flow - NO TAB BUTTONS */
-          <div style={{ padding: isMobile ? '24px 18px' : '36px 32px', overflowY: 'auto' }}>
+          <div className="hide-scrollbar" style={{ padding: isMobile ? '24px 18px' : '36px 32px', overflowY: 'auto', scrollbarWidth: 'none', msOverflowStyle: 'none' }}>
             {csSubmitted ? (
               <div style={{ textAlign: 'center', padding: '24px 12px' }}>
                 <div style={{ fontSize: 44, marginBottom: 12 }}>🎉</div>
@@ -709,9 +854,193 @@ export default function FormModal() {
               </form>
             )}
           </div>
+        ) : activeModal === 'career' ? (
+          /* Urgent Career Opening flow: List view -> Form view */
+          <div className="hide-scrollbar" style={{ padding: isMobile ? '22px 16px' : '32px 30px', overflowY: 'auto', maxHeight: isMobile ? '82vh' : '86vh', scrollbarWidth: 'none', msOverflowStyle: 'none' }}>
+            {!selectedCareerRole ? (
+              /* VIEW 1: LIST OF OPEN POSITIONS */
+              <div>
+                <div style={{ textAlign: 'center', marginBottom: 22 }}>
+                  <div style={{
+                    width: 52,
+                    height: 52,
+                    borderRadius: '50%',
+                    background: 'linear-gradient(135deg, rgba(79, 124, 255, 0.12) 0%, rgba(116, 105, 248, 0.12) 100%)',
+                    border: '1.5px solid rgba(79, 124, 255, 0.25)',
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    fontSize: 22,
+                    margin: '0 auto 10px'
+                  }}>
+                    💼
+                  </div>
+                  <div style={{ display: 'inline-flex', alignItems: 'center', gap: 6, background: 'rgba(79, 124, 255, 0.1)', border: '1px solid rgba(79, 124, 255, 0.25)', padding: '3px 12px', borderRadius: 99, fontSize: 11, fontWeight: 800, color: '#2563EB', marginBottom: 8 }}>
+                    URGENT HIRING • 4 POSITIONS (11 VACANCIES)
+                  </div>
+                  <h3 style={{ fontFamily: 'var(--font-hero)', fontSize: isMobile ? 20 : 23, fontWeight: 800, color: '#0F172A', margin: '0 0 6px' }}>
+                    Career Opportunities at TheMentR
+                  </h3>
+                  <p style={{ fontSize: 13, color: '#64748B', margin: 0, lineHeight: 1.5 }}>
+                    We are actively expanding our team in Bhubaneswar. Select a position below to view details and apply:
+                  </p>
+                </div>
+
+                <div style={{ display: 'flex', flexDirection: 'column', gap: 11 }}>
+                  {URGENT_CAREER_ROLES.map((role) => (
+                    <div
+                      key={role.id}
+                      onClick={() => {
+                        setSelectedCareerRole(role);
+                        setCareerSubmitted(false);
+                      }}
+                      style={{
+                        background: '#FFFFFF',
+                        border: '1.5px solid rgba(15, 23, 42, 0.08)',
+                        borderRadius: 16,
+                        padding: isMobile ? '16px 14px' : '18px 20px',
+                        cursor: 'pointer',
+                        textAlign: 'left',
+                        transition: 'all 0.25s cubic-bezier(0.16, 1, 0.3, 1)',
+                        display: 'flex',
+                        flexDirection: 'column',
+                        gap: 6
+                      }}
+                      onMouseEnter={(e) => {
+                        e.currentTarget.style.borderColor = '#4F7CFF';
+                        e.currentTarget.style.transform = 'translateY(-2px)';
+                        e.currentTarget.style.boxShadow = '0 8px 24px rgba(79, 124, 255, 0.12)';
+                      }}
+                      onMouseLeave={(e) => {
+                        e.currentTarget.style.borderColor = 'rgba(15, 23, 42, 0.08)';
+                        e.currentTarget.style.transform = 'translateY(0)';
+                        e.currentTarget.style.boxShadow = 'none';
+                      }}
+                    >
+                      <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', flexWrap: 'wrap', gap: 8 }}>
+                        <h4 style={{ margin: 0, fontSize: isMobile ? 15 : 16, fontWeight: 800, color: '#0F172A', fontFamily: 'var(--font-sans)' }}>
+                          {role.title}
+                        </h4>
+                        <span style={{
+                          fontSize: 11,
+                          fontWeight: 800,
+                          color: '#1D4ED8',
+                          background: '#EFF6FF',
+                          border: '1px solid #DBEAFE',
+                          padding: '3px 10px',
+                          borderRadius: 99,
+                          display: 'inline-flex',
+                          alignItems: 'center',
+                          gap: 4
+                        }}>
+                          {role.openings} Openings
+                        </span>
+                      </div>
+                      <div style={{ fontSize: 12, color: '#64748B', display: 'flex', gap: 8, alignItems: 'center', flexWrap: 'wrap' }}>
+                        <span>{role.department}</span>
+                        <span>•</span>
+                        <span>{role.location}</span>
+                        <span>•</span>
+                        <span style={{ color: '#2563EB', fontWeight: 650 }}>{role.type}</span>
+                      </div>
+                      <p style={{ margin: '4px 0 0 0', fontSize: 12.5, color: '#475569', lineHeight: 1.45 }}>
+                        {role.desc}
+                      </p>
+                      <div style={{ display: 'flex', justifyContent: 'flex-end', marginTop: 4 }}>
+                        <span style={{ fontSize: 12.5, fontWeight: 700, color: '#4F7CFF', display: 'inline-flex', alignItems: 'center', gap: 4 }}>
+                          Apply for this Position →
+                        </span>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            ) : careerSubmitted ? (
+              /* VIEW 2: SUCCESS STATE */
+              <div style={{ textAlign: 'center', padding: '24px 12px' }}>
+                <div style={{ fontSize: 44, marginBottom: 12 }}>🎉</div>
+                <h3 style={{ fontFamily: 'var(--font-hero)', fontSize: 20, fontWeight: 800, color: '#1E293B', marginBottom: 8 }}>
+                  Application Submitted!
+                </h3>
+                <p style={{ fontSize: 14, color: '#475569', lineHeight: 1.5, marginBottom: 24 }}>
+                  Thank you, <strong>{careerName || 'Applicant'}</strong>! We have received your application for <strong>{selectedCareerRole.title}</strong> ({selectedCareerRole.openings} Openings). Our recruitment team is actively hiring and will reach out to you directly!
+                </p>
+                <div style={{ display: 'flex', gap: 12, justifyContent: 'center', flexWrap: 'wrap' }}>
+                  <button 
+                    type="button" 
+                    onClick={() => {
+                      setSelectedCareerRole(null);
+                      setCareerSubmitted(false);
+                    }} 
+                    className="btn" 
+                    style={{ padding: '9px 20px', fontSize: 13, background: '#F1F5F9', color: '#334155', borderRadius: 99, border: 'none', cursor: 'pointer' }}
+                  >
+                    ← View Other Openings
+                  </button>
+                  <button 
+                    type="button" 
+                    onClick={handleClose} 
+                    className="btn-editorial-pill" 
+                    style={{ padding: '9px 24px', fontSize: 13 }}
+                  >
+                    Close
+                  </button>
+                </div>
+              </div>
+            ) : (
+              /* VIEW 3: APPLICATION FORM FOR SELECTED ROLE */
+              <div>
+                <div style={{ textAlign: 'left', marginBottom: 14 }}>
+                  <button
+                    type="button"
+                    onClick={() => setSelectedCareerRole(null)}
+                    style={{
+                      background: 'none',
+                      border: 'none',
+                      padding: 0,
+                      fontSize: 13,
+                      fontWeight: 700,
+                      color: '#4F7CFF',
+                      cursor: 'pointer',
+                      display: 'inline-flex',
+                      alignItems: 'center',
+                      gap: 6
+                    }}
+                    onMouseEnter={(e) => (e.target.style.textDecoration = 'underline')}
+                    onMouseLeave={(e) => (e.target.style.textDecoration = 'none')}
+                  >
+                    ← Back to All Openings
+                  </button>
+                </div>
+
+                <form onSubmit={handleCareerSubmit}>
+                  <div style={{ textAlign: 'center', marginBottom: 20 }}>
+                    <div style={{ display: 'inline-flex', alignItems: 'center', gap: 6, background: 'rgba(79, 124, 255, 0.1)', border: '1px solid rgba(79, 124, 255, 0.25)', padding: '3px 12px', borderRadius: 99, fontSize: 11, fontWeight: 800, color: '#2563EB', marginBottom: 8 }}>
+                      URGENT HIRING • {selectedCareerRole.openings} OPENING{selectedCareerRole.openings > 1 ? 'S' : ''}
+                    </div>
+                    <h3 style={{ fontFamily: 'var(--font-hero)', fontSize: isMobile ? 19 : 22, fontWeight: 800, color: '#0F172A', margin: '0 0 4px' }}>
+                      Apply for {selectedCareerRole.title}
+                    </h3>
+                    <p style={{ fontSize: 12.5, color: '#64748B', margin: 0, lineHeight: 1.5 }}>
+                      {selectedCareerRole.department} • {selectedCareerRole.location}
+                    </p>
+                  </div>
+
+                  <UnderlineField label="Full Name *" placeholder="Your full name" value={careerName} onChange={e => setCareerName(e.target.value)} required isMobile={isMobile} />
+                  <UnderlineField label="Phone Number *" type="tel" placeholder="10-digit mobile number" value={careerPhone} onChange={e => setCareerPhone(e.target.value.replace(/\D/g, '').slice(0, 10))} required isMobile={isMobile} />
+                  <UnderlineField label="Email Address *" type="email" placeholder="your@email.com" value={careerEmail} onChange={e => setCareerEmail(e.target.value)} required isMobile={isMobile} />
+                  <UnderlineField label="Experience / Current Profile" placeholder="e.g. 1-2 years experience / Fresh graduate" value={careerExperience} onChange={e => setCareerExperience(e.target.value)} isMobile={isMobile} />
+
+                  <button type="submit" disabled={careerSubmitting} className="btn-editorial-pill" style={{ width: '100%', padding: '12px', fontSize: 14, marginTop: 8 }}>
+                    {careerSubmitting ? 'Submitting Application...' : 'Submit Application →'}
+                  </button>
+                </form>
+              </div>
+            )}
+          </div>
         ) : (
           /* Demo & Teacher tabs flow */
-          <div style={{ padding: isMobile ? '20px 16px' : '36px 32px', overflowY: 'auto', flex: 1 }}>
+          <div className="hide-scrollbar" style={{ padding: isMobile ? '20px 16px' : '36px 32px', overflowY: 'auto', flex: 1, scrollbarWidth: 'none', msOverflowStyle: 'none' }}>
             
             {/* Tabs */}
             <div style={{ display: 'flex', background: '#F1F5F9', padding: 4, borderRadius: 99, marginBottom: 20, gap: 4 }}>

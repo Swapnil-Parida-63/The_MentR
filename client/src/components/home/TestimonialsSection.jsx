@@ -1,19 +1,138 @@
 import { useState, useEffect } from 'react';
 import { FadeUp } from '../../hooks/useScrollReveal';
-import { ArrowLeft, ArrowRight, CheckCircle } from 'lucide-react';
-import { motion } from 'framer-motion';
+import { teacherTestimonials, parentTestimonials } from '../../data/testimonialsData';
 
-import { testimonialsData as initialTestimonialsData } from '../../data/testimonialsData';
+// Feedback Card Component matching TheMentR translucent glassmorphism theme
+function FeedbackCard({ item, isMobile }) {
+  const isTeacher = item.category === 'teacher';
+
+  return (
+    <div
+      className="feedback-marquee-card"
+      style={{
+        width: isMobile ? 300 : 360,
+        minWidth: isMobile ? 300 : 360,
+        maxWidth: isMobile ? 300 : 360,
+        background: 'rgba(255, 255, 255, 0.72)',
+        backdropFilter: 'blur(16px)',
+        WebkitBackdropFilter: 'blur(16px)',
+        border: '1px solid rgba(79, 124, 255, 0.16)',
+        borderRadius: 18,
+        padding: isMobile ? '16px 18px' : '20px 22px',
+        boxSizing: 'border-box',
+        display: 'flex',
+        flexDirection: 'column',
+        justifyContent: 'space-between',
+        cursor: 'default',
+        userSelect: 'none',
+        position: 'relative',
+        boxShadow: '0 8px 28px -6px rgba(79, 124, 255, 0.08), 0 2px 6px rgba(15, 23, 42, 0.03)',
+        transition: 'all 0.25s cubic-bezier(0.16, 1, 0.3, 1)'
+      }}
+    >
+      {/* Header: Avatar, Name, Handle, Badge */}
+      <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 12 }}>
+        <div style={{ display: 'flex', alignItems: 'center', gap: 10, minWidth: 0 }}>
+          {/* Avatar circle */}
+          <div style={{
+            width: 38,
+            height: 38,
+            borderRadius: '50%',
+            background: item.avatarBg || (isTeacher ? 'linear-gradient(135deg, #3B82F6, #1D4ED8)' : 'linear-gradient(135deg, #7C3AED, #4F46E5)'),
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+            fontSize: 18,
+            flexShrink: 0,
+            boxShadow: '0 2px 8px rgba(79, 124, 255, 0.2)'
+          }}>
+            {item.avatar || (isTeacher ? '👨‍🏫' : '👨‍👩‍👧')}
+          </div>
+          <div style={{ textAlign: 'left', minWidth: 0 }}>
+            <div style={{
+              fontSize: 14,
+              fontWeight: 700,
+              color: '#0F172A',
+              whiteSpace: 'nowrap',
+              overflow: 'hidden',
+              textOverflow: 'ellipsis',
+              fontFamily: 'var(--font-sans)',
+              letterSpacing: '-0.01em'
+            }}>
+              {item.name}
+            </div>
+            <div style={{
+              fontSize: 12,
+              fontWeight: 500,
+              color: '#64748B',
+              whiteSpace: 'nowrap',
+              overflow: 'hidden',
+              textOverflow: 'ellipsis'
+            }}>
+              {item.handle || `@${item.name.toLowerCase().replace(/[^a-z0-9]/g, '_')}`}
+            </div>
+          </div>
+        </div>
+
+        {/* Category Pill Badge */}
+        <span style={{
+          fontSize: 10.5,
+          fontWeight: 700,
+          textTransform: 'uppercase',
+          letterSpacing: '0.04em',
+          padding: '3px 10px',
+          borderRadius: 99,
+          background: isTeacher ? 'rgba(16, 185, 129, 0.1)' : 'rgba(79, 124, 255, 0.1)',
+          color: isTeacher ? '#047857' : '#2563EB',
+          border: isTeacher ? '1px solid rgba(16, 185, 129, 0.25)' : '1px solid rgba(79, 124, 255, 0.25)',
+          whiteSpace: 'nowrap',
+          flexShrink: 0
+        }}>
+          {isTeacher ? 'Teacher' : 'Parent'}
+        </span>
+      </div>
+
+      {/* Quote Message Body */}
+      <p style={{
+        fontSize: isMobile ? 13 : 13.5,
+        color: '#1E293B',
+        lineHeight: 1.55,
+        margin: '0 0 14px 0',
+        textAlign: 'left',
+        fontFamily: 'var(--font-sans)',
+        display: '-webkit-box',
+        WebkitLineClamp: 3,
+        WebkitBoxOrient: 'vertical',
+        overflow: 'hidden'
+      }}>
+        "{item.quote}"
+      </p>
+
+      {/* Footer: Rating Stars + Location */}
+      <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', paddingTop: 10, borderTop: '1px solid rgba(79, 124, 255, 0.08)' }}>
+        <div style={{ display: 'flex', gap: 2 }}>
+          {Array.from({ length: item.rating || 5 }).map((_, i) => (
+            <span key={i} style={{ color: '#F59E0B', fontSize: 13 }}>★</span>
+          ))}
+        </div>
+        <span style={{ fontSize: 11.5, color: '#64748B', fontWeight: 600 }}>
+          {item.location || 'Odisha'}
+        </span>
+      </div>
+    </div>
+  );
+}
 
 export default function TestimonialsSection() {
-  const [testimonials, setTestimonials] = useState(initialTestimonialsData);
-  const [typeFilter, setTypeFilter] = useState('all'); // 'all', 'text', 'video'
-  const [activeIndex, setActiveIndex] = useState(0);
-  const [readMore, setReadMore] = useState(false);
-  const [touchStart, setTouchStart] = useState(null);
-  const [touchEnd, setTouchEnd] = useState(null);
-  const [isMobile, setIsMobile] = useState(window.innerWidth < 1024);
+  const [teacherList, setTeacherList] = useState(teacherTestimonials);
+  const [parentList, setParentList] = useState(parentTestimonials);
+  const [isMobile, setIsMobile] = useState(typeof window !== 'undefined' ? window.innerWidth < 1024 : false);
   const [isDescExpanded, setIsDescExpanded] = useState(false);
+
+  // Equalize teacher item count to parent count so both tracks have identical length and speed
+  const loopedTeachers = Array.from({ length: Math.ceil(parentList.length / (teacherList.length || 1)) })
+    .flatMap(() => teacherList)
+    .slice(0, parentList.length);
 
   // Feedback Submission Modal states
   const [showFeedbackModal, setShowFeedbackModal] = useState(false);
@@ -31,68 +150,6 @@ export default function TestimonialsSection() {
     window.addEventListener('resize', handleResize);
     return () => window.removeEventListener('resize', handleResize);
   }, []);
-
-  // Filter testimonials based on selected controls
-  const filteredTestimonials = testimonials.filter(item => {
-    const matchesType = typeFilter === 'all' ? true : item.type === typeFilter;
-    return matchesType;
-  });
-
-  // Reset indices when filters change
-  useEffect(() => {
-    setActiveIndex(0);
-    setReadMore(false);
-  }, [typeFilter, testimonials]);
-
-  const activeItem = filteredTestimonials[activeIndex];
-
-  // Auto-slide test intervals
-  useEffect(() => {
-    const interval = setInterval(() => {
-      if (filteredTestimonials.length > 1) {
-        setActiveIndex(prev => (prev + 1) % filteredTestimonials.length);
-        setReadMore(false);
-      }
-    }, 8000);
-    return () => clearInterval(interval);
-  }, [filteredTestimonials]);
-
-  const handlePrev = () => {
-    if (filteredTestimonials.length === 0) return;
-    setReadMore(false);
-    setActiveIndex(prev => (prev - 1 + filteredTestimonials.length) % filteredTestimonials.length);
-  };
-
-  const handleNext = () => {
-    if (filteredTestimonials.length === 0) return;
-    setReadMore(false);
-    setActiveIndex(prev => (prev + 1) % filteredTestimonials.length);
-  };
-
-  // Swiping support for mobile
-  const minSwipeDistance = 50;
-
-  const onTouchStart = (e) => {
-    setTouchEnd(null);
-    setTouchStart(e.targetTouches[0].clientX);
-  };
-
-  const onTouchMove = (e) => {
-    setTouchEnd(e.targetTouches[0].clientX);
-  };
-
-  const onTouchEnd = () => {
-    if (!touchStart || !touchEnd) return;
-    const distance = touchStart - touchEnd;
-    const isLeftSwipe = distance > minSwipeDistance;
-    const isRightSwipe = distance < -minSwipeDistance;
-    
-    if (isLeftSwipe) {
-      handleNext();
-    } else if (isRightSwipe) {
-      handlePrev();
-    }
-  };
 
   // Submit Feedback Handler
   const handleFeedbackSubmit = async (e) => {
@@ -124,19 +181,22 @@ export default function TestimonialsSection() {
       const newFeedback = {
         id: `fb_${Date.now()}`,
         category,
-        type: 'text',
         name: fbName,
+        handle: `@${fbName.toLowerCase().replace(/[^a-z0-9]/g, '_')}`,
         role: fbRole,
         location: fbLocation,
-        verified: true,
         rating: fbRating,
+        avatar: category === 'teacher' ? '👨‍🏫' : '👨‍👩‍👧',
+        avatarBg: category === 'teacher' ? '#3B82F6' : '#7C3AED',
         quote: fbMessage,
-        fullStory: fbMessage,
         createdAt: new Date().toISOString().split('T')[0]
       };
 
-      setTestimonials(prev => [newFeedback, ...prev]);
-      setActiveIndex(0);
+      if (category === 'teacher') {
+        setTeacherList(prev => [newFeedback, ...prev]);
+      } else {
+        setParentList(prev => [newFeedback, ...prev]);
+      }
       setFeedbackSubmitted(true);
     } catch (err) {
       console.error(err);
@@ -147,24 +207,35 @@ export default function TestimonialsSection() {
   };
 
   return (
-    <section id="testimonials" className="section" style={{ background: 'linear-gradient(180deg, rgba(143, 149, 246, 0.42) 0%, #E3E8FF 50%, #FFFFFF 100%)', padding: isMobile ? '70px 0' : '120px 0', position: 'relative', overflow: 'hidden' }}>
+    <section id="testimonials" className="section" style={{ background: 'linear-gradient(180deg, #FFFFFF 0%, #F1F7FF 50%, #F8FAFF 100%)', padding: isMobile ? '70px 0' : '110px 0', position: 'relative', overflow: 'hidden' }}>
       
-      {/* Background layer */}
+      {/* Background ambient lighting */}
       <div style={{
         position: 'absolute',
         width: '600px',
         height: '600px',
         borderRadius: '50%',
-        background: 'radial-gradient(circle, rgba(116, 105, 248, 0.015) 0%, transparent 70%)',
-        bottom: '5%',
+        background: 'radial-gradient(circle, rgba(79, 124, 255, 0.05) 0%, transparent 70%)',
+        top: '10%',
         left: '-10%',
+        pointerEvents: 'none'
+      }} />
+
+      <div style={{
+        position: 'absolute',
+        width: '600px',
+        height: '600px',
+        borderRadius: '50%',
+        background: 'radial-gradient(circle, rgba(116, 105, 248, 0.05) 0%, transparent 70%)',
+        bottom: '10%',
+        right: '-10%',
         pointerEvents: 'none'
       }} />
 
       <div className="container" style={{ position: 'relative', zIndex: 1 }}>
         
         {/* Section Header */}
-        <div style={{ textAlign: 'center', maxWidth: 600, margin: '0 auto 40px' }}>
+        <div style={{ textAlign: 'center', maxWidth: 640, margin: '0 auto 36px' }}>
           <FadeUp><div className="testimonial-eyebrow">TESTIMONIALS & FEEDBACK</div></FadeUp>
           <FadeUp delay={0.1}>
             <h2 
@@ -195,14 +266,14 @@ export default function TestimonialsSection() {
             }}
           >
             <p style={{ fontSize: 16, color: '#64748B', lineHeight: 1.6, margin: 0 }}>
-                Hear directly from parents and teachers who have experienced the MentR journey and trusted us with learning.
-              </p>
-            </div>
+              Hear directly from parents and teachers who have experienced the MentR journey and trusted us with learning.
+            </p>
+          </div>
         </div>
 
         {/* Submit Feedback CTA */}
         <FadeUp delay={0.2}>
-          <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', marginBottom: 44 }}>
+          <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', marginBottom: 40 }}>
             <button
               type="button"
               onClick={() => {
@@ -234,149 +305,29 @@ export default function TestimonialsSection() {
           </div>
         </FadeUp>
 
-        {/* Main Testimonial Card (Clean without images) */}
-        <div style={{ maxWidth: 760, margin: '0 auto' }}>
-          {filteredTestimonials.length > 0 && activeItem ? (
-            <FadeUp delay={0.25}>
-              <div 
-                className="testimonial-card-surface"
-                onTouchStart={onTouchStart}
-                onTouchMove={onTouchMove}
-                onTouchEnd={onTouchEnd}
-                style={{
-                  background: '#FFFFFF',
-                  border: '1px solid rgba(79, 124, 255, 0.12)',
-                  borderRadius: 28,
-                  padding: isMobile ? '32px 20px 24px' : '40px 48px',
-                  boxShadow: '0 20px 40px -12px rgba(79, 124, 255, 0.08)',
-                  display: 'flex',
-                  flexDirection: 'column',
-                  alignItems: 'center',
-                  textAlign: 'center',
-                  height: isMobile ? 380 : 400,
-                  boxSizing: 'border-box',
-                  justifyContent: 'space-between'
-                }}
-              >
-                {/* Top Rating & Badge Group */}
-                <div>
-                  {/* Rating Stars */}
-                  <div style={{ display: 'flex', gap: 4, marginBottom: 12, justifyContent: 'center' }}>
-                    {Array.from({ length: activeItem.rating || 5 }).map((_, i) => (
-                      <span key={i} style={{ color: '#F59E0B', fontSize: 18 }}>★</span>
-                    ))}
-                  </div>
+      </div>
 
-                  {/* Verified Badge */}
-                  <div>
-                    <span className="verified-badge-pill" style={{
-                      background: activeItem.category === 'teacher' ? '#ECFDF5' : '#EFF6FF',
-                      color: activeItem.category === 'teacher' ? '#047857' : '#1D4ED8',
-                      borderColor: activeItem.category === 'teacher' ? 'rgba(16, 185, 129, 0.12)' : 'rgba(59, 130, 246, 0.12)',
-                      fontSize: 11.5,
-                      fontWeight: 700,
-                      padding: '5px 13px',
-                      borderRadius: 99,
-                      display: 'inline-flex',
-                      alignItems: 'center'
-                    }}>
-                      <CheckCircle size={11} 
-                        color={activeItem.category === 'teacher' ? '#059669' : '#2563EB'} 
-                        fill={activeItem.category === 'teacher' ? '#D1FAE5' : '#DBEAFE'} 
-                        style={{ marginRight: 5 }} 
-                      />
-                      {activeItem.category === 'teacher' ? 'Verified Teacher' : activeItem.category === 'parent' ? 'Satisfied Parent' : 'Verified User'}
-                    </span>
-                  </div>
-                </div>
+      {/* ============================================================== */}
+      {/* CONTINUOUS MARQUEE: TWO ROWS OF TRANSLUCENT CARDS */}
+      {/* ============================================================== */}
+      <div style={{ position: 'relative', width: '100%', overflow: 'hidden', display: 'flex', flexDirection: 'column', gap: 18 }}>
+        
+        {/* UPPER ROW: TEACHERS FEEDBACK (Left to Right) */}
+        <div className="marquee-wrapper">
+          <div className="marquee-track marquee-track-reverse">
+            {[...loopedTeachers, ...loopedTeachers].map((item, idx) => (
+              <FeedbackCard key={`teacher-${item.id}-${idx}`} item={item} isMobile={isMobile} />
+            ))}
+          </div>
+        </div>
 
-                {/* Middle Fixed Scrollable Text Box */}
-                <div style={{
-                  flex: 1,
-                  display: 'flex',
-                  flexDirection: 'column',
-                  justifyContent: 'center',
-                  alignItems: 'center',
-                  maxWidth: 640,
-                  width: '100%',
-                  overflowY: 'auto',
-                  margin: '12px 0',
-                  padding: '0 4px'
-                }}>
-                  <blockquote style={{
-                    fontSize: isMobile ? 16 : 19,
-                    fontWeight: 700,
-                    color: '#0F172A',
-                    lineHeight: 1.45,
-                    margin: 0,
-                    fontFamily: 'var(--font-hero)'
-                  }}>
-                    "{activeItem.quote}"
-                  </blockquote>
-
-                  {readMore && activeItem.fullStory && activeItem.fullStory !== activeItem.quote && (
-                    <p style={{ fontSize: 13.5, color: '#475569', marginTop: 10, lineHeight: 1.5 }}>
-                      {activeItem.fullStory}
-                    </p>
-                  )}
-
-                  {activeItem.fullStory && activeItem.fullStory !== activeItem.quote && (
-                    <div style={{ marginTop: 8 }}>
-                      <button onClick={() => setReadMore(!readMore)} className="read-story-btn">
-                        {readMore ? 'Read Less' : 'Read Full Story'}
-                      </button>
-                    </div>
-                  )}
-                </div>
-
-                {/* Bottom Reviewer Meta details */}
-                <div style={{ flexShrink: 0 }}>
-                  <h4 style={{ fontSize: 16.5, fontWeight: 800, color: '#1E293B', margin: '0 0 3px', fontFamily: 'var(--font-hero)' }}>
-                    {activeItem.name}
-                  </h4>
-                  <p style={{ fontSize: 13, color: '#64748B', margin: 0, fontWeight: 500 }}>
-                    {activeItem.role} {activeItem.location ? `· ${activeItem.location}` : ''}
-                  </p>
-                </div>
-
-              </div>
-            </FadeUp>
-          ) : (
-            <FadeUp delay={0.25}>
-              <div style={{ background: '#FFFFFF', borderRadius: 28, textAlign: 'center', padding: '60px 24px', color: '#64748B' }}>
-                <span style={{ fontSize: 36, display: 'block', marginBottom: 12 }}>✨</span>
-                <h4 style={{ fontSize: 18, fontWeight: 700, color: '#0F172A', marginBottom: 8 }}>Reviews Coming Soon</h4>
-                <p style={{ fontSize: 14, color: '#64748B', maxWidth: 440, margin: '0 auto', lineHeight: 1.6 }}>
-                  Be the first to share your experience with TheMentR!
-                </p>
-              </div>
-            </FadeUp>
-          )}
-
-          {/* Navigation Controls */}
-          {filteredTestimonials.length > 1 && (
-            <FadeUp delay={0.3}>
-              <div className="carousel-navigation-wrapper" style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', gap: 20, marginTop: 32 }}>
-                <button onClick={handlePrev} className="nav-arrow-btn" aria-label="Previous Testimonial">
-                  <ArrowLeft size={16} />
-                </button>
-                <div className="nav-dots-container" style={{ display: 'flex', gap: 6 }}>
-                  {filteredTestimonials.map((_, idx) => (
-                    <button 
-                      key={idx} 
-                      onClick={() => { setActiveIndex(idx); setReadMore(false); }} 
-                      className={`carousel-dot ${activeIndex === idx ? 'active' : ''}`}
-                      aria-label={`Go to testimonial ${idx + 1}`}
-                    />
-                  ))}
-                </div>
-                <button onClick={handleNext} className="nav-arrow-btn" aria-label="Next Testimonial">
-                  <ArrowRight size={16} />
-                </button>
-              </div>
-            </FadeUp>
-          )}
-
+        {/* LOWER ROW: PARENTS FEEDBACK (Right to Left) */}
+        <div className="marquee-wrapper">
+          <div className="marquee-track marquee-track-forward">
+            {[...parentList, ...parentList].map((item, idx) => (
+              <FeedbackCard key={`parent-${item.id}-${idx}`} item={item} isMobile={isMobile} />
+            ))}
+          </div>
         </div>
 
       </div>
@@ -593,7 +544,7 @@ export default function TestimonialsSection() {
         </div>
       )}
 
-      {/* Testimonials Premium Stylesheet */}
+      {/* Testimonials Marquee & Eyebrow Styles */}
       <style>{`
         .testimonial-eyebrow {
           font-family: var(--font-sans);
@@ -605,75 +556,57 @@ export default function TestimonialsSection() {
           margin-bottom: 12px;
         }
 
-        .segmented-control {
-          background: rgba(15, 23, 42, 0.04);
-          border: 1px solid rgba(15, 23, 42, 0.05);
-          padding: 4px;
-          border-radius: 99px;
+        @keyframes marquee-forward {
+          0% {
+            transform: translate3d(0, 0, 0);
+          }
+          100% {
+            transform: translate3d(-50%, 0, 0);
+          }
+        }
+
+        @keyframes marquee-reverse {
+          0% {
+            transform: translate3d(-50%, 0, 0);
+          }
+          100% {
+            transform: translate3d(0, 0, 0);
+          }
+        }
+
+        .marquee-wrapper {
+          overflow: hidden;
+          width: 100%;
+          position: relative;
+          padding: 8px 0;
+          mask-image: linear-gradient(to right, transparent 0%, black 5%, black 95%, transparent 100%);
+          -webkit-mask-image: linear-gradient(to right, transparent 0%, black 5%, black 95%, transparent 100%);
+        }
+
+        .marquee-track {
           display: flex;
-          gap: 2px;
-        }
-        .filter-btn {
-          font-family: var(--font-sans);
-          font-size: 13px;
-          font-weight: 600;
-          color: #64748B;
-          padding: 8px 18px;
-          border-radius: 99px;
-          border: none;
-          cursor: pointer;
-          background: transparent;
-          transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
-        }
-        .filter-btn.active {
-          background: #FFFFFF;
-          color: #0F172A;
-          box-shadow: 0 4px 12px rgba(15, 23, 42, 0.06);
+          gap: 18px;
+          width: max-content;
+          will-change: transform;
         }
 
-        .read-story-btn {
-          background: none;
-          border: none;
-          color: #4F7CFF;
-          font-weight: 700;
-          font-size: 13px;
-          cursor: pointer;
-          padding: 0;
-          text-decoration: underline;
+        .marquee-track-forward {
+          animation: marquee-forward 95s linear infinite;
         }
 
-        .carousel-dot {
-          width: 8px;
-          height: 8px;
-          border-radius: 50%;
-          background: #CBD5E1;
-          border: none;
-          cursor: pointer;
-          padding: 0;
-          transition: all 0.25s ease;
-        }
-        .carousel-dot.active {
-          background: #4F7CFF;
-          width: 24px;
-          border-radius: 99px;
+        .marquee-track-reverse {
+          animation: marquee-reverse 95s linear infinite;
         }
 
-        .nav-arrow-btn {
-          width: 36px;
-          height: 36px;
-          border-radius: 50%;
-          background: #FFFFFF;
-          border: 1px solid rgba(79, 124, 255, 0.15);
-          color: #475569;
-          display: flex;
-          align-items: center;
-          justify-content: center;
-          cursor: pointer;
-          transition: all 0.25s ease;
+        .marquee-wrapper:hover .marquee-track {
+          animation-play-state: paused;
         }
-        .nav-arrow-btn:hover {
-          background: #4F7CFF;
-          color: #FFFFFF;
+
+        .feedback-marquee-card:hover {
+          transform: translateY(-4px);
+          background: rgba(255, 255, 255, 0.92) !important;
+          border-color: rgba(79, 124, 255, 0.38) !important;
+          box-shadow: 0 16px 36px -6px rgba(79, 124, 255, 0.16), 0 0 0 1px rgba(79, 124, 255, 0.22) !important;
         }
       `}</style>
     </section>

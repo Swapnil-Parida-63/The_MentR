@@ -789,7 +789,7 @@ export default function BlogsPage() {
 
   return (
     <div className="section subpage-wrapper journal-page-root" style={{ 
-      background: 'linear-gradient(180deg, #FAFBFD 0%, #FFFFFF 30%, #F4F7FB 100%)', 
+      background: 'linear-gradient(180deg, #FFFFFF 0%, #F8FAFF 40%, #FFFFFF 100%)', 
       minHeight: '100vh', 
       paddingTop: '130px', 
       paddingBottom: '100px',

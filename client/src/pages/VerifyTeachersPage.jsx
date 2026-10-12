@@ -146,7 +146,7 @@ export default function VerifyTeachersPage() {
   }, [eligibleTeachers]);
 
   return (
-    <div style={{ position: 'relative', width: '100%', minHeight: '100vh', background: 'linear-gradient(180deg, #F8FAFC 0%, #EEF2FF 50%, #E0E7FF 100%)', paddingBottom: 80 }}>
+    <div style={{ position: 'relative', width: '100%', minHeight: '100vh', background: 'linear-gradient(180deg, #F8FAFF 0%, #FFFFFF 50%, #F4F0FF 100%)', paddingBottom: 80 }}>
       <SEO 
         title="Verified Teachers | TheMentR"
         description="Celebrating the verified mentors of TheMentR who have completed 100+ teaching hours. Happy Teachers' Day!"

@@ -60,8 +60,6 @@ const kmsChunkSchema = new mongoose.Schema(
   }
 );
 
-kmsChunkSchema.index({ 'metadata.category': 1 });
-
 const KmsChunk = mongoose.models.KmsChunk || mongoose.model('KmsChunk', kmsChunkSchema);
 
 module.exports = { KmsChunk, kmsChunkSchema };

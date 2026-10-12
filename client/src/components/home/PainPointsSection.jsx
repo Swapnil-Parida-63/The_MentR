@@ -133,7 +133,7 @@ export default function PainPointsSection() {
         position: 'relative', 
         overflow: 'hidden',
         fontFamily: 'var(--font-sans)',
-        background: 'transparent'
+        background: 'linear-gradient(180deg, #F8FAFF 0%, #FFFFFF 50%, #F8FAFF 100%)'
       }}
     >
       {/* Decorative ambient subtle glows */}

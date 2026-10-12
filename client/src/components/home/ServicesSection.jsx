@@ -269,7 +269,7 @@ export default function ServicesSection() {
     <section
       id="services"
       style={{
-        background: 'linear-gradient(180deg, #F0F4FF 0%, #F8FAFC 50%, #FFFFFF 100%)',
+        background: 'linear-gradient(180deg, #F1F7FF 0%, #EDF2FF 50%, #F1F7FF 100%)',
         padding: isMobile ? '56px 0' : '88px 0',
         position: 'relative',
         overflow: 'hidden'
@@ -284,7 +284,7 @@ export default function ServicesSection() {
           width: '450px',
           height: '450px',
           borderRadius: '50%',
-          background: 'radial-gradient(circle, rgba(186, 230, 253, 0.35) 0%, transparent 70%)',
+          background: 'radial-gradient(circle, rgba(79, 124, 255, 0.08) 0%, transparent 70%)',
           filter: 'blur(50px)',
           pointerEvents: 'none'
         }}
@@ -297,7 +297,7 @@ export default function ServicesSection() {
           width: '500px',
           height: '500px',
           borderRadius: '50%',
-          background: 'radial-gradient(circle, rgba(233, 213, 255, 0.35) 0%, transparent 70%)',
+          background: 'radial-gradient(circle, rgba(116, 105, 248, 0.05) 0%, transparent 70%)',
           filter: 'blur(60px)',
           pointerEvents: 'none'
         }}
@@ -583,10 +583,10 @@ export default function ServicesSection() {
               gridColumn: isMobile ? 'span 1' : 'span 2',
               background: '#FFFFFF',
               borderRadius: 24,
-              border: '1.2px solid rgba(167, 243, 208, 0.7)',
+              border: '1.2px solid rgba(79, 124, 255, 0.22)',
               boxShadow:
                 hoveredCard === 'matching'
-                  ? '0 22px 40px -8px rgba(52, 211, 153, 0.2), 0 4px 12px -2px rgba(0, 0, 0, 0.03)'
+                  ? '0 22px 40px -8px rgba(79, 124, 255, 0.14), 0 4px 12px -2px rgba(0, 0, 0, 0.03)'
                   : '0 8px 24px -4px rgba(15, 23, 42, 0.04), 0 2px 6px -1px rgba(15, 23, 42, 0.02)',
               padding: isMobile ? '24px 20px' : '28px 32px',
               display: 'flex',
@@ -601,7 +601,7 @@ export default function ServicesSection() {
               transition: 'all 0.35s cubic-bezier(0.16, 1, 0.3, 1)'
             }}
           >
-            {/* Mint / Cyan Mesh Glow */}
+            {/* Subtle Blue & Violet Mesh Glow */}
             <div
               style={{
                 position: 'absolute',
@@ -609,7 +609,7 @@ export default function ServicesSection() {
                 right: 0,
                 bottom: 0,
                 width: isMobile ? '100%' : '60%',
-                background: 'radial-gradient(ellipse at 80% 50%, rgba(167, 243, 208, 0.4) 0%, rgba(186, 230, 253, 0.25) 50%, transparent 80%)',
+                background: 'radial-gradient(ellipse at 80% 50%, rgba(79, 124, 255, 0.12) 0%, rgba(116, 105, 248, 0.06) 50%, transparent 80%)',
                 pointerEvents: 'none',
                 zIndex: 0
               }}

@@ -580,7 +580,19 @@ export default function ShowcaseSection({ isStandalonePage = false }) {
   }, [activeTab]);
 
   return (
-    <section id="showcase" className="section" style={{ background: 'linear-gradient(180deg, #FFFFFF 0%, #E3E8FF 50%, rgba(143, 149, 246, 0.42) 100%)', position: 'relative', overflow: 'hidden', padding: isMobile ? '40px 0' : '50px 0' }}>
+    <section 
+      id="showcase" 
+      className="section" 
+      style={{ 
+        background: activeTab === 3 
+          ? 'linear-gradient(180deg, #F1F7FF 0%, #EDF2FF 50%, #F8FAFF 100%)' 
+          : 'linear-gradient(180deg, #FFFFFF 0%, #F8FAFF 50%, #FFFFFF 100%)', 
+        position: 'relative', 
+        overflow: 'hidden', 
+        padding: isMobile ? '40px 0' : '50px 0',
+        transition: 'background 0.4s ease'
+      }}
+    >
       
       {/* Background layer: Subtle warm glow */}
       <div style={{
@@ -588,7 +600,7 @@ export default function ShowcaseSection({ isStandalonePage = false }) {
         width: '700px',
         height: '700px',
         borderRadius: '50%',
-        background: 'radial-gradient(circle, rgba(79, 124, 255, 0.02) 0%, transparent 70%)',
+        background: 'radial-gradient(circle, rgba(79, 124, 255, 0.05) 0%, transparent 70%)',
         top: '20%',
         left: '15%',
         pointerEvents: 'none',
@@ -1201,6 +1213,17 @@ export default function ShowcaseSection({ isStandalonePage = false }) {
           align-items: center;
           justify-content: center;
           position: relative;
+        }
+        .showcase-mockup-col::before {
+          content: '';
+          position: absolute;
+          width: 320px;
+          height: 320px;
+          border-radius: 50%;
+          background: radial-gradient(circle, rgba(79, 124, 255, 0.12) 0%, rgba(241, 247, 255, 0.45) 50%, transparent 75%);
+          filter: blur(40px);
+          pointer-events: none;
+          z-index: 0;
         }
 
         /* Phone mockup frame */

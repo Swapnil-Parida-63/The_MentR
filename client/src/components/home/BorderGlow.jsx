@@ -156,7 +156,10 @@ const BorderGlow = ({
   const isLightBg = backgroundColor.toLowerCase().includes('white') ||
                     backgroundColor.toLowerCase().includes('#fff') ||
                     backgroundColor.toLowerCase().includes('neutral') ||
-                    backgroundColor.toLowerCase().includes('#edece7') ||
+                    backgroundColor.toLowerCase().includes('#f8faff') ||
+                    backgroundColor.toLowerCase().includes('#f1f7ff') ||
+                    backgroundColor.toLowerCase().includes('#edf2ff') ||
+                    backgroundColor.toLowerCase().includes('#f4f0ff') ||
                     backgroundColor.toLowerCase().includes('rgba(255, 255, 255') ||
                     backgroundColor.toLowerCase().includes('#fafbff') ||
                     backgroundColor.toLowerCase().includes('#f6f8fd') ||

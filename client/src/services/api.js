@@ -77,6 +77,10 @@ export const pricingAPI = {
   submit: (data) => api.post('/pricing-leads', data),
 };
 
+export const careerAPI = {
+  submit: (data) => api.post('/career-leads', data),
+};
+
 export const seoAPI = {
   getLandingPage: (params) => api.get('/seo/landing-page', { params }),
   getSitemapData: () => api.get('/seo/sitemap-data'),
