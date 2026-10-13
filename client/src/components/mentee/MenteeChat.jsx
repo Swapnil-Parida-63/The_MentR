@@ -5,7 +5,7 @@ import { menteeAPI } from '../../services/api';
 
 const INITIAL_GREETING = `Hello! 👋
 
-I am Mentee.
+I am Mantee.
 
 I'm here to help parents, students, and teachers with everything related to TheMentR.
 
@@ -73,7 +73,7 @@ export default function MenteeChat() {
       const replyContent =
         res.data?.reply ||
         res.data?.data?.reply ||
-        "Thank you for contacting Mentee! I'm here to help you navigate MentR.";
+        "Thank you for contacting Mantee! I'm here to help you navigate TheMentR.";
 
       const suggestedActions =
         res.data?.suggestedActions ||

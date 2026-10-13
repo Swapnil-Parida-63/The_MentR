@@ -48,7 +48,7 @@ export default function TypingIndicator() {
         }}
       >
         <span style={{ fontSize: 12.5, fontWeight: 600, color: '#64748B', fontFamily: 'var(--font-sans)' }}>
-          Mentee is thinking
+          Mantee is thinking
         </span>
 
         <div style={{ display: 'flex', alignItems: 'center', gap: 4 }}>

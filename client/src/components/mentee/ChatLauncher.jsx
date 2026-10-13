@@ -75,7 +75,7 @@ export default function ChatLauncher({ isOpen, onClick, unreadCount = 0 }) {
             Hi 👋
           </div>
           <div style={{ fontSize: 12.5, fontWeight: 600, color: '#475569', lineHeight: 1.4 }}>
-            I'm Mentee, how can I help you?
+            I'm Mantee, how can I help you?
           </div>
           {/* Speech bubble pointer tail */}
           <div
@@ -96,7 +96,7 @@ export default function ChatLauncher({ isOpen, onClick, unreadCount = 0 }) {
       {/* Floating Launcher Action Button */}
       <button
         onClick={onClick}
-        aria-label={isOpen ? 'Close Mentee AI Assistant' : 'Open Mentee AI Assistant'}
+        aria-label={isOpen ? 'Close Mantee AI Assistant' : 'Open Mantee AI Assistant'}
         className="mentee-launcher-btn"
         style={{
           position: 'fixed',
@@ -126,7 +126,7 @@ export default function ChatLauncher({ isOpen, onClick, unreadCount = 0 }) {
           <div style={{ width: '100%', height: '100%', borderRadius: '50%', overflow: 'hidden', position: 'relative', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
             <img 
               src={`${import.meta.env.BASE_URL}Icon sized mascot.webp`} 
-              alt="Mentee AI" 
+              alt="Mantee AI" 
               style={{ width: '84%', height: '84%', objectFit: 'contain', display: 'block' }} 
               onError={(e) => {
                 e.target.style.display = 'none';

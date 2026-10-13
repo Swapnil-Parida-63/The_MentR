@@ -89,12 +89,12 @@ export default function ChatHeader({ onClose, onReset, isChatActive = false, onB
           >
             <img
               src={`${import.meta.env.BASE_URL}Icon sized mascot.webp`}
-              alt="Mentee Icon"
+              alt="Mantee Icon"
               style={{ width: '88%', height: '88%', objectFit: 'contain', display: 'block' }}
             />
           </div>
           <span style={{ fontSize: 14.5, fontWeight: 800, color: '#3730A3', letterSpacing: '-0.015em' }}>
-            Mentee AI
+            Mantee AI
           </span>
           <span
             style={{
