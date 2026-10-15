@@ -10,6 +10,11 @@ const ClickSpark = ({
   extraScale = 1.0,
   children
 }) => {
+  const isTouchDevice = typeof window !== 'undefined' && ('ontouchstart' in window || (navigator.maxTouchPoints && navigator.maxTouchPoints > 0));
+  if (isTouchDevice) {
+    return <div style={{ position: 'relative', width: '100%', minHeight: '100%' }}>{children}</div>;
+  }
+
   const canvasRef = useRef(null);
   const sparksRef = useRef([]);
   const startTimeRef = useRef(null);

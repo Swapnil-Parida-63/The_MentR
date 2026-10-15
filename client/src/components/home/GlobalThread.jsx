@@ -56,10 +56,17 @@ export default function GlobalThread() {
   const [viewportHeight, setViewportHeight] = useState(typeof window !== 'undefined' ? window.innerHeight : 1000);
 
   useEffect(() => {
+    if (typeof window !== 'undefined' && window.innerWidth < 1024) {
+      setIsMobile(true);
+      return;
+    }
+
     let ticking = false;
 
     const updateDimensions = () => {
-      setIsMobile(window.innerWidth < 1024);
+      const mobile = window.innerWidth < 1024;
+      setIsMobile(mobile);
+      if (mobile) return;
       setHeight(document.body.scrollHeight || 12000);
       setViewportHeight(window.innerHeight);
     };
@@ -93,6 +100,10 @@ export default function GlobalThread() {
       if (ro) ro.disconnect();
     };
   }, []);
+
+  if (isMobile) {
+    return null;
+  }
 
   const step = 600;
   const leftAmplitudes = [90, 130, 70, 110, 80, 120, 70, 100, 80, 130, 90, 110, 75, 115, 85, 125, 70, 105, 90, 120];

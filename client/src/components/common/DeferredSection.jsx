@@ -2,7 +2,7 @@ import { useState, useEffect, useRef } from 'react';
 
 export default function DeferredSection({
   children,
-  rootMargin = '800px 0px',
+  rootMargin = '300px 0px',
   minHeight = '400px',
   id
 }) {

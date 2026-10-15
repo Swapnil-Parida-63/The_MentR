@@ -1,5 +1,4 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
 import { useModal } from '../../context/ModalContext';
 import { 
   ShieldCheck, 
@@ -77,15 +76,13 @@ function HeroJourneyDoodles({ isMobile = false }) {
         style={{ position: 'absolute', inset: 0, pointerEvents: 'none' }}
       >
         {/* Continuous Dotted Path */}
-        <motion.path 
+        <path 
           d="M 120,720 C 180,480 320,250 680,180 C 800,160 920,140 980,180 C 1030,200 1050,280 1020,340 C 980,420 850,380 880,460 C 910,500 950,550 850,650 C 780,720 900,820 1050,820 C 1150,820 1220,780 1300,750"
           stroke="url(#doodleGrad)"
           strokeWidth="2"
           strokeDasharray="6,8"
           fill="none"
-          initial={{ pathLength: 0 }}
-          animate={{ pathLength: 1 }}
-          transition={{ duration: 2.5, ease: 'easeInOut' }}
+          className="hero-doodle-path"
           style={{ opacity: 0.3 }}
         />
 
@@ -373,9 +370,9 @@ function EcosystemAnalyticsGrid({ teacherCount, teachingHours, isMobile = false 
       marginTop: isMobile ? 12 : 0
     }}>
       {cards.map((card, idx) => (
-        <motion.div
+        <div
           key={idx}
-          whileHover={isMobile ? {} : { y: -5, boxShadow: '0 12px 30px rgba(79, 124, 255, 0.08)' }}
+          className="hero-stat-card"
           style={{
             background: '#FFFFFF',
             borderRadius: '20px',
@@ -428,7 +425,7 @@ function EcosystemAnalyticsGrid({ teacherCount, teachingHours, isMobile = false 
               {card.desc}
             </p>
           )}
-        </motion.div>
+        </div>
       ))}
     </div>
   );
@@ -489,12 +486,20 @@ export default function HeroSection() {
     return () => window.removeEventListener('resize', handleResize);
   }, []);
 
-  // Infinite Slideshow Crossfade Timer (Displays ~2.8s per slide, 800ms transition)
+  // Infinite Slideshow Crossfade Timer (Displays ~5.5s per slide, 800ms transition)
+  // Initial delay of 6.5s lets the first slide settle stably for LCP and reader comprehension
   useEffect(() => {
-    const timer = setInterval(() => {
+    let timer = null;
+    const initialDelay = setTimeout(() => {
       setActiveSlide((prev) => (prev + 1) % slides.length);
-    }, 2800);
-    return () => clearInterval(timer);
+      timer = setInterval(() => {
+        setActiveSlide((prev) => (prev + 1) % slides.length);
+      }, 5500);
+    }, 6500);
+    return () => {
+      clearTimeout(initialDelay);
+      if (timer) clearInterval(timer);
+    };
   }, [slides.length]);
 
   const getTeacherCount = () => {
@@ -517,13 +522,11 @@ export default function HeroSection() {
       {/* SECTION 1 — Fullscreen Cinematic Slideshow Hero (100vh)              */}
       {/* =================================================================== */}
       <section 
+        className="hero-fullscreen-section"
         style={{ 
           height: '100vh', 
-          minHeight: isMobile ? '640px' : '720px', 
           width: '100%', 
           position: 'relative', 
-          display: 'flex', 
-          alignItems: 'center', 
           overflow: 'hidden',
           background: '#0F172A'
         }}
@@ -583,16 +586,15 @@ export default function HeroSection() {
 
         {/* Hero Content Container */}
         <div 
-          className="container" 
+          className="container hero-content-container" 
           style={{ 
             position: 'relative', 
             zIndex: 10, 
             width: '100%', 
-            paddingTop: isMobile ? '70px' : '40px',
             color: '#FFFFFF'
           }}
         >
-          <div style={{ maxWidth: isMobile ? '100%' : '640px', textAlign: 'left' }}>
+          <div className="hero-content-inner">
             
             {/* Small Eyebrow */}
             <div 
@@ -630,10 +632,10 @@ export default function HeroSection() {
             >
               {/* Large Minimal Heading */}
               <h1 
+                className="hero-heading"
                 style={{
                   fontFamily: 'var(--font-hero)',
                   fontWeight: 800,
-                  fontSize: isMobile ? 'clamp(30px, 7.5vw, 42px)' : 'clamp(40px, 3.8vw, 60px)',
                   lineHeight: 1.15,
                   letterSpacing: '-0.035em',
                   color: '#FFFFFF',
@@ -648,7 +650,7 @@ export default function HeroSection() {
                   WebkitBackgroundClip: 'text',
                   WebkitTextFillColor: 'transparent'
                 }}>
-                  Here is TheMentR, where your search ends.
+                  Here is TheMentR,<br />where your search ends.
                 </span>
               </h1>
 
@@ -665,10 +667,10 @@ export default function HeroSection() {
                 }}
               >
                 <p 
+                  className="hero-description-text"
                   style={{
                     fontFamily: 'var(--font-body)',
                     fontWeight: 400,
-                    fontSize: isMobile ? 14.5 : 16.5,
                     color: 'rgba(241, 245, 249, 0.92)',
                     lineHeight: 1.65,
                     maxWidth: '510px',
@@ -754,12 +756,9 @@ export default function HeroSection() {
           className="hero-scroll-indicator"
         >
           <span style={{ fontSize: 11, letterSpacing: '0.1em', textTransform: 'uppercase', fontWeight: 600 }}>Explore Story</span>
-          <motion.div
-            animate={{ y: [0, 5, 0] }}
-            transition={{ repeat: Infinity, duration: 1.8, ease: 'easeInOut' }}
-          >
+          <div className="hero-scroll-cue-icon">
             <ChevronDown size={18} />
-          </motion.div>
+          </div>
         </div>
       </section>
 
@@ -879,22 +878,22 @@ export default function HeroSection() {
             >
               Why it works
             </h2>
-            {(!isMobile || whyDescOpen) && (
-              <p style={{
+            <p 
+              className={`hero-why-desc ${whyDescOpen ? 'open' : ''}`}
+              style={{
                 fontFamily: 'var(--font-body)',
                 fontSize: isMobile ? 14 : 16,
                 color: '#1E293B',
                 fontWeight: 600,
                 lineHeight: 1.65,
                 margin: 0,
-                background: isMobile ? 'rgba(255,255,255,0.85)' : 'transparent',
                 borderRadius: isMobile ? 10 : 0,
                 padding: isMobile ? '8px 14px' : 0,
                 transition: 'all 0.3s ease'
-              }}>
-                A complete educational ecosystem built around verified teachers, diagnostic assessment, and continuous progress.
-              </p>
-            )}
+              }}
+            >
+              A complete educational ecosystem built around verified teachers, diagnostic assessment, and continuous progress.
+            </p>
           </div>
 
           {/* DESKTOP COMPOSITION */}
@@ -949,6 +948,78 @@ export default function HeroSection() {
 
       {/* Scoped Button & Hover Animations */}
       <style>{`
+        .hero-fullscreen-section {
+          min-height: 720px;
+          display: flex;
+          align-items: center;
+        }
+        .hero-content-container {
+          padding-top: 40px;
+        }
+        .hero-content-inner {
+          max-width: 640px;
+          text-align: left;
+        }
+        .hero-heading {
+          font-size: clamp(40px, 3.8vw, 60px);
+        }
+        .hero-description-text {
+          font-size: 16.5px;
+        }
+        .hero-why-desc {
+          display: block;
+          background: transparent;
+        }
+        @media (max-width: 1023px) {
+          .hero-fullscreen-section {
+            min-height: 640px;
+            display: flex;
+            align-items: flex-start;
+          }
+          .hero-content-container {
+            padding-top: 80px;
+          }
+          .hero-content-inner {
+            max-width: 100%;
+          }
+          .hero-heading {
+            font-size: clamp(30px, 7.5vw, 42px);
+          }
+          .hero-description-text {
+            font-size: 14.5px;
+          }
+          .hero-why-desc {
+            display: none;
+            background: rgba(255, 255, 255, 0.85);
+          }
+          .hero-why-desc.open {
+            display: block;
+          }
+        }
+        .hero-stat-card {
+          transition: all 0.3s ease;
+        }
+        @media (min-width: 1024px) {
+          .hero-stat-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 12px 30px rgba(79, 124, 255, 0.08) !important;
+          }
+        }
+        .hero-scroll-cue-icon {
+          animation: heroBounce 1.8s ease-in-out infinite;
+        }
+        @keyframes heroBounce {
+          0%, 100% { transform: translateY(0); }
+          50% { transform: translateY(5px); }
+        }
+        .hero-doodle-path {
+          stroke-dasharray: 6,8;
+          stroke-dashoffset: 2000;
+          animation: heroDoodleDraw 2.5s ease-in-out forwards;
+        }
+        @keyframes heroDoodleDraw {
+          to { stroke-dashoffset: 0; }
+        }
         .btn-hero-slideshow-primary:hover {
           transform: translateY(-2px);
           box-shadow: 0 12px 28px rgba(37, 99, 235, 0.6) !important;

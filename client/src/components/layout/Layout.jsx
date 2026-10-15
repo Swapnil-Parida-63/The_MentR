@@ -5,11 +5,13 @@ import Footer from './Footer';
 import Chatbot from '../Chatbot';
 import ClickSpark from './ClickSpark';
 import AnnouncementTicker from './AnnouncementTicker';
+import { useModal } from '../../context/ModalContext';
 
 const FormModal = lazy(() => import('../home/FormModal'));
 
 export default function Layout() {
   const location = useLocation();
+  const { activeModal } = useModal();
   const isLandingPage = location.pathname === '/';
   const isPricingPage = location.pathname === '/pricing';
   const isVerifyPage = location.pathname.startsWith('/verify');
@@ -41,9 +43,11 @@ export default function Layout() {
         {!isPricingPage && <Footer style={{ position: 'relative', zIndex: 1 }} />}
         {!isVerifyPage && <Chatbot />}
         {!isVerifyPage && <AnnouncementTicker />}
-        <Suspense fallback={null}>
-          <FormModal />
-        </Suspense>
+        {activeModal && (
+          <Suspense fallback={null}>
+            <FormModal />
+          </Suspense>
+        )}
       </div>
     </ClickSpark>
   );
