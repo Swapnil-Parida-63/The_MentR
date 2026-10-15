@@ -102,8 +102,12 @@ export default function MessageBubble({ message, onActionClick }) {
             <User size={15} />
           ) : (
             <img 
-              src={`${import.meta.env.BASE_URL}Icon sized mascot.webp`} 
+              src={`${import.meta.env.BASE_URL}mascot-thumb.webp`} 
               alt="Mentee Logo" 
+              width="28"
+              height="28"
+              loading="lazy"
+              decoding="async"
               style={{ width: '88%', height: '88%', objectFit: 'contain', display: 'block' }} 
               onError={(e) => {
                 e.target.style.display = 'none';

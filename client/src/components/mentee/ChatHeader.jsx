@@ -88,8 +88,12 @@ export default function ChatHeader({ onClose, onReset, isChatActive = false, onB
             }}
           >
             <img
-              src={`${import.meta.env.BASE_URL}Icon sized mascot.webp`}
+              src={`${import.meta.env.BASE_URL}mascot-thumb.webp`}
               alt="Mentee Icon"
+              width="30"
+              height="30"
+              loading="lazy"
+              decoding="async"
               style={{ width: '88%', height: '88%', objectFit: 'contain', display: 'block' }}
             />
           </div>

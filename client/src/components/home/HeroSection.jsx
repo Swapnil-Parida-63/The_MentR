@@ -305,12 +305,14 @@ function HeroEcosystemImage() {
           src={`${import.meta.env.BASE_URL}Why it works.webp`}
           alt="TheMentR Educational Ecosystem - Why it works"
           loading="lazy"
+          decoding="async"
           width="1600"
           height="1066"
           style={{
             width: '100%',
             maxWidth: '1570px',
             height: 'auto',
+            aspectRatio: '1600 / 1066',
             objectFit: 'contain',
             mixBlendMode: 'multiply',
             WebkitMaskImage: 'radial-gradient(ellipse at 60% 50%, rgba(0, 0, 0, 1) 40%, rgba(0, 0, 0, 0) 90%)',
@@ -464,14 +466,18 @@ export default function HeroSection() {
 
   const slides = isMobile ? mobileSlides : desktopSlides;
 
-  // Intelligent progressive slide preloader: preloads ONLY the next upcoming slide for the current device mode
+  // Progressive slide tracker: only mount slide 0 initially, then mount upcoming slide before transition
+  const [loadedSlideIndices, setLoadedSlideIndices] = useState(() => new Set([0]));
+
   useEffect(() => {
-    const nextIndex = (activeSlide + 1) % slides.length;
-    const nextSrc = slides[nextIndex];
-    if (nextSrc) {
-      const img = new Image();
-      img.src = nextSrc;
-    }
+    setLoadedSlideIndices(prev => {
+      const nextIdx = (activeSlide + 1) % slides.length;
+      if (prev.has(activeSlide) && prev.has(nextIdx)) return prev;
+      const updated = new Set(prev);
+      updated.add(activeSlide);
+      updated.add(nextIdx);
+      return updated;
+    });
   }, [activeSlide, slides]);
 
   // Responsive listener
@@ -490,9 +496,6 @@ export default function HeroSection() {
     }, 2800);
     return () => clearInterval(timer);
   }, [slides.length]);
-
-  // Description initially hidden until hover (desktop) or tap (mobile)
-  // (Timer removed per user request)
 
   const getTeacherCount = () => {
     return 756;
@@ -526,33 +529,39 @@ export default function HeroSection() {
         }}
       >
         {/* Background Fullscreen Slideshow Layers with Smooth 800ms Crossfade */}
-        {slides.map((src, index) => (
-          <div
-            key={src}
-            style={{
-              position: 'absolute',
-              inset: 0,
-              opacity: index === activeSlide ? 1 : 0,
-              transition: 'opacity 800ms cubic-bezier(0.4, 0, 0.2, 1)',
-              willChange: 'opacity',
-              zIndex: 1
-            }}
-          >
-            <img
-              src={src}
-              alt={`TheMentR home teacher guiding student - story ${index + 1}`}
-              loading={index === 0 ? 'eager' : 'lazy'}
-              fetchPriority={index === 0 ? 'high' : 'auto'}
+        {slides.map((src, index) => {
+          if (!loadedSlideIndices.has(index)) return null;
+          return (
+            <div
+              key={src}
               style={{
-                width: '100%',
-                height: '100%',
-                objectFit: 'cover',
-                objectPosition: 'center',
-                filter: isMobile ? 'brightness(0.96) contrast(1.05)' : 'brightness(0.92) contrast(1.05)'
+                position: 'absolute',
+                inset: 0,
+                opacity: index === activeSlide ? 1 : 0,
+                transition: 'opacity 800ms cubic-bezier(0.4, 0, 0.2, 1)',
+                willChange: 'opacity',
+                zIndex: 1
               }}
-            />
-          </div>
-        ))}
+            >
+              <img
+                src={src}
+                alt={`TheMentR home teacher guiding student - story ${index + 1}`}
+                loading={index === 0 ? 'eager' : 'lazy'}
+                fetchPriority={index === 0 ? 'high' : 'low'}
+                decoding={index === 0 ? 'sync' : 'async'}
+                width={isMobile ? 750 : 1600}
+                height={isMobile ? 1333 : 900}
+                style={{
+                  width: '100%',
+                  height: '100%',
+                  objectFit: 'cover',
+                  objectPosition: 'center',
+                  filter: isMobile ? 'brightness(0.96) contrast(1.05)' : 'brightness(0.92) contrast(1.05)'
+                }}
+              />
+            </div>
+          );
+        })}
 
         {/* Color Treatment & Vignette Overlays (Soft Blue + Subtle Violet + Text Dark Gradient) */}
         <div 
@@ -811,11 +820,13 @@ export default function HeroSection() {
               src={`${import.meta.env.BASE_URL}ChatGPT Image Jul 31, 2026, 01_55_40 AM.webp`} 
               alt="" 
               loading="lazy"
+              decoding="async"
               width="800"
               height="533"
               style={{
                 width: '100%',
                 height: '100%',
+                aspectRatio: '800 / 533',
                 objectFit: 'contain',
                 transform: 'translate(0%, -10%)',
                 opacity: 0.5,

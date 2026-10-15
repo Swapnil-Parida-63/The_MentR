@@ -125,8 +125,12 @@ export default function ChatLauncher({ isOpen, onClick, unreadCount = 0 }) {
         ) : (
           <div style={{ width: '100%', height: '100%', borderRadius: '50%', overflow: 'hidden', position: 'relative', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
             <img 
-              src={`${import.meta.env.BASE_URL}Icon sized mascot.webp`} 
+              src={`${import.meta.env.BASE_URL}mascot-thumb.webp`} 
               alt="Mentee AI" 
+              width="48"
+              height="48"
+              loading="lazy"
+              decoding="async"
               style={{ width: '84%', height: '84%', objectFit: 'contain', display: 'block' }} 
               onError={(e) => {
                 e.target.style.display = 'none';

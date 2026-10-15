@@ -402,16 +402,20 @@ const GlobalSpotlight = ({
       const cards = gridRef.current.querySelectorAll('.card');
 
       if (!mouseInside) {
-        gsap.to(spotlightRef.current, {
-          opacity: 0,
-          duration: 0.3,
-          ease: 'power2.out'
-        });
-        cards.forEach(card => {
-          card.style.setProperty('--glow-intensity', '0');
-        });
+        if (isInsideSection.current) {
+          isInsideSection.current = false;
+          gsap.to(spotlightRef.current, {
+            opacity: 0,
+            duration: 0.3,
+            ease: 'power2.out'
+          });
+          cards.forEach(card => {
+            card.style.setProperty('--glow-intensity', '0');
+          });
+        }
         return;
       }
+      isInsideSection.current = true;
 
       const { proximity, fadeDistance } = calculateSpotlightValues(spotlightRadius);
       let minDistance = Infinity;
@@ -695,6 +699,10 @@ const MagicBento = ({
                         key={i} 
                         src={src} 
                         alt="" 
+                        loading="lazy"
+                        decoding="async"
+                        width="500"
+                        height="375"
                         style={{ width: '100%', height: '100%', objectFit: 'cover' }} 
                         className="pointer-events-none select-none"
                       />
