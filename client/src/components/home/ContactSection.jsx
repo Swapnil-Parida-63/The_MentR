@@ -173,6 +173,7 @@ export default function ContactSection({ background = 'white', isStandalonePage 
                 style={{ marginTop: 32, overflow: 'hidden' }}
               >
                 <iframe 
+                  title="TheMentR Office Location Map"
                   src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d5292.447848159905!2d85.86468450667138!3d20.306181982195294!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3a190b5211172741%3A0xd48005ed35a54455!2sTheMentR!5e0!3m2!1sen!2sin!4v1783924246452!5m2!1sen!2sin" 
                   width="100%" 
                   height="250" 

@@ -652,12 +652,12 @@ export default function VisionSection() {
                     }}>
                       {node.year}
                     </span>
-                    <h4 style={{
+                    <h3 style={{
                       fontFamily: 'var(--font-hero)', fontSize: 16, fontWeight: 800,
                       color: '#FFFFFF', margin: 0,
                     }}>
                       {node.title}
-                    </h4>
+                    </h3>
                     <p style={{
                       fontFamily: 'var(--font-body)', fontSize: 13,
                       color: 'rgba(255, 255, 255, 0.95)', lineHeight: 1.6, margin: 0,

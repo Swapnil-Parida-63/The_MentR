@@ -526,9 +526,9 @@ export default function OrganogramSection() {
 
                   {activeDetails.sections && activeDetails.sections.map(section => (
                     <div key={section.title} style={{ marginBottom: 14 }}>
-                      <h5 style={{ fontSize: '10px', fontWeight: 800, color: '#64748B', textTransform: 'uppercase', letterSpacing: '0.04em', margin: '0 0 6px' }}>
+                      <div style={{ fontSize: '10px', fontWeight: 800, color: '#64748B', textTransform: 'uppercase', letterSpacing: '0.04em', margin: '0 0 6px' }}>
                         {section.title}
-                      </h5>
+                      </div>
                       <div style={{ display: 'flex', flexWrap: 'wrap', gap: 6 }}>
                         {section.chips.map(chip => (
                           <span
@@ -894,9 +894,9 @@ export default function OrganogramSection() {
                   <div style={{ display: 'flex', flexDirection: 'column', gap: 14 }}>
                     {activeDetails.sections && activeDetails.sections.map((sect, sIdx) => (
                       <div key={sIdx}>
-                        <h5 style={{ fontSize: 11.5, fontWeight: 800, color: '#1E293B', textTransform: 'uppercase', letterSpacing: '0.05em', marginBottom: 6 }}>
+                        <div style={{ fontSize: 11.5, fontWeight: 800, color: '#1E293B', textTransform: 'uppercase', letterSpacing: '0.05em', marginBottom: 6 }}>
                           {sect.title}
-                        </h5>
+                        </div>
                         <div style={{ display: 'flex', flexWrap: 'wrap', gap: '6px' }}>
                           {sect.chips.map(chip => (
                             <span 

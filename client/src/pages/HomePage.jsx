@@ -53,72 +53,72 @@ export default function HomePage() {
       {/* First viewport: Rendered immediately */}
       <HeroSection />
 
-      {/* Below-the-fold sections: Code-split independently for smooth background streaming and stable scroll height */}
-      <div id="vision">
-        <Suspense fallback={<div style={{ minHeight: '600px' }} />}>
+      {/* Below-the-fold sections: Deferred and code-split independently for ultra-fast initial load */}
+      <DeferredSection id="vision" minHeight="650px" rootMargin="800px 0px">
+        <Suspense fallback={<div style={{ minHeight: '650px' }} />}>
           <VisionSection />
         </Suspense>
-      </div>
+      </DeferredSection>
 
-      <div id="pain">
-        <Suspense fallback={<div style={{ minHeight: '600px' }} />}>
+      <DeferredSection id="pain" minHeight="650px" rootMargin="800px 0px">
+        <Suspense fallback={<div style={{ minHeight: '650px' }} />}>
           <PainPointsSection />
         </Suspense>
-      </div>
+      </DeferredSection>
 
-      <div id="why">
-        <Suspense fallback={<div style={{ minHeight: '600px' }} />}>
+      <DeferredSection id="why" minHeight="650px" rootMargin="800px 0px">
+        <Suspense fallback={<div style={{ minHeight: '650px' }} />}>
           <WhySection />
         </Suspense>
-      </div>
+      </DeferredSection>
 
-      <div id="services">
-        <Suspense fallback={<div style={{ minHeight: '600px' }} />}>
+      <DeferredSection id="services" minHeight="650px" rootMargin="800px 0px">
+        <Suspense fallback={<div style={{ minHeight: '650px' }} />}>
           <ServicesSection />
         </Suspense>
-      </div>
+      </DeferredSection>
 
-      <div id="avsar">
-        <Suspense fallback={<div style={{ minHeight: '500px' }} />}>
+      <DeferredSection id="avsar" minHeight="550px" rootMargin="800px 0px">
+        <Suspense fallback={<div style={{ minHeight: '550px' }} />}>
           <AvsarSection />
         </Suspense>
-      </div>
+      </DeferredSection>
 
-      <div id="organogram">
-        <Suspense fallback={<div style={{ minHeight: '500px' }} />}>
+      <DeferredSection id="organogram" minHeight="550px" rootMargin="800px 0px">
+        <Suspense fallback={<div style={{ minHeight: '550px' }} />}>
           <OrganogramSection />
         </Suspense>
-      </div>
+      </DeferredSection>
 
-      <div id="showcase">
-        <Suspense fallback={<div style={{ minHeight: '600px' }} />}>
+      <DeferredSection id="showcase" minHeight="650px" rootMargin="800px 0px">
+        <Suspense fallback={<div style={{ minHeight: '650px' }} />}>
           <ShowcaseSection />
         </Suspense>
-      </div>
+      </DeferredSection>
 
-      <div id="testimonials">
+      <DeferredSection id="testimonials" minHeight="500px" rootMargin="800px 0px">
         <Suspense fallback={<div style={{ minHeight: '500px' }} />}>
           <TestimonialsSection />
         </Suspense>
-      </div>
+      </DeferredSection>
 
-      <div id="blogs">
+      <DeferredSection id="blogs" minHeight="500px" rootMargin="800px 0px">
         <Suspense fallback={<div style={{ minHeight: '500px' }} />}>
           <BlogsPreview />
         </Suspense>
-      </div>
+      </DeferredSection>
 
-      <div id="contact-forms">
+      <DeferredSection id="contact-forms" minHeight="500px" rootMargin="800px 0px">
         <Suspense fallback={<div style={{ minHeight: '500px' }} />}>
           <FormsSection />
         </Suspense>
-      </div>
+      </DeferredSection>
 
-      <div id="contact-section">
+      <DeferredSection id="contact-section" minHeight="500px" rootMargin="800px 0px">
         <Suspense fallback={<div style={{ minHeight: '500px' }} />}>
           <ContactSection />
         </Suspense>
-      </div>
+      </DeferredSection>
     </div>
   );
 }

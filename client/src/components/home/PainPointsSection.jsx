@@ -481,7 +481,7 @@ export default function PainPointsSection() {
                                 borderRight: '7px solid transparent',
                                 borderTop: '7px solid rgba(255, 255, 255, 0.98)',
                               }} />
-                              <h5 style={{ margin: '0 0 6px', fontSize: 13, fontWeight: 700, color: '#1E293B' }}>{point.title}</h5>
+                              <div style={{ margin: '0 0 6px', fontSize: 13, fontWeight: 700, color: '#1E293B' }}>{point.title}</div>
                               <p style={{ margin: 0, fontSize: 12, lineHeight: 1.55, color: '#64748B', fontWeight: 400 }}>{point.description}</p>
                             </motion.div>
                           )}
@@ -960,7 +960,7 @@ export default function PainPointsSection() {
                                 borderRight: '7px solid transparent',
                                 borderTop: '7px solid rgba(255, 255, 255, 0.98)',
                               }} />
-                              <h5 style={{ margin: '0 0 6px', fontSize: 13, fontWeight: 700, color: '#1E293B' }}>{point.title}</h5>
+                              <div style={{ margin: '0 0 6px', fontSize: 13, fontWeight: 700, color: '#1E293B' }}>{point.title}</div>
                               <p style={{ margin: 0, fontSize: 12, lineHeight: 1.55, color: '#64748B', fontWeight: 400 }}>{point.description}</p>
                             </motion.div>
                           )}

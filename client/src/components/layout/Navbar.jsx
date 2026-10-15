@@ -81,6 +81,8 @@ export default function Navbar() {
         return;
       }
 
+      window.dispatchEvent(new CustomEvent('force-mount-section', { detail: targetId }));
+
       const el = document.getElementById(targetId);
       if (el) {
         const yOffset = -75;

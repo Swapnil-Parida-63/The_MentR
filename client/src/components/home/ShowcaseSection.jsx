@@ -729,7 +729,7 @@ export default function ShowcaseSection({ isStandalonePage = false }) {
               </div>
               <div className="mockup-nav-dots">
                 {[0, 1, 2, 3].map(i => (
-                  <button key={i} onClick={() => setParentIndex(i)} className={`mockup-dot ${parentIndex === i ? 'active' : ''}`} />
+                  <button key={i} onClick={() => setParentIndex(i)} aria-label={`View slide ${i + 1}`} className={`mockup-dot ${parentIndex === i ? 'active' : ''}`} />
                 ))}
               </div>
             </div>
@@ -793,7 +793,7 @@ export default function ShowcaseSection({ isStandalonePage = false }) {
               </div>
               <div className="mockup-nav-dots">
                 {[0, 1, 2].map(i => (
-                  <button key={i} onClick={() => setTeacherIndex(i)} className={`mockup-dot ${teacherIndex === i ? 'active' : ''}`} />
+                  <button key={i} onClick={() => setTeacherIndex(i)} aria-label={`View slide ${i + 1}`} className={`mockup-dot ${teacherIndex === i ? 'active' : ''}`} />
                 ))}
               </div>
             </div>
@@ -904,7 +904,7 @@ export default function ShowcaseSection({ isStandalonePage = false }) {
               </div>
               <div className="mockup-nav-dots" style={{ marginTop: 16 }}>
                 {[0, 1, 2].map(i => (
-                  <button key={i} onClick={() => setOlympiadIndex(i)} className={`mockup-dot ${olympiadIndex === i ? 'active' : ''}`} />
+                  <button key={i} onClick={() => setOlympiadIndex(i)} aria-label={`View slide ${i + 1}`} className={`mockup-dot ${olympiadIndex === i ? 'active' : ''}`} />
                 ))}
               </div>
             </div>
@@ -994,7 +994,7 @@ export default function ShowcaseSection({ isStandalonePage = false }) {
                       boxShadow: `0 4px 16px ${node.shadow}`
                     }}
                   >
-                    <h5 className="node-title" style={{ color: node.titleColor }}>{node.label}</h5>
+                    <div className="node-title" style={{ color: node.titleColor, fontWeight: 700, fontSize: 13, marginBottom: 4 }}>{node.label}</div>
                     <p className="node-desc" style={{ color: node.descColor, fontWeight: 500 }}>{node.desc}</p>
                   </div>
                 </div>
@@ -1316,20 +1316,33 @@ export default function ShowcaseSection({ isStandalonePage = false }) {
         .mockup-nav-dots {
           display: flex;
           justify-content: center;
+          align-items: center;
           gap: 8px;
           margin-top: 16px;
         }
         .mockup-dot {
-          width: 6px;
-          height: 6px;
-          border-radius: '50%';
+          position: relative;
+          min-width: 24px;
+          min-height: 24px;
+          display: inline-flex;
+          align-items: center;
+          justify-content: center;
           border: none;
-          background: #CBD5E1;
+          background: transparent;
           cursor: pointer;
           transition: all 0.3s ease;
           padding: 0;
         }
-        .mockup-dot.active {
+        .mockup-dot::before {
+          content: '';
+          display: block;
+          width: 6px;
+          height: 6px;
+          border-radius: 9999px;
+          background: #CBD5E1;
+          transition: all 0.3s ease;
+        }
+        .mockup-dot.active::before {
           background: #6366F1;
           width: 16px;
           border-radius: 3px;

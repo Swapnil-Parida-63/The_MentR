@@ -397,7 +397,7 @@ function EcosystemAnalyticsGrid({ teacherCount, teachingHours, isMobile = false 
           }}>
             {React.cloneElement(card.icon, { size: isMobile ? 20 : 26 })}
           </div>
-          <h4 style={{
+          <div style={{
             fontFamily: 'Space Grotesk, var(--font-hero)',
             fontSize: isMobile ? '20px' : '24px',
             fontWeight: 800,
@@ -406,7 +406,7 @@ function EcosystemAnalyticsGrid({ teacherCount, teachingHours, isMobile = false 
             lineHeight: 1.1
           }}>
             {card.value}
-          </h4>
+          </div>
           <div style={{
             fontSize: isMobile ? '12px' : '13.5px',
             fontWeight: 750,

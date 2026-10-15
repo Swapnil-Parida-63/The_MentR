@@ -123,7 +123,7 @@ export default function Footer() {
           {footerCols.map(col => (
             <div key={col.title}>
               <div style={{ display: 'flex', alignItems: 'center', gap: 8, marginBottom: 20 }}>
-                <h5 
+                <div 
                   onClick={col.onClick}
                   style={{ 
                     fontFamily: 'var(--font-sans)', 
@@ -140,7 +140,7 @@ export default function Footer() {
                   onMouseLeave={e => { if (col.onClick) e.target.style.color = 'rgba(255,255,255,0.4)'; }}
                 >
                   {col.title}
-                </h5>
+                </div>
                 {col.badge && (
                   <span 
                     onClick={col.onClick}
