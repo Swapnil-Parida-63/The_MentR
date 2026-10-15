@@ -37,14 +37,11 @@ export default function HomePage() {
   useEffect(() => {
     if (typeof window !== 'undefined' && window.__PENDING_SECTION_SCROLL__) {
       const targetId = window.__PENDING_SECTION_SCROLL__;
-      const targetIndex = SECTION_ORDER.indexOf(targetId);
-      if (targetIndex !== -1) {
-        SECTION_ORDER.slice(0, targetIndex + 1).forEach(id => {
-          window.dispatchEvent(new CustomEvent('force-mount-section', { detail: id }));
-        });
-      } else {
-        window.dispatchEvent(new CustomEvent('force-mount-section', { detail: targetId }));
-      }
+      window.__PENDING_SECTION_SCROLL__ = null;
+      setTimeout(() => {
+        const el = document.getElementById(targetId);
+        if (el) el.scrollIntoView({ behavior: 'smooth' });
+      }, 80);
     }
   }, []);
 
@@ -56,42 +53,72 @@ export default function HomePage() {
       {/* First viewport: Rendered immediately */}
       <HeroSection />
 
-      {/* Below-the-fold sections: Deferred and code-split until scrolled near */}
-      <Suspense fallback={<div style={{ minHeight: '200px' }} />}>
-        <DeferredSection id="vision" minHeight="200px">
+      {/* Below-the-fold sections: Code-split independently for smooth background streaming and stable scroll height */}
+      <div id="vision">
+        <Suspense fallback={<div style={{ minHeight: '600px' }} />}>
           <VisionSection />
-        </DeferredSection>
-        <DeferredSection id="pain" minHeight="200px">
+        </Suspense>
+      </div>
+
+      <div id="pain">
+        <Suspense fallback={<div style={{ minHeight: '600px' }} />}>
           <PainPointsSection />
-        </DeferredSection>
-        <DeferredSection id="why" minHeight="200px">
+        </Suspense>
+      </div>
+
+      <div id="why">
+        <Suspense fallback={<div style={{ minHeight: '600px' }} />}>
           <WhySection />
-        </DeferredSection>
-        <DeferredSection id="services" minHeight="200px">
+        </Suspense>
+      </div>
+
+      <div id="services">
+        <Suspense fallback={<div style={{ minHeight: '600px' }} />}>
           <ServicesSection />
-        </DeferredSection>
-        <DeferredSection id="avsar" minHeight="200px">
+        </Suspense>
+      </div>
+
+      <div id="avsar">
+        <Suspense fallback={<div style={{ minHeight: '500px' }} />}>
           <AvsarSection />
-        </DeferredSection>
-        <DeferredSection id="organogram" minHeight="200px">
+        </Suspense>
+      </div>
+
+      <div id="organogram">
+        <Suspense fallback={<div style={{ minHeight: '500px' }} />}>
           <OrganogramSection />
-        </DeferredSection>
-        <DeferredSection id="showcase" minHeight="200px">
+        </Suspense>
+      </div>
+
+      <div id="showcase">
+        <Suspense fallback={<div style={{ minHeight: '600px' }} />}>
           <ShowcaseSection />
-        </DeferredSection>
-        <DeferredSection id="testimonials" minHeight="200px">
+        </Suspense>
+      </div>
+
+      <div id="testimonials">
+        <Suspense fallback={<div style={{ minHeight: '500px' }} />}>
           <TestimonialsSection />
-        </DeferredSection>
-        <DeferredSection id="blogs" minHeight="200px">
+        </Suspense>
+      </div>
+
+      <div id="blogs">
+        <Suspense fallback={<div style={{ minHeight: '500px' }} />}>
           <BlogsPreview />
-        </DeferredSection>
-        <DeferredSection id="contact-forms" minHeight="200px">
+        </Suspense>
+      </div>
+
+      <div id="contact-forms">
+        <Suspense fallback={<div style={{ minHeight: '500px' }} />}>
           <FormsSection />
-        </DeferredSection>
-        <DeferredSection id="contact-section" minHeight="200px">
+        </Suspense>
+      </div>
+
+      <div id="contact-section">
+        <Suspense fallback={<div style={{ minHeight: '500px' }} />}>
           <ContactSection />
-        </DeferredSection>
-      </Suspense>
+        </Suspense>
+      </div>
     </div>
   );
 }

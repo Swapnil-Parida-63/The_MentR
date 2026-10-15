@@ -81,48 +81,22 @@ export default function Navbar() {
         return;
       }
 
-      // Force mount all sections up to targetId to ensure layout above target is fully expanded & stable
-      const targetIndex = SECTION_ORDER.indexOf(targetId);
-      if (targetIndex !== -1) {
-        SECTION_ORDER.slice(0, targetIndex + 1).forEach(id => {
-          window.dispatchEvent(new CustomEvent('force-mount-section', { detail: id }));
-        });
+      const el = document.getElementById(targetId);
+      if (el) {
+        const yOffset = -75;
+        const y = el.getBoundingClientRect().top + (window.scrollY || window.pageYOffset || 0) + yOffset;
+        window.scrollTo({ top: Math.max(0, y), behavior: 'smooth' });
       } else {
-        window.dispatchEvent(new CustomEvent('force-mount-section', { detail: targetId }));
-      }
-
-      let lastHeight = 0;
-      let stableFrames = 0;
-      let totalAttempts = 0;
-
-      const checkAndScroll = () => {
-        totalAttempts++;
-        const currentHeight = document.body ? document.body.scrollHeight : 0;
-        const el = document.getElementById(targetId);
-        const isMounted = el && el.getAttribute('data-mounted') !== 'false';
-
-        if (currentHeight === lastHeight && currentHeight > 0 && isMounted) {
-          stableFrames++;
-        } else {
-          stableFrames = 0;
-          lastHeight = currentHeight;
-        }
-
-        // Once layout has stabilized across 2 consecutive frames (or after max attempts)
-        if (stableFrames >= 2 || totalAttempts > 40) {
-          if (el) {
+        setTimeout(() => {
+          const retryEl = document.getElementById(targetId);
+          if (retryEl) {
             const yOffset = -75;
-            const y = el.getBoundingClientRect().top + (window.scrollY || window.pageYOffset || 0) + yOffset;
-            window.scrollTo({ top: Math.max(0, y), behavior: 'auto' });
+            const y = retryEl.getBoundingClientRect().top + (window.scrollY || window.pageYOffset || 0) + yOffset;
+            window.scrollTo({ top: Math.max(0, y), behavior: 'smooth' });
           }
-          window.__PENDING_SECTION_SCROLL__ = null;
-          window.__ACTIVE_STABILIZE_RAF__ = null;
-        } else {
-          window.__ACTIVE_STABILIZE_RAF__ = requestAnimationFrame(checkAndScroll);
-        }
-      };
-
-      window.__ACTIVE_STABILIZE_RAF__ = requestAnimationFrame(checkAndScroll);
+        }, 100);
+      }
+      window.__PENDING_SECTION_SCROLL__ = null;
     };
 
     if (window.location.pathname !== '/') {

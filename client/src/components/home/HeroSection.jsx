@@ -974,10 +974,10 @@ export default function HeroSection() {
           .hero-fullscreen-section {
             min-height: 640px;
             display: flex;
-            align-items: flex-start;
+            align-items: center;
           }
           .hero-content-container {
-            padding-top: 80px;
+            padding-top: 50px;
           }
           .hero-content-inner {
             max-width: 100%;
