@@ -21,13 +21,12 @@ class FormatParserRegistry {
    */
   registerDefaultParsers() {
     // Markdown Parser Strategy
-    this.register('markdown', async (rawContent) => {
-      // Basic Frontmatter & Body splitting placeholder
-      return {
-        metadata: { format: 'markdown' },
-        content: rawContent
-      };
+    const mdParser = async (rawContent) => ({
+      metadata: { format: 'markdown' },
+      content: rawContent
     });
+    this.register('markdown', mdParser);
+    this.register('md', mdParser);
 
     // JSON Document Parser Strategy
     this.register('json', async (rawContent) => {

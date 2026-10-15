@@ -1,22 +1,27 @@
 /**
  * @file conversation.manager.js
- * @description Active Conversation & Session Lifecycle Manager.
+ * @description Active Conversation & Session Lifecycle Manager with persistent MongoDB and in-memory fallback.
  * 
  * RESPONSIBILITY:
  * Manages active multi-turn chat sessions across Web, iOS, Android, and Desktop platforms.
  * Handles session creation, restoration, history persistence, entity updates, workflow tracking,
- * and idle session timeout expiration.
+ * and idle session timeout expiration. Supports both persistent MongoDB Atlas and graceful in-memory storage.
  * 
  * CONNECTIONS:
- * - Interacts with `Conversation` and `Message` database models.
+ * - Interacts with `Conversation` and `Message` database models when MongoDB is connected.
+ * - Uses in-memory session store when running offline or in unit tests.
  * - Uses `entityExtractor`.
  * - Called by `chat.service.js`.
  */
 
+const mongoose = require('mongoose');
 const { Conversation } = require('../models/conversation.model');
 const { Message } = require('../models/message.model');
 const { entityExtractor } = require('./entity.extractor');
 const { aiConfig } = require('../config/ai.config');
+
+const inMemorySessions = new Map();
+const inMemoryMessages = new Map();
 
 class ConversationManager {
   constructor(extractor = entityExtractor) {
@@ -40,6 +45,30 @@ class ConversationManager {
       throw new Error('sessionId is required for ConversationManager');
     }
 
+    // In-memory fallback if MongoDB is not connected
+    if (mongoose.connection.readyState !== 1) {
+      let session = inMemorySessions.get(sessionId);
+      const now = new Date();
+      if (!session) {
+        session = {
+          sessionId,
+          userId,
+          clientChannel,
+          status: 'active',
+          currentWorkflow: 'general',
+          workflowState: { step: 'init', pendingQuestion: '', collectedData: new Map() },
+          extractedEntities: {},
+          currentRole: 'unknown',
+          lastActiveAt: now,
+          save: async () => session
+        };
+        inMemorySessions.set(sessionId, session);
+      } else {
+        session.lastActiveAt = now;
+      }
+      return session;
+    }
+
     let session = await Conversation.findOne({ sessionId });
 
     const now = new Date();
@@ -52,7 +81,6 @@ class ConversationManager {
       if (isExpired && session.status === 'active') {
         session.status = 'expired';
         await session.save();
-        console.log(`[ConversationManager] Session ${sessionId} expired due to inactivity (${this.timeoutMinutes} min).`);
 
         // Create new active session document for same sessionId
         session = await Conversation.create({
@@ -63,13 +91,11 @@ class ConversationManager {
           lastActiveAt: now
         });
       } else {
-        // Touch lastActiveAt timestamp on active session restore
         session.lastActiveAt = now;
         if (userId && !session.userId) session.userId = userId;
         await session.save();
       }
     } else {
-      // Initialize new conversation session
       session = await Conversation.create({
         sessionId,
         userId,
@@ -92,13 +118,38 @@ class ConversationManager {
    * @param {Object} [params.metadata] - Optional message metadata.
    * @returns {Promise<Object>} Created AIMessage document.
    */
-  async addMessage({ sessionId, role, content, metadata = {} }) {
-    const session = await this.getOrRestoreSession({ sessionId });
+  async addMessage({ sessionId, role, content, metadata = {}, session = null }) {
+    const activeSession = session || (await this.getOrRestoreSession({ sessionId }));
+
+    // In-memory fallback when MongoDB is not connected
+    if (mongoose.connection.readyState !== 1) {
+      const msgList = inMemoryMessages.get(sessionId) || [];
+      const msgDoc = {
+        sessionId,
+        role,
+        content,
+        metadata,
+        createdAt: new Date()
+      };
+      msgList.push(msgDoc);
+      inMemoryMessages.set(sessionId, msgList);
+
+      if (role === 'user') {
+        const currentEntities = activeSession.extractedEntities || {};
+        const updatedEntities = this.extractor.extractEntities(content, currentEntities);
+        activeSession.extractedEntities = updatedEntities;
+        if (updatedEntities.role && updatedEntities.role !== 'unknown') {
+          activeSession.currentRole = updatedEntities.role;
+        }
+      }
+      activeSession.lastActiveAt = new Date();
+      return msgDoc;
+    }
 
     // 1. Create and save AIMessage record
     const messageDoc = await Message.create({
       sessionId,
-      conversation: session._id,
+      conversation: activeSession._id,
       role,
       content,
       metadata
@@ -106,17 +157,21 @@ class ConversationManager {
 
     // 2. If user message, automatically extract structured entity parameters
     if (role === 'user') {
-      const currentEntities = session.extractedEntities ? session.extractedEntities.toObject() : {};
+      const currentEntities = activeSession.extractedEntities
+        ? (typeof activeSession.extractedEntities.toObject === 'function'
+            ? activeSession.extractedEntities.toObject()
+            : activeSession.extractedEntities)
+        : {};
       const updatedEntities = this.extractor.extractEntities(content, currentEntities);
 
-      session.extractedEntities = updatedEntities;
+      activeSession.extractedEntities = updatedEntities;
       if (updatedEntities.role && updatedEntities.role !== 'unknown') {
-        session.currentRole = updatedEntities.role;
+        activeSession.currentRole = updatedEntities.role;
       }
     }
 
-    session.lastActiveAt = new Date();
-    await session.save();
+    activeSession.lastActiveAt = new Date();
+    await activeSession.save();
 
     return messageDoc;
   }
@@ -129,6 +184,14 @@ class ConversationManager {
    * @returns {Promise<Array<Object>>} Formatted messages array [{ role, content }].
    */
   async getRecentHistory(sessionId, limit = this.memoryWindow) {
+    if (mongoose.connection.readyState !== 1) {
+      const list = inMemoryMessages.get(sessionId) || [];
+      return list.slice(-limit).map((m) => ({
+        role: m.role,
+        content: m.content
+      }));
+    }
+
     const messages = await Message.find({ sessionId })
       .sort({ createdAt: -1 })
       .limit(limit)
@@ -148,14 +211,20 @@ class ConversationManager {
    * @param {Object} stateData - { step, pendingQuestion, collectedData }.
    */
   async updateWorkflowState(sessionId, workflowName, stateData = {}) {
-    const session = await Conversation.findOne({ sessionId });
+    const session = await this.getOrRestoreSession({ sessionId });
     if (!session) return null;
 
     session.currentWorkflow = workflowName || 'general';
-    if (stateData.step) session.workflowState.step = stateData.step;
-    if (stateData.pendingQuestion) session.workflowState.pendingQuestion = stateData.pendingQuestion;
-    if (stateData.collectedData) {
-      Object.assign(session.workflowState.collectedData, stateData.collectedData);
+    if (session.workflowState) {
+      if (stateData.step) session.workflowState.step = stateData.step;
+      if (stateData.pendingQuestion) session.workflowState.pendingQuestion = stateData.pendingQuestion;
+      if (stateData.collectedData) {
+        if (session.workflowState.collectedData instanceof Map) {
+          Object.entries(stateData.collectedData).forEach(([k, v]) => session.workflowState.collectedData.set(k, v));
+        } else {
+          Object.assign(session.workflowState.collectedData, stateData.collectedData);
+        }
+      }
     }
     session.lastActiveAt = new Date();
     await session.save();
@@ -168,11 +237,15 @@ class ConversationManager {
    * @param {string} sessionId - Unique session ID.
    */
   async clearSession(sessionId) {
-    await Message.deleteMany({ sessionId });
-    const session = await Conversation.findOne({ sessionId });
-    if (session) {
-      session.status = 'closed';
-      await session.save();
+    inMemoryMessages.delete(sessionId);
+    inMemorySessions.delete(sessionId);
+    if (mongoose.connection.readyState === 1) {
+      await Message.deleteMany({ sessionId });
+      const session = await Conversation.findOne({ sessionId });
+      if (session) {
+        session.status = 'closed';
+        await session.save();
+      }
     }
     return true;
   }

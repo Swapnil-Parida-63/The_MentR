@@ -2,7 +2,19 @@ import { useState, useEffect } from 'react';
 import { useLocation } from 'react-router-dom';
 import { useModal } from '../../context/ModalContext';
 import { FadeUp } from '../../hooks/useScrollReveal';
+import { FloatingDoodles } from '../common/FloatingDoodles';
 import { Clock, CheckCircle, Calendar, MessageSquare, TrendingUp, Award, Laptop, Smartphone } from 'lucide-react';
+
+const showcaseDoodles = [
+  { type: 'paperPlane', size: 64, color: '#4F7CFF', rotate: 18, opacity: 0.5, position: { top: '8%', left: '4%' } },
+  { type: 'bulb', size: 52, color: '#6366F1', rotate: -15, opacity: 0.45, position: { top: '12%', right: '4%' } },
+  { type: 'cap', size: 58, color: '#7469F8', rotate: 12, opacity: 0.42, position: { top: '35%', left: '3%' } },
+  { type: 'atom', size: 54, color: '#3B82F6', rotate: -20, opacity: 0.4, position: { top: '38%', right: '3%' } },
+  { type: 'book', size: 54, color: '#4F7CFF', rotate: -10, opacity: 0.45, position: { bottom: '28%', left: '4%' } },
+  { type: 'aPlus', size: 48, color: '#7469F8', rotate: 10, opacity: 0.42, position: { bottom: '26%', right: '4%' } },
+  { type: 'pencil', size: 46, color: '#2563EB', rotate: 22, opacity: 0.42, position: { bottom: '10%', left: '5%' } },
+  { type: 'sparkle', size: 38, color: '#6366F1', rotate: 0, opacity: 0.52, position: { bottom: '8%', right: '6%' } }
+];
 
 // ==============================================================
 // 1. SCREEN CONTENT RENDERS (High-Fidelity Mock App Views)
@@ -584,25 +596,36 @@ export default function ShowcaseSection({ isStandalonePage = false }) {
       id="showcase" 
       className="section" 
       style={{ 
-        background: activeTab === 3 
-          ? 'linear-gradient(180deg, #F1F7FF 0%, #EDF2FF 50%, #F8FAFF 100%)' 
-          : 'linear-gradient(180deg, #FFFFFF 0%, #F8FAFF 50%, #FFFFFF 100%)', 
+        background: 'linear-gradient(180deg, #CADCFD 0%, #D8E7FE 50%, #C4DAFC 100%)', 
         position: 'relative', 
         overflow: 'hidden', 
         padding: isMobile ? '40px 0' : '50px 0',
         transition: 'background 0.4s ease'
       }}
     >
+      <FloatingDoodles items={showcaseDoodles} />
       
-      {/* Background layer: Subtle warm glow */}
+      {/* Background layer: Ambient lighting glows */}
       <div style={{
         position: 'absolute',
-        width: '700px',
-        height: '700px',
+        width: '750px',
+        height: '750px',
         borderRadius: '50%',
-        background: 'radial-gradient(circle, rgba(79, 124, 255, 0.05) 0%, transparent 70%)',
-        top: '20%',
-        left: '15%',
+        background: 'radial-gradient(circle, rgba(255, 255, 255, 0.9) 0%, rgba(220, 235, 255, 0.4) 50%, transparent 75%)',
+        top: '10%',
+        left: '20%',
+        pointerEvents: 'none',
+        zIndex: 0
+      }} />
+
+      <div style={{
+        position: 'absolute',
+        width: '600px',
+        height: '600px',
+        borderRadius: '50%',
+        background: 'radial-gradient(circle, rgba(116, 105, 248, 0.15) 0%, rgba(79, 124, 255, 0.08) 50%, transparent 70%)',
+        bottom: '5%',
+        right: '10%',
         pointerEvents: 'none',
         zIndex: 0
       }} />
@@ -1045,12 +1068,12 @@ export default function ShowcaseSection({ isStandalonePage = false }) {
         /* Segmented control tabs */
         .showcase-tabs {
           display: inline-flex;
-          background: rgba(15, 23, 42, 0.04);
-          border: 1px solid rgba(15, 23, 42, 0.05);
+          background: rgba(255, 255, 255, 0.9);
+          border: 1px solid rgba(79, 124, 255, 0.18);
           padding: 6px;
           border-radius: 99px;
           gap: 4px;
-          box-shadow: inset 0 2px 4px rgba(0,0,0,0.02);
+          box-shadow: 0 4px 12px rgba(15, 23, 42, 0.05);
         }
         .showcase-tab {
           font-family: var(--font-sans);

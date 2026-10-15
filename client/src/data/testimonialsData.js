@@ -415,32 +415,7 @@ export const parentTestimonials = [
     avatarBg: '#059669',
     quote: "The teacher teaches well, and my child enjoys the classes.",
   },
-  {
-    id: 'p_new_25',
-    category: 'parent',
-    name: 'Sandeep Mohapatra',
-    handle: '@sandeep_mohapatra',
-    role: 'Satisfied Parent',
-    location: 'Saheed Nagar, Bhubaneswar',
-    rating: 5,
-    avatar: '👨‍💼',
-    avatarBg: '#D97706',
-    quote: "Happy with the teacher’s efforts and the overall service.",
-  },
 
-  // --- Previous Existing Parent Feedbacks ---
-  {
-    id: 'p1',
-    category: 'parent',
-    name: 'Soumyanandan Pattanayak',
-    handle: '@soumya_parent',
-    role: 'Parent of Class 10 Student',
-    location: 'Nayapalli, Bhubaneswar',
-    rating: 5,
-    avatar: '👨‍💼',
-    avatarBg: '#2563EB',
-    quote: "Finding a dedicated physics and maths teacher was a headache until TheMentR stepped in. My son scored 92% in his finals!",
-  },
   {
     id: 'p2',
     category: 'parent',

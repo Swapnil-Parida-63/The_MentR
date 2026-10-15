@@ -3,6 +3,17 @@ import { motion } from 'framer-motion';
 import { FadeUp } from '../../hooks/useScrollReveal';
 import BorderGlow from './BorderGlow';
 import { parentAPI, teachersAPI } from '../../services/api';
+import { FloatingDoodles } from '../common/FloatingDoodles';
+
+const formsDoodles = [
+  { type: 'paperPlane', size: 60, color: '#4F7CFF', rotate: 15, opacity: 0.48, position: { top: '15%', left: '4%' } },
+  { type: 'bulb', size: 50, color: '#6366F1', rotate: -18, opacity: 0.45, position: { top: '45%', left: '3%' } },
+  { type: 'cap', size: 54, color: '#7469F8', rotate: 12, opacity: 0.42, position: { bottom: '20%', left: '5%' } },
+
+  { type: 'sparkle', size: 38, color: '#4F7CFF', rotate: 0, opacity: 0.52, position: { top: '18%', right: '5%' } },
+  { type: 'book', size: 52, color: '#3B82F6', rotate: -12, opacity: 0.45, position: { top: '48%', right: '4%' } },
+  { type: 'aPlus', size: 46, color: '#7469F8', rotate: 8, opacity: 0.4, position: { bottom: '22%', right: '4%' } }
+];
 
 const boardOptions = ['Odisha State Board', 'SSVM (Odisha)', 'CHSE (Odisha)', 'ICSE', 'CBSE', 'IGCSE'];
 const classOptions = Array.from({ length: 12 }, (_, i) => `Class ${i + 1}`);
@@ -467,7 +478,31 @@ export default function FormsSection() {
   };
 
   return (
-    <section id="contact-forms" className="section" style={{ background: 'linear-gradient(180deg, #F1F7FF 0%, #EDF2FF 50%, #F1F7FF 100%)', padding: isMobile ? '16px 0 40px' : '100px 0' }}>
+    <section id="contact-forms" className="section" style={{ background: 'linear-gradient(180deg, #CADCFD 0%, #D8E7FE 50%, #C3DAFC 100%)', padding: isMobile ? '16px 0 40px' : '100px 0', position: 'relative', overflow: 'hidden' }}>
+      <FloatingDoodles items={formsDoodles} />
+      {/* Ambient background glows */}
+      <div style={{
+        position: 'absolute',
+        top: '-10%',
+        left: '15%',
+        width: '650px',
+        height: '650px',
+        borderRadius: '50%',
+        background: 'radial-gradient(circle, rgba(255, 255, 255, 0.9) 0%, rgba(220, 235, 255, 0.35) 50%, transparent 75%)',
+        filter: 'blur(60px)',
+        pointerEvents: 'none'
+      }} />
+      <div style={{
+        position: 'absolute',
+        bottom: '0%',
+        right: '10%',
+        width: '550px',
+        height: '550px',
+        borderRadius: '50%',
+        background: 'radial-gradient(circle, rgba(116, 105, 248, 0.16) 0%, rgba(79, 124, 255, 0.10) 50%, transparent 70%)',
+        filter: 'blur(70px)',
+        pointerEvents: 'none'
+      }} />
       <div className="container">
         {!isMobile && <FadeUp><div className="eyebrow">GET STARTED</div></FadeUp>}
         <FadeUp delay={0.1} duration={0.8} y={isMobile ? 8 : 24}>

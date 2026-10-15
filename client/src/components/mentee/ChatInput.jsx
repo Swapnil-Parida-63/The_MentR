@@ -66,7 +66,7 @@ export default function ChatInput({ onSend, disabled = false }) {
           disabled={disabled}
           onChange={(e) => setText(e.target.value)}
           onKeyDown={handleKeyDown}
-          placeholder={disabled ? 'Mantee is thinking...' : 'Ask Mantee anything...'}
+          placeholder={disabled ? 'Mentee is thinking...' : 'Ask Mentee anything...'}
           style={{
             flex: 1,
             background: 'transparent',

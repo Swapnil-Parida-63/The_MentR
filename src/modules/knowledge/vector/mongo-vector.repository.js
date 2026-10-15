@@ -13,9 +13,12 @@
  * - Supports `$vectorSearch` pipeline stage and category metadata filtering.
  */
 
+const mongoose = require('mongoose');
 const { VectorRepositoryInterface } = require('../interfaces/vector-repository.interface');
 const { KmsChunk } = require('../models/kms-chunk.model');
 const { aiConfig } = require('../../ai/config/ai.config');
+
+const inMemoryChunks = [];
 
 class MongoVectorRepository extends VectorRepositoryInterface {
   constructor() {
@@ -25,7 +28,7 @@ class MongoVectorRepository extends VectorRepositoryInterface {
   }
 
   /**
-   * Upserts chunk vector records into MongoDB.
+   * Upserts chunk vector records into MongoDB and local cache.
    * 
    * @param {Array<Object>} records - List of { documentId, chunkIndex, heading, text, vector, metadata, contentHash }.
    * @returns {Promise<Object>} Result summary { upsertedCount: number }.
@@ -33,6 +36,21 @@ class MongoVectorRepository extends VectorRepositoryInterface {
   async upsertVectors(records = []) {
     if (!records || records.length === 0) {
       return { upsertedCount: 0 };
+    }
+
+    records.forEach((rec) => {
+      const existingIdx = inMemoryChunks.findIndex(
+        (c) => c.documentId === rec.documentId && c.chunkIndex === rec.chunkIndex
+      );
+      if (existingIdx >= 0) {
+        inMemoryChunks[existingIdx] = rec;
+      } else {
+        inMemoryChunks.push(rec);
+      }
+    });
+
+    if (mongoose.connection.readyState !== 1) {
+      return { upsertedCount: records.length };
     }
 
     let count = 0;
@@ -68,6 +86,11 @@ class MongoVectorRepository extends VectorRepositoryInterface {
     const topK = options.topK || aiConfig.maxContextDocuments || 5;
     const categoryFilter = options.category;
     const threshold = options.scoreThreshold !== undefined ? options.scoreThreshold : aiConfig.similarityThreshold || 0.65;
+
+    // If MongoDB is not connected, use in-memory cosine fallback directly without buffering
+    if (mongoose.connection.readyState !== 1) {
+      return await this.fallbackCosineSearch(queryVector, topK, categoryFilter, threshold);
+    }
 
     try {
       // MongoDB Atlas Vector Search Pipeline Stage
@@ -128,8 +151,15 @@ class MongoVectorRepository extends VectorRepositoryInterface {
    * Fallback cosine similarity search implementation over existing MongoDB chunks.
    */
   async fallbackCosineSearch(queryVector, topK, categoryFilter, threshold) {
-    const query = categoryFilter ? { 'metadata.category': categoryFilter } : {};
-    const chunks = await this.chunkModel.find(query).limit(100).lean();
+    let chunks = [];
+    if (mongoose.connection.readyState === 1) {
+      const query = categoryFilter ? { 'metadata.category': categoryFilter } : {};
+      chunks = await this.chunkModel.find(query).limit(100).lean();
+    } else {
+      chunks = categoryFilter
+        ? inMemoryChunks.filter((c) => c.metadata?.category === categoryFilter)
+        : inMemoryChunks;
+    }
 
     if (!chunks || chunks.length === 0) {
       return [];

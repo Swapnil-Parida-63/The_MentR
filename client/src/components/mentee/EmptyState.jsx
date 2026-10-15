@@ -165,7 +165,7 @@ export default function EmptyState({ onSelectPrompt, onClose, mobileStep = 'welc
 
             <img
               src={`${import.meta.env.BASE_URL}Full Sized mascot.webp`}
-              alt="Mantee Mascot"
+              alt="Mentee Mascot"
               style={{
                 position: 'relative',
                 zIndex: 1,
@@ -350,7 +350,7 @@ export default function EmptyState({ onSelectPrompt, onClose, mobileStep = 'welc
               fontWeight: 600
             }}
           >
-            Hi, I'm Mantee.
+            Hi, I'm Mentee.
           </p>
           <h1
             style={{
@@ -613,7 +613,7 @@ export default function EmptyState({ onSelectPrompt, onClose, mobileStep = 'welc
         >
           <img
             src={`${import.meta.env.BASE_URL}Full Sized mascot.webp`}
-            alt="Mantee AI Mascot"
+            alt="Mentee AI Mascot"
             className="mascot-main-img"
             style={{
               height: 290,
@@ -639,7 +639,7 @@ export default function EmptyState({ onSelectPrompt, onClose, mobileStep = 'welc
             letterSpacing: '-0.01em'
           }}
         >
-          Hello, I am Mantee.
+          Hello, I am Mentee.
         </p>
         <h2
           style={{

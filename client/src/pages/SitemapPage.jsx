@@ -4,6 +4,22 @@ import SEO from '../components/common/SEO';
 import { PAGE_SEO } from '../config/seo.config';
 import { PAGE_SCHEMAS } from '../config/schema.config';
 import Breadcrumbs from '../components/common/Breadcrumbs';
+import { FloatingDoodles } from '../components/common/FloatingDoodles';
+
+const sitemapDoodles = [
+  // Left margin doodles
+  { type: 'compass', size: 50, color: '#4F7CFF', opacity: 0.42, rotate: -10, position: { top: '12%', left: '4%' } },
+  { type: 'sparkle', size: 38, color: '#7C69F8', opacity: 0.4, rotate: 12, position: { top: '28%', left: '8%' } },
+  { type: 'book', size: 48, color: '#3B82F6', opacity: 0.36, rotate: -15, position: { top: '48%', left: '3.5%' } },
+  { type: 'magnify', size: 46, color: '#7C69F8', opacity: 0.38, rotate: 20, position: { top: '70%', left: '7%' } },
+  { type: 'atom', size: 44, color: '#4F7CFF', opacity: 0.32, rotate: -8, position: { top: '88%', left: '4%' } },
+  // Right margin doodles
+  { type: 'paperPlane', size: 54, color: '#4F7CFF', opacity: 0.4, rotate: 15, position: { top: '10%', right: '4%' } },
+  { type: 'bulb', size: 46, color: '#3B82F6', opacity: 0.38, rotate: -10, position: { top: '30%', right: '7%' } },
+  { type: 'cap', size: 50, color: '#4F7CFF', opacity: 0.42, rotate: 12, position: { top: '52%', right: '3.5%' } },
+  { type: 'star', size: 38, color: '#7C69F8', opacity: 0.4, rotate: -6, position: { top: '72%', right: '8%' } },
+  { type: 'pencil', size: 44, color: '#7C69F8', opacity: 0.35, rotate: 25, position: { top: '88%', right: '4.5%' } },
+];
 
 export default function SitemapPage() {
   const sitemapSections = [
@@ -75,6 +91,7 @@ export default function SitemapPage() {
   return (
     <div className="section subpage-wrapper" style={{ background: 'transparent', minHeight: '100vh', paddingTop: '140px', position: 'relative', overflow: 'hidden' }}>
       <SEO {...PAGE_SEO.sitemap} schema={PAGE_SCHEMAS.sitemap} />
+      <FloatingDoodles items={sitemapDoodles} />
 
       {/* Background atmosphere */}
       <div style={{

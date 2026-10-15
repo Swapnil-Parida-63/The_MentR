@@ -1,6 +1,18 @@
 import { useState, useEffect } from 'react';
 import { FadeUp } from '../../hooks/useScrollReveal';
 import { teacherTestimonials, parentTestimonials } from '../../data/testimonialsData';
+import { FloatingDoodles } from '../common/FloatingDoodles';
+
+const testimonialsDoodles = [
+  // Left side framing the header
+  { type: 'star', size: 44, color: '#4F7CFF', opacity: 0.42, rotate: -12, position: { top: '5%', left: '7%' } },
+  { type: 'pencil', size: 42, color: '#7C69F8', opacity: 0.38, rotate: 22, position: { top: '15%', left: '15%' } },
+  { type: 'sparkle', size: 36, color: '#3B82F6', opacity: 0.4, rotate: 8, position: { top: '24%', left: '6%' } },
+  // Right side framing the header
+  { type: 'paperPlane', size: 52, color: '#4F7CFF', opacity: 0.4, rotate: 16, position: { top: '4%', right: '7%' } },
+  { type: 'bulb', size: 44, color: '#7C69F8', opacity: 0.38, rotate: -10, position: { top: '14%', right: '16%' } },
+  { type: 'star', size: 40, color: '#3B82F6', opacity: 0.42, rotate: 14, position: { top: '23%', right: '6%' } },
+];
 
 // Feedback Card Component matching TheMentR translucent glassmorphism theme
 function FeedbackCard({ item, isMobile }) {
@@ -207,7 +219,7 @@ export default function TestimonialsSection() {
   };
 
   return (
-    <section id="testimonials" className="section" style={{ background: 'linear-gradient(180deg, #FFFFFF 0%, #F1F7FF 50%, #F8FAFF 100%)', padding: isMobile ? '70px 0' : '110px 0', position: 'relative', overflow: 'hidden' }}>
+    <section id="testimonials" className="section" style={{ background: '#FFFFFF', padding: isMobile ? '70px 0' : '110px 0', position: 'relative', overflow: 'hidden' }}>
       
       {/* Background ambient lighting */}
       <div style={{
@@ -231,6 +243,8 @@ export default function TestimonialsSection() {
         right: '-10%',
         pointerEvents: 'none'
       }} />
+
+      <FloatingDoodles items={testimonialsDoodles} />
 
       <div className="container" style={{ position: 'relative', zIndex: 1 }}>
         

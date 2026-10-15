@@ -2,6 +2,17 @@ import { FadeUp } from '../../hooks/useScrollReveal';
 import { Link } from 'react-router-dom';
 import { Clock, Calendar, User, ArrowUpRight } from 'lucide-react';
 import { useState, useEffect } from 'react';
+import { FloatingDoodles } from '../common/FloatingDoodles';
+
+const blogsDoodles = [
+  { type: 'book', size: 56, color: '#4F7CFF', rotate: 12, opacity: 0.48, position: { top: '8%', left: '4%' } },
+  { type: 'bulb', size: 50, color: '#6366F1', rotate: -15, opacity: 0.45, position: { top: '45%', left: '3%' } },
+  { type: 'pencil', size: 48, color: '#2563EB', rotate: 20, opacity: 0.42, position: { bottom: '15%', left: '5%' } },
+
+  { type: 'sparkle', size: 40, color: '#7469F8', rotate: 0, opacity: 0.52, position: { top: '12%', right: '4%' } },
+  { type: 'paperPlane', size: 60, color: '#4F7CFF', rotate: -16, opacity: 0.48, position: { top: '50%', right: '3%' } },
+  { type: 'star', size: 42, color: '#6366F1', rotate: 8, opacity: 0.45, position: { bottom: '18%', right: '5%' } }
+];
 
 export default function BlogsPreview() {
   const [isMobile, setIsMobile] = useState(window.innerWidth < 1024);
@@ -13,7 +24,33 @@ export default function BlogsPreview() {
   }, []);
 
   return (
-    <section id="blogs" className="section journal-section-wrapper" style={{ background: 'linear-gradient(180deg, #FFFFFF 0%, #F8FAFF 100%)', position: 'relative', overflow: 'hidden' }}>
+    <section id="blogs" className="section journal-section-wrapper" style={{ background: 'linear-gradient(180deg, #E6F0FF 0%, #F0F6FF 50%, #E3EEFD 100%)', position: 'relative', overflow: 'hidden' }}>
+      <FloatingDoodles items={blogsDoodles} />
+      {/* Ambient background lighting */}
+      <div style={{
+        position: 'absolute',
+        top: '-10%',
+        right: '5%',
+        width: '600px',
+        height: '600px',
+        borderRadius: '50%',
+        background: 'radial-gradient(circle, rgba(79, 124, 255, 0.14) 0%, rgba(116, 105, 248, 0.06) 50%, transparent 75%)',
+        filter: 'blur(70px)',
+        pointerEvents: 'none',
+        zIndex: 0
+      }} />
+      <div style={{
+        position: 'absolute',
+        bottom: '-5%',
+        left: '-5%',
+        width: '500px',
+        height: '500px',
+        borderRadius: '50%',
+        background: 'radial-gradient(circle, rgba(255, 255, 255, 0.85) 0%, rgba(220, 235, 255, 0.3) 50%, transparent 75%)',
+        filter: 'blur(60px)',
+        pointerEvents: 'none',
+        zIndex: 0
+      }} />
       <div className="container" style={{ position: 'relative', zIndex: 1 }}>
         
         {/* Header Block */}

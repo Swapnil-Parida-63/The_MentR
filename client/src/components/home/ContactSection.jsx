@@ -1,6 +1,17 @@
 import { useState, useEffect } from 'react';
 import { FadeUp } from '../../hooks/useScrollReveal';
 import BorderGlow from './BorderGlow';
+import { FloatingDoodles } from '../common/FloatingDoodles';
+
+const contactDoodles = [
+  { type: 'paperPlane', size: 64, color: '#4F7CFF', rotate: -18, opacity: 0.5, position: { top: '8%', left: '4%' } },
+  { type: 'sparkle', size: 40, color: '#7469F8', rotate: 0, opacity: 0.52, position: { top: '35%', left: '3%' } },
+  { type: 'pencil', size: 48, color: '#2563EB', rotate: 22, opacity: 0.42, position: { bottom: '22%', left: '4%' } },
+
+  { type: 'bulb', size: 52, color: '#6366F1', rotate: 15, opacity: 0.45, position: { top: '10%', right: '4%' } },
+  { type: 'book', size: 56, color: '#3B82F6', rotate: -12, opacity: 0.48, position: { top: '42%', right: '3%' } },
+  { type: 'cap', size: 56, color: '#7469F8', rotate: 14, opacity: 0.42, position: { bottom: '18%', right: '5%' } }
+];
 
 const defaultFaqs = [
   { q: 'Who can apply to become a teacher with TheMentR?', a: 'Any individual holding a minimum qualification of 10+2, ITI, Diploma, or higher degrees (B.Sc., B.Ed., M.Ed., M.Sc., M.Tech, LLB, M. Com., BA, MA, B.Com., PhD, etc.) may apply. Recruitment is skill-based and inclusive; both freshers and experienced teachers are welcome.', category: 'Teachers' },
@@ -85,18 +96,48 @@ export default function ContactSection({ background = 'white', isStandalonePage 
     return () => window.removeEventListener('resize', handleResize);
   }, []);
   
-  const finalBg = background === 'white' ? 'transparent' : background;
+  const finalBg = background === 'white' ? 'linear-gradient(180deg, #CADCFD 0%, #D8E7FE 50%, #C3DAFC 100%)' : background;
 
   const toggleFaq = (key) => {
     setOpenFaq(openFaq === key ? null : key);
   };
 
   return (
-    <section id="contact-section" className="section" style={{ background: finalBg === 'transparent' ? 'linear-gradient(180deg, #FFFFFF 0%, #F8FAFF 100%)' : finalBg, padding: isMobile ? '60px 0' : '120px 0' }}>
-      <div className="container">
-        <div style={{ display: 'grid', gridTemplateColumns: isMobile ? '1fr' : '1fr 1fr', gap: isMobile ? 32 : 80 }} className="contact-grid-responsive">
+    <section id="contact-section" className="section" style={{ background: finalBg === 'transparent' ? 'linear-gradient(180deg, #CADCFD 0%, #D8E7FE 50%, #C3DAFC 100%)' : finalBg, padding: isMobile ? '60px 0' : '120px 0', position: 'relative', overflow: 'hidden' }}>
+      <FloatingDoodles items={contactDoodles} />
+      {/* Ambient background glows */}
+      <div style={{
+        position: 'absolute',
+        top: '10%',
+        right: '15%',
+        width: '600px',
+        height: '600px',
+        borderRadius: '50%',
+        background: 'radial-gradient(circle, rgba(255, 255, 255, 0.9) 0%, rgba(220, 235, 255, 0.35) 50%, transparent 75%)',
+        filter: 'blur(60px)',
+        pointerEvents: 'none'
+      }} />
+      <div style={{
+        position: 'absolute',
+        bottom: '5%',
+        left: '5%',
+        width: '550px',
+        height: '550px',
+        borderRadius: '50%',
+        background: 'radial-gradient(circle, rgba(116, 105, 248, 0.15) 0%, rgba(79, 124, 255, 0.10) 50%, transparent 70%)',
+        filter: 'blur(70px)',
+        pointerEvents: 'none'
+      }} />
+      <div className="container" style={{ position: 'relative', zIndex: 1 }}>
+        <div style={{ display: 'grid', gridTemplateColumns: isMobile ? '1fr' : '1fr 1fr', gap: isMobile ? 32 : 40, alignItems: 'start' }} className="contact-grid-responsive">
           <FadeUp>
-            <div>
+            <div style={{
+              background: '#FFFFFF',
+              borderRadius: 24,
+              padding: isMobile ? '24px 20px' : '36px 32px',
+              border: '1px solid rgba(79, 124, 255, 0.12)',
+              boxShadow: '0 8px 24px rgba(15, 23, 42, 0.04)'
+            }}>
               <div className="eyebrow">Contact</div>
               {isStandalonePage ? (
                 <h1 style={{ fontSize: isMobile ? 28 : 36, marginBottom: 12, marginTop: 0, fontWeight: 700 }}>We're here to help.</h1>
@@ -146,64 +187,66 @@ export default function ContactSection({ background = 'white', isStandalonePage 
 
           <FadeUp delay={0.1}>
             <div>
-              <h3 style={{ fontSize: 24, marginBottom: 24, marginTop: isMobile ? 0 : 42 }}>Frequently Asked Questions</h3>
+              <h3 style={{ fontSize: 24, marginBottom: 24, marginTop: 0, fontWeight: 700, color: '#0F172A' }}>Frequently Asked Questions</h3>
               
               {!viewMore ? (
                 /* Initial view with 4 questions, one from each category */
-                <div>
-                  {defaultFaqs.map((f, i) => (
-                    <div key={`def-${i}`} style={{ borderBottom: '1px solid var(--color-border)' }}>
-                      <div 
-                        onClick={() => toggleFaq(`def-${i}`)} 
-                        style={{ 
-                          display: 'flex', justifyContent: 'space-between', alignItems: 'center', padding: '18px 0', cursor: 'pointer', fontSize: 15, fontWeight: 600, 
-                          color: openFaq === `def-${i}` ? 'var(--color-blue)' : 'var(--color-text-primary)', transition: 'color 0.3s' 
-                        }}
-                      >
-                        <span style={{ display: 'flex', flexDirection: 'column', gap: 2 }}>
-                          <span style={{ fontSize: 11, fontWeight: 700, textTransform: 'uppercase', color: '#7469F8', letterSpacing: '0.05em' }}>For {f.category}</span>
-                          <span>{f.q}</span>
-                        </span>
-                        <span style={{
-                          width: 24, height: 24, borderRadius: '50%', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 14, flexShrink: 0, transition: 'all 0.3s',
-                          background: openFaq === `def-${i}` ? 'var(--color-blue)' : '#F6F8FD',
-                          border: `1px solid ${openFaq === `def-${i}` ? 'var(--color-blue)' : 'var(--color-border)'}`,
-                          color: openFaq === `def-${i}` ? 'white' : 'inherit',
-                          transform: openFaq === `def-${i}` ? 'rotate(45deg)' : 'none',
-                        }}>+</span>
+                <BorderGlow borderRadius={20} backgroundColor="#FFFFFF">
+                  <div style={{ padding: isMobile ? '20px 18px' : '28px 24px' }}>
+                    {defaultFaqs.map((f, i) => (
+                      <div key={`def-${i}`} style={{ borderBottom: '1px solid var(--color-border)' }}>
+                        <div 
+                          onClick={() => toggleFaq(`def-${i}`)} 
+                          style={{ 
+                            display: 'flex', justifyContent: 'space-between', alignItems: 'center', padding: '16px 0', cursor: 'pointer', fontSize: 15, fontWeight: 600, 
+                            color: openFaq === `def-${i}` ? 'var(--color-blue)' : 'var(--color-text-primary)', transition: 'color 0.3s' 
+                          }}
+                        >
+                          <span style={{ display: 'flex', flexDirection: 'column', gap: 2 }}>
+                            <span style={{ fontSize: 11, fontWeight: 700, textTransform: 'uppercase', color: '#7469F8', letterSpacing: '0.05em' }}>For {f.category}</span>
+                            <span>{f.q}</span>
+                          </span>
+                          <span style={{
+                            width: 24, height: 24, borderRadius: '50%', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 14, flexShrink: 0, transition: 'all 0.3s',
+                            background: openFaq === `def-${i}` ? 'var(--color-blue)' : '#F6F8FD',
+                            border: `1px solid ${openFaq === `def-${i}` ? 'var(--color-blue)' : 'var(--color-border)'}`,
+                            color: openFaq === `def-${i}` ? 'white' : 'inherit',
+                            transform: openFaq === `def-${i}` ? 'rotate(45deg)' : 'none',
+                          }}>+</span>
+                        </div>
+                        <div style={{ 
+                          fontSize: 14, color: 'var(--color-text-secondary)', lineHeight: 1.75, 
+                          maxHeight: openFaq === `def-${i}` ? 300 : 0, overflow: 'hidden', transition: 'max-height 0.3s ease, padding 0.3s ease', 
+                          paddingBottom: openFaq === `def-${i}` ? 16 : 0 
+                        }}>
+                          {f.a}
+                        </div>
                       </div>
-                      <div style={{ 
-                        fontSize: 14, color: 'var(--color-text-secondary)', lineHeight: 1.75, 
-                        maxHeight: openFaq === `def-${i}` ? 300 : 0, overflow: 'hidden', transition: 'max-height 0.3s ease, padding 0.3s ease', 
-                        paddingBottom: openFaq === `def-${i}` ? 16 : 0 
-                      }}>
-                        {f.a}
-                      </div>
-                    </div>
-                  ))}
+                    ))}
 
-                  <button 
-                    onClick={() => { setViewMore(true); setOpenFaq(null); }}
-                    className="btn-view-more-faqs"
-                    style={{
-                      marginTop: 24,
-                      background: 'transparent',
-                      border: '1px solid rgba(79, 124, 255, 0.3)',
-                      borderRadius: 99,
-                      color: '#4F7CFF',
-                      fontSize: 14,
-                      fontWeight: 600,
-                      padding: '10px 24px',
-                      cursor: 'pointer',
-                      transition: 'all 0.2s',
-                      fontFamily: 'var(--font-sans)',
-                      width: '100%',
-                      textAlign: 'center'
-                    }}
-                  >
-                    View More FAQs →
-                  </button>
-                </div>
+                    <button 
+                      onClick={() => { setViewMore(true); setOpenFaq(null); }}
+                      className="btn-view-more-faqs"
+                      style={{
+                        marginTop: 20,
+                        background: '#F8FAFC',
+                        border: '1px solid rgba(79, 124, 255, 0.25)',
+                        borderRadius: 99,
+                        color: '#4F7CFF',
+                        fontSize: 14,
+                        fontWeight: 600,
+                        padding: '10px 24px',
+                        cursor: 'pointer',
+                        transition: 'all 0.2s',
+                        fontFamily: 'var(--font-sans)',
+                        width: '100%',
+                        textAlign: 'center'
+                      }}
+                    >
+                      View More FAQs →
+                    </button>
+                  </div>
+                </BorderGlow>
               ) : (
                 /* Card view with section by section navigation */
                 <BorderGlow borderRadius={20} backgroundColor="#FFFFFF">

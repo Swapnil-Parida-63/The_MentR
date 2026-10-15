@@ -6,6 +6,19 @@ import BorderGlow from '../components/home/BorderGlow';
 import SEO from '../components/common/SEO';
 import { PAGE_SEO } from '../config/seo.config';
 import Logo from '../components/common/Logo';
+import { FloatingDoodles } from '../components/common/FloatingDoodles';
+
+const loginDoodles = [
+  { type: 'paperPlane', size: 64, color: '#4F7CFF', rotate: 12, opacity: 0.55, position: { top: '10%', right: '12%' } },
+  { type: 'bulb', size: 52, color: '#6366F1', rotate: -15, opacity: 0.48, position: { top: '14%', left: '12%' } },
+  { type: 'cap', size: 58, color: '#7469F8', rotate: 18, opacity: 0.45, position: { bottom: '12%', left: '14%' } },
+  { type: 'book', size: 56, color: '#3B82F6', rotate: -10, opacity: 0.48, position: { bottom: '15%', right: '12%' } },
+  { type: 'aPlus', size: 48, color: '#4F7CFF', rotate: 8, opacity: 0.42, position: { top: '35%', left: '7%' } },
+  { type: 'atom', size: 52, color: '#6366F1', rotate: -20, opacity: 0.45, position: { top: '40%', right: '8%' } },
+  { type: 'sparkle', size: 38, color: '#7469F8', rotate: 0, opacity: 0.55, position: { top: '7%', left: '26%' } },
+  { type: 'pencil', size: 48, color: '#2563EB', rotate: 25, opacity: 0.45, position: { bottom: '30%', right: '7%' } },
+  { type: 'math', size: 48, color: '#4F7CFF', rotate: -8, opacity: 0.42, position: { bottom: '32%', left: '6%' } }
+];
 
 export default function LoginPage() {
   const [form, setForm] = useState({ email: '', password: '' });
@@ -27,12 +40,13 @@ export default function LoginPage() {
   };
 
   return (
-    <div style={{ minHeight: '100vh', display: 'flex', alignItems: 'center', justifyContent: 'center', background: 'linear-gradient(180deg, #F8FAFF 0%, #F1F7FF 100%)', padding: 24 }}>
+    <div style={{ minHeight: '100vh', display: 'flex', alignItems: 'center', justifyContent: 'center', background: 'linear-gradient(180deg, #F8FAFF 0%, #EDF4FF 100%)', padding: 24, position: 'relative', overflow: 'hidden' }}>
       <SEO {...PAGE_SEO.login} />
+      <FloatingDoodles items={loginDoodles} />
       <BorderGlow
         borderRadius={32}
         backgroundColor="#FFFFFF"
-        style={{ width: '100%', maxWidth: 420 }}
+        style={{ width: '100%', maxWidth: 420, position: 'relative', zIndex: 2 }}
       >
         <div style={{ padding: 48, cursor: 'default' }}>
           <div style={{ display: 'inline-block', marginBottom: 32 }}>

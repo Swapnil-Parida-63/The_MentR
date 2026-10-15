@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { FadeUp } from '../../hooks/useScrollReveal';
+import { FloatingDoodles } from '../common/FloatingDoodles';
 import { 
   Award, 
   BookOpen, 
@@ -15,6 +16,18 @@ import {
   CheckCircle2, 
   X 
 } from 'lucide-react';
+
+const organogramDoodles = [
+  { type: 'bulb', size: 52, color: '#6366F1', rotate: -15, opacity: 0.42, position: { top: '12%', left: '4%' } },
+  { type: 'atom', size: 56, color: '#4F7CFF', rotate: 20, opacity: 0.45, position: { top: '35%', left: '3%' } },
+  { type: 'cap', size: 58, color: '#7469F8', rotate: -12, opacity: 0.42, position: { bottom: '25%', left: '4%' } },
+  { type: 'compass', size: 48, color: '#3B82F6', rotate: 10, opacity: 0.38, position: { bottom: '10%', left: '6%' } },
+
+  { type: 'paperPlane', size: 64, color: '#4F7CFF', rotate: 16, opacity: 0.48, position: { top: '10%', right: '5%' } },
+  { type: 'sparkle', size: 40, color: '#7469F8', rotate: 0, opacity: 0.52, position: { top: '32%', right: '4%' } },
+  { type: 'book', size: 54, color: '#3B82F6', rotate: 14, opacity: 0.45, position: { bottom: '28%', right: '3%' } },
+  { type: 'aPlus', size: 48, color: '#6366F1', rotate: -8, opacity: 0.4, position: { bottom: '12%', right: '5%' } }
+];
 
 const nodeDetails = {
   leadership: {
@@ -176,7 +189,8 @@ export default function OrganogramSection() {
 
 
   return (
-    <section id="organogram" className="section" style={{ background: '#EDF2FF', padding: isMobile ? '60px 0' : '40px 0', minHeight: isMobile ? 'auto' : 'calc(100vh - 90px)', display: 'flex', flexDirection: 'column', justifyContent: 'center', position: 'relative', overflow: 'hidden' }}>
+    <section id="organogram" className="section" style={{ background: '#FFFFFF', padding: isMobile ? '60px 0' : '40px 0', minHeight: isMobile ? 'auto' : 'calc(100vh - 90px)', display: 'flex', flexDirection: 'column', justifyContent: 'center', position: 'relative', overflow: 'hidden' }}>
+      <FloatingDoodles items={organogramDoodles} />
       
       {/* Background ambient radial glow */}
       <div style={{

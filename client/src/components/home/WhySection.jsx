@@ -2,6 +2,20 @@ import { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { FileText, ShieldCheck, Target, TrendingUp, Award, Plus, Sparkles, Cpu } from 'lucide-react';
 import Logo from '../common/Logo';
+import { FloatingDoodles } from '../common/FloatingDoodles';
+
+const whyDoodles = [
+  // Left side framing "We are TheMentR" heading block
+  { type: 'bulb', size: 48, color: '#4F7CFF', opacity: 0.42, rotate: -12, position: { top: '8%', left: '4%' } },
+  { type: 'compass', size: 46, color: '#7C69F8', opacity: 0.38, rotate: 15, position: { top: '32%', left: '2.5%' } },
+  { type: 'pencil', size: 44, color: '#3B82F6', opacity: 0.36, rotate: 22, position: { top: '65%', left: '3.5%' } },
+  { type: 'sparkle', size: 38, color: '#7C69F8', opacity: 0.42, rotate: 8, position: { top: '86%', left: '6%' } },
+  // Right flank framing ecosystem modules
+  { type: 'paperPlane', size: 54, color: '#4F7CFF', opacity: 0.4, rotate: 16, position: { top: '6%', right: '5%' } },
+  { type: 'star', size: 40, color: '#7C69F8', opacity: 0.45, rotate: -8, position: { top: '28%', right: '3%' } },
+  { type: 'atom', size: 48, color: '#3B82F6', opacity: 0.35, rotate: 18, position: { top: '60%', right: '2.5%' } },
+  { type: 'cap', size: 50, color: '#4F7CFF', opacity: 0.38, rotate: -10, position: { top: '85%', right: '4.5%' } },
+];
 
 export default function WhySection() {
   const [isMobile, setIsMobile] = useState(window.innerWidth < 1024);
@@ -107,12 +121,12 @@ export default function WhySection() {
     <section 
       id="why" 
       style={{ 
-        background: 'linear-gradient(180deg, #FFFFFF 0%, #F8FAFF 60%, #F1F7FF 100%)', 
+        background: 'linear-gradient(180deg, #E3E4FE 0%, #ECEBFF 45%, #DFE1FC 100%)', 
         padding: isMobile ? '50px 0 40px' : '60px 0', 
         position: 'relative', 
         overflow: 'hidden',
         fontFamily: 'var(--font-sans)',
-        borderBottom: '1px solid rgba(79, 124, 255, 0.05)'
+        borderBottom: '1px solid rgba(116, 105, 248, 0.15)'
       }}
     >
       {/* Ambient gradient circles behind network to create depth */}
@@ -120,10 +134,10 @@ export default function WhySection() {
         position: 'absolute',
         top: '20%',
         right: '15%',
-        width: '320px',
-        height: '320px',
-        background: 'radial-gradient(circle, rgba(79, 124, 255, 0.045) 0%, transparent 70%)',
-        filter: 'blur(40px)',
+        width: '380px',
+        height: '380px',
+        background: 'radial-gradient(circle, rgba(116, 105, 248, 0.22) 0%, rgba(124, 92, 255, 0.08) 50%, transparent 75%)',
+        filter: 'blur(50px)',
         pointerEvents: 'none',
         zIndex: 0
       }} />
@@ -131,10 +145,10 @@ export default function WhySection() {
         position: 'absolute',
         bottom: '15%',
         right: '5%',
-        width: '380px',
-        height: '380px',
-        background: 'radial-gradient(circle, rgba(124, 92, 255, 0.035) 0%, transparent 70%)',
-        filter: 'blur(50px)',
+        width: '420px',
+        height: '420px',
+        background: 'radial-gradient(circle, rgba(124, 92, 255, 0.18) 0%, transparent 70%)',
+        filter: 'blur(60px)',
         pointerEvents: 'none',
         zIndex: 0
       }} />
@@ -145,12 +159,12 @@ export default function WhySection() {
         left: '5%',
         width: '450px',
         height: '450px',
-        background: 'radial-gradient(circle, rgba(79, 124, 255, 0.02) 0%, rgba(124, 92, 255, 0.008) 50%, transparent 80%)',
+        background: 'radial-gradient(circle, rgba(79, 124, 255, 0.12) 0%, rgba(124, 92, 255, 0.05) 50%, transparent 80%)',
         filter: 'blur(70px)',
         pointerEvents: 'none',
         zIndex: 0
       }} />
-      {/* Faint center mesh glow */}
+      {/* Center luminous mesh glow around central ecosystem mascot */}
       <div style={{
         position: 'absolute',
         top: '50%',
@@ -158,11 +172,13 @@ export default function WhySection() {
         transform: 'translate(-50%, -50%)',
         width: '650px',
         height: '650px',
-        background: 'radial-gradient(circle, rgba(124, 92, 255, 0.02) 0%, rgba(79, 124, 255, 0.008) 60%, transparent 80%)',
+        background: 'radial-gradient(circle, rgba(116, 105, 248, 0.16) 0%, rgba(79, 124, 255, 0.08) 45%, transparent 75%)',
         filter: 'blur(90px)',
         pointerEvents: 'none',
         zIndex: 0
       }} />
+
+      <FloatingDoodles items={whyDoodles} />
 
       <div className="container" style={{ position: 'relative', zIndex: 1 }}>
         <div style={{

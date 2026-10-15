@@ -5,7 +5,7 @@ import { menteeAPI } from '../../services/api';
 
 const INITIAL_GREETING = `Hello! 👋
 
-I am Mantee.
+I am Mentee.
 
 I'm here to help parents, students, and teachers with everything related to TheMentR.
 
@@ -65,15 +65,22 @@ export default function MenteeChat() {
     setError(null);
 
     try {
-      // Send chat message to Mentee backend endpoint
+      // Send chat message to Mentee backend endpoint with session continuity and history
+      const historyPayload = messages.slice(-10).map((m) => ({
+        role: m.role,
+        content: m.content
+      }));
+
       const res = await menteeAPI.chat({
-        message: text.trim()
+        message: text.trim(),
+        sessionId: sessionIdRef.current,
+        history: historyPayload
       });
 
       const replyContent =
         res.data?.reply ||
         res.data?.data?.reply ||
-        "Thank you for contacting Mantee! I'm here to help you navigate TheMentR.";
+        "Thank you for contacting Mentee! I'm here to help you navigate TheMentR.";
 
       const suggestedActions =
         res.data?.suggestedActions ||

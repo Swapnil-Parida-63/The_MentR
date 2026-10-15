@@ -1,5 +1,22 @@
 import { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
+import { FloatingDoodles } from '../common/FloatingDoodles';
+
+const servicesDoodles = [
+  // Top right doodles framing the header empty space
+  { type: 'paperPlane', size: 58, color: '#4F7CFF', opacity: 0.42, rotate: 14, position: { top: '3%', right: '10%' } },
+  { type: 'bulb', size: 46, color: '#7C69F8', opacity: 0.38, rotate: -12, position: { top: '2%', right: '26%' } },
+  { type: 'sparkle', size: 38, color: '#3B82F6', opacity: 0.45, rotate: 8, position: { top: '10%', right: '4%' } },
+  { type: 'book', size: 48, color: '#7C69F8', opacity: 0.4, rotate: -10, position: { top: '13%', right: '20%' } },
+  // Left flank doodles
+  { type: 'cap', size: 52, color: '#4F7CFF', opacity: 0.38, rotate: -14, position: { top: '36%', left: '2.5%' } },
+  { type: 'pencil', size: 46, color: '#3B82F6', opacity: 0.35, rotate: 20, position: { top: '58%', left: '3%' } },
+  { type: 'math', size: 44, color: '#7C69F8', opacity: 0.34, rotate: -8, position: { top: '78%', left: '2.5%' } },
+  // Right flank doodles
+  { type: 'aPlus', size: 52, color: '#4F7CFF', opacity: 0.38, rotate: 10, position: { top: '38%', right: '2.5%' } },
+  { type: 'compass', size: 46, color: '#7C69F8', opacity: 0.35, rotate: -12, position: { top: '60%', right: '3%' } },
+  { type: 'atom', size: 48, color: '#3B82F6', opacity: 0.32, rotate: 16, position: { top: '80%', right: '2.5%' } },
+];
 
 // Premium colorful vector SVGs with complete viewBox safety and grounding
 const illustrations = {
@@ -269,7 +286,7 @@ export default function ServicesSection() {
     <section
       id="services"
       style={{
-        background: 'linear-gradient(180deg, #F1F7FF 0%, #EDF2FF 50%, #F1F7FF 100%)',
+        background: 'linear-gradient(180deg, #D4E5FF 0%, #E6F0FF 45%, #D6E6FE 100%)',
         padding: isMobile ? '56px 0' : '88px 0',
         position: 'relative',
         overflow: 'hidden'
@@ -279,12 +296,12 @@ export default function ServicesSection() {
       <div
         style={{
           position: 'absolute',
-          top: '5%',
-          left: '-5%',
-          width: '450px',
-          height: '450px',
+          top: '0%',
+          left: '10%',
+          width: '550px',
+          height: '550px',
           borderRadius: '50%',
-          background: 'radial-gradient(circle, rgba(79, 124, 255, 0.08) 0%, transparent 70%)',
+          background: 'radial-gradient(circle, rgba(255, 255, 255, 0.9) 0%, rgba(220, 235, 255, 0.4) 50%, transparent 75%)',
           filter: 'blur(50px)',
           pointerEvents: 'none'
         }}
@@ -292,16 +309,18 @@ export default function ServicesSection() {
       <div
         style={{
           position: 'absolute',
-          bottom: '10%',
+          bottom: '5%',
           right: '-5%',
-          width: '500px',
-          height: '500px',
+          width: '550px',
+          height: '550px',
           borderRadius: '50%',
-          background: 'radial-gradient(circle, rgba(116, 105, 248, 0.05) 0%, transparent 70%)',
+          background: 'radial-gradient(circle, rgba(79, 124, 255, 0.18) 0%, rgba(116, 105, 248, 0.10) 50%, transparent 70%)',
           filter: 'blur(60px)',
           pointerEvents: 'none'
         }}
       />
+
+      <FloatingDoodles items={servicesDoodles} />
 
       <div className="container" style={{ position: 'relative', zIndex: 1 }}>
         {/* Section Header */}

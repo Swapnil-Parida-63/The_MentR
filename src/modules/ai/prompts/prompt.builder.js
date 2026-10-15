@@ -42,12 +42,13 @@ ${contextString.trim()}
 
 ### STRICT CONSTRAINTS FOR KNOWLEDGE USE:
 1. **Grounding Priority**: Use the verified MentR Knowledge Base Context above to answer questions about TheMentR platform, pricing, policies, teachers, parents, and courses.
-2. **Zero Hallucination Policy**: NEVER invent, guess, or assume fees, refund policies, diagnostic visit details, or contractual terms that are not explicitly stated in the context.
-3. **Handling Missing Facts**: If the answer to a specific MentR platform question is NOT present in the provided context, state clearly: "I don't have that specific detail right now, but I can connect you with TheMentR support team to assist you."
-4. **General Educational Queries**: For general non-MentR educational advice (e.g. general study tips), you may respond helpfully while adhering to Mentee's warm persona.`;
+2. **Zero Hallucination Policy**: NEVER invent, guess, or assume fees, refund policies, diagnostic visit details, contact numbers, or contractual terms that are not explicitly stated in the context.
+3. **Handling Missing Facts**: If the answer to a specific MentR platform question is NOT present in the provided context, state clearly and naturally: "I don't have that specific platform detail in my records right now, but I would be glad to connect you with TheMentR support team at contact@thementr.com or our toll-free helpline 1800 889 2388."
+4. **General Educational Queries**: For school-level academic concepts (math, science, etc.), explain clearly, patiently, and step-by-step with simple analogies.
+5. **Privacy Protection**: Never disclose student reports, customer personal data, residential addresses, or teacher personal contact numbers.`;
     } else {
       systemContent += `\n\n### NOTICE REGARDING PLATFORM SPECIFICS:
-No specific MentR knowledge base document matched this query with high confidence. For general educational advice, respond helpfully. If asked for specific MentR prices, policies, or account details, state clearly that you don't have that specific record loaded and offer to connect them with TheMentR team.`;
+No specific MentR knowledge base document matched this query with high confidence. For school-level academic explanations and general study guidance, respond helpfully and encouragingly. If asked for specific MentR platform prices, policies, teacher phone numbers, or account details, state clearly that you do not have that specific platform record loaded and offer to connect them with TheMentR team at contact@thementr.com or 1800 889 2388.`;
     }
 
     // Format & validate history array

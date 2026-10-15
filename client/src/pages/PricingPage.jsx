@@ -8,6 +8,25 @@ import SEO from '../components/common/SEO';
 import { PAGE_SEO } from '../config/seo.config';
 import { PAGE_SCHEMAS } from '../config/schema.config';
 import Breadcrumbs from '../components/common/Breadcrumbs';
+import { FloatingDoodles } from '../components/common/FloatingDoodles';
+
+const pricingDoodles = [
+  // Left flank
+  { type: 'paperPlane', size: 68, color: '#4F7CFF', rotate: 15, opacity: 0.5, position: { top: '6%', left: '4%' } },
+  { type: 'bulb', size: 54, color: '#6366F1', rotate: -18, opacity: 0.45, position: { top: '20%', left: '3%' } },
+  { type: 'book', size: 58, color: '#3B82F6', rotate: 12, opacity: 0.48, position: { top: '35%', left: '5%' } },
+  { type: 'atom', size: 54, color: '#7469F8', rotate: -15, opacity: 0.42, position: { top: '50%', left: '3%' } },
+  { type: 'aPlus', size: 50, color: '#4F7CFF', rotate: 8, opacity: 0.45, position: { top: '65%', left: '4%' } },
+  { type: 'math', size: 50, color: '#6366F1', rotate: -10, opacity: 0.4, position: { top: '80%', left: '3%' } },
+
+  // Right flank
+  { type: 'cap', size: 62, color: '#7469F8', rotate: -14, opacity: 0.48, position: { top: '8%', right: '4%' } },
+  { type: 'sparkle', size: 42, color: '#4F7CFF', rotate: 0, opacity: 0.55, position: { top: '22%', right: '5%' } },
+  { type: 'pencil', size: 52, color: '#2563EB', rotate: 22, opacity: 0.45, position: { top: '37%', right: '3%' } },
+  { type: 'compass', size: 52, color: '#6366F1', rotate: -12, opacity: 0.42, position: { top: '52%', right: '5%' } },
+  { type: 'magnify', size: 50, color: '#3B82F6', rotate: 15, opacity: 0.45, position: { top: '67%', right: '3%' } },
+  { type: 'star', size: 44, color: '#7469F8', rotate: 5, opacity: 0.48, position: { top: '82%', right: '5%' } }
+];
 
 // Pricing Data
 const PRICING_DATA = {
@@ -543,6 +562,7 @@ export default function PricingPage() {
   return (
     <div style={{ background: 'linear-gradient(180deg, #F8FAFF 0%, #FFFFFF 50%, #F1F7FF 100%)', minHeight: '100vh', position: 'relative', overflow: 'hidden', padding: isMobile ? '95px 12px 140px' : '140px 0 160px' }}>
       <SEO {...PAGE_SEO.pricing} schema={PAGE_SCHEMAS.pricing} />
+      <FloatingDoodles items={pricingDoodles} />
       
       {/* Background radial atmosphere */}
       <div style={{

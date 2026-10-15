@@ -11,6 +11,23 @@ import {
   Star, 
   ArrowRight 
 } from 'lucide-react';
+import { FloatingDoodles } from '../common/FloatingDoodles';
+
+const avsarDoodles = [
+  // Top right doodles framing the header empty space
+  { type: 'aPlus', size: 56, color: '#4F7CFF', opacity: 0.42, rotate: 10, position: { top: '3%', right: '10%' } },
+  { type: 'bulb', size: 46, color: '#7C69F8', opacity: 0.38, rotate: -12, position: { top: '2%', right: '26%' } },
+  { type: 'magnify', size: 48, color: '#3B82F6', opacity: 0.38, rotate: 18, position: { top: '11%', right: '4%' } },
+  { type: 'sparkle', size: 36, color: '#7C69F8', opacity: 0.42, rotate: -8, position: { top: '14%', right: '20%' } },
+  // Left flank doodles
+  { type: 'cap', size: 52, color: '#4F7CFF', opacity: 0.38, rotate: -14, position: { top: '34%', left: '2.5%' } },
+  { type: 'paperPlane', size: 54, color: '#3B82F6', opacity: 0.36, rotate: 16, position: { top: '56%', left: '3%' } },
+  { type: 'atom', size: 46, color: '#7C69F8', opacity: 0.34, rotate: -8, position: { top: '78%', left: '2.5%' } },
+  // Right flank doodles
+  { type: 'star', size: 42, color: '#7C69F8', opacity: 0.38, rotate: 12, position: { top: '38%', right: '2.5%' } },
+  { type: 'book', size: 50, color: '#4F7CFF', opacity: 0.38, rotate: -10, position: { top: '60%', right: '3%' } },
+  { type: 'compass', size: 46, color: '#3B82F6', opacity: 0.34, rotate: 14, position: { top: '82%', right: '2.5%' } },
+];
 
 function Counter({ target, suffix = '', decimals = 0 }) {
   const [count, setCount] = useState(0);
@@ -235,7 +252,7 @@ export default function AvsarSection({ isStandalonePage = false }) {
     <section
       id="avsar"
       style={{
-        background: 'linear-gradient(180deg, #F8FAFF 0%, #FFFFFF 50%, #F8FAFF 100%)',
+        background: 'linear-gradient(180deg, #D6E6FE 0%, #E4EFFF 50%, #D0E3FD 100%)',
         padding: isMobile ? '40px 0 60px' : isStandalonePage ? '10px 0 80px' : '70px 0 90px',
         position: 'relative',
         overflow: 'hidden',
@@ -248,10 +265,10 @@ export default function AvsarSection({ isStandalonePage = false }) {
           position: 'absolute',
           top: '10%',
           right: '-5%',
-          width: '500px',
-          height: '500px',
+          width: '550px',
+          height: '550px',
           borderRadius: '50%',
-          background: 'radial-gradient(circle, rgba(79, 124, 255, 0.07) 0%, transparent 70%)',
+          background: 'radial-gradient(circle, rgba(255, 255, 255, 0.85) 0%, rgba(220, 235, 255, 0.35) 50%, transparent 75%)',
           filter: 'blur(60px)',
           pointerEvents: 'none'
         }}
@@ -261,14 +278,16 @@ export default function AvsarSection({ isStandalonePage = false }) {
           position: 'absolute',
           bottom: '5%',
           left: '-5%',
-          width: '450px',
-          height: '450px',
+          width: '500px',
+          height: '500px',
           borderRadius: '50%',
-          background: 'radial-gradient(circle, rgba(116, 105, 248, 0.05) 0%, transparent 70%)',
+          background: 'radial-gradient(circle, rgba(79, 124, 255, 0.16) 0%, rgba(116, 105, 248, 0.08) 50%, transparent 70%)',
           filter: 'blur(60px)',
           pointerEvents: 'none'
         }}
       />
+
+      <FloatingDoodles items={avsarDoodles} />
 
       <div className="container" style={{ position: 'relative', zIndex: 1 }}>
         

@@ -6,6 +6,24 @@ import SEO from '../components/common/SEO';
 import { PAGE_SEO } from '../config/seo.config';
 import { PAGE_SCHEMAS } from '../config/schema.config';
 import Breadcrumbs from '../components/common/Breadcrumbs';
+import { FloatingDoodles } from '../components/common/FloatingDoodles';
+
+const journalDoodles = [
+  // Left margin doodles
+  { type: 'book', size: 52, color: '#4F7CFF', opacity: 0.42, rotate: -10, position: { top: '8%', left: '3%' } },
+  { type: 'magnify', size: 46, color: '#7C69F8', opacity: 0.38, rotate: 15, position: { top: '22%', left: '7%' } },
+  { type: 'pencil', size: 48, color: '#3B82F6', opacity: 0.35, rotate: -20, position: { top: '38%', left: '2.5%' } },
+  { type: 'sparkle', size: 38, color: '#7C69F8', opacity: 0.4, rotate: 8, position: { top: '55%', left: '6%' } },
+  { type: 'atom', size: 48, color: '#4F7CFF', opacity: 0.32, rotate: 15, position: { top: '72%', left: '3.5%' } },
+  { type: 'math', size: 44, color: '#7C69F8', opacity: 0.35, rotate: -12, position: { top: '88%', left: '7%' } },
+  // Right margin doodles
+  { type: 'bulb', size: 50, color: '#4F7CFF', opacity: 0.42, rotate: 12, position: { top: '6%', right: '3.5%' } },
+  { type: 'sparkle', size: 40, color: '#7C69F8', opacity: 0.45, rotate: -8, position: { top: '20%', right: '8%' } },
+  { type: 'paperPlane', size: 56, color: '#3B82F6', opacity: 0.38, rotate: 18, position: { top: '36%', right: '2%' } },
+  { type: 'compass', size: 46, color: '#7C69F8', opacity: 0.36, rotate: -15, position: { top: '54%', right: '6%' } },
+  { type: 'cap', size: 52, color: '#4F7CFF', opacity: 0.4, rotate: 10, position: { top: '70%', right: '3%' } },
+  { type: 'star', size: 40, color: '#7C69F8', opacity: 0.38, rotate: -6, position: { top: '87%', right: '7%' } },
+];
 
 /**
  * Lightweight helper to parse inline markdown (bold text and links)
@@ -260,60 +278,9 @@ When students are paired with mentors who genuinely complement their learning st
 
 ***
 **Continue Reading:**
-- *The Diagnostic Home Assessment: What Parents Should Expect*
 - *Inside AVSAR: How Data Intelligence Predicts Learning Gaps*
-- *Building a Trusted Teaching Practice: Lessons from Top Educators*`
-    },
-    {
-      id: 2,
-      tag: 'Olympiad',
-      tagClass: 'tag-olympiad',
-      title: "How to prepare for IMO Stage 1 in 60 days: A structured guide",
-      desc: "A week-by-week math playbook covering syllabus breakdown, high-weightage topics, mock test cycles, and error log tracking.",
-      time: "5 min read",
-      date: "May 2026",
-      coverType: 'olympiad'
-    },
-    {
-      id: 3,
-      tag: 'Parents',
-      tagClass: 'tag-parents',
-      title: "The diagnostic home assessment: what parents should expect",
-      desc: "Before matching a mentor, our learning experts conduct a 90-minute diagnostic session. Here is how we gauge cognitive speed, focus drift, and academic foundations.",
-      time: "4 min read",
-      date: "April 2026",
-      coverType: 'assessment'
-    },
-    {
-      id: 4,
-      tag: 'Teachers',
-      tagClass: 'tag-teachers',
-      title: "Building a trusted teaching practice: lessons from top 1% mentors",
-      desc: "Our highest-rated educators reveal the classroom routines, progress templates, and feedback loops they use to build long-term trust with students.",
-      time: "6 min read",
-      date: "March 2026",
-      coverType: 'teachers'
-    },
-    {
-      id: 5,
-      tag: 'Study Tips',
-      tagClass: 'tag-study-tips',
-      title: "Cognitive science tricks to double student retention rate",
-      desc: "Understanding active recall, spaced repetition spacing schedules, and Cornell note-taking methods based on recent memory research.",
-      time: "7 min read",
-      date: "February 2026",
-      coverType: 'research'
-    },
-    {
-      id: 6,
-      tag: 'Success Stories',
-      tagClass: 'tag-success-stories',
-      title: "From borderline passing to CBSE board topper: A MentR case study",
-      desc: "How a structured match with a math-physics mentor transformed a student's performance from 45% to a perfect 98% score.",
-      time: "9 min read",
-      date: "January 2026",
-      coverType: 'parents',
-      wide: true // Wide spanning item to break grid rhythm
+- *How Do I Hire the Right Home Teacher in Bhubaneswar?*
+- *Finding The Right Tuition Starts With Choosing The Right Tutor*`
     },
     {
       id: 7,
@@ -712,7 +679,7 @@ Parents can also look at a tutor’s experience to find trustworthy learning app
     }
 ];
 
-const categories = ['All', 'Parents', 'Teachers', 'Olympiad', 'Study Tips', 'Research', 'Success Stories'];
+const categories = ['All', 'Parents', 'Research'];
 
 export default function BlogsPage() {
   const { slug } = useParams();
@@ -824,6 +791,8 @@ export default function BlogsPage() {
         } : PAGE_SCHEMAS.blogs} 
       />
       
+      <FloatingDoodles items={journalDoodles} />
+
       {/* Background ambient accents */}
       <div style={{
         position: 'absolute',
@@ -1086,7 +1055,7 @@ export default function BlogsPage() {
             </div>
 
             {/* ============================================================== */}
-            {/* EDITORIAL CTA SECTION */}
+            {/* MENTOR ASSESSMENT BANNER */}
             {/* ============================================================== */}
             <FadeUp threshold={0.01}>
               <div className="journal-cta-section">
@@ -1095,41 +1064,33 @@ export default function BlogsPage() {
                   width: '500px',
                   height: '500px',
                   borderRadius: '50%',
-                  background: 'radial-gradient(circle, rgba(79, 124, 255, 0.035) 0%, transparent 70%)',
-                  bottom: '-20%',
+                  background: 'radial-gradient(circle, rgba(79, 124, 255, 0.12) 0%, transparent 70%)',
+                  top: '-30%',
                   right: '-10%',
                   pointerEvents: 'none',
                   zIndex: 0
                 }} />
                 
-                <div className="journal-cta-grid">
-                  
-                  {/* Subscribe Card */}
-                  <div className="journal-cta-card">
-                    <h3 className="cta-card-title">Subscribe to the Journal</h3>
-                    <p className="cta-card-desc">Get quarterly research studies, diagnostic frameworks and expert guides sent straight to your inbox.</p>
-                    <form className="cta-subscribe-form" onSubmit={(e) => e.preventDefault()}>
-                      <input type="email" placeholder="Enter your email" className="cta-input" required />
-                      <button type="submit" className="cta-btn-submit">Subscribe</button>
-                    </form>
+                <div className="journal-cta-content">
+                  <div className="journal-cta-text">
+                    <div className="journal-cta-eyebrow">Diagnostic Assessment</div>
+                    <h3 className="journal-cta-title">Looking for the right mentor?</h3>
+                    <p className="journal-cta-desc">
+                      Begin with our diagnostic assessment visit. We map foundations, focus, and match the perfect certified educator for your child.
+                    </p>
                   </div>
 
-                  {/* Assessment Card */}
-                  <div className="journal-cta-card highlight-card">
-                    <h3 className="cta-card-title" style={{ color: '#FFFFFF' }}>Looking for the right mentor?</h3>
-                    <p className="cta-card-desc" style={{ color: 'rgba(255, 255, 255, 0.75)' }}>Begin with our diagnostic assessment visit. We map foundations, focus, and match the perfect certified educator.</p>
-                    <div style={{ marginTop: 24 }}>
-                      <button 
-                        onClick={() => {
-                          localStorage.setItem('activeFormTab', 'assessment');
-                          localStorage.setItem('highlightForm', 'true');
-                          window.location.href = '/#contact-forms';
-                        }} 
-                        className="cta-btn-link"
-                      >
-                        Book Assessment Visit <span className="arrow">→</span>
-                      </button>
-                    </div>
+                  <div className="journal-cta-action">
+                    <button 
+                      onClick={() => {
+                        localStorage.setItem('activeFormTab', 'assessment');
+                        localStorage.setItem('highlightForm', 'true');
+                        window.location.href = '/#contact-forms';
+                      }} 
+                      className="cta-btn-link"
+                    >
+                      Book Assessment Visit <span className="arrow">→</span>
+                    </button>
                   </div>
                 </div>
               </div>
@@ -1471,91 +1432,55 @@ export default function BlogsPage() {
           aspect-ratio: 2.3 / 1;
         }
 
-        /* Editorial CTA Section */
+        /* Mentor Assessment CTA Banner */
         .journal-cta-section {
           position: relative;
-          margin-top: 120px;
-          padding: 80px 48px;
-          background: #FFFFFF;
-          border: 1px solid rgba(15, 23, 42, 0.05);
-          border-radius: 32px;
-          box-shadow: 0 4px 30px rgba(15, 23, 42, 0.015);
+          margin-top: 100px;
+          padding: 56px 48px;
+          background: linear-gradient(135deg, #0F172A 0%, #1E293B 100%);
+          border-radius: 28px;
+          box-shadow: 0 16px 40px -10px rgba(15, 23, 42, 0.25);
           overflow: hidden;
+          text-align: left;
         }
-        .journal-cta-grid {
-          display: grid;
-          grid-template-columns: 1fr 1.1fr;
-          gap: 48px;
+        .journal-cta-content {
+          display: flex;
           align-items: center;
+          justify-content: space-between;
+          gap: 40px;
           position: relative;
           z-index: 1;
         }
-        .journal-cta-card {
-          text-align: left;
-          display: flex;
-          flex-direction: column;
-          height: 100%;
-          justify-content: center;
+        .journal-cta-text {
+          max-width: 640px;
         }
-        .journal-cta-card.highlight-card {
-          background: linear-gradient(135deg, #0F172A 0%, #1E293B 100%);
-          padding: 48px;
-          border-radius: 24px;
-          box-shadow: 0 10px 30px rgba(15, 23, 42, 0.08);
+        .journal-cta-eyebrow {
+          font-family: var(--font-sans);
+          font-size: 12px;
+          font-weight: 700;
+          letter-spacing: 0.12em;
+          text-transform: uppercase;
+          color: #818CF8;
+          margin-bottom: 10px;
         }
-        .cta-card-title {
+        .journal-cta-title {
           font-family: var(--font-hero);
-          font-size: 28px;
+          font-size: clamp(24px, 3vw, 32px);
           font-weight: 800;
-          color: #0F172A;
-          margin-bottom: 12px;
-          letter-spacing: -0.01em;
+          color: #FFFFFF;
+          margin: 0 0 10px 0;
+          letter-spacing: -0.015em;
+          line-height: 1.2;
         }
-        .cta-card-desc {
+        .journal-cta-desc {
           font-family: var(--font-sans);
           font-size: 15px;
-          color: #64748B;
-          line-height: 1.6;
-          margin-bottom: 24px;
+          color: rgba(255, 255, 255, 0.78);
+          line-height: 1.65;
+          margin: 0;
         }
-        .cta-subscribe-form {
-          display: flex;
-          gap: 12px;
-          width: 100%;
-          max-width: 440px;
-        }
-        .cta-input {
-          flex-grow: 1;
-          padding: 12px 20px;
-          border-radius: 99px;
-          border: 1px solid rgba(15, 23, 42, 0.08);
-          font-family: var(--font-sans);
-          font-size: 14px;
-          outline: none;
-          transition: all 0.25s ease;
-          background: #FAFAFC;
-        }
-        .cta-input:focus {
-          border-color: #4F7CFF;
-          background: #FFFFFF;
-          box-shadow: 0 0 0 3px rgba(79, 124, 255, 0.1);
-        }
-        .cta-btn-submit {
-          padding: 12px 24px;
-          background: linear-gradient(135deg, #4F7CFF 0%, #7469F8 100%);
-          color: #FFFFFF;
-          font-family: var(--font-sans);
-          font-size: 14px;
-          font-weight: 600;
-          border: none;
-          border-radius: 99px;
-          cursor: pointer;
-          box-shadow: 0 4px 12px rgba(79, 124, 255, 0.15);
-          transition: all 0.25s ease;
-        }
-        .cta-btn-submit:hover {
-          transform: translateY(-2px);
-          box-shadow: 0 6px 16px rgba(79, 124, 255, 0.22);
+        .journal-cta-action {
+          flex-shrink: 0;
         }
         .cta-btn-link {
           display: inline-flex;
@@ -1633,23 +1558,21 @@ export default function BlogsPage() {
           }
           
           .journal-cta-section {
-            padding: 40px 24px;
-            border-radius: 24px;
-            margin-top: 80px;
+            padding: 36px 24px;
+            border-radius: 20px;
+            margin-top: 60px;
           }
-          .journal-cta-grid {
-            grid-template-columns: 1fr;
-            gap: 40px;
-          }
-          .journal-cta-card.highlight-card {
-            padding: 32px 20px;
-          }
-          .cta-subscribe-form {
+          .journal-cta-content {
             flex-direction: column;
-            gap: 10px;
+            align-items: flex-start;
+            gap: 24px;
           }
-          .cta-btn-submit {
+          .journal-cta-action {
             width: 100%;
+          }
+          .cta-btn-link {
+            width: 100%;
+            justify-content: center;
           }
         }
       `}</style>

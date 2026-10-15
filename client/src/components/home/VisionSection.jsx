@@ -149,7 +149,7 @@ export default function VisionSection() {
   ];
 
   return (
-    <section id="vision" style={{ background: '#FFFFFF' }}>
+    <section id="vision" style={{ background: '#C4DAFD' }}>
 
       {/* ================================================================== */}
       {/* BLOCK 1 — VISION                                                    */}
@@ -161,7 +161,7 @@ export default function VisionSection() {
         onMouseLeave={handleVisionMouseLeave}
         style={{
           ...sectionBase,
-          background: 'linear-gradient(180deg, #FFFFFF 0%, #F8FAFF 50%, #F1F7FF 100%)',
+          background: 'linear-gradient(160deg, #BDD7FE 0%, #CEE0FD 50%, #C4D3FB 100%)',
           padding: isMobile ? '40px 0 30px' : '50px 0 40px',
         }}
       >
@@ -169,13 +169,13 @@ export default function VisionSection() {
         <div style={{
           position: 'absolute', top: 0, left: 0,
           width: '55%', height: '100%',
-          background: 'radial-gradient(ellipse at 10% 50%, rgba(99,102,241,0.06) 0%, transparent 65%)',
+          background: 'radial-gradient(ellipse at 15% 50%, rgba(99, 102, 241, 0.16) 0%, transparent 65%)',
           pointerEvents: 'none', zIndex: 0,
         }} />
         <div style={{
           position: 'absolute', bottom: 0, right: 0,
           width: '45%', height: '100%',
-          background: 'radial-gradient(ellipse at 90% 90%, rgba(139,92,246,0.03) 0%, transparent 60%)',
+          background: 'radial-gradient(ellipse at 85% 85%, rgba(139, 92, 246, 0.14) 0%, transparent 60%)',
           pointerEvents: 'none', zIndex: 0,
         }} />
 
@@ -362,7 +362,7 @@ export default function VisionSection() {
         onMouseLeave={handleMissionMouseLeave}
         style={{
           ...sectionBase,
-          background: 'linear-gradient(180deg, #F1F7FF 0%, #FFFFFF 50%, #F8FAFF 100%)',
+          background: 'linear-gradient(160deg, #C4D3FB 0%, #D2E0FD 50%, #BED6FE 100%)',
           padding: isMobile ? '40px 0 40px' : '50px 0 50px',
         }}
       >
@@ -370,13 +370,13 @@ export default function VisionSection() {
         <div style={{
           position: 'absolute', top: 0, right: 0,
           width: '55%', height: '100%',
-          background: 'radial-gradient(ellipse at 90% 50%, rgba(139,92,246,0.06) 0%, transparent 65%)',
+          background: 'radial-gradient(ellipse at 85% 50%, rgba(139, 92, 246, 0.18) 0%, transparent 65%)',
           pointerEvents: 'none', zIndex: 0,
         }} />
         <div style={{
           position: 'absolute', bottom: 0, left: 0,
           width: '45%', height: '100%',
-          background: 'radial-gradient(ellipse at 10% 90%, rgba(99,102,241,0.03) 0%, transparent 60%)',
+          background: 'radial-gradient(ellipse at 15% 85%, rgba(79, 124, 255, 0.15) 0%, transparent 60%)',
           pointerEvents: 'none', zIndex: 0,
         }} />
 
@@ -539,7 +539,7 @@ export default function VisionSection() {
         ref={timelineRef}
         style={{
           ...sectionBase,
-          background: 'linear-gradient(180deg, #FFFFFF 0%, #F1F7FF 50%, #EDF2FF 100%)',
+          background: 'linear-gradient(180deg, #BED6FE 0%, #CEE0FD 100%)',
           padding: isMobile ? '40px 0 30px' : '50px 0 40px',
         }}
       >
@@ -547,14 +547,14 @@ export default function VisionSection() {
         <div className="blob blob-1" style={{
           position: 'absolute', top: '-10%', left: '-10%',
           width: '50vw', height: '50vw',
-          background: 'radial-gradient(circle, rgba(99,102,241,0.05) 0%, transparent 70%)',
-          filter: 'blur(40px)', zIndex: 0, pointerEvents: 'none',
+          background: 'radial-gradient(circle, rgba(99, 102, 241, 0.12) 0%, transparent 70%)',
+          filter: 'blur(50px)', zIndex: 0, pointerEvents: 'none',
         }} />
         <div className="blob blob-2" style={{
           position: 'absolute', bottom: '-20%', right: '-10%',
           width: '50vw', height: '50vw',
-          background: 'radial-gradient(circle, rgba(139,92,246,0.04) 0%, transparent 70%)',
-          filter: 'blur(40px)', zIndex: 0, pointerEvents: 'none',
+          background: 'radial-gradient(circle, rgba(139, 92, 246, 0.10) 0%, transparent 70%)',
+          filter: 'blur(50px)', zIndex: 0, pointerEvents: 'none',
         }} />
 
         <div className="container" style={{ position: 'relative', zIndex: 1 }}>

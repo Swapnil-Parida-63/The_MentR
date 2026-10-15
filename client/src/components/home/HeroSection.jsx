@@ -297,7 +297,7 @@ function HeroEcosystemImage() {
       alignItems: 'center',
       padding: '0px',
       overflow: 'visible',
-      background: 'radial-gradient(circle at 60% 50%, rgba(79, 124, 255, 0.12) 0%, rgba(241, 247, 255, 0.45) 50%, transparent 75%)'
+      background: 'radial-gradient(circle at 60% 50%, rgba(255, 255, 255, 0.85) 0%, rgba(255, 255, 255, 0.45) 50%, transparent 75%)'
     }}>
       <picture style={{ width: '100%', display: 'flex', justifyContent: 'center' }}>
         <source srcSet={`${import.meta.env.BASE_URL}Why it works.webp`} type="image/webp" />
@@ -348,7 +348,7 @@ function EcosystemAnalyticsGrid({ teacherCount, teachingHours, isMobile = false 
       icon: <Clock size={26} />,
       bgColor: 'rgba(124, 58, 237, 0.06)',
       iconColor: '#7C3AED',
-      value: `${teachingHours.toFixed(1)}+`,
+      value: '5000+',
       label: 'Teaching Hours',
       desc: 'Active hours of personalized 1-on-1 teaching sessions.'
     },
@@ -381,8 +381,8 @@ function EcosystemAnalyticsGrid({ teacherCount, teachingHours, isMobile = false 
             boxSizing: 'border-box',
             textAlign: 'left',
             transition: 'all 0.3s ease',
-            border: '1px solid rgba(79, 124, 255, 0.15)',
-            boxShadow: '0 8px 30px rgba(15, 23, 42, 0.04)'
+            border: '1.5px solid rgba(79, 124, 255, 0.18)',
+            boxShadow: '0 12px 32px -4px rgba(79, 124, 255, 0.12), 0 2px 6px rgba(15, 23, 42, 0.04)'
           }}
         >
           <div style={{
@@ -499,11 +499,7 @@ export default function HeroSection() {
   };
 
   const getTeachingHours = () => {
-    const baseDate = new Date('2026-07-22T00:00:00');
-    const currentDate = new Date();
-    const diffTime = Math.max(0, currentDate - baseDate);
-    const diffDays = Math.floor(diffTime / (1000 * 60 * 60 * 24));
-    return 1961.5 + diffDays * 31.5;
+    return 5000;
   };
 
   const scrollToStorySection = () => {
@@ -767,34 +763,34 @@ export default function HeroSection() {
           minHeight: 'auto', 
           display: 'flex', 
           alignItems: 'center', 
-          background: 'linear-gradient(180deg, #F8FAFF 0%, #FFFFFF 40%, #F1F7FF 100%)', 
+          background: 'linear-gradient(180deg, #E6F0FF 0%, #D8E7FF 55%, #CFE1FD 100%)', 
           position: 'relative', 
           overflow: 'hidden', 
           padding: isMobile ? '40px 0 20px' : '50px 0 30px',
-          borderTop: '1px solid rgba(226, 232, 240, 0.6)'
+          borderTop: '1px solid rgba(79, 124, 255, 0.2)'
         }}
       >
         {/* Background Layer 1: Ambient light glows */}
         <div style={{
           position: 'absolute',
-          top: '5%',
-          left: '-5%',
-          width: '40vw',
-          height: '40vw',
-          background: 'radial-gradient(circle, rgba(79, 124, 255, 0.05) 0%, transparent 70%)',
-          filter: 'blur(90px)',
+          top: '-10%',
+          left: '10%',
+          width: '50vw',
+          height: '50vw',
+          background: 'radial-gradient(circle, rgba(255, 255, 255, 0.9) 0%, rgba(220, 233, 255, 0.4) 50%, transparent 75%)',
+          filter: 'blur(60px)',
           zIndex: 1,
           pointerEvents: 'none'
         }} />
 
         <div style={{
           position: 'absolute',
-          bottom: '5%',
+          bottom: '-5%',
           right: '-5%',
           width: '45vw',
           height: '45vw',
-          background: 'radial-gradient(circle, rgba(116, 105, 248, 0.035) 0%, transparent 70%)',
-          filter: 'blur(100px)',
+          background: 'radial-gradient(circle, rgba(116, 105, 248, 0.12) 0%, rgba(79, 124, 255, 0.08) 45%, transparent 70%)',
+          filter: 'blur(80px)',
           zIndex: 1,
           pointerEvents: 'none'
         }} />

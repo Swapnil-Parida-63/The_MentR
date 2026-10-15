@@ -82,7 +82,7 @@ export default function Footer() {
   ];
 
   return (
-    <footer style={{ background: 'var(--color-navy)', color: 'white', padding: '80px 0 32px', borderTop: '1px solid rgba(79, 124, 255, 0.15)' }}>
+    <footer style={{ background: '#17243D', color: 'white', padding: '80px 0 32px', borderTop: '1px solid rgba(79, 124, 255, 0.15)' }}>
       <div className="container">
         <div style={{ display: 'grid', gridTemplateColumns: '1.6fr 1fr 1fr 1fr 1fr 1fr', gap: 40, marginBottom: 60 }} className="footer-grid-responsive">
           {/* Brand */}

@@ -19,6 +19,7 @@ const { aiProviderFactory } = require('../providers');
 const { contextIntegrator } = require('../prompts/context.integrator');
 const { conversationManager } = require('../memory/conversation.manager');
 const retrievalService = require('./retrieval.service');
+const { classifyIntent } = require('./intent.classifier');
 
 class ChatService {
   constructor(
@@ -45,66 +46,104 @@ class ChatService {
    * @returns {Promise<Object>} Standardized chat completion response object.
    */
   async processChatMessage({ sessionId, message, history = [], channel = 'website', context = {} }) {
-    // 1. Get or restore active conversation session state
-    const session = await this.conversationManager.getOrRestoreSession({
-      sessionId,
-      clientChannel: channel,
-      userId: context.userId
-    });
+    const startOverall = performance.now();
 
-    // 2. Persist incoming user message to database & trigger entity extraction
-    await this.conversationManager.addMessage({
-      sessionId,
-      role: 'user',
-      content: message
-    });
+    // 1. Conservative Intent Classification for Conversational Fast Path
+    const { isFastPath, intent } = classifyIntent(message);
+
+    // 2. Concurrently execute Session Setup & RAG Knowledge Retrieval
+    // Branch A: Session restoration + durable user message persistence
+    const startSession = performance.now();
+    const sessionPromise = (async () => {
+      const session = await this.conversationManager.getOrRestoreSession({
+        sessionId,
+        clientChannel: channel,
+        userId: context.userId
+      });
+      await this.conversationManager.addMessage({
+        sessionId,
+        role: 'user',
+        content: message,
+        session
+      });
+      return session;
+    })();
+
+    // Branch B: RAG Vector Retrieval (bypassed completely if fast-path is active)
+    const startRag = performance.now();
+    const ragPromise = isFastPath
+      ? Promise.resolve({
+          contextString: '',
+          contextDocsCount: 0,
+          docTitles: [],
+          chunks: [],
+          durationMs: 0,
+          isFastPath: true
+        })
+      : this.retrievalService.searchKnowledge({
+          query: message,
+          category: context.category,
+          topK: context.topK
+        });
+
+    // Await both branches safely without losing persistence guarantees
+    const [session, ragResult] = await Promise.all([sessionPromise, ragPromise]);
+    const sessionDurationMs = performance.now() - startSession;
+    const ragDurationMs = ragResult.durationMs || (performance.now() - startRag);
 
     // 3. Fetch recent session history from database if client didn't supply it
     const activeHistory = (history && history.length > 0)
       ? history
       : await this.conversationManager.getRecentHistory(sessionId);
 
-    // 4. Perform RAG Vector Search over MongoDB Atlas Vector Search Repository
-    const ragResult = await this.retrievalService.searchKnowledge({
-      query: message,
-      category: context.category,
-      topK: context.topK
-    });
-
-    // 5. Get active AI Provider instance from Factory (e.g. OpenAIProvider/Groq)
+    // 4. Get active AI Provider instance from Factory (e.g. OpenAIProvider/Groq)
     const provider = this.providerFactory.getProvider();
 
-    // 6. Build unified LLM payload combining persona, entities, workflow state, RAG context & history
+    // 5. Build unified LLM payload combining persona, entities, workflow state, RAG context & history
+    const startPrompt = performance.now();
     const llmMessages = this.contextIntegrator.buildUnifiedPayload({
       userMessage: message,
       sessionState: session,
       contextString: ragResult.contextString,
       history: activeHistory
     });
+    const promptDurationMs = performance.now() - startPrompt;
 
-    // 7. Delegate execution to AI Provider abstraction layer
+    // 6. Delegate execution to AI Provider abstraction layer
+    const startLlm = performance.now();
     const result = await provider.generateCompletion({
       messages: llmMessages,
       options: context.options || {}
     });
+    const llmDurationMs = performance.now() - startLlm;
 
     const cleanReply = (result.reply || '')
       .replace(/\s*[\u2014\u2013\u2015\u2012]\s*/g, ', ')
       .replace(/[\u2014\u2013\u2015\u2012]/g, ', ')
       .replace(/\s*--+\s*/g, ', ');
 
-    // 8. Persist assistant reply to database history
+    // 7. Persist assistant reply to database history
+    const startAssistantSave = performance.now();
     await this.conversationManager.addMessage({
       sessionId,
       role: 'assistant',
       content: cleanReply,
       metadata: {
         model: result.model || 'groq/compound',
-        ragDocsCount: String(ragResult.contextDocsCount || 0)
-      }
+        ragDocsCount: String(ragResult.contextDocsCount || 0),
+        isFastPath: String(isFastPath)
+      },
+      session
     });
+    const assistantSaveDurationMs = performance.now() - startAssistantSave;
+    const totalDurationMs = performance.now() - startOverall;
 
-    // 9. Format standardized response payload with active session summary
+    // Technical structured timing log (zero secrets, zero private conversations)
+    if (process.env.NODE_ENV === 'development') {
+      console.log(`[Mentee AI Timings] total=${totalDurationMs.toFixed(1)}ms fastPath=${isFastPath} session=${sessionDurationMs.toFixed(1)}ms rag=${ragDurationMs.toFixed(1)}ms llm=${llmDurationMs.toFixed(1)}ms save=${assistantSaveDurationMs.toFixed(1)}ms`);
+    }
+
+    // 8. Format standardized response payload with active session summary
     return {
       sessionId,
       reply: cleanReply,
@@ -124,7 +163,17 @@ class ChatService {
         finishReason: result.finishReason || 'stop',
         provider: provider.name,
         ragDurationMs: ragResult.durationMs || 0,
-        isMockResponse: Boolean(result.isMockResponse)
+        isMockResponse: Boolean(result.isMockResponse),
+        isFastPath,
+        fastPathIntent: intent,
+        timings: {
+          totalMs: Math.round(totalDurationMs),
+          sessionMs: Math.round(sessionDurationMs),
+          ragMs: Math.round(ragDurationMs),
+          promptMs: Math.round(promptDurationMs),
+          llmMs: Math.round(llmDurationMs),
+          assistantSaveMs: Math.round(assistantSaveDurationMs)
+        }
       }
     };
   }

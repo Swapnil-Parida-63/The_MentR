@@ -133,7 +133,7 @@ export default function PainPointsSection() {
         position: 'relative', 
         overflow: 'hidden',
         fontFamily: 'var(--font-sans)',
-        background: 'linear-gradient(180deg, #F8FAFF 0%, #FFFFFF 50%, #F8FAFF 100%)'
+        background: '#FFFFFF'
       }}
     >
       {/* Decorative ambient subtle glows */}
@@ -193,7 +193,7 @@ export default function PainPointsSection() {
       {/* SECTION 1 — PARENTS (Families)                                  */}
       {/* ============================================================== */}
       <div style={{
-        background: 'linear-gradient(180deg, #FFFFFF 0%, #E3E8FF 60%, #FFFFFF 100%)',
+        background: '#FFFFFF',
         padding: isMobile ? '40px 0 30px' : '50px 0 40px',
         position: 'relative',
         zIndex: 1
@@ -589,7 +589,7 @@ export default function PainPointsSection() {
     {/* SECTION 2 — TEACHERS (Educators)                                */}
     {/* ============================================================== */}
     <div style={{
-      background: 'linear-gradient(180deg, #FFFFFF 0%, #E3E8FF 40%, #FFFFFF 100%)',
+      background: '#FFFFFF',
       padding: isMobile ? '40px 0 50px' : '50px 0 60px',
       position: 'relative',
       zIndex: 1
