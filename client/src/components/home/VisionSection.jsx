@@ -227,14 +227,14 @@ export default function VisionSection() {
                     src={`${import.meta.env.BASE_URL}Our vission-mobile.webp`}
                     alt="Vision Illustration"
                     loading="lazy"
-                    width={768}
-                    height={432}
+                    width={640}
+                    height={427}
                     style={{
                       width: '100%',
                       height: '100%',
                       objectFit: 'cover',
                       objectPosition: 'center 25%',
-                      aspectRatio: '1672 / 941',
+                      aspectRatio: '640 / 427',
                     }}
                   />
                 </picture>
@@ -428,14 +428,14 @@ export default function VisionSection() {
                     src={`${import.meta.env.BASE_URL}Our mission-mobile.webp`}
                     alt="Mission Illustration"
                     loading="lazy"
-                    width={768}
-                    height={512}
+                    width={640}
+                    height={427}
                     style={{
                       width: '100%',
                       height: '100%',
                       objectFit: 'cover',
                       objectPosition: 'center 25%',
-                      aspectRatio: '1536 / 1024',
+                      aspectRatio: '640 / 427',
                     }}
                   />
                 </picture>

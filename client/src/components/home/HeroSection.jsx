@@ -820,12 +820,12 @@ export default function HeroSection() {
               alt="" 
               loading="lazy"
               decoding="async"
-              width="800"
-              height="533"
+              width="600"
+              height="400"
               style={{
                 width: '100%',
                 height: '100%',
-                aspectRatio: '800 / 533',
+                aspectRatio: '600 / 400',
                 objectFit: 'contain',
                 transform: 'translate(0%, -10%)',
                 opacity: 0.5,
